@@ -71,16 +71,16 @@ class GenericTypesWithCompoundTypes : NativeBase {
     external fun methodWithStructMap(input: Map<String, GenericTypesWithCompoundTypes.BasicStruct>) : Map<String, GenericTypesWithCompoundTypes.ExternalStruct>
 
 
-    external fun methodWithEnumList(input: List<GenericTypesWithCompoundTypes.SomeEnum>) : List<GenericTypesWithCompoundTypes.ExternalEnum>
+    external fun methodWithEnumList(input: List<@JvmSuppressWildcards GenericTypesWithCompoundTypes.SomeEnum>) : List<@JvmSuppressWildcards GenericTypesWithCompoundTypes.ExternalEnum>
 
 
-    external fun methodWithEnumMapKey(input: Map<GenericTypesWithCompoundTypes.SomeEnum, Boolean>) : Map<GenericTypesWithCompoundTypes.ExternalEnum, Boolean>
+    external fun methodWithEnumMapKey(input: Map<@JvmSuppressWildcards GenericTypesWithCompoundTypes.SomeEnum, Boolean>) : Map<@JvmSuppressWildcards GenericTypesWithCompoundTypes.ExternalEnum, Boolean>
 
 
-    external fun methodWithEnumMapValue(input: Map<Int, GenericTypesWithCompoundTypes.SomeEnum>) : Map<Int, GenericTypesWithCompoundTypes.ExternalEnum>
+    external fun methodWithEnumMapValue(input: Map<Int, @JvmSuppressWildcards GenericTypesWithCompoundTypes.SomeEnum>) : Map<Int, @JvmSuppressWildcards GenericTypesWithCompoundTypes.ExternalEnum>
 
 
-    external fun methodWithEnumSet(input: Set<GenericTypesWithCompoundTypes.SomeEnum>) : Set<GenericTypesWithCompoundTypes.ExternalEnum>
+    external fun methodWithEnumSet(input: Set<@JvmSuppressWildcards GenericTypesWithCompoundTypes.SomeEnum>) : Set<@JvmSuppressWildcards GenericTypesWithCompoundTypes.ExternalEnum>
 
 
     external fun methodWithInstancesList(input: List<DummyClass>) : List<@JvmSuppressWildcards DummyInterface>

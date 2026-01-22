@@ -11,7 +11,7 @@ package com.example.smoke
 import java.util.EnumSet
 
 class EnumSets {
-    @JvmField var enumSetField: Set<GenericTypesWithCompoundTypes.SomeEnum>
+    @JvmField var enumSetField: Set<@JvmSuppressWildcards GenericTypesWithCompoundTypes.SomeEnum>
 
 
 
@@ -24,7 +24,7 @@ class EnumSets {
 
 
     companion object {
-        @JvmField final val ENUM_SET_CONST: Set<GenericTypesWithCompoundTypes.SomeEnum> = EnumSet.of(GenericTypesWithCompoundTypes.SomeEnum.FOO, GenericTypesWithCompoundTypes.SomeEnum.BAR)
+        @JvmField final val ENUM_SET_CONST: Set<@JvmSuppressWildcards GenericTypesWithCompoundTypes.SomeEnum> = EnumSet.of(GenericTypesWithCompoundTypes.SomeEnum.FOO, GenericTypesWithCompoundTypes.SomeEnum.BAR)
     }
 }
 

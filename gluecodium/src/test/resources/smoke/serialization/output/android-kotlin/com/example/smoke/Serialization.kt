@@ -33,12 +33,12 @@ class Serialization {
         @JvmField var structArrayField: List<Serialization.NestedSerializableStruct>
         @JvmField var mapField: Map<Int, String>
         @JvmField var setField: Set<String>
-        @JvmField var enumSetField: Set<Serialization.SomeEnum>
+        @JvmField var enumSetField: Set<@JvmSuppressWildcards Serialization.SomeEnum>
         @JvmField var enumField: Serialization.SomeEnum
 
 
 
-        constructor(boolField: Boolean, byteField: Byte, shortField: Short, intField: Int, longField: Long, floatField: Float, doubleField: Double, stringField: String, structField: Serialization.NestedSerializableStruct, byteBufferField: ByteArray, arrayField: List<String>, structArrayField: List<Serialization.NestedSerializableStruct>, mapField: Map<Int, String>, setField: Set<String>, enumSetField: Set<Serialization.SomeEnum>, enumField: Serialization.SomeEnum) {
+        constructor(boolField: Boolean, byteField: Byte, shortField: Short, intField: Int, longField: Long, floatField: Float, doubleField: Double, stringField: String, structField: Serialization.NestedSerializableStruct, byteBufferField: ByteArray, arrayField: List<String>, structArrayField: List<Serialization.NestedSerializableStruct>, mapField: Map<Int, String>, setField: Set<String>, enumSetField: Set<@JvmSuppressWildcards Serialization.SomeEnum>, enumField: Serialization.SomeEnum) {
             this.boolField = boolField
             this.byteField = byteField
             this.shortField = shortField
