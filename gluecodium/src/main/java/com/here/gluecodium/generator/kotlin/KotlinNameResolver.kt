@@ -32,6 +32,7 @@ import com.here.gluecodium.model.lime.LimeComment
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.NAME_NAME
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeGenericType
@@ -184,6 +185,7 @@ internal class KotlinNameResolver(
         when (type) {
             is LimeContainerWithInheritance -> type.isOpen
             is LimeLambda -> true
+            is LimeEnumeration -> true
             else -> false
         }
 
