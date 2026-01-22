@@ -5,6 +5,7 @@
 
 @file:JvmName("LambdasExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -161,7 +162,7 @@ class Lambdas : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 
 
-        @JvmStatic external fun fuse(items: List<@JvmSuppressWildcards String>, callback: Lambdas.Indexer) : Map<@JvmSuppressWildcards Int, @JvmSuppressWildcards String>
+        @JvmStatic external fun fuse(items: List<String>, callback: Lambdas.Indexer) : Map<Int, String>
     }
 }
 

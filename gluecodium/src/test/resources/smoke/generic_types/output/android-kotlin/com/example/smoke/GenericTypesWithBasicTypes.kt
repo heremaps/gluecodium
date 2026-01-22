@@ -5,6 +5,7 @@
 
 @file:JvmName("GenericTypesWithBasicTypesExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -12,13 +13,13 @@ import com.example.NativeBase
 class GenericTypesWithBasicTypes : NativeBase {
 
     class StructWithGenerics {
-        @JvmField var numbersList: List<@JvmSuppressWildcards Short>
-        @JvmField var numbersMap: Map<@JvmSuppressWildcards Short, @JvmSuppressWildcards String>
-        @JvmField var numbersSet: Set<@JvmSuppressWildcards Short>
+        @JvmField var numbersList: List<Short>
+        @JvmField var numbersMap: Map<Short, String>
+        @JvmField var numbersSet: Set<Short>
 
 
 
-        constructor(numbersList: List<@JvmSuppressWildcards Short>, numbersMap: Map<@JvmSuppressWildcards Short, @JvmSuppressWildcards String>, numbersSet: Set<@JvmSuppressWildcards Short>) {
+        constructor(numbersList: List<Short>, numbersMap: Map<Short, String>, numbersSet: Set<Short>) {
             this.numbersList = numbersList
             this.numbersMap = numbersMap
             this.numbersSet = numbersSet
@@ -45,32 +46,32 @@ class GenericTypesWithBasicTypes : NativeBase {
 
 
 
-    external fun methodWithList(input: List<@JvmSuppressWildcards Int>) : List<@JvmSuppressWildcards Int>
+    external fun methodWithList(input: List<Int>) : List<Int>
 
 
-    external fun methodWithMap(input: Map<@JvmSuppressWildcards Int, @JvmSuppressWildcards Boolean>) : Map<@JvmSuppressWildcards Int, @JvmSuppressWildcards Boolean>
+    external fun methodWithMap(input: Map<Int, Boolean>) : Map<Int, Boolean>
 
 
-    external fun methodWithSet(input: Set<@JvmSuppressWildcards Int>) : Set<@JvmSuppressWildcards Int>
+    external fun methodWithSet(input: Set<Int>) : Set<Int>
 
 
-    external fun methodWithListTypeAlias(input: List<@JvmSuppressWildcards String>) : List<@JvmSuppressWildcards String>
+    external fun methodWithListTypeAlias(input: List<String>) : List<String>
 
 
-    external fun methodWithMapTypeAlias(input: Map<@JvmSuppressWildcards String, @JvmSuppressWildcards String>) : Map<@JvmSuppressWildcards String, @JvmSuppressWildcards String>
+    external fun methodWithMapTypeAlias(input: Map<String, String>) : Map<String, String>
 
 
-    external fun methodWithSetTypeAlias(input: Set<@JvmSuppressWildcards String>) : Set<@JvmSuppressWildcards String>
+    external fun methodWithSetTypeAlias(input: Set<String>) : Set<String>
 
-    var listProperty: List<@JvmSuppressWildcards Float>
+    var listProperty: List<Float>
         external get
         external set
 
-    var mapProperty: Map<@JvmSuppressWildcards Float, @JvmSuppressWildcards Double>
+    var mapProperty: Map<Float, Double>
         external get
         external set
 
-    var setProperty: Set<@JvmSuppressWildcards Float>
+    var setProperty: Set<Float>
         external get
         external set
 

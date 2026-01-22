@@ -5,6 +5,7 @@
 
 @file:JvmName("DefaultValuesExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -85,11 +86,11 @@ class DefaultValues : NativeBase {
     }
 
     class StructWithEmptyDefaults {
-        @JvmField var intsField: List<@JvmSuppressWildcards Int>
-        @JvmField var floatsField: List<@JvmSuppressWildcards Float>
-        @JvmField var mapField: Map<@JvmSuppressWildcards Long, @JvmSuppressWildcards String>
+        @JvmField var intsField: List<Int>
+        @JvmField var floatsField: List<Float>
+        @JvmField var mapField: Map<Long, String>
         @JvmField var structField: DefaultValues.StructWithDefaults
-        @JvmField var setTypeField: Set<@JvmSuppressWildcards String>
+        @JvmField var setTypeField: Set<String>
 
 
 

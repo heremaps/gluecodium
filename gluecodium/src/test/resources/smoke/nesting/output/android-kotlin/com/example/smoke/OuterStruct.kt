@@ -23,11 +23,11 @@ class OuterStruct {
 
 
     class InnerStruct {
-        @JvmField var otherField: List<@JvmSuppressWildcards Date>
+        @JvmField var otherField: List<Date>
 
 
 
-        constructor(otherField: List<@JvmSuppressWildcards Date>) {
+        constructor(otherField: List<Date>) {
             this.otherField = otherField
         }
 
@@ -57,7 +57,7 @@ class OuterStruct {
 
 
 
-        external fun fooBar() : Set<@JvmSuppressWildcards Locale>
+        external fun fooBar() : Set<Locale>
 
 
 
@@ -111,7 +111,7 @@ class OuterStruct {
 
 
 
-        fun barBaz() : Map<@JvmSuppressWildcards String, @JvmSuppressWildcards ByteArray>
+        fun barBaz() : Map<String, ByteArray>
 
 
     }
@@ -131,7 +131,7 @@ class OuterStruct {
 
 
 
-        override external fun barBaz() : Map<@JvmSuppressWildcards String, @JvmSuppressWildcards ByteArray>
+        override external fun barBaz() : Map<String, ByteArray>
 
 
 

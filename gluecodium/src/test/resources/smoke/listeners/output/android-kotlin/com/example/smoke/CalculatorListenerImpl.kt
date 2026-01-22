@@ -5,6 +5,7 @@
 
 @file:JvmName("CalculatorListenerImplExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -27,10 +28,10 @@ class CalculatorListenerImpl : NativeBase, CalculatorListener {
     override external fun onCalculationResultStruct(calculationResult: CalculatorListener.ResultStruct) : Unit
 
 
-    override external fun onCalculationResultArray(calculationResult: List<@JvmSuppressWildcards Double>) : Unit
+    override external fun onCalculationResultArray(calculationResult: List<Double>) : Unit
 
 
-    override external fun onCalculationResultMap(calculationResults: Map<@JvmSuppressWildcards String, @JvmSuppressWildcards Double>) : Unit
+    override external fun onCalculationResultMap(calculationResults: Map<String, Double>) : Unit
 
 
     override external fun onCalculationResultInstance(calculationResult: CalculationResult) : Unit

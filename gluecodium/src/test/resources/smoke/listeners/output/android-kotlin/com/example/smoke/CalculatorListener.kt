@@ -5,6 +5,7 @@
 
 @file:JvmName("CalculatorListenerExtensions")
 
+
 package com.example.smoke
 
 
@@ -36,10 +37,10 @@ interface CalculatorListener {
     fun onCalculationResultStruct(calculationResult: CalculatorListener.ResultStruct) : Unit
 
 
-    fun onCalculationResultArray(calculationResult: List<@JvmSuppressWildcards Double>) : Unit
+    fun onCalculationResultArray(calculationResult: List<Double>) : Unit
 
 
-    fun onCalculationResultMap(calculationResults: Map<@JvmSuppressWildcards String, @JvmSuppressWildcards Double>) : Unit
+    fun onCalculationResultMap(calculationResults: Map<String, Double>) : Unit
 
 
     fun onCalculationResultInstance(calculationResult: CalculationResult) : Unit

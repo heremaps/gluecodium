@@ -5,6 +5,7 @@
 
 @file:JvmName("EnumCollectionDefaultsExtensions")
 
+
 package com.example.smoke
 
 import com.example.fire.Enum1
@@ -14,9 +15,9 @@ import com.example.fire.Enum4
 import java.util.EnumSet
 
 class EnumCollectionDefaults {
-    @JvmField var listField: List<@JvmSuppressWildcards Enum1>
-    @JvmField var setField: Set<@JvmSuppressWildcards Enum2>
-    @JvmField var mapField: Map<@JvmSuppressWildcards Enum3, @JvmSuppressWildcards Enum4>
+    @JvmField var listField: List<Enum1>
+    @JvmField var setField: Set<Enum2>
+    @JvmField var mapField: Map<Enum3, Enum4>
 
 
 

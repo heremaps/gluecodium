@@ -5,6 +5,7 @@
 
 @file:JvmName("DatesExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -53,7 +54,7 @@ class Dates : NativeBase {
         external get
         external set
 
-    var dateSet: Set<@JvmSuppressWildcards Date>
+    var dateSet: Set<Date>
         external get
         external set
 

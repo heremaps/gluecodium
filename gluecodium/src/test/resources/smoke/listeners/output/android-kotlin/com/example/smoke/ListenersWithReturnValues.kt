@@ -5,6 +5,7 @@
 
 @file:JvmName("ListenersWithReturnValuesExtensions")
 
+
 package com.example.smoke
 
 
@@ -43,10 +44,10 @@ interface ListenersWithReturnValues {
     fun fetchDataEnum() : ListenersWithReturnValues.ResultEnum
 
 
-    fun fetchDataArray() : List<@JvmSuppressWildcards Double>
+    fun fetchDataArray() : List<Double>
 
 
-    fun fetchDataMap() : Map<@JvmSuppressWildcards String, @JvmSuppressWildcards Double>
+    fun fetchDataMap() : Map<String, Double>
 
 
     fun fetchDataInstance() : CalculationResult

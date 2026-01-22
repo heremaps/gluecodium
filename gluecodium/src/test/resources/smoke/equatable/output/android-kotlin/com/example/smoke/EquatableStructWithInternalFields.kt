@@ -5,19 +5,20 @@
 
 @file:JvmName("EquatableStructWithInternalFieldsExtensions")
 
+
 package com.example.smoke
 
 
 class EquatableStructWithInternalFields {
     @JvmField var publicField: String
     @JvmField @JvmSynthetic internal var internalField: String
-    @JvmField @JvmSynthetic internal var internalListField: List<@JvmSuppressWildcards String>
-    @JvmField @JvmSynthetic internal var internalMapField: Map<@JvmSuppressWildcards String, @JvmSuppressWildcards String>
-    @JvmField @JvmSynthetic internal var internalSetField: Set<@JvmSuppressWildcards String>
+    @JvmField @JvmSynthetic internal var internalListField: List<String>
+    @JvmField @JvmSynthetic internal var internalMapField: Map<String, String>
+    @JvmField @JvmSynthetic internal var internalSetField: Set<String>
 
 
 
-    internal constructor(publicField: String, internalField: String, internalListField: List<@JvmSuppressWildcards String>, internalMapField: Map<@JvmSuppressWildcards String, @JvmSuppressWildcards String>, internalSetField: Set<@JvmSuppressWildcards String>) {
+    internal constructor(publicField: String, internalField: String, internalListField: List<String>, internalMapField: Map<String, String>, internalSetField: Set<String>) {
         this.publicField = publicField
         this.internalField = internalField
         this.internalListField = internalListField

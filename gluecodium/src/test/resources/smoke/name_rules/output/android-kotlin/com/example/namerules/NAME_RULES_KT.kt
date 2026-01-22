@@ -21,11 +21,11 @@ class NAME_RULES_KT : NativeBase {
 
     class EXAMPLE_STRUCT_KT {
         @JvmField var value: Double
-        @JvmField var int_value: List<@JvmSuppressWildcards Long>
+        @JvmField var int_value: List<Long>
 
 
 
-        constructor(value: Double, int_value: List<@JvmSuppressWildcards Long>) {
+        constructor(value: Double, int_value: List<Long>) {
             this.value = value
             this.int_value = int_value
         }

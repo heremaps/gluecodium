@@ -5,6 +5,7 @@
 
 @file:JvmName("PropertiesExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -55,7 +56,7 @@ class Properties : NativeBase {
         external get
         external set
 
-    var arrayProperty: List<@JvmSuppressWildcards String>
+    var arrayProperty: List<String>
         external get
         external set
 

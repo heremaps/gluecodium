@@ -5,6 +5,7 @@
 
 @file:JvmName("GenericTypesWithGenericTypesExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -26,25 +27,25 @@ class GenericTypesWithGenericTypes : NativeBase {
 
 
 
-    external fun methodWithListOfLists(input: List<@JvmSuppressWildcards List<@JvmSuppressWildcards Int>>) : List<@JvmSuppressWildcards List<@JvmSuppressWildcards Int>>
+    external fun methodWithListOfLists(input: List<List<Int>>) : List<List<Int>>
 
 
-    external fun methodWithMapOfMaps(input: Map<@JvmSuppressWildcards Int, @JvmSuppressWildcards Map<@JvmSuppressWildcards Int, @JvmSuppressWildcards Boolean>>) : Map<@JvmSuppressWildcards Map<@JvmSuppressWildcards Int, @JvmSuppressWildcards Boolean>, @JvmSuppressWildcards Boolean>
+    external fun methodWithMapOfMaps(input: Map<Int, Map<Int, Boolean>>) : Map<Map<Int, Boolean>, Boolean>
 
 
-    external fun methodWithSetOfSets(input: Set<@JvmSuppressWildcards Set<@JvmSuppressWildcards Int>>) : Set<@JvmSuppressWildcards Set<@JvmSuppressWildcards Int>>
+    external fun methodWithSetOfSets(input: Set<Set<Int>>) : Set<Set<Int>>
 
 
-    external fun methodWithListAndMap(input: List<@JvmSuppressWildcards Map<@JvmSuppressWildcards Int, @JvmSuppressWildcards Boolean>>) : Map<@JvmSuppressWildcards Int, @JvmSuppressWildcards List<@JvmSuppressWildcards Int>>
+    external fun methodWithListAndMap(input: List<Map<Int, Boolean>>) : Map<Int, List<Int>>
 
 
-    external fun methodWithListAndSet(input: List<@JvmSuppressWildcards Set<@JvmSuppressWildcards Int>>) : Set<@JvmSuppressWildcards List<@JvmSuppressWildcards Int>>
+    external fun methodWithListAndSet(input: List<Set<Int>>) : Set<List<Int>>
 
 
-    external fun methodWithMapAndSet(input: Map<@JvmSuppressWildcards Int, @JvmSuppressWildcards Set<@JvmSuppressWildcards Int>>) : Set<@JvmSuppressWildcards Map<@JvmSuppressWildcards Int, @JvmSuppressWildcards Boolean>>
+    external fun methodWithMapAndSet(input: Map<Int, Set<Int>>) : Set<Map<Int, Boolean>>
 
 
-    external fun methodWithMapGenericKeys(input: Map<@JvmSuppressWildcards Set<@JvmSuppressWildcards Int>, @JvmSuppressWildcards Boolean>) : Map<@JvmSuppressWildcards List<@JvmSuppressWildcards Int>, @JvmSuppressWildcards Boolean>
+    external fun methodWithMapGenericKeys(input: Map<Set<Int>, Boolean>) : Map<List<Int>, Boolean>
 
 
 

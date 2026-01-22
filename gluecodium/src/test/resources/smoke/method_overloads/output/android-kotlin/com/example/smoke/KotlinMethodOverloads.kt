@@ -5,6 +5,7 @@
 
 @file:JvmName("KotlinMethodOverloadsExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -29,7 +30,7 @@ class KotlinMethodOverloads : NativeBase {
     external fun three(input: String) : Unit
 
 
-    external fun three(input: List<@JvmSuppressWildcards String>) : Unit
+    external fun three(input: List<String>) : Unit
 
 
 

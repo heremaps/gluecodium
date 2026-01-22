@@ -5,6 +5,7 @@
 
 @file:JvmName("UseOptimizedListExtensions")
 
+
 package com.example.smoke
 
 import com.example.AbstractNativeList
@@ -61,12 +62,12 @@ class UseOptimizedList : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 
 
-        @JvmStatic external fun fetchTheBigOnes() : List<@JvmSuppressWildcards VeryBigStruct>
-        @JvmStatic val lazyOnes: List<@JvmSuppressWildcards UnreasonablyLazyClass>
+        @JvmStatic external fun fetchTheBigOnes() : List<VeryBigStruct>
+        @JvmStatic val lazyOnes: List<UnreasonablyLazyClass>
             external get
 
     }
 }
 
 @JvmSynthetic
-fun UseOptimizedList.Companion.getLazyOnes(): List<@JvmSuppressWildcards UnreasonablyLazyClass> = UseOptimizedList.lazyOnes
+fun UseOptimizedList.Companion.getLazyOnes(): List<UnreasonablyLazyClass> = UseOptimizedList.lazyOnes

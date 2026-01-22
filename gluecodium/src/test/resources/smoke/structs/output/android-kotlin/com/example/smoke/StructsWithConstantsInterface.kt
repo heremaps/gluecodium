@@ -5,6 +5,7 @@
 
 @file:JvmName("StructsWithConstantsInterfaceExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -12,12 +13,12 @@ import com.example.NativeBase
 class StructsWithConstantsInterface : NativeBase {
 
     class MultiRoute {
-        @JvmField var descriptions: List<@JvmSuppressWildcards String>
+        @JvmField var descriptions: List<String>
         @JvmField var type: RouteUtils.RouteType
 
 
 
-        constructor(descriptions: List<@JvmSuppressWildcards String>, type: RouteUtils.RouteType) {
+        constructor(descriptions: List<String>, type: RouteUtils.RouteType) {
             this.descriptions = descriptions
             this.type = type
         }
