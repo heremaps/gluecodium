@@ -5,6 +5,7 @@
 
 @file:JvmName("StructsExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -40,7 +41,7 @@ class Structs : NativeBase {
 
         companion object {
 
-            @JvmStatic external fun fromPolar(phi: Double, r: Double) : Point
+            @JvmStatic private external fun fromPolar(phi: Double, r: Double) : Point
         }
     }
 

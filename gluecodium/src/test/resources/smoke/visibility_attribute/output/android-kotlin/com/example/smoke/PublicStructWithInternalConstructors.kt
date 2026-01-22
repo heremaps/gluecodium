@@ -5,6 +5,7 @@
 
 @file:JvmName("PublicStructWithInternalConstructorsExtensions")
 
+
 package com.example.smoke
 
 
@@ -32,7 +33,7 @@ class PublicStructWithInternalConstructors {
 
     companion object {
 
-        @JvmStatic @JvmSynthetic @JvmName("make") internal external fun make() : PublicStructWithInternalConstructors
+        @JvmStatic @JvmSynthetic @JvmName("make") private external fun make() : PublicStructWithInternalConstructors
     }
 }
 

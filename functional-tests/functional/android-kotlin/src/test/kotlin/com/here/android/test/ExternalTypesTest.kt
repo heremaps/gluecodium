@@ -137,6 +137,7 @@ class ExternalTypesTest {
         assertEquals(77, result)
     }
 
+    @OptIn(com.here.android.lorem.ipsum.FunctionalTestsInternalAPI::class)
     @org.junit.Test
     fun createSomeSerializableExternalStruct() {
         val struct = ExternalMarkedAsSerializable(42)

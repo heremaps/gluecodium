@@ -18,14 +18,17 @@
  */
 package com.here.android.test
 
-object BooleanConverter {
-    @JvmStatic
-    fun convertFromInternal(internalBoolean: VeryBoolean) : Boolean? {
+import com.here.android.lorem.ipsum.FunctionalTestsInternalAPI
+
+@FunctionalTestsInternalAPI
+internal object BooleanConverter {
+    @JvmStatic @JvmSynthetic @JvmName("convertFromInternal")
+    internal fun convertFromInternal(internalBoolean: VeryBoolean) : Boolean? {
         return internalBoolean.value
     }
 
-    @JvmStatic
-    fun convertToInternal(systemBoolean: Boolean?) : VeryBoolean {
+    @JvmStatic @JvmSynthetic @JvmName("convertToInternal")
+    internal fun convertToInternal(systemBoolean: Boolean?) : VeryBoolean {
         return VeryBoolean(systemBoolean!!)
     }
 }

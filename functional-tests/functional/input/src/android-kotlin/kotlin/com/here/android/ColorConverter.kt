@@ -18,11 +18,13 @@
  */
 package com.here.android.test
 
+import com.here.android.lorem.ipsum.FunctionalTestsInternalAPI
 import kotlin.math.round
 
-object ColorConverter {
-    @JvmStatic
-    fun convertFromInternal(internalColor: SystemColor): Int? {
+@FunctionalTestsInternalAPI
+internal object ColorConverter {
+    @JvmStatic @JvmSynthetic @JvmName("convertFromInternal")
+    internal fun convertFromInternal(internalColor: SystemColor): Int? {
         return android.graphics.Color.argb(
             round(internalColor.alpha * 255).toInt(),
             round(internalColor.red * 255).toInt(),
@@ -31,8 +33,8 @@ object ColorConverter {
         )
     }
 
-    @JvmStatic
-    fun convertToInternal(color: Int?): SystemColor {
+    @JvmStatic @JvmSynthetic @JvmName("convertToInternal")
+    internal fun convertToInternal(color: Int?): SystemColor {
         val systemColor: Int = color!!
         return SystemColor(
             android.graphics.Color.red(systemColor) / 255.0f,

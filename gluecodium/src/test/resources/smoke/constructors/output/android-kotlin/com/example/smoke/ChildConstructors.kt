@@ -5,6 +5,7 @@
 
 @file:JvmName("ChildConstructorsExtensions")
 
+
 package com.example.smoke
 
 
@@ -40,9 +41,10 @@ class ChildConstructors : Constructors {
 
     companion object {
 
-        @JvmStatic external fun createNoArgsChild() : Long
+        @JvmStatic private external fun createNoArgsChild() : Long
 
-        @JvmStatic external fun createCopyFromParent(other: Constructors) : Long
+        @JvmStatic private external fun createCopyFromParent(other: Constructors) : Long
     }
 }
+
 

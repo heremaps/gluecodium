@@ -5,6 +5,7 @@
 
 @file:JvmName("ConstructorsExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -70,17 +71,17 @@ open class Constructors : NativeBase {
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 
-        @JvmStatic external fun create() : Long
+        @JvmStatic private external fun create() : Long
 
-        @JvmStatic external fun create(other: Constructors) : Long
+        @JvmStatic private external fun create(other: Constructors) : Long
 
-        @JvmStatic external fun create(foo: String, bar: Long) : Long
+        @JvmStatic private external fun create(foo: String, bar: Long) : Long
         @Throws(Constructors.ConstructorExplodedException::class)
-        @JvmStatic external fun create(input: String) : Long
+        @JvmStatic private external fun create(input: String) : Long
 
-        @JvmStatic external fun create(input: List<@JvmSuppressWildcards Double>) : Long
+        @JvmStatic private external fun create(input: List<@JvmSuppressWildcards Double>) : Long
 
-        @JvmStatic external fun create(input: Long) : Long
+        @JvmStatic private external fun create(input: Long) : Long
     }
 }
 

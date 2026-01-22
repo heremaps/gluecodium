@@ -5,6 +5,7 @@
 
 @file:JvmName("StructsWithMethodsInterfaceExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -52,9 +53,9 @@ class StructsWithMethodsInterface : NativeBase {
 
             @JvmStatic external fun validate(x: Double, y: Double, z: Double) : Boolean
 
-            @JvmStatic external fun create(input: String) : Vector3
+            @JvmStatic private external fun create(input: String) : Vector3
             @Throws(ValidationUtils.ValidationException::class)
-            @JvmStatic external fun create(other: StructsWithMethodsInterface.Vector3) : Vector3
+            @JvmStatic private external fun create(other: StructsWithMethodsInterface.Vector3) : Vector3
         }
     }
 
@@ -95,4 +96,5 @@ class StructsWithMethodsInterface : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
+
 

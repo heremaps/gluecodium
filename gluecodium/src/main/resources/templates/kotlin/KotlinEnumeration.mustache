@@ -19,7 +19,11 @@
   !
   !}}
 {{>kotlin/KotlinDocComment}}{{>kotlin/KotlinAttributes}}
-{{>kotlin/KotlinTypeVisibility}}{{!!
+{{#if external.kotlin.converter}}{{!!
+}}{{#internalApiAnnotation}}{{#unless this.isEmpty}}@{{this}}
+{{/unless}}{{/internalApiAnnotation}}internal {{!!
+}}{{/if}}{{!!
+}}{{#unless external.kotlin.converter}}{{>kotlin/KotlinTypeVisibility}}{{/unless}}{{!!
 }}enum class {{resolveName}}(@JvmField {{resolveName "visibility"}}val value: Int) {
 {{joinPartial uniqueEnumerators "kotlin/KotlinEnumerator" ",
 "}}{{#if uniqueEnumerators}};{{/if}}{{#if aliasEnumerators}}

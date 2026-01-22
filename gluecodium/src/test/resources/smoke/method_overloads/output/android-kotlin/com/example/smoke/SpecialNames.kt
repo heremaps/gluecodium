@@ -5,6 +5,7 @@
 
 @file:JvmName("SpecialNamesExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -49,7 +50,8 @@ class SpecialNames : NativeBase {
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 
-        @JvmStatic external fun make(result: String) : Long
+        @JvmStatic private external fun make(result: String) : Long
     }
 }
+
 

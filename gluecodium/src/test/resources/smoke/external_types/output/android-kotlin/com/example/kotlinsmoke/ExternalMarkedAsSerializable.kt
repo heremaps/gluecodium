@@ -5,12 +5,13 @@
 
 @file:JvmName("ExternalMarkedAsSerializableExtensions")
 
+
 package com.example.kotlinsmoke
 
 import android.os.Parcel
 import android.os.Parcelable
 
-class ExternalMarkedAsSerializable {
+internal class ExternalMarkedAsSerializable {
     @JvmField var field: Int
 
 

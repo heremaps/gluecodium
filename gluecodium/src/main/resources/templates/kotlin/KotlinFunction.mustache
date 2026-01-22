@@ -24,7 +24,11 @@
 }}{{#resolveName "visibility"}}{{#unless this.isEmpty}}@JvmSynthetic {{/unless}}{{/resolveName}}{{!!
 }}{{#unless override}}{{#unless isInterface}}{{#ifPredicate "isInternal"}}@JvmName("{{resolveName}}") {{/ifPredicate}}{{/unless}}{{/unless}}{{!!
 }}{{#if override}}override {{/if}}{{!!
-}}{{#unless isInterface}}{{resolveName "visibility"}}external {{/unless}}fun {{resolveName}}({{!!
+}}{{#unless isInterface}}{{!!
+}}{{#unless this.isConstructor}}{{resolveName "visibility"}}{{/unless}}{{!!
+}}{{#if this.isConstructor}}private {{/if}}{{!!
+}}external {{!!
+}}{{/unless}}fun {{resolveName}}({{!!
 }}{{#parameters}}{{!!
 }}{{>kotlin/KotlinAttributesInline}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/parameters}}) : {{!!

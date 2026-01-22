@@ -5,6 +5,7 @@
 
 @file:JvmName("PlatformNamesInterfaceExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -46,7 +47,8 @@ class dodoInterface : NativeBase {
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 
-        @JvmStatic external fun make(makeParameter: String) : Long
+        @JvmStatic private external fun make(makeParameter: String) : Long
     }
 }
+
 
