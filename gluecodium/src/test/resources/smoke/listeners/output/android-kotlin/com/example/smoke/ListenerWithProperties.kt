@@ -5,6 +5,7 @@
 
 @file:JvmName("ListenerWithPropertiesExtensions")
 
+
 package com.example.smoke
 
 
@@ -46,11 +47,11 @@ interface ListenerWithProperties {
         get
         set
 
-    var arrayedMessage: List<@JvmSuppressWildcards String>
+    var arrayedMessage: List<String>
         get
         set
 
-    var mappedMessage: Map<@JvmSuppressWildcards String, @JvmSuppressWildcards Double>
+    var mappedMessage: Map<String, Double>
         get
         set
 

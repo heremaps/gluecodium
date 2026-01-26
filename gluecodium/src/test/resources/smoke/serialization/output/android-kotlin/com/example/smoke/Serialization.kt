@@ -5,6 +5,7 @@
 
 @file:JvmName("SerializationExtensions")
 
+
 package com.example.smoke
 
 import android.os.Parcel
@@ -28,16 +29,16 @@ class Serialization {
         @JvmField var stringField: String
         @JvmField var structField: Serialization.NestedSerializableStruct
         @JvmField var byteBufferField: ByteArray
-        @JvmField var arrayField: List<@JvmSuppressWildcards String>
-        @JvmField var structArrayField: List<@JvmSuppressWildcards Serialization.NestedSerializableStruct>
-        @JvmField var mapField: Map<@JvmSuppressWildcards Int, @JvmSuppressWildcards String>
-        @JvmField var setField: Set<@JvmSuppressWildcards String>
+        @JvmField var arrayField: List<String>
+        @JvmField var structArrayField: List<Serialization.NestedSerializableStruct>
+        @JvmField var mapField: Map<Int, String>
+        @JvmField var setField: Set<String>
         @JvmField var enumSetField: Set<@JvmSuppressWildcards Serialization.SomeEnum>
         @JvmField var enumField: Serialization.SomeEnum
 
 
 
-        constructor(boolField: Boolean, byteField: Byte, shortField: Short, intField: Int, longField: Long, floatField: Float, doubleField: Double, stringField: String, structField: Serialization.NestedSerializableStruct, byteBufferField: ByteArray, arrayField: List<@JvmSuppressWildcards String>, structArrayField: List<@JvmSuppressWildcards Serialization.NestedSerializableStruct>, mapField: Map<@JvmSuppressWildcards Int, @JvmSuppressWildcards String>, setField: Set<@JvmSuppressWildcards String>, enumSetField: Set<@JvmSuppressWildcards Serialization.SomeEnum>, enumField: Serialization.SomeEnum) {
+        constructor(boolField: Boolean, byteField: Byte, shortField: Short, intField: Int, longField: Long, floatField: Float, doubleField: Double, stringField: String, structField: Serialization.NestedSerializableStruct, byteBufferField: ByteArray, arrayField: List<String>, structArrayField: List<Serialization.NestedSerializableStruct>, mapField: Map<Int, String>, setField: Set<String>, enumSetField: Set<@JvmSuppressWildcards Serialization.SomeEnum>, enumField: Serialization.SomeEnum) {
             this.boolField = boolField
             this.byteField = byteField
             this.shortField = shortField

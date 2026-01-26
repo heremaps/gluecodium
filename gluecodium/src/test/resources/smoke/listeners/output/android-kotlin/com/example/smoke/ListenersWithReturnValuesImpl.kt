@@ -5,6 +5,7 @@
 
 @file:JvmName("ListenersWithReturnValuesImplExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -30,10 +31,10 @@ class ListenersWithReturnValuesImpl : NativeBase, ListenersWithReturnValues {
     override external fun fetchDataEnum() : ListenersWithReturnValues.ResultEnum
 
 
-    override external fun fetchDataArray() : List<@JvmSuppressWildcards Double>
+    override external fun fetchDataArray() : List<Double>
 
 
-    override external fun fetchDataMap() : Map<@JvmSuppressWildcards String, @JvmSuppressWildcards Double>
+    override external fun fetchDataMap() : Map<String, Double>
 
 
     override external fun fetchDataInstance() : CalculationResult

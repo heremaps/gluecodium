@@ -5,10 +5,11 @@
 
 @file:JvmName("GlobalMapTypeDefExtensions")
 
+
 package com.example.smoke
 
 
 /**
  * This is some standalone map typedef.
  */
-typealias GlobalMapTypeDef = Map<@JvmSuppressWildcards Int, @JvmSuppressWildcards String>
+typealias GlobalMapTypeDef = Map<Int, String>

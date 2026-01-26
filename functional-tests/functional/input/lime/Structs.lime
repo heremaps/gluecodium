@@ -119,8 +119,25 @@ open class SomeOpenNumberWrapperClass {
     constructor make(n: Int)
 }
 
+interface SomeDummyInterface {
+    fun getInt(): Int
+}
+
+struct SomeDummyStruct {
+    someInt: Int
+}
+
+enum SomeDummyEnum {
+  FOO,
+  BAR
+}
+
 struct SomeStructWithCollection {
     emptyNumbers: List<Int> = []
     numbers: List<Int> = [1, 2, 3]
     openClassList: List<SomeOpenNumberWrapperClass> = []
+    interfacesList: List<SomeDummyInterface> = []
+    structsList: List<SomeDummyStruct> = []
+    finalClassList: List<PlainDataStructures> = []
+    enumList: List<SomeDummyEnum> = []
 }

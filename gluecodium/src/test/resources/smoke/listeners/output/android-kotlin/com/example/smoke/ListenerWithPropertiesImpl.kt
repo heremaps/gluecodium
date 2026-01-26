@@ -5,6 +5,7 @@
 
 @file:JvmName("ListenerWithPropertiesImplExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -33,11 +34,11 @@ class ListenerWithPropertiesImpl : NativeBase, ListenerWithProperties {
         external get
         external set
 
-    override var arrayedMessage: List<@JvmSuppressWildcards String>
+    override var arrayedMessage: List<String>
         external get
         external set
 
-    override var mappedMessage: Map<@JvmSuppressWildcards String, @JvmSuppressWildcards Double>
+    override var mappedMessage: Map<String, Double>
         external get
         external set
 

@@ -5,6 +5,7 @@
 
 @file:JvmName("EnumCollectionDefaultsExtensions")
 
+
 package com.example.smoke
 
 import com.example.fire.Enum1

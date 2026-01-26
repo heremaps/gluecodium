@@ -5,6 +5,7 @@
 
 @file:JvmName("CollectionConstantsExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -29,10 +30,10 @@ class CollectionConstants : NativeBase {
 
 
     companion object {
-        @JvmField final val LIST_CONSTANT: List<@JvmSuppressWildcards String> = mutableListOf("foo", "bar")
-        @JvmField final val SET_CONSTANT: Set<@JvmSuppressWildcards String> = mutableSetOf("foo", "bar")
-        @JvmField final val MAP_CONSTANT: Map<@JvmSuppressWildcards String, @JvmSuppressWildcards String> = mutableMapOf("foo" to "bar")
-        @JvmField final val MIXED_CONSTANT: Map<@JvmSuppressWildcards List<@JvmSuppressWildcards String>, @JvmSuppressWildcards Set<@JvmSuppressWildcards String>> = mutableMapOf(mutableListOf("foo") to mutableSetOf("bar"))
+        @JvmField final val LIST_CONSTANT: List<String> = mutableListOf("foo", "bar")
+        @JvmField final val SET_CONSTANT: Set<String> = mutableSetOf("foo", "bar")
+        @JvmField final val MAP_CONSTANT: Map<String, String> = mutableMapOf("foo" to "bar")
+        @JvmField final val MIXED_CONSTANT: Map<List<String>, Set<String>> = mutableMapOf(mutableListOf("foo") to mutableSetOf("bar"))
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }

@@ -5,17 +5,18 @@
 
 @file:JvmName("UseOptimizedListStructExtensions")
 
+
 package com.example.smoke
 
 import com.example.AbstractNativeList
 
 class UseOptimizedListStruct {
-    @JvmField val structs: List<@JvmSuppressWildcards VeryBigStruct>
-    @JvmField val classes: List<@JvmSuppressWildcards UnreasonablyLazyClass>
+    @JvmField val structs: List<VeryBigStruct>
+    @JvmField val classes: List<UnreasonablyLazyClass>
 
 
 
-    constructor(structs: List<@JvmSuppressWildcards VeryBigStruct>, classes: List<@JvmSuppressWildcards UnreasonablyLazyClass>) {
+    constructor(structs: List<VeryBigStruct>, classes: List<UnreasonablyLazyClass>) {
         this.structs = structs
         this.classes = classes
     }

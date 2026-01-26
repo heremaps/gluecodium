@@ -5,6 +5,7 @@
 
 @file:JvmName("MethodOverloadsExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -58,10 +59,10 @@ class MethodOverloads : NativeBase {
     external fun isBoolean(input1: Boolean, input2: Byte, input3: String, input4: MethodOverloads.Point) : Boolean
 
 
-    external fun isBooleanStringArrayOverload(input: List<@JvmSuppressWildcards String>) : Boolean
+    external fun isBooleanStringArrayOverload(input: List<String>) : Boolean
 
 
-    external fun isBooleanIntArrayOverload(input: List<@JvmSuppressWildcards Byte>) : Boolean
+    external fun isBooleanIntArrayOverload(input: List<Byte>) : Boolean
 
 
     external fun isBoolean() : Boolean
@@ -70,7 +71,7 @@ class MethodOverloads : NativeBase {
     external fun isFloat(input: String) : Boolean
 
 
-    external fun isFloat(input: List<@JvmSuppressWildcards Byte>) : Boolean
+    external fun isFloat(input: List<Byte>) : Boolean
 
 
 
