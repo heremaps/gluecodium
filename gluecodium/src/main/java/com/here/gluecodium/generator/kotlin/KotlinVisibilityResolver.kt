@@ -20,18 +20,17 @@
 package com.here.gluecodium.generator.kotlin
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
-import com.here.gluecodium.generator.common.CommonGeneratorPredicates
 import com.here.gluecodium.generator.common.NameResolver
-import com.here.gluecodium.model.lime.LimeAttributeType.KOTLIN
 import com.here.gluecodium.model.lime.LimeElement
-import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeProperty
-import com.here.gluecodium.model.lime.LimeType
 
-internal class KotlinVisibilityResolver(private val referenceMap: Map<String, LimeElement>) : NameResolver {
+internal class KotlinVisibilityResolver(
+    private val referenceMap: Map<String, LimeElement>,
+    private val predicate: KotlinInternalVisibilityPredicate = KotlinInternalVisibilityPredicate(referenceMap),
+) : NameResolver {
     override fun resolveName(element: Any): String {
         if (element !is LimeNamedElement) {
             throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
@@ -39,18 +38,9 @@ internal class KotlinVisibilityResolver(private val referenceMap: Map<String, Li
 
         return when {
             isDirectKotlinInterfaceChild(element) -> ""
-            isInternal(element) || isInInternalTypesHierarchy(element) -> "internal "
+            predicate.isConceptuallyInternal(element) -> "internal "
             else -> ""
         }
-    }
-
-    private fun isInternal(element: LimeNamedElement): Boolean {
-        var internal = CommonGeneratorPredicates.isInternal(element, KOTLIN)
-        if (!internal && element is LimeField) {
-            internal = CommonGeneratorPredicates.isInternal(element.typeRef.type, KOTLIN)
-        }
-
-        return internal
     }
 
     // Elements which are direct children of 'interface' or 'fun interface' cannot use 'internal' keyword in Kotlin.
@@ -68,24 +58,10 @@ internal class KotlinVisibilityResolver(private val referenceMap: Map<String, Li
     // inside hierarchy of internal nested types. Therefore, we need to iterate over parent types and check if
     // any of them is internal.
     private fun resolveVisibilityForPropertyExtension(property: Any): String {
-        return if ((property is LimeProperty) && (isInternal(property) || isInInternalTypesHierarchy(property))) {
+        return if ((property is LimeProperty) && predicate.isConceptuallyInternal(property)) {
             "internal "
         } else {
             ""
         }
-    }
-
-    private fun isInInternalTypesHierarchy(element: LimeNamedElement): Boolean {
-        val parentElement = referenceMap[element.path.parent.toString()] as LimeNamedElement? ?: return false
-        if (isInternal(parentElement)) {
-            return true
-        }
-
-        val isEachParentPublic =
-            generateSequence(parentElement) {
-                referenceMap[it.path.parent.toString()] as? LimeType
-            }.none { isInternal(it) }
-
-        return !isEachParentPublic
     }
 }
