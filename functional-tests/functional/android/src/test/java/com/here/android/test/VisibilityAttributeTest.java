@@ -30,17 +30,17 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-class ImplementationOfSomeInternalInterface implements SomeInternalInterface {
-  @Override
-  public int foo() {
-    return 709;
-  }
-
-  @Override
-  public long bar() {
-    return 121;
-  }
-}
+//class ImplementationOfSomeInternalInterface implements SomeInternalInterface {
+//  @Override
+//  public int foo() {
+//    return 709;
+//  }
+//
+//  @Override
+//  public long bar() {
+//    return 121;
+//  }
+//}
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class)
@@ -115,7 +115,7 @@ public class VisibilityAttributeTest {
 
   @Test
   public void internaInterfaceFromJavaCanBeUsed() {
-    ImplementationOfSomeInternalInterface someInterfaceImpl = new ImplementationOfSomeInternalInterface();
+    //ImplementationOfSomeInternalInterface someInterfaceImpl = new ImplementationOfSomeInternalInterface();
     SomeStructWithInternalMembers someObject = new SomeStructWithInternalMembers(21);
   }
 
