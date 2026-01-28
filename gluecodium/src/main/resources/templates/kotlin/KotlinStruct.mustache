@@ -32,7 +32,7 @@
 {{#fields}}
 {{prefixPartial "kotlin/KotlinDocComment" "    "}}{{prefixPartial "kotlin/KotlinAttributes" "    "}}{{!!
 }}    @JvmField {{!!
-}}{{#resolveName "visibility"}}{{#unless this.isEmpty}}@JvmSynthetic {{this}}{{/unless}}{{/resolveName}}{{!!
+}}{{resolveName "synthetic"}}{{resolveName "visibility"}}{{!!
 }}{{#unless isImmutable}}var {{/unless}}{{!!
 }}{{#if isImmutable}}val {{/if}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{!!

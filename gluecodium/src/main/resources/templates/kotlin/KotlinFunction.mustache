@@ -23,7 +23,7 @@
 {{#if isStatic}}@JvmStatic {{/if}}{{!!
 
  1. If function has internal visibility then hide it from java.
-}}{{#resolveName "visibility"}}{{#unless this.isEmpty}}@JvmSynthetic {{/unless}}{{/resolveName}}{{!!
+}}{{resolveName "synthetic"}}{{!!
 
 }}{{#unless override}}{{#unless isInterface}}{{!!
 

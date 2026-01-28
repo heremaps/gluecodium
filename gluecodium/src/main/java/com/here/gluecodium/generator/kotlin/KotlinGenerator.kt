@@ -129,6 +129,7 @@ internal class KotlinGenerator : Generator {
                 basePackages = basePackages,
             )
 
+        val syntheticResolver = KotlinSyntheticResolver(limeModel.referenceMap)
         val visibilityResolver = KotlinVisibilityResolver(limeModel.referenceMap)
 
         val internalApiAnnotation = if (requireOptInAnnotation != null) internalApiAnnotationName!! else null
@@ -152,6 +153,7 @@ internal class KotlinGenerator : Generator {
                         it,
                         nameResolver,
                         visibilityResolver,
+                        syntheticResolver,
                         importResolver,
                         importCollector,
                         internalApiAnnotation,
@@ -238,6 +240,7 @@ internal class KotlinGenerator : Generator {
         limeElement: LimeNamedElement,
         nameResolver: KotlinNameResolver,
         visibilityResolver: KotlinVisibilityResolver,
+        syntheticResolver: KotlinSyntheticResolver,
         importResolver: KotlinImportResolver,
         importCollector: KotlinImportCollector,
         internalApiAnnotation: String?,
@@ -274,7 +277,7 @@ internal class KotlinGenerator : Generator {
                 "internalApiAnnotationClassPath" to internalApiAnnotationClassPath,
             )
 
-        val nameResolvers = mapOf("" to nameResolver, "visibility" to visibilityResolver)
+        val nameResolvers = mapOf("" to nameResolver, "visibility" to visibilityResolver, "synthetic" to syntheticResolver)
 
         val mainContent =
             TemplateEngine.render("kotlin/KotlinFile", templateData, nameResolvers, KotlinGeneratorPredicates.predicates)
