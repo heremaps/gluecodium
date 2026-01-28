@@ -5,6 +5,7 @@
 
 @file:JvmName("InternalClassWithStaticPropertyExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -30,9 +31,9 @@ internal class InternalClassWithStaticProperty : NativeBase {
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
-        @JvmStatic var fooBar: String
-            external get
-            external set
+        @JvmStatic internal var fooBar: String
+            @JvmSynthetic @JvmName("getFooBar") external get
+            @JvmSynthetic @JvmName("setFooBar") external set
 
     }
 }

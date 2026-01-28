@@ -12,7 +12,7 @@ import com.example.MySmokeTestsInternalApi
 
 @MySmokeTestsInternalApi
 internal class OuterInternalStruct {
-    @JvmField var someField: Int
+    @JvmField @JvmSynthetic internal var someField: Int
 
 
 

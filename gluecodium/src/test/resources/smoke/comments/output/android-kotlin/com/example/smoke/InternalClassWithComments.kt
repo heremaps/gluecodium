@@ -5,6 +5,7 @@
 
 @file:JvmName("InternalClassWithCommentsExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -31,7 +32,7 @@ internal class InternalClassWithComments : NativeBase {
      * This is definitely internal
      */
 
-    external fun doNothing() : Unit
+    @JvmSynthetic @JvmName("doNothing") internal external fun doNothing() : Unit
 
 
 
@@ -40,4 +41,5 @@ internal class InternalClassWithComments : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
+
 

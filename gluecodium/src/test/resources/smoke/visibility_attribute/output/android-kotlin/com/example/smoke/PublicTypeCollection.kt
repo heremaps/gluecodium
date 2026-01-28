@@ -5,6 +5,7 @@
 
 @file:JvmName("PublicTypeCollectionExtensions")
 
+
 package com.example.smoke
 
 
@@ -23,7 +24,7 @@ class PublicTypeCollection {
 
 
 
-        external fun fooBar() : Unit
+        @JvmSynthetic @JvmName("fooBar") internal external fun fooBar() : Unit
 
 
     }
