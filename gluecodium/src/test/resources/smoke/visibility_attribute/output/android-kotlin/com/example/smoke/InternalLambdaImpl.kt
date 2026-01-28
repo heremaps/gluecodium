@@ -5,6 +5,7 @@
 
 @file:JvmName("InternalLambdaImplExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -18,7 +19,7 @@ internal class InternalLambdaImpl : NativeBase, InternalLambda {
 
 
 
-    override external fun apply() : Unit
+    @JvmSynthetic override external fun apply() : Unit
 
 
 

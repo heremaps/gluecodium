@@ -5,6 +5,7 @@
 
 @file:JvmName("InternalListenerImplExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -18,7 +19,7 @@ internal class InternalListenerImpl : NativeBase, InternalListener {
 
 
 
-    override external fun onEvent() : Unit
+    @JvmSynthetic override external fun onEvent() : Unit
 
 
 

@@ -21,7 +21,7 @@ internal class OuterInternalLambdaImpl : NativeBase, OuterInternalLambda {
 
 
 
-    override external fun apply(p0: String) : Int
+    @JvmSynthetic override external fun apply(p0: String) : Int
 
 
 

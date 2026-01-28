@@ -5,6 +5,7 @@
 
 @file:JvmName("InternalInterfaceParentExtensions")
 
+
 package com.example.smoke
 
 
@@ -12,7 +13,7 @@ internal interface InternalInterfaceParent {
 
 
 
-    fun fooBar() : Unit
+    @JvmSynthetic fun fooBar() : Unit
 
     var prop: String
         get

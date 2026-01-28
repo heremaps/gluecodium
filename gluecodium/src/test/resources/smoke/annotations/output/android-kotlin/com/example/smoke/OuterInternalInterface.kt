@@ -15,7 +15,7 @@ internal fun interface OuterInternalInterface {
 
 
 
-    fun someFunction() : Int
+    @JvmSynthetic fun someFunction() : Int
 
 
 }

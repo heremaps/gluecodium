@@ -14,6 +14,6 @@ import com.example.MySmokeTestsInternalApi
 internal fun interface OuterInternalLambda {
 
 
-    fun apply(p0: String) : Int
+    @JvmSynthetic fun apply(p0: String) : Int
 }
 

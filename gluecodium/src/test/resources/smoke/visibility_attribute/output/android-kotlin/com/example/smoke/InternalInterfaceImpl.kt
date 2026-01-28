@@ -5,6 +5,7 @@
 
 @file:JvmName("InternalInterfaceImplExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -18,7 +19,7 @@ internal class InternalInterfaceImpl : NativeBase, InternalInterface {
 
 
 
-    override external fun fooBar() : Unit
+    @JvmSynthetic override external fun fooBar() : Unit
 
 
 
