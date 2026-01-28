@@ -11,11 +11,15 @@ package com.example.smoke
 import com.example.MySmokeTestsInternalApi
 
 @MySmokeTestsInternalApi
-internal fun interface OuterInternalInterface {
+internal interface OuterInternalInterface {
 
 
 
     @JvmSynthetic fun someFunction() : Int
+
+    var someProperty: Int
+        get
+        set
 
 
 }

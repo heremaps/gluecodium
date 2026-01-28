@@ -23,6 +23,10 @@ internal class OuterInternalInterfaceImpl : NativeBase, OuterInternalInterface {
 
     @JvmSynthetic override external fun someFunction() : Int
 
+    override var someProperty: Int
+        external get
+        external set
+
 
 
     companion object {
