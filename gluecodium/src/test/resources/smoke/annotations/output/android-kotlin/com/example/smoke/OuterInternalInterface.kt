@@ -18,8 +18,8 @@ internal interface OuterInternalInterface {
     @JvmSynthetic fun someFunction() : Int
 
     var someProperty: Int
-        get
-        set
+        @JvmSynthetic get
+        @JvmSynthetic set
 
 
 }

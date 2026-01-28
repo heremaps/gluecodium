@@ -16,8 +16,8 @@ internal interface InternalInterfaceParent {
     @JvmSynthetic fun fooBar() : Unit
 
     var prop: String
-        get
-        set
+        @JvmSynthetic get
+        @JvmSynthetic set
 
 
 }
