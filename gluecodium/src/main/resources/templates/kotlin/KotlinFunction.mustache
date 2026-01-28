@@ -21,8 +21,21 @@
 {{#unless this.isConstructor}}{{>kotlin/KotlinMethodComment}}{{>kotlin/KotlinAttributes}}{{/unless}}
 {{#thrownType}}@Throws({{resolveName typeRef}}::class){{/thrownType}}
 {{#if isStatic}}@JvmStatic {{/if}}{{!!
+
+ 1. If function has internal visibility then hide it from java.
 }}{{#resolveName "visibility"}}{{#unless this.isEmpty}}@JvmSynthetic {{/unless}}{{/resolveName}}{{!!
-}}{{#unless override}}{{#unless isInterface}}{{#ifPredicate "isInternal"}}@JvmName("{{resolveName}}") {{/ifPredicate}}{{/unless}}{{/unless}}{{!!
+
+}}{{#unless override}}{{#unless isInterface}}{{!!
+
+ 2. If function can use internal keyword, then set JvmName() to properly resolve JNI symbol.
+}}{{#set thisFunction=this}}{{#thisFunction}}{{!!
+  }}{{#resolveName "visibility"}}{{#unless this.isEmpty}}{{!!
+    }}@JvmName("{{resolveName thisFunction}}") {{!!
+  }}{{/unless}}{{/resolveName}}{{!!
+}}{{/thisFunction}}{{/set}}{{!!
+
+}}{{/unless}}{{/unless}}{{!!
+
 }}{{#if override}}override {{/if}}{{!!
 }}{{#unless isInterface}}{{!!
 }}{{#unless this.isConstructor}}{{resolveName "visibility"}}{{/unless}}{{!!

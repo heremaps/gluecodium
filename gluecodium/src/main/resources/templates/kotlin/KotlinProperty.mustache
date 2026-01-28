@@ -28,13 +28,23 @@
 {{#unless isCached}}{{#set thisProperty=this}}{{#thisProperty}}
     {{#unless isInterface}}{{!!
 }}{{#unless override}}{{!!
-}}{{#resolveName thisProperty "visibility" ""}}{{#unless this.isEmpty}}@JvmSynthetic {{/unless}}{{/resolveName}}{{!!
-}}{{#ifPredicate thisProperty "propertyGetterRequiresJvmName"}}@JvmName("{{resolveName thisProperty "" "getter"}}") {{/ifPredicate}}{{/unless}}{{!!
+
+}}{{#resolveName thisProperty "visibility" ""}}{{!!
+  }}{{#unless this.isEmpty}}@JvmSynthetic @JvmName("{{resolveName thisProperty "" "getter"}}") {{/unless}}{{!!
+  }}{{#if this.isEmpty}}{{#ifPredicate thisProperty "propertyGetterRequiresJvmName"}}@JvmName("{{resolveName thisProperty "" "getter"}}") {{/ifPredicate}}{{/if}}{{!!
+}}{{/resolveName}}{{!!
+
+}}{{/unless}}{{!!
 }}external {{/unless}}get{{#setter}}
     {{#unless isInterface}}{{!!
 }}{{#unless override}}{{!!
-}}{{#resolveName thisProperty "visibility" ""}}{{#unless this.isEmpty}}@JvmSynthetic {{/unless}}{{/resolveName}}{{!!
-}}{{#ifPredicate thisProperty "propertySetterRequiresJvmName"}}@JvmName("{{resolveName thisProperty "" "setter"}}") {{/ifPredicate}}{{/unless}}{{!!
+
+}}{{#resolveName thisProperty "visibility" ""}}{{!!
+  }}{{#unless this.isEmpty}}@JvmSynthetic @JvmName("{{resolveName thisProperty "" "setter"}}") {{/unless}}{{!!
+  }}{{#if this.isEmpty}}{{#ifPredicate thisProperty "propertySetterRequiresJvmName"}}@JvmName("{{resolveName thisProperty "" "setter"}}") {{/ifPredicate}}{{/if}}{{!!
+}}{{/resolveName}}{{!!
+
+}}{{/unless}}{{!!
 }}external {{/unless}}set{{/setter}}
 {{/thisProperty}}{{/set}}{{/unless}}
 {{#if isCached}}{{#set thisProperty=this}}{{#thisProperty}}
