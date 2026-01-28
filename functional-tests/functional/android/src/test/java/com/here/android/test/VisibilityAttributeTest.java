@@ -30,18 +30,6 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-//class ImplementationOfSomeInternalInterface implements SomeInternalInterface {
-//  @Override
-//  public int foo() {
-//    return 709;
-//  }
-//
-//  @Override
-//  public long bar() {
-//    return 121;
-//  }
-//}
-
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class)
 public class VisibilityAttributeTest {
@@ -50,30 +38,6 @@ public class VisibilityAttributeTest {
   public void internalConstructorOfClassCanBeCalled() {
     SomeClassWithInternalMembers someObject = new SomeClassWithInternalMembers();
   }
-
-  //@Test
-  //public void functionOfInternalClassCanBeCalled() {
-  //  SomeInternalClassWithMembers someObject = SomeInternalClassWithMembers.create();
-  //  assertEquals(987, someObject.someFunction());
-  //}
-
-  //@Test
-  //public void staticFunctionOfInternalClassCanBeCalled() {
-  //  assertEquals(765, SomeInternalClassWithMembers.someStaticFunction());
-  //}
-
-  //@Test
-  //public void fieldOfInternalStructCanBeAccessed() {
-  //  SomeInternalStructWithMembers someObject = SomeInternalStructWithMembers.create();
-  //  assertEquals(123, someObject.someInteger);
-  //  assertEquals(456, someObject.someLong);
-  //}
-
-  //@Test
-  //public void functionOfInternalStructCanBeCalled() {
-  //  SomeInternalStructWithMembers someObject = SomeInternalStructWithMembers.create();
-  //  assertEquals(32, someObject.someFunction());
-  //}
 
   @Test
   public void internalFieldOfStructCanBeAccessed() {
@@ -115,7 +79,6 @@ public class VisibilityAttributeTest {
 
   @Test
   public void internaInterfaceFromJavaCanBeUsed() {
-    //ImplementationOfSomeInternalInterface someInterfaceImpl = new ImplementationOfSomeInternalInterface();
     SomeStructWithInternalMembers someObject = new SomeStructWithInternalMembers(21);
   }
 
