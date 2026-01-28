@@ -39,7 +39,7 @@ internal class KotlinVisibilityResolver(private val referenceMap: Map<String, Li
 
         return when {
             isDirectKotlinInterfaceChild(element) -> ""
-            isInternal(element) -> "internal "
+            isInternal(element) || isInInternalTypesHierarchy(element) -> "internal "
             else -> ""
         }
     }
