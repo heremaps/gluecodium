@@ -20,12 +20,12 @@
   !}}
 {{>kotlin/KotlinDocComment}}{{>kotlin/KotlinAttributes}}
 @JvmSynthetic
-{{resolveName this "visibility" "getter"}}fun {{resolveName classElement}}.Companion.{{resolveName this "" "getter"}}(): {{resolveName typeRef}} = {{resolveName classElement}}.{{resolveName this}}{{!!
+{{resolveName "visibility"}}fun {{resolveName classElement}}.Companion.{{resolveName this "" "getter"}}(): {{resolveName typeRef}} = {{resolveName classElement}}.{{resolveName this}}{{!!
 }}{{#if setter}}
 
 {{>kotlin/KotlinDocComment}}{{>kotlin/KotlinAttributes}}
 @JvmSynthetic
-{{resolveName this "visibility" "setter"}}fun {{resolveName classElement}}.Companion.{{resolveName this "" "setter"}}(value: {{resolveName typeRef}}) {
+{{resolveName "visibility"}}fun {{resolveName classElement}}.Companion.{{resolveName this "" "setter"}}(value: {{resolveName typeRef}}) {
     {{resolveName classElement}}.{{resolveName this}} = value
 }
 
