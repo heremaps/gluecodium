@@ -33,17 +33,14 @@ import com.here.gluecodium.model.lime.LimeType
 
 internal class KotlinVisibilityResolver(private val referenceMap: Map<String, LimeElement>) : NameResolver {
     override fun resolveName(element: Any): String {
-        val namedElement = element as? LimeNamedElement
-        if (namedElement != null) {
-            return if (!isInternal(element)) {
-                ""
-            } else if (!isDirectKotlinInterfaceChild(element)) {
-                "internal "
-            } else {
-                ""
-            }
-        } else {
+        if (element !is LimeNamedElement) {
             throw GluecodiumExecutionException("Unsupported element type ${element.javaClass.name}")
+        }
+
+        return when {
+            isDirectKotlinInterfaceChild(element) -> ""
+            isInternal(element) -> "internal "
+            else -> ""
         }
     }
 
