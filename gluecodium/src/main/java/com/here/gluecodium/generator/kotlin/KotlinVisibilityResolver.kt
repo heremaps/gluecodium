@@ -71,17 +71,17 @@ internal class KotlinVisibilityResolver(private val referenceMap: Map<String, Li
     // inside hierarchy of internal nested types. Therefore, we need to iterate over parent types and check if
     // any of them is internal.
     private fun resolveVisibilityForPropertyExtension(property: Any): String {
-        if (property !is LimeProperty) {
-            return ""
+        return if ((property is LimeProperty) && (isInternal(property) || isInInternalTypesHierarchy(property))) {
+            "internal "
+        } else {
+            ""
         }
+    }
 
-        if (isInternal(property)) {
-            return "internal "
-        }
-
-        val parentElement = referenceMap[property.path.parent.toString()] as LimeNamedElement? ?: return ""
+    private fun isInInternalTypesHierarchy(element: LimeNamedElement): Boolean {
+        val parentElement = referenceMap[element.path.parent.toString()] as LimeNamedElement? ?: return false
         if (isInternal(parentElement)) {
-            return "internal "
+            return true
         }
 
         val isEachParentPublic =
@@ -89,6 +89,6 @@ internal class KotlinVisibilityResolver(private val referenceMap: Map<String, Li
                 referenceMap[it.path.parent.toString()] as? LimeType
             }.none { isInternal(it) }
 
-        return if (isEachParentPublic) "" else "internal "
+        return !isEachParentPublic
     }
 }
