@@ -29,8 +29,8 @@
     {{#unless isInterface}}{{!!
 }}{{#unless override}}{{!!
 
-}}{{#resolveName thisProperty "visibility" ""}}{{!!
-  }}{{#unless this.isEmpty}}@JvmSynthetic @JvmName("{{resolveName thisProperty "" "getter"}}") {{/unless}}{{!!
+}}{{resolveName thisProperty "synthetic"}}{{#resolveName thisProperty "visibility" ""}}{{!!
+  }}{{#unless this.isEmpty}}@JvmName("{{resolveName thisProperty "" "getter"}}") {{/unless}}{{!!
   }}{{#if this.isEmpty}}{{#ifPredicate thisProperty "propertyGetterRequiresJvmName"}}@JvmName("{{resolveName thisProperty "" "getter"}}") {{/ifPredicate}}{{/if}}{{!!
 }}{{/resolveName}}{{!!
 
@@ -39,8 +39,8 @@
     {{#unless isInterface}}{{!!
 }}{{#unless override}}{{!!
 
-}}{{#resolveName thisProperty "visibility" ""}}{{!!
-  }}{{#unless this.isEmpty}}@JvmSynthetic @JvmName("{{resolveName thisProperty "" "setter"}}") {{/unless}}{{!!
+}}{{resolveName thisProperty "synthetic"}}{{#resolveName thisProperty "visibility" ""}}{{!!
+  }}{{#unless this.isEmpty}}@JvmName("{{resolveName thisProperty "" "setter"}}") {{/unless}}{{!!
   }}{{#if this.isEmpty}}{{#ifPredicate thisProperty "propertySetterRequiresJvmName"}}@JvmName("{{resolveName thisProperty "" "setter"}}") {{/ifPredicate}}{{/if}}{{!!
 }}{{/resolveName}}{{!!
 
@@ -48,7 +48,7 @@
 }}external {{/unless}}set{{/setter}}
 {{/thisProperty}}{{/set}}{{/unless}}
 {{#if isCached}}{{#set thisProperty=this}}{{#thisProperty}}
-    {{#resolveName thisProperty "visibility" ""}}{{#unless this.isEmpty}}@JvmSynthetic {{/unless}}{{/resolveName}}{{!!
+    {{resolveName thisProperty "synthetic" ""}}{{!!
     }}get() {
         if (!is_cached_{{resolveName}}) {
             cache_{{resolveName}} = {{resolveName this "" "getter"}}_private()
