@@ -26,20 +26,20 @@
 }}{{#unless setter}}val{{/unless}}{{!!
 }} {{resolveName}}: {{resolveName typeRef}}
 {{#unless isCached}}{{#set thisProperty=this}}{{#thisProperty}}
-    {{#unless isInterface}}{{!!
+    {{resolveName thisProperty "synthetic"}}{{#unless isInterface}}{{!!
 }}{{#unless override}}{{!!
 
-}}{{resolveName thisProperty "synthetic"}}{{#resolveName thisProperty "visibility" ""}}{{!!
+}}{{#resolveName thisProperty "visibility" ""}}{{!!
   }}{{#unless this.isEmpty}}@JvmName("{{resolveName thisProperty "" "getter"}}") {{/unless}}{{!!
   }}{{#if this.isEmpty}}{{#ifPredicate thisProperty "propertyGetterRequiresJvmName"}}@JvmName("{{resolveName thisProperty "" "getter"}}") {{/ifPredicate}}{{/if}}{{!!
 }}{{/resolveName}}{{!!
 
 }}{{/unless}}{{!!
 }}external {{/unless}}get{{#setter}}
-    {{#unless isInterface}}{{!!
+    {{resolveName thisProperty "synthetic"}}{{#unless isInterface}}{{!!
 }}{{#unless override}}{{!!
 
-}}{{resolveName thisProperty "synthetic"}}{{#resolveName thisProperty "visibility" ""}}{{!!
+}}{{#resolveName thisProperty "visibility" ""}}{{!!
   }}{{#unless this.isEmpty}}@JvmName("{{resolveName thisProperty "" "setter"}}") {{/unless}}{{!!
   }}{{#if this.isEmpty}}{{#ifPredicate thisProperty "propertySetterRequiresJvmName"}}@JvmName("{{resolveName thisProperty "" "setter"}}") {{/ifPredicate}}{{/if}}{{!!
 }}{{/resolveName}}{{!!
