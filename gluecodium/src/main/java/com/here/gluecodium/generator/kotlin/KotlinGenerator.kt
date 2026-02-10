@@ -33,16 +33,20 @@ import com.here.gluecodium.generator.cpp.CppNameCache
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.jni.JniTemplates
 import com.here.gluecodium.model.lime.LimeAttributeType.KOTLIN
+import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CONVERTER_NAME
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.NAME_NAME
+import com.here.gluecodium.model.lime.LimeFieldConstructor
+import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.validator.LimeOverloadsValidator
@@ -85,6 +89,22 @@ internal class KotlinGenerator : Generator {
         val kotlinFilteredModel =
             LimeModelFilter
                 .filter(limeModel) { LimeModelSkipPredicates.shouldRetainElement(it, activeTags, KOTLIN, retainFunctionsAndFields = false) }
+
+        val internalPredicate = KotlinInternalVisibilityPredicate(kotlinFilteredModel.referenceMap)
+        val internalTypes =
+            LimeModelFilter
+                .filter(kotlinFilteredModel) {
+                    if ((it is LimeType && it !is LimeBasicType) || (it is LimeFunction && it.isConstructor) || (it is LimeFieldConstructor)) {
+                        internalPredicate.isConceptuallyInternal(it)
+                    } else {
+                        false
+                    }
+                }
+
+        val leakedJavaTypeNames = internalTypes.referenceMap.keys
+        val leakedTypesString = leakedJavaTypeNames.joinToString (separator = "\n")
+
+        println("Leaked type names in Java: $leakedTypesString")
 
         val signatureResolver = KotlinSignatureResolver(limeModel.referenceMap, kotlinNameRules, activeTags)
         val overloadsValidator = LimeOverloadsValidator(signatureResolver, limeLogger, validateCustomConstructors = true)
@@ -144,6 +164,8 @@ internal class KotlinGenerator : Generator {
                 "$nativeBasePath/time/Duration.kt",
                 GeneratedFile.SourceSet.COMMON,
             )
+
+        resultFiles += GeneratedFile(leakedTypesString, "gluecodium_debug_info/InternalTypesVisibleInJava.txt")
 
         val descendantInterfaces = LimeTypeHelper.collectDescendantInterfaces(jniFilteredModel.topElements)
         val jniTemplates =
