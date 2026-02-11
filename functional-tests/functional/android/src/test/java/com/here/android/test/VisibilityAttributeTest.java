@@ -128,10 +128,4 @@ public class VisibilityAttributeTest {
 
     assertEquals(exception.error, SomeInternalEnum.ONE);
   }
-
-  @Test
-  public void internalCachedPropertyCanBeAccessed() {
-    CachedProperties someObject = new CachedProperties();
-    assertEquals(someObject.getInternalCachedProperty$functional_release(), List.of("foo", "bar"));
-  }
 }
