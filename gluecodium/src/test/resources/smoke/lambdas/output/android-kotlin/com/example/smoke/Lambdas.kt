@@ -19,40 +19,12 @@ class Lambdas : NativeBase {
     }
 
     /**
-     * Should confuse everyone thoroughly
-     */
-    fun interface Confounder {
-        /**
-         * Should confuse everyone thoroughly
-         * @param p0
-         * @return
-         */
-
-        fun confuse(p0: String) : Lambdas.Producer
-    }
-
-    fun interface Consumer {
-
-
-        fun apply(p0: String) : Unit
-    }
-
-    fun interface Indexer {
-
-
-        fun apply(p0: String, idx: Float) : Int
-    }
-
-    fun interface NullableConfuser {
-
-
-        fun apply(p0: String?) : Lambdas.Producer?
-    }
-
-    /**
      * @suppress
+     *
+     * This class is used to represent C++ implementations of the interface or lambda in Kotlin.
+     * It is instantiated by JNI and should not be used by the end users.
      */
-    class ProducerImpl : NativeBase, Producer {
+    private class ProducerImpl : NativeBase, Producer {
         protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
@@ -67,9 +39,25 @@ class Lambdas : NativeBase {
         }
     }
     /**
-     * @suppress
+     * Should confuse everyone thoroughly
      */
-    class ConfounderImpl : NativeBase, Confounder {
+    fun interface Confounder {
+        /**
+         * Should confuse everyone thoroughly
+         * @param p0
+         * @return
+         */
+
+        fun confuse(p0: String) : Lambdas.Producer
+    }
+
+    /**
+     * @suppress
+     *
+     * This class is used to represent C++ implementations of the interface or lambda in Kotlin.
+     * It is instantiated by JNI and should not be used by the end users.
+     */
+    private class ConfounderImpl : NativeBase, Confounder {
         protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
@@ -87,10 +75,19 @@ class Lambdas : NativeBase {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
     }
+    fun interface Consumer {
+
+
+        fun apply(p0: String) : Unit
+    }
+
     /**
      * @suppress
+     *
+     * This class is used to represent C++ implementations of the interface or lambda in Kotlin.
+     * It is instantiated by JNI and should not be used by the end users.
      */
-    class ConsumerImpl : NativeBase, Consumer {
+    private class ConsumerImpl : NativeBase, Consumer {
         protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
@@ -104,10 +101,19 @@ class Lambdas : NativeBase {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
     }
+    fun interface Indexer {
+
+
+        fun apply(p0: String, idx: Float) : Int
+    }
+
     /**
      * @suppress
+     *
+     * This class is used to represent C++ implementations of the interface or lambda in Kotlin.
+     * It is instantiated by JNI and should not be used by the end users.
      */
-    class IndexerImpl : NativeBase, Indexer {
+    private class IndexerImpl : NativeBase, Indexer {
         protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
@@ -121,10 +127,19 @@ class Lambdas : NativeBase {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
     }
+    fun interface NullableConfuser {
+
+
+        fun apply(p0: String?) : Lambdas.Producer?
+    }
+
     /**
      * @suppress
+     *
+     * This class is used to represent C++ implementations of the interface or lambda in Kotlin.
+     * It is instantiated by JNI and should not be used by the end users.
      */
-    class NullableConfuserImpl : NativeBase, NullableConfuser {
+    private class NullableConfuserImpl : NativeBase, NullableConfuser {
         protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 

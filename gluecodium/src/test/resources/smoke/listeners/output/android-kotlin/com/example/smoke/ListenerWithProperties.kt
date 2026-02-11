@@ -8,6 +8,7 @@
 
 package com.example.smoke
 
+import com.example.NativeBase
 
 interface ListenerWithProperties {
     enum class ResultEnum(@JvmField val value: Int) {
@@ -62,3 +63,48 @@ interface ListenerWithProperties {
 
 }
 
+/**
+ * @suppress
+ *
+ * This class is used to represent C++ implementations of the interface or lambda in Kotlin.
+ * It is instantiated by JNI and should not be used by the end users.
+ */
+private class ListenerWithPropertiesImpl : NativeBase, ListenerWithProperties {
+    protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
+        : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+
+    override var message: String
+        external get
+        external set
+
+    override var packedMessage: CalculationResult
+        external get
+        external set
+
+    override var structuredMessage: ListenerWithProperties.ResultStruct
+        external get
+        external set
+
+    override var enumeratedMessage: ListenerWithProperties.ResultEnum
+        external get
+        external set
+
+    override var arrayedMessage: List<String>
+        external get
+        external set
+
+    override var mappedMessage: Map<String, Double>
+        external get
+        external set
+
+    override var bufferedMessage: ByteArray
+        external get
+        external set
+
+
+
+    companion object {
+        @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+    }
+}
