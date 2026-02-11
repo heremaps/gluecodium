@@ -42,7 +42,7 @@ class CachedProperties : NativeBase {
 
 
     internal val internalCachedProperty: List<String>
-        get() {
+        @JvmSynthetic get() {
             if (!is_cached_internalCachedProperty) {
                 cache_internalCachedProperty = getInternalCachedProperty_private()
                 is_cached_internalCachedProperty = true
@@ -77,7 +77,7 @@ class CachedProperties : NativeBase {
 
 
         @JvmStatic internal val internalStaticCachedProperty: ByteArray
-            get() {
+            @JvmSynthetic get() {
                 if (!is_cached_internalStaticCachedProperty) {
                     cache_internalStaticCachedProperty = getInternalStaticCachedProperty_private()
                     is_cached_internalStaticCachedProperty = true
