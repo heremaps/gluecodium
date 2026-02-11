@@ -21,5 +21,7 @@ package test
 @Internal
 interface InternalListener {
     @Internal
+    @Kotlin(Skip) # Kotlin language does not allow internal elements in interfaces.
+    @Java(Skip="KotlinTestsRunWithJavaJni") # Ensure that tests with Java-generated JNI pass.
     fun onEvent()
 }
