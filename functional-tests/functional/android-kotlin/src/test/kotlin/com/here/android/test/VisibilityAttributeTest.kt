@@ -63,6 +63,12 @@ class VisibilityAttributeTest {
     }
 
     @org.junit.Test
+    fun internalCachedPropertyCanBeAccessed() {
+        val someObject = CachedProperties()
+        assertEquals(someObject.internalCachedProperty, listOf("foo", "bar"))
+    }
+
+    @org.junit.Test
     fun functionOfInternalClassCanBeCalled() {
         val someObject = SomeInternalClassWithMembers.create()
         assertEquals(987, someObject.someFunction())

@@ -30,6 +30,7 @@ public:
 
 public:
     std::vector<std::string> get_cached_property( ) const override;
+    std::vector<std::string> get_internal_cached_property( ) const override;
     uint32_t get_call_count( ) const override;
 
 private:

@@ -24,6 +24,7 @@ import static org.junit.Assert.assertThrows;
 
 import android.os.Build;
 import com.here.android.RobolectricApplication;
+import java.util.List;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -126,5 +127,11 @@ public class VisibilityAttributeTest {
     });
 
     assertEquals(exception.error, SomeInternalEnum.ONE);
+  }
+
+  @Test
+  public void internalCachedPropertyCanBeAccessed() {
+    CachedProperties someObject = new CachedProperties();
+    assertEquals(someObject.getInternalCachedProperty$functional_release(), List.of("foo", "bar"));
   }
 }
