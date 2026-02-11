@@ -41,6 +41,21 @@ class CachedProperties : NativeBase {
     external private fun getCachedProperty_private() : List<String>
 
 
+    internal val internalCachedProperty: List<String>
+        get() {
+            if (!is_cached_internalCachedProperty) {
+                cache_internalCachedProperty = getInternalCachedProperty_private()
+                is_cached_internalCachedProperty = true
+            }
+
+            return cache_internalCachedProperty!!
+        }
+
+    private var is_cached_internalCachedProperty = false
+    private var cache_internalCachedProperty: List<String>? = null
+    external private fun getInternalCachedProperty_private() : List<String>
+
+
 
 
 
@@ -61,8 +76,28 @@ class CachedProperties : NativeBase {
         @JvmStatic external private fun getStaticCachedProperty_private() : ByteArray
 
 
+        @JvmStatic internal val internalStaticCachedProperty: ByteArray
+            get() {
+                if (!is_cached_internalStaticCachedProperty) {
+                    cache_internalStaticCachedProperty = getInternalStaticCachedProperty_private()
+                    is_cached_internalStaticCachedProperty = true
+                }
+
+                return cache_internalStaticCachedProperty!!
+            }
+
+        @JvmStatic private var is_cached_internalStaticCachedProperty = false
+        @JvmStatic private var cache_internalStaticCachedProperty: ByteArray? = null
+        @JvmStatic external private fun getInternalStaticCachedProperty_private() : ByteArray
+
+
     }
 }
 
+
 @JvmSynthetic
 fun CachedProperties.Companion.getStaticCachedProperty(): ByteArray = CachedProperties.staticCachedProperty
+
+@JvmSynthetic
+internal fun CachedProperties.Companion.getInternalStaticCachedProperty(): ByteArray = CachedProperties.internalStaticCachedProperty
+

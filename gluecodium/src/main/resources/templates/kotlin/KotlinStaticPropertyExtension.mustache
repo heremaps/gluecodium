@@ -18,10 +18,12 @@
   ! License-Filename: LICENSE
   !
   !}}
+
 {{>kotlin/KotlinDocComment}}{{>kotlin/KotlinAttributes}}
 @JvmSynthetic
 {{resolveName this "visibility" "getter"}}fun {{resolveName classElement}}.Companion.{{resolveName this "" "getter"}}(): {{resolveName typeRef}} = {{resolveName classElement}}.{{resolveName this}}{{!!
-}}{{#if setter}}
+}}
+{{#if setter}}
 
 {{>kotlin/KotlinDocComment}}{{>kotlin/KotlinAttributes}}
 @JvmSynthetic
