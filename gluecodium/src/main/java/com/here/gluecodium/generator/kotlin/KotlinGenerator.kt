@@ -250,7 +250,12 @@ internal class KotlinGenerator : Generator {
 
         val contentTemplateName = selectTemplate(limeElement)
         val packages = (basePackages + limeElement.path.head).map { KotlinNameResolver.normalizePackageName(it) }
-        val imports = importCollector.collectImports(limeElement).filterNot { KotlinNameRules.getPackageFromImportString(it) == packages }
+
+        var imports = importCollector.collectImports(limeElement).filterNot { KotlinNameRules.getPackageFromImportString(it) == packages }
+        if (limeElement is LimeInterface || limeElement is LimeLambda) {
+            imports = (imports + listOf(importResolver.nativeBaseImport))
+        }
+
         val optimizedLists = OptimizedListsCollector().getAllOptimizedLists(limeElement)
         val optInAnnotationString = optInAnnotation?.joinToString(".")
         val internalApiAnnotationClassPath =
@@ -277,25 +282,7 @@ internal class KotlinGenerator : Generator {
         val mainFileName = (listOf(GENERATOR_NAME) + packages + "$name.kt").joinToString(File.separator)
         val mainFile = GeneratedFile(mainContent, mainFileName)
 
-        if (limeElement !is LimeInterface && limeElement !is LimeLambda) {
-            return listOf(mainFile)
-        }
-
-        val implImports =
-            when (limeElement) {
-                is LimeInterface -> importCollector.collectImplImports(limeElement, imports)
-                else -> imports
-            } + importResolver.nativeBaseImport
-        templateData["imports"] = implImports.distinct().sorted()
-        templateData["modelName"] = limeElement.name + "Impl"
-        templateData["contentTemplate"] = "kotlin/KotlinImplClass"
-
-        val implContent =
-            TemplateEngine.render("kotlin/KotlinFile", templateData, nameResolvers, KotlinGeneratorPredicates.predicates)
-        val implFileName = (listOf(GENERATOR_NAME) + packages + "${name}Impl.kt").joinToString(File.separator)
-        val implFile = GeneratedFile(implContent, implFileName)
-
-        return listOf(mainFile, implFile)
+        return listOf(mainFile)
     }
 
     private fun selectTemplate(limeElement: LimeNamedElement) =
