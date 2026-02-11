@@ -43,6 +43,7 @@ interface CalculationResult {}
 @Internal
 interface InternalListener {
     @Internal
+    @Skip(Kotlin) # Kotlin language does not allow internal elements in interfaces.
     fun onEvent()
 }
 

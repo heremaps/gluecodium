@@ -5,14 +5,12 @@
 
 @file:JvmName("InternalListenerExtensions")
 
+
 package com.example.smoke
 
 
-internal fun interface InternalListener {
+internal interface InternalListener {
 
-
-
-    fun onEvent() : Unit
 
 
 }
