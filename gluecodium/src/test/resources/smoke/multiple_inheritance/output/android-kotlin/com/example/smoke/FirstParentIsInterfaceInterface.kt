@@ -9,6 +9,7 @@
 package com.example.smoke
 
 import com.example.NativeBase
+import com.example.another.SomeCoolClassType
 
 interface FirstParentIsInterfaceInterface : ParentInterface, ParentNarrowOne {
 

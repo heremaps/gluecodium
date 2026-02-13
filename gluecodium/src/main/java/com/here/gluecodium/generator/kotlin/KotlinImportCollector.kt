@@ -64,7 +64,7 @@ internal class KotlinImportCollector(
             when {
                 limeContainer !is LimeContainerWithInheritance -> emptyList()
                 (limeContainer is LimeClass && limeContainer.parentInterfaces.isNotEmpty()) ||
-                    (limeContainer is LimeInterface && limeContainer.path.hasParent) ->
+                    (limeContainer is LimeInterface) ->
                     limeContainer.inheritedFunctions + limeContainer.inheritedProperties
                 else -> emptyList()
             }
