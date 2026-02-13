@@ -39,6 +39,11 @@ CachedPropertiesImpl::get_cached_property() const {
     return m_string_list;
 }
 
+std::vector<std::string>
+CachedPropertiesImpl::get_internal_cached_property() const {
+    return m_string_list;
+}
+
 uint32_t
 CachedPropertiesImpl::get_call_count() const {
     return m_call_count;
@@ -47,6 +52,11 @@ CachedPropertiesImpl::get_call_count() const {
 std::shared_ptr<std::vector<uint8_t>>
 CachedProperties::get_static_cached_property() {
     ++s_static_call_count;
+    return s_blob;
+}
+
+std::shared_ptr<std::vector<uint8_t>>
+CachedProperties::get_internal_static_cached_property() {
     return s_blob;
 }
 

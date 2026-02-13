@@ -37,8 +37,9 @@
 }}{{#ifPredicate thisProperty "propertySetterRequiresJvmName"}}@JvmName("{{resolveName thisProperty "" "setter"}}") {{/ifPredicate}}{{/unless}}{{!!
 }}external {{/unless}}set{{/setter}}
 {{/thisProperty}}{{/set}}{{/unless}}
-{{#if isCached}}
-    get() {
+{{#if isCached}}{{#set thisProperty=this}}{{#thisProperty}}
+    {{#resolveName thisProperty "visibility" ""}}{{#unless this.isEmpty}}@JvmSynthetic {{/unless}}{{/resolveName}}{{!!
+    }}get() {
         if (!is_cached_{{resolveName}}) {
             cache_{{resolveName}} = {{resolveName this "" "getter"}}_private()
             is_cached_{{resolveName}} = true
@@ -52,4 +53,4 @@
 }}{{#unless typeRef.isNullable}}?{{/unless}} = null
 {{#if isStatic}}@JvmStatic {{/if}}external private fun {{resolveName this "" "getter"}}_private() : {{resolveName typeRef}}
 
-{{/if}}
+{{/thisProperty}}{{/set}}{{/if}}
