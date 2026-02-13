@@ -47,6 +47,9 @@ private class FirstParentIsInterfaceInterfaceImpl : NativeBase, FirstParentIsInt
     override external fun parentFunction() : Unit
 
 
+    override external fun someFunctionThatUsesTypeFromAnotherPackage(someParam: SomeCoolClassType) : Unit
+
+
     override external fun parentFunctionOne() : Unit
     override var parentProperty: String
         external get
