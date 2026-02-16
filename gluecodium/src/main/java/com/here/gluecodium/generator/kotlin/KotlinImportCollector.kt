@@ -55,17 +55,6 @@ internal class KotlinImportCollector(
         return importsResolver.resolveElementImports(limeElement) + nestedImports
     }
 
-    fun collectImplImports(
-        limeInterface: LimeInterface,
-        defImports: List<String>,
-    ): List<String> {
-        if (limeInterface.parents.isEmpty()) return defImports
-        val parentImports =
-            limeInterface.parents.mapNotNull { importsResolver.createTopElementImport(it.type.actualType) }
-        return defImports - parentImports.toSet() +
-            (limeInterface.inheritedFunctions + limeInterface.inheritedProperties).flatMap { collectImports(it) }
-    }
-
     private fun collectContainerImports(limeContainer: LimeContainer): List<String> {
         val nestedElements =
             limeContainer.functions + limeContainer.properties + limeContainer.structs +
@@ -75,7 +64,7 @@ internal class KotlinImportCollector(
             when {
                 limeContainer !is LimeContainerWithInheritance -> emptyList()
                 (limeContainer is LimeClass && limeContainer.parentInterfaces.isNotEmpty()) ||
-                    (limeContainer is LimeInterface && limeContainer.path.hasParent) ->
+                    (limeContainer is LimeInterface) ->
                     limeContainer.inheritedFunctions + limeContainer.inheritedProperties
                 else -> emptyList()
             }

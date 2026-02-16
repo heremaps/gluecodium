@@ -5,8 +5,10 @@
 
 @file:JvmName("DeprecationCommentsExtensions")
 
+
 package com.example.smoke
 
+import com.example.NativeBase
 
 /**
  * This is some very useful interface.
@@ -87,3 +89,44 @@ interface DeprecationComments {
     }
 }
 
+/**
+ * @suppress
+ *
+ * This class is used to represent C++ implementations of the interface or lambda in Kotlin.
+ * It is instantiated by JNI and should not be used by the end users.
+ */
+private class DeprecationCommentsImpl : NativeBase, DeprecationComments {
+    protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
+        : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+    /**
+     * This is some very useful method that measures the usefulness of its input.
+     * @param input Very useful input parameter
+     * @return Usefulness of the input
+     */
+    @Deprecated("Unfortunately, this method is deprecated.\nUse [com.example.smoke.Comments.someMethodWithAllComments] instead.")
+
+    override external fun someMethodWithAllComments(input: String) : Boolean
+
+    /**
+     * Some very useful property.
+     */
+    @Deprecated("Unfortunately, this property is deprecated.\nUse [com.example.smoke.Comments.isSomeProperty] instead.")
+    override var isSomeProperty: Boolean
+        external get
+        external set
+
+    /**
+     * Describes the property but not accessors.
+     */
+    @Deprecated("Will be removed in v3.2.1.")
+    override var propertyButNotAccessors: String
+        external get
+        external set
+
+
+
+    companion object {
+        @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+    }
+}

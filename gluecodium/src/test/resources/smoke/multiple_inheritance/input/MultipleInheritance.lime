@@ -20,6 +20,8 @@ package smoke
 interface ParentInterface {
     fun parentFunction()
     property parentProperty: String
+
+    fun some_function_that_uses_type_from_another_package(some_param: another.SomeCoolClassType)
 }
 
 open class ParentClass {

@@ -5,6 +5,7 @@
 
 @file:JvmName("ExcludedCommentsOnlyExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -46,8 +47,11 @@ class ExcludedCommentsOnly : NativeBase {
 
     /**
      * @suppress
+     *
+     * This class is used to represent C++ implementations of the interface or lambda in Kotlin.
+     * It is instantiated by JNI and should not be used by the end users.
      */
-    class SomeLambdaImpl : NativeBase, SomeLambda {
+    private class SomeLambdaImpl : NativeBase, SomeLambda {
         protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
@@ -108,4 +112,5 @@ class ExcludedCommentsOnly : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
+
 

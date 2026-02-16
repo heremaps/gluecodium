@@ -5,6 +5,7 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
+import 'package:library/src/another/some_cool_class_type.dart';
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/smoke/parent_interface.dart';
 import 'package:library/src/smoke/parent_narrow_one.dart';
@@ -13,6 +14,7 @@ abstract class FirstParentIsInterfaceInterface implements ParentInterface, Paren
 
   factory FirstParentIsInterfaceInterface(
     void Function() parentFunctionLambda,
+    void Function(SomeCoolClassType) someFunctionThatUsesTypeFromAnotherPackageLambda,
     void Function() parentFunctionOneLambda,
     void Function() childFunctionLambda,
     String Function() parentPropertyGetLambda,
@@ -23,6 +25,7 @@ abstract class FirstParentIsInterfaceInterface implements ParentInterface, Paren
     void Function(String) childPropertySetLambda
   ) => FirstParentIsInterfaceInterface$Lambdas(
     parentFunctionLambda,
+    someFunctionThatUsesTypeFromAnotherPackageLambda,
     parentFunctionOneLambda,
     childFunctionLambda,
     parentPropertyGetLambda,
@@ -56,8 +59,8 @@ final _smokeFirstparentisinterfaceinterfaceReleaseHandle = __lib.catchArgumentEr
     void Function(Pointer<Void>)
   >('library_smoke_FirstParentIsInterfaceInterface_release_handle'));
 final _smokeFirstparentisinterfaceinterfaceCreateProxy = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
-    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
-    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
+    Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer),
+    Pointer<Void> Function(int, int, Object, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer, Pointer)
   >('library_smoke_FirstParentIsInterfaceInterface_create_proxy'));
 final _smokeFirstparentisinterfaceinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
@@ -67,6 +70,7 @@ final _smokeFirstparentisinterfaceinterfaceGetTypeId = __lib.catchArgumentError(
 
 class FirstParentIsInterfaceInterface$Lambdas implements FirstParentIsInterfaceInterface {
   void Function() parentFunctionLambda;
+  void Function(SomeCoolClassType) someFunctionThatUsesTypeFromAnotherPackageLambda;
   void Function() parentFunctionOneLambda;
   void Function() childFunctionLambda;
   String Function() parentPropertyGetLambda;
@@ -78,6 +82,7 @@ class FirstParentIsInterfaceInterface$Lambdas implements FirstParentIsInterfaceI
 
   FirstParentIsInterfaceInterface$Lambdas(
     this.parentFunctionLambda,
+    this.someFunctionThatUsesTypeFromAnotherPackageLambda,
     this.parentFunctionOneLambda,
     this.childFunctionLambda,
     this.parentPropertyGetLambda,
@@ -91,6 +96,9 @@ class FirstParentIsInterfaceInterface$Lambdas implements FirstParentIsInterfaceI
   @override
   void parentFunction() =>
     parentFunctionLambda();
+  @override
+  void someFunctionThatUsesTypeFromAnotherPackage(SomeCoolClassType someParam) =>
+    someFunctionThatUsesTypeFromAnotherPackageLambda(someParam);
   @override
   void parentFunctionOne() =>
     parentFunctionOneLambda();
@@ -120,6 +128,16 @@ class FirstParentIsInterfaceInterface$Impl extends __lib.NativeBase implements F
     final _parentFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentInterface_parentFunction'));
     final _handle = this.handle;
     _parentFunctionFfi(_handle, __lib.LibraryContext.isolateId);
+
+  }
+
+  @override
+  void someFunctionThatUsesTypeFromAnotherPackage(SomeCoolClassType someParam) {
+    final _someFunctionThatUsesTypeFromAnotherPackageFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ParentInterface_someFunctionThatUsesTypeFromAnotherPackage__SomeCoolClassType'));
+    final _someParamHandle = anotherSomecoolclasstypeToFfi(someParam);
+    final _handle = this.handle;
+    _someFunctionThatUsesTypeFromAnotherPackageFfi(_handle, __lib.LibraryContext.isolateId, _someParamHandle);
+    anotherSomecoolclasstypeReleaseFfiHandle(_someParamHandle);
 
   }
 
@@ -221,6 +239,14 @@ void _smokeFirstparentisinterfaceinterfaceparentFunctionStatic(FirstParentIsInte
   } finally {
   }
 }
+void _smokeFirstparentisinterfaceinterfacesomeFunctionThatUsesTypeFromAnotherPackageStatic(FirstParentIsInterfaceInterface _obj, Pointer<Void> someParam) {
+
+  try {
+    _obj.someFunctionThatUsesTypeFromAnotherPackage(anotherSomecoolclasstypeFromFfi(someParam));
+  } finally {
+    anotherSomecoolclasstypeReleaseFfiHandle(someParam);
+  }
+}
 void _smokeFirstparentisinterfaceinterfaceparentFunctionOneStatic(FirstParentIsInterfaceInterface _obj) {
 
   try {
@@ -277,6 +303,10 @@ Pointer<Void> smokeFirstparentisinterfaceinterfaceToFfi(FirstParentIsInterfaceIn
   final __parentFunctionCallback = NativeCallable<Void Function()>.isolateLocal(__parentFunctionCaller);
   __parentFunctionCallback.keepIsolateAlive = false;
 
+  void __someFunctionThatUsesTypeFromAnotherPackageCaller(Pointer<Void> someParam) { _smokeFirstparentisinterfaceinterfacesomeFunctionThatUsesTypeFromAnotherPackageStatic(__interfaceObj, someParam); }
+  final __someFunctionThatUsesTypeFromAnotherPackageCallback = NativeCallable<Void Function(Pointer<Void>)>.isolateLocal(__someFunctionThatUsesTypeFromAnotherPackageCaller);
+  __someFunctionThatUsesTypeFromAnotherPackageCallback.keepIsolateAlive = false;
+
   void __parentFunctionOneCaller() { _smokeFirstparentisinterfaceinterfaceparentFunctionOneStatic(__interfaceObj); }
   final __parentFunctionOneCallback = NativeCallable<Void Function()>.isolateLocal(__parentFunctionOneCaller);
   __parentFunctionOneCallback.keepIsolateAlive = false;
@@ -312,6 +342,7 @@ Pointer<Void> smokeFirstparentisinterfaceinterfaceToFfi(FirstParentIsInterfaceIn
   late final NativeCallable<Void Function()> __closeAllCallback;
   void __closeAll() {
     __parentFunctionCallback.close();
+    __someFunctionThatUsesTypeFromAnotherPackageCallback.close();
     __parentFunctionOneCallback.close();
     __childFunctionCallback.close();
     __smokeFirstparentisinterfaceinterfaceparentPropertyGetCallback.close();
@@ -331,6 +362,7 @@ Pointer<Void> smokeFirstparentisinterfaceinterfaceToFfi(FirstParentIsInterfaceIn
     __interfaceObj,
     __closeAllCallback.nativeFunction,
     __parentFunctionCallback.nativeFunction,
+    __someFunctionThatUsesTypeFromAnotherPackageCallback.nativeFunction,
     __parentFunctionOneCallback.nativeFunction,
     __childFunctionCallback.nativeFunction,
     __smokeFirstparentisinterfaceinterfaceparentPropertyGetCallback.nativeFunction,

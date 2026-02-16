@@ -116,16 +116,13 @@ class OuterStruct {
 
     }
 
-    fun interface InnerLambda {
-
-
-        fun apply() : Unit
-    }
-
     /**
      * @suppress
+     *
+     * This class is used to represent C++ implementations of the interface or lambda in Kotlin.
+     * It is instantiated by JNI and should not be used by the end users.
      */
-    class InnerInterfaceImpl : NativeBase, InnerInterface {
+    private class InnerInterfaceImpl : NativeBase, InnerInterface {
         protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
@@ -139,10 +136,19 @@ class OuterStruct {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
     }
+    fun interface InnerLambda {
+
+
+        fun apply() : Unit
+    }
+
     /**
      * @suppress
+     *
+     * This class is used to represent C++ implementations of the interface or lambda in Kotlin.
+     * It is instantiated by JNI and should not be used by the end users.
      */
-    class InnerLambdaImpl : NativeBase, InnerLambda {
+    private class InnerLambdaImpl : NativeBase, InnerLambda {
         protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
