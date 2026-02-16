@@ -5,8 +5,10 @@
 
 @file:JvmName("DeprecationCommentsOnlyExtensions")
 
+
 package com.example.smoke
 
+import com.example.NativeBase
 
 @Deprecated("Unfortunately, this interface is deprecated.")
 interface DeprecationCommentsOnly {
@@ -54,3 +56,33 @@ interface DeprecationCommentsOnly {
     }
 }
 
+/**
+ * @suppress
+ *
+ * This class is used to represent C++ implementations of the interface or lambda in Kotlin.
+ * It is instantiated by JNI and should not be used by the end users.
+ */
+private class DeprecationCommentsOnlyImpl : NativeBase, DeprecationCommentsOnly {
+    protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
+        : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+    /**
+     *
+     * @param input Very useful input parameter
+     * @return Usefulness of the input
+     */
+    @Deprecated("Unfortunately, this method is deprecated.")
+
+    override external fun someMethodWithAllComments(input: String) : Boolean
+
+    @Deprecated("Unfortunately, this property is deprecated.")
+    override var isSomeProperty: Boolean
+        external get
+        external set
+
+
+
+    companion object {
+        @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+    }
+}

@@ -5,6 +5,7 @@
 
 @file:JvmName("OuterClassWithInheritanceExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -38,6 +39,7 @@ class OuterClassWithInheritance : ParentClass {
         }
     }
 
+
     fun interface InnerInterface {
 
 
@@ -49,8 +51,11 @@ class OuterClassWithInheritance : ParentClass {
 
     /**
      * @suppress
+     *
+     * This class is used to represent C++ implementations of the interface or lambda in Kotlin.
+     * It is instantiated by JNI and should not be used by the end users.
      */
-    class InnerInterfaceImpl : NativeBase, InnerInterface {
+    private class InnerInterfaceImpl : NativeBase, InnerInterface {
         protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
@@ -85,4 +90,5 @@ class OuterClassWithInheritance : ParentClass {
 
 
 }
+
 

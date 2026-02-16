@@ -5,6 +5,7 @@
 
 @file:JvmName("OuterInterfaceExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -37,6 +38,7 @@ fun interface OuterInterface {
         }
     }
 
+
     fun interface InnerInterface {
 
 
@@ -48,8 +50,11 @@ fun interface OuterInterface {
 
     /**
      * @suppress
+     *
+     * This class is used to represent C++ implementations of the interface or lambda in Kotlin.
+     * It is instantiated by JNI and should not be used by the end users.
      */
-    class InnerInterfaceImpl : NativeBase, InnerInterface {
+    private class InnerInterfaceImpl : NativeBase, InnerInterface {
         protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
             : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
@@ -71,3 +76,23 @@ fun interface OuterInterface {
 
 }
 
+/**
+ * @suppress
+ *
+ * This class is used to represent C++ implementations of the interface or lambda in Kotlin.
+ * It is instantiated by JNI and should not be used by the end users.
+ */
+private class OuterInterfaceImpl : NativeBase, OuterInterface {
+    protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
+        : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+
+
+    override external fun foo(input: String) : String
+
+
+
+    companion object {
+        @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+    }
+}
