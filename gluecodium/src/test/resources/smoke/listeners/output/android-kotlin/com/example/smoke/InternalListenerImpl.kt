@@ -5,6 +5,7 @@
 
 @file:JvmName("InternalListenerImplExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -16,9 +17,6 @@ internal class InternalListenerImpl : NativeBase, InternalListener {
     protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
-
-
-    override external fun onEvent() : Unit
 
 
 

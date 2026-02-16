@@ -32,6 +32,7 @@ lambda InternalLambda = () -> Void
 
 interface PublicInterface {
     @Internal
+    @Skip(Kotlin) # Kotlin language does not allow internal elements in interfaces.
     struct InternalStruct {
         fieldOfInternalType: PublicClass.InternalStruct
     }

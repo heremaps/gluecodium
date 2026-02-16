@@ -107,7 +107,11 @@ internal class KotlinGenerator : Generator {
 
         val signatureResolver = KotlinSignatureResolver(limeModel.referenceMap, kotlinNameRules, activeTags)
         val overloadsValidator = LimeOverloadsValidator(signatureResolver, limeLogger, validateCustomConstructors = true)
-        val validationResult = overloadsValidator.validate(jniFilteredModel.referenceMap.values)
+        val interfacesValidator = KotlinInterfacesValidator(limeLogger)
+
+        val validationResult =
+            overloadsValidator.validate(jniFilteredModel.referenceMap.values) &&
+                interfacesValidator.validate(kotlinFilteredModel.referenceMap)
         if (!validationResult) {
             throw GluecodiumExecutionException("Validation errors found, see log for details.")
         }
