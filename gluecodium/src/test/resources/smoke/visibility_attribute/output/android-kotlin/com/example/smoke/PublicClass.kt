@@ -5,13 +5,14 @@
 
 @file:JvmName("PublicClassExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
 
 class PublicClass : NativeBase {
 
-    internal enum class InternalEnum(@JvmField internal val value: Int) {
+    internal enum class InternalEnum(@JvmField @JvmSynthetic internal val value: Int) {
         FOO(0),
         BAR(1);
     }
