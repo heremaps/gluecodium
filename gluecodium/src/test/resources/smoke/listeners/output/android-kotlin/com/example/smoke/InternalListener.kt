@@ -28,9 +28,6 @@ private class InternalListenerImpl : NativeBase, InternalListener {
 
 
 
-    override external fun onEvent() : Unit
-
-
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
