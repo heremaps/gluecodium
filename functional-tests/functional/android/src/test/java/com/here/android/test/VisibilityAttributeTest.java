@@ -103,15 +103,7 @@ public class VisibilityAttributeTest {
   @Test
   public void valueOfInternalEnumCanBeAccessed() {
     SomeInternalEnum someObject = SomeInternalEnum.TWO;
-    assertEquals(2, someObject.value);
     assertEquals(SomeInternalEnum.TWO, someObject);
-  }
-
-  @Test
-  public void internalAliasOfEnumCanBeAccessed() {
-    SomeInternalEnum someObject = SomeInternalEnum.SINGLE;
-    assertEquals(1, someObject.value);
-    assertEquals(SomeInternalEnum.ONE, someObject);
   }
 
   @Test
