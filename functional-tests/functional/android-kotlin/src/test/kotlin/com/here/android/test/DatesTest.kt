@@ -37,9 +37,9 @@ class DatesTest {
     @org.junit.Test
     fun dateAttributeRoundTrip() {
         val date = Date()
-        Dates.dateAttribute = date
+        Dates.setDateAttribute(date)
 
-        assertEquals(date, Dates.dateAttribute)
+        assertEquals(date, Dates.getDateAttribute())
     }
 
     @org.junit.Test

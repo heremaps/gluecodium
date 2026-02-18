@@ -202,6 +202,6 @@ class VisibilityAttributeTest {
 
     @org.junit.Test
     fun checkInternalStaticProperty() {
-        assertEquals("foo", InternalAttributeClassWithStaticProperty.fooBar)
+        assertEquals("foo", InternalAttributeClassWithStaticProperty.getFooBar())
     }
 }
