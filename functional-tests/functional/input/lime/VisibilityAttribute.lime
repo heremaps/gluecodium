@@ -34,6 +34,7 @@ struct PublicStructWithNonDefaultInternalAttributeField {
 
 @Internal
 class InternalAttributeClassWithStaticProperty {
+    @Internal
     static property fooBar: String
 }
 
