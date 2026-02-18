@@ -121,7 +121,7 @@
 {{#properties}}
 {{#if isStatic}}
 {{#set property=this isCached=attributes.cached}}{{#property}}
-{{prefixPartial "kotlin/KotlinProperty" "        "}}
+{{prefixPartial "kotlin/KotlinStaticProperty" "        "}}
 {{/property}}{{/set}}
 {{/if}}
 {{/properties}}
@@ -157,15 +157,3 @@
 }}{{/kotlinConstructorExceptions}}{{!!
 
 }}
-
-{{#ifPredicate "hasStaticProperties"}}
-{{#set classElement=this}}
-{{#properties}}
-{{#if isStatic}}
-{{#set property=this isCached=attributes.cached}}{{#property}}
-{{>kotlin/KotlinStaticPropertyExtension}}
-{{/property}}{{/set}}
-{{/if}}
-{{/properties}}
-{{/set}}
-{{/ifPredicate}}
