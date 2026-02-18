@@ -61,19 +61,11 @@ class OuterClassWithLambdaAndProperty : NativeBase {
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
-        @JvmStatic var anotherInteger: Int
-            external get
-            external set
 
+
+        @JvmStatic external fun getAnotherInteger() : Int
+
+        @JvmStatic external fun setAnotherInteger(value: Int) : Unit
     }
 }
-
-@JvmSynthetic
-fun OuterClassWithLambdaAndProperty.Companion.getAnotherInteger(): Int = OuterClassWithLambdaAndProperty.anotherInteger
-
-@JvmSynthetic
-fun OuterClassWithLambdaAndProperty.Companion.setAnotherInteger(value: Int) {
-    OuterClassWithLambdaAndProperty.anotherInteger = value
-}
-
 
