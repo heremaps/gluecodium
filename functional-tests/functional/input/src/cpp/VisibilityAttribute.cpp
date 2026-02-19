@@ -211,12 +211,12 @@ InternalAttributeClassWithStaticProperty::set_foo_bar(const std::string& value) 
 }
 
 std::string
-InternalAttributeInterfaceParent::get_some_internal_property() {
+InternalAttributeInterfaceParent::get_some_property_of_internal_interface() {
     return g_someInternalProperty;
 }
 
 void
-InternalAttributeInterfaceParent::set_some_internal_property(const std::string& value) {
+InternalAttributeInterfaceParent::set_some_property_of_internal_interface(const std::string& value) {
     g_someInternalProperty = value;
 }
 

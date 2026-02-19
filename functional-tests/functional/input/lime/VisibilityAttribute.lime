@@ -50,8 +50,7 @@ interface InternalAttributeInterfaceParent {
     fun fooBar()
     property prop: String
 
-    @Internal
-    static property someInternalProperty: String
+    static property somePropertyOfInternalInterface: String
 }
 
 @Internal
