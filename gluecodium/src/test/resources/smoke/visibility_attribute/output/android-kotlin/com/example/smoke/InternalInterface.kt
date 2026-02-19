@@ -20,13 +20,13 @@ internal fun interface InternalInterface {
     companion object {
 
 
-        @JvmStatic fun getSomePropertyOfInternalInterface() : String {
+        @JvmStatic @JvmSynthetic fun getSomePropertyOfInternalInterface() : String {
             return InternalInterfaceImpl.getSomePropertyOfInternalInterface()
         }
 
 
 
-        @JvmStatic fun setSomePropertyOfInternalInterface(value: String) : Unit {
+        @JvmStatic @JvmSynthetic fun setSomePropertyOfInternalInterface(value: String) : Unit {
             InternalInterfaceImpl.setSomePropertyOfInternalInterface(value)
         }
 
@@ -53,8 +53,8 @@ private class InternalInterfaceImpl : NativeBase, InternalInterface {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 
 
-        @JvmStatic external fun getSomePropertyOfInternalInterface() : String
+        @JvmStatic @JvmSynthetic @JvmName("getSomePropertyOfInternalInterface") internal external fun getSomePropertyOfInternalInterface() : String
 
-        @JvmStatic external fun setSomePropertyOfInternalInterface(value: String) : Unit
+        @JvmStatic @JvmSynthetic @JvmName("setSomePropertyOfInternalInterface") internal external fun setSomePropertyOfInternalInterface(value: String) : Unit
     }
 }
