@@ -204,12 +204,4 @@ class VisibilityAttributeTest {
     fun checkInternalStaticProperty() {
         assertEquals("foo", InternalAttributeClassWithStaticProperty.getFooBar())
     }
-
-    @org.junit.Test
-    fun checkInternalStaticPropertyFromInterface() {
-        assertEquals("FOO_BAR", InternalAttributeInterfaceParent.getSomePropertyOfInternalInterface())
-
-        InternalAttributeInterfaceParent.setSomePropertyOfInternalInterface("abc")
-        assertEquals("abc", InternalAttributeInterfaceParent.getSomePropertyOfInternalInterface())
-    }
 }
