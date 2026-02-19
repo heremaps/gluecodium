@@ -14,7 +14,7 @@ internal fun interface InternalInterface {
 
 
 
-    fun fooBar() : Unit
+    @JvmSynthetic fun fooBar() : Unit
 
 
     companion object {
@@ -45,7 +45,7 @@ private class InternalInterfaceImpl : NativeBase, InternalInterface {
 
 
 
-    override external fun fooBar() : Unit
+    @JvmSynthetic override external fun fooBar() : Unit
 
 
 
