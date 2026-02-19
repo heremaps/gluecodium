@@ -49,6 +49,9 @@ interface WithInternalAttributeProperty {
 interface InternalAttributeInterfaceParent {
     fun fooBar()
     property prop: String
+
+    @Internal
+    static property someInternalProperty: String
 }
 
 @Internal

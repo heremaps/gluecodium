@@ -120,4 +120,12 @@ public class VisibilityAttributeTest {
 
     assertEquals(exception.error, SomeInternalEnum.ONE);
   }
+
+  @Test
+  public void checkInternalStaticPropertyFromInterface() {
+    assertEquals("FOO_BAR", InternalAttributeInterfaceParent.getSomeInternalProperty());
+
+    InternalAttributeInterfaceParent.setSomeInternalProperty("abc");
+    assertEquals("abc", InternalAttributeInterfaceParent.getSomeInternalProperty());
+  }
 }
