@@ -14,7 +14,7 @@ internal interface InternalInterfaceParent {
 
 
 
-    fun fooBar() : Unit
+    @JvmSynthetic fun fooBar() : Unit
 
     var prop: String
         get
@@ -35,7 +35,7 @@ private class InternalInterfaceParentImpl : NativeBase, InternalInterfaceParent 
 
 
 
-    override external fun fooBar() : Unit
+    @JvmSynthetic override external fun fooBar() : Unit
 
     override var prop: String
         external get

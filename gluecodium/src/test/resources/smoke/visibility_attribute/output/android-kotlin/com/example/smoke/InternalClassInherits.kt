@@ -5,6 +5,7 @@
 
 @file:JvmName("InternalClassInheritsExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -28,7 +29,7 @@ internal class InternalClassInherits : NativeBase, InternalInterfaceParent {
 
 
 
-    override external fun fooBar() : Unit
+    @JvmSynthetic override external fun fooBar() : Unit
     override var prop: String
         external get
         external set

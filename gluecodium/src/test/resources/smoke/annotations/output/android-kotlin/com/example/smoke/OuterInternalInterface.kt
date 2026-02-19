@@ -16,7 +16,7 @@ internal fun interface OuterInternalInterface {
 
 
 
-    fun someFunction() : Int
+    @JvmSynthetic fun someFunction() : Int
 
 
 }
@@ -33,7 +33,7 @@ private class OuterInternalInterfaceImpl : NativeBase, OuterInternalInterface {
 
 
 
-    override external fun someFunction() : Int
+    @JvmSynthetic override external fun someFunction() : Int
 
 
 
