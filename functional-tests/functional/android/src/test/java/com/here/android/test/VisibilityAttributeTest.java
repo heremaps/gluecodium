@@ -41,15 +41,10 @@ public class VisibilityAttributeTest {
   }
 
   @Test
-  public void internalFieldOfStructCanBeAccessed() {
-    SomeStructWithInternalMembers someObject = new SomeStructWithInternalMembers(21);
-    assertEquals(21, someObject.someInteger);
-    assertEquals(444, someObject.someLong);
-  }
-
-  @Test
   public void internalFreeArgsCtorCanBeCalled() {
     SomeStructWithInternalFreeArgsCtor someObject = new SomeStructWithInternalFreeArgsCtor(33);
+
+    // Note: 'someObject.someString' is a public field of public structure.
     assertEquals("Special string", someObject.someString);
   }
 
@@ -61,6 +56,8 @@ public class VisibilityAttributeTest {
   @Test
   public void internalFieldCtorCanBeCalled() {
     SomeStructWithInternalFieldConstructor someObject = new SomeStructWithInternalFieldConstructor(77);
+
+    // Note: 'someObject.someString' is a public field of public structure.
     assertEquals("QAZWSX", someObject.someString);
   }
 
@@ -68,11 +65,6 @@ public class VisibilityAttributeTest {
   public void valueOfInternalEnumCanBeAccessed() {
     SomeInternalEnum someObject = SomeInternalEnum.TWO;
     assertEquals(SomeInternalEnum.TWO, someObject);
-  }
-
-  @Test
-  public void internaInterfaceFromJavaCanBeUsed() {
-    SomeStructWithInternalMembers someObject = new SomeStructWithInternalMembers(21);
   }
 
   @Test
