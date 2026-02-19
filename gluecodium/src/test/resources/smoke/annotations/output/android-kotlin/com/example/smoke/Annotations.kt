@@ -29,7 +29,7 @@ internal class Annotations : NativeBase {
 
 
 
-    external fun testOptional(self: Annotations) : Boolean?
+    @JvmSynthetic @JvmName("testOptional") internal external fun testOptional(self: Annotations) : Boolean?
 
 
 
@@ -38,5 +38,4 @@ internal class Annotations : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
-
 

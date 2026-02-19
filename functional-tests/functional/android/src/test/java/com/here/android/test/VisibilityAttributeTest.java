@@ -31,18 +31,6 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-class ImplementationOfSomeInternalInterface implements SomeInternalInterface {
-  @Override
-  public int foo() {
-    return 709;
-  }
-
-  @Override
-  public long bar() {
-    return 121;
-  }
-}
-
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.M, application = RobolectricApplication.class)
 public class VisibilityAttributeTest {
@@ -53,39 +41,10 @@ public class VisibilityAttributeTest {
   }
 
   @Test
-  public void functionOfInternalClassCanBeCalled() {
-    SomeInternalClassWithMembers someObject = SomeInternalClassWithMembers.create();
-    assertEquals(987, someObject.someFunction());
-  }
-
-  @Test
-  public void staticFunctionOfInternalClassCanBeCalled() {
-    assertEquals(765, SomeInternalClassWithMembers.someStaticFunction());
-  }
-
-  @Test
-  public void fieldOfInternalStructCanBeAccessed() {
-    SomeInternalStructWithMembers someObject = SomeInternalStructWithMembers.create();
-    assertEquals(123, someObject.someInteger);
-    assertEquals(456, someObject.someLong);
-  }
-
-  @Test
-  public void functionOfInternalStructCanBeCalled() {
-    SomeInternalStructWithMembers someObject = SomeInternalStructWithMembers.create();
-    assertEquals(32, someObject.someFunction());
-  }
-
-  @Test
-  public void internalFieldOfStructCanBeAccessed() {
-    SomeStructWithInternalMembers someObject = new SomeStructWithInternalMembers(21);
-    assertEquals(21, someObject.someInteger);
-    assertEquals(444, someObject.someLong);
-  }
-
-  @Test
   public void internalFreeArgsCtorCanBeCalled() {
     SomeStructWithInternalFreeArgsCtor someObject = new SomeStructWithInternalFreeArgsCtor(33);
+
+    // Note: 'someObject.someString' is a public field of public structure.
     assertEquals("Special string", someObject.someString);
   }
 
@@ -97,6 +56,8 @@ public class VisibilityAttributeTest {
   @Test
   public void internalFieldCtorCanBeCalled() {
     SomeStructWithInternalFieldConstructor someObject = new SomeStructWithInternalFieldConstructor(77);
+
+    // Note: 'someObject.someString' is a public field of public structure.
     assertEquals("QAZWSX", someObject.someString);
   }
 
@@ -104,12 +65,6 @@ public class VisibilityAttributeTest {
   public void valueOfInternalEnumCanBeAccessed() {
     SomeInternalEnum someObject = SomeInternalEnum.TWO;
     assertEquals(SomeInternalEnum.TWO, someObject);
-  }
-
-  @Test
-  public void internaInterfaceFromJavaCanBeUsed() {
-    ImplementationOfSomeInternalInterface someInterfaceImpl = new ImplementationOfSomeInternalInterface();
-    SomeStructWithInternalMembers someObject = new SomeStructWithInternalMembers(21);
   }
 
   @Test

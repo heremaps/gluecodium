@@ -17,7 +17,7 @@ class PublicClass : NativeBase {
         BAR(1);
     }
     internal class InternalStruct {
-        @JvmField var stringField: String
+        @JvmField @JvmSynthetic internal var stringField: String
 
 
 
@@ -91,5 +91,4 @@ class PublicClass : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
-
 
