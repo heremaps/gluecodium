@@ -6,6 +6,7 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:meta/meta.dart';
 
 /// @nodoc
 abstract class InternalInterface implements Finalizable {
@@ -21,6 +22,13 @@ abstract class InternalInterface implements Finalizable {
 
 
   void fooBar();
+  static String get somePropertyOfInternalInterface => $prototype.somePropertyOfInternalInterface;
+  static set somePropertyOfInternalInterface(String value) { $prototype.somePropertyOfInternalInterface = value; }
+
+
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = InternalInterface$Impl(Pointer<Void>.fromAddress(0));
 }
 
 
@@ -61,6 +69,8 @@ class InternalInterface$Lambdas implements InternalInterface {
     fooBarLambda();
 }
 
+/// @nodoc
+@visibleForTesting
 class InternalInterface$Impl extends __lib.NativeBase implements InternalInterface {
 
   InternalInterface$Impl(Pointer<Void> handle) : super(handle);
@@ -72,6 +82,28 @@ class InternalInterface$Impl extends __lib.NativeBase implements InternalInterfa
     _fooBarFfi(_handle, __lib.LibraryContext.isolateId);
 
   }
+
+  String get somePropertyOfInternalInterface {
+    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InternalInterface_somePropertyOfInternalInterface_get'));
+    final __resultHandle = _getFfi(__lib.LibraryContext.isolateId);
+    try {
+      return stringFromFfi(__resultHandle);
+    } finally {
+      stringReleaseFfiHandle(__resultHandle);
+
+    }
+
+  }
+
+
+  set somePropertyOfInternalInterface(String value) {
+    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32, Pointer<Void>), void Function(int, Pointer<Void>)>('library_smoke_InternalInterface_somePropertyOfInternalInterface_set__String'));
+    final _valueHandle = stringToFfi(value);
+    _setFfi(__lib.LibraryContext.isolateId, _valueHandle);
+    stringReleaseFfiHandle(_valueHandle);
+
+  }
+
 
 
 }

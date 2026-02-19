@@ -12,13 +12,13 @@ interface InternalInterface {
     void fooBar();
 
     @NonNull
-    static String getSomeInternalProperty() {
-        return InternalInterfaceImpl.getSomeInternalProperty();
+    static String getSomePropertyOfInternalInterface() {
+        return InternalInterfaceImpl.getSomePropertyOfInternalInterface();
     }
 
 
-    static void setSomeInternalProperty(@NonNull final String value) {
-        InternalInterfaceImpl.setSomeInternalProperty(value);
+    static void setSomePropertyOfInternalInterface(@NonNull final String value) {
+        InternalInterfaceImpl.setSomePropertyOfInternalInterface(value);
     }
 
 }

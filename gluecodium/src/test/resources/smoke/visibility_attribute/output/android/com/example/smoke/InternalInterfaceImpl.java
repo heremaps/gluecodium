@@ -26,10 +26,10 @@ class InternalInterfaceImpl extends NativeBase implements InternalInterface {
 
 
     @NonNull
-    public static native String getSomeInternalProperty();
+    public static native String getSomePropertyOfInternalInterface();
 
 
-    public static native void setSomeInternalProperty(@NonNull final String value);
+    public static native void setSomePropertyOfInternalInterface(@NonNull final String value);
 
 
 }

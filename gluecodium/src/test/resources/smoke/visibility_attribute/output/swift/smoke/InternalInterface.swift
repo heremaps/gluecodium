@@ -6,7 +6,7 @@ import Foundation
 
 internal protocol InternalInterface : AnyObject {
 
-    static var someInternalProperty: String { get set }
+    static var somePropertyOfInternalInterface: String { get set }
 
     func fooBar() -> Void
 }
@@ -14,14 +14,14 @@ internal protocol InternalInterface : AnyObject {
 internal class _InternalInterface: InternalInterface {
 
 
-    static var someInternalProperty: String {
+    static var somePropertyOfInternalInterface: String {
         get {
-            let c_result_handle = smoke_InternalInterface_someInternalProperty_get()
+            let c_result_handle = smoke_InternalInterface_somePropertyOfInternalInterface_get()
             return moveFromCType(c_result_handle)
         }
         set {
             let c_value = moveToCType(newValue)
-            smoke_InternalInterface_someInternalProperty_set(c_value.ref)
+            smoke_InternalInterface_somePropertyOfInternalInterface_set(c_value.ref)
         }
     }
     let c_instance : _baseRef

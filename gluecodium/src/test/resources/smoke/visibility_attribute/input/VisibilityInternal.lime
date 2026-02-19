@@ -21,8 +21,7 @@ package smoke
 interface InternalInterface {
     fun fooBar()
 
-    @Internal
-    static property someInternalProperty: String
+    static property somePropertyOfInternalInterface: String
 }
 
 @Internal
