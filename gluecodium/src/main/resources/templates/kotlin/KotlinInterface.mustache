@@ -61,13 +61,12 @@
 {{#set property=this}}
 {{#property}}
 {{#if isStatic}}
-        @JvmStatic fun {{resolveName property "" "getter"}}(): {{resolveName typeRef}} {
-            return {{resolveName interface}}Impl.{{resolveName property}}
-        }
-
-        @JvmStatic fun {{resolveName property "" "setter"}}(value: {{resolveName typeRef}}) {
-            {{resolveName interface}}Impl.{{resolveName property}} = value
-        }
+{{#set isGetter=true}}{{#getter}}
+{{prefixPartial "kotlin/KotlinFunction" "        "}}{{prefixPartial "redirectToImpl" "    " skipFirstLine=true}}
+{{/getter}}{{/set}}
+{{#setter}}
+{{prefixPartial "kotlin/KotlinFunction" "        "}}{{prefixPartial "redirectToImpl" "    " skipFirstLine=true}}
+{{/setter}}
 {{/if}}
 {{/property}}
 {{/set}}

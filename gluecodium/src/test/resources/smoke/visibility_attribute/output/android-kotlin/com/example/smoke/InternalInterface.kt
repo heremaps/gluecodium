@@ -18,13 +18,18 @@ internal fun interface InternalInterface {
 
 
     companion object {
-        @JvmStatic fun getSomeInternalProperty(): String {
-            return InternalInterfaceImpl.someInternalProperty
+
+
+        @JvmStatic @JvmSynthetic fun getSomeInternalProperty() : String {
+            return InternalInterfaceImpl.getSomeInternalProperty()
         }
 
-        @JvmStatic fun setSomeInternalProperty(value: String) {
-            InternalInterfaceImpl.someInternalProperty = value
+
+
+        @JvmStatic @JvmSynthetic fun setSomeInternalProperty(value: String) : Unit {
+            InternalInterfaceImpl.setSomeInternalProperty(value)
         }
+
     }
 }
 
@@ -46,9 +51,10 @@ private class InternalInterfaceImpl : NativeBase, InternalInterface {
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
-        @JvmStatic var someInternalProperty: String
-            @JvmName("getSomeInternalProperty") external get
-            @JvmName("setSomeInternalProperty") external set
 
+
+        @JvmStatic @JvmSynthetic @JvmName("getSomeInternalProperty") internal external fun getSomeInternalProperty() : String
+
+        @JvmStatic @JvmSynthetic @JvmName("setSomeInternalProperty") internal external fun setSomeInternalProperty(value: String) : Unit
     }
 }
