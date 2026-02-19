@@ -19,8 +19,8 @@ internal interface OuterInternalInterface {
     @JvmSynthetic fun someFunction() : Int
 
     var someProperty: Int
-        get
-        set
+        @JvmSynthetic get
+        @JvmSynthetic set
 
 
     companion object {
@@ -54,8 +54,8 @@ private class OuterInternalInterfaceImpl : NativeBase, OuterInternalInterface {
     @JvmSynthetic override external fun someFunction() : Int
 
     override var someProperty: Int
-        external get
-        external set
+        @JvmSynthetic external get
+        @JvmSynthetic external set
 
 
 
