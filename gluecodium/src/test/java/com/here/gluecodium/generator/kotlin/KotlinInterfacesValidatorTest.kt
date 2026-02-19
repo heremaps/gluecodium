@@ -230,8 +230,8 @@ class KotlinInterfacesValidatorTest {
         // When validating it.
         val result = validator.validate(allElements)
 
-        // Then validation success is reported.
-        assertTrue(result)
+        // Then validation failure is reported --> we cannot use JvmStatic for such elements.
+        assertFalse(result)
     }
 
     @Test
@@ -278,8 +278,8 @@ class KotlinInterfacesValidatorTest {
         // When validating it.
         val result = validator.validate(allElements)
 
-        // Then validation success is reported.
-        assertTrue(result)
+        // Then validation failure is reported --> we cannot use JvmStatic for such elements.
+        assertFalse(result)
     }
 
     @Test
