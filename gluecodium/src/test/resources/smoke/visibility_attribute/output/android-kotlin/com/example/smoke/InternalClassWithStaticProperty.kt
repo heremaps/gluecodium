@@ -33,9 +33,9 @@ internal class InternalClassWithStaticProperty : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 
 
-        @JvmStatic external fun getFooBar() : String
+        @JvmStatic @JvmSynthetic @JvmName("getFooBar") internal external fun getFooBar() : String
 
-        @JvmStatic external fun setFooBar(value: String) : Unit
+        @JvmStatic @JvmSynthetic @JvmName("setFooBar") internal external fun setFooBar(value: String) : Unit
     }
 }
 

@@ -108,6 +108,7 @@ struct PublicStructWithInternalConstructors {
 
 @Internal
 class InternalClassWithStaticProperty {
+    @Internal
     static property fooBar: String
 }
 
