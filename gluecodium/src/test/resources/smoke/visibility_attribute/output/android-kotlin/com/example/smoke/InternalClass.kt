@@ -5,6 +5,7 @@
 
 @file:JvmName("InternalClassExtensions")
 
+
 package com.example.smoke
 
 import com.example.NativeBase
@@ -26,7 +27,7 @@ internal class InternalClass : NativeBase {
 
 
 
-    external fun fooBar() : Unit
+    @JvmSynthetic @JvmName("fooBar") internal external fun fooBar() : Unit
 
 
 

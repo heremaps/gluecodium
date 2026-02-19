@@ -15,12 +15,12 @@ internal class InternalClassWithFunctions : NativeBase {
 
 
 
-    constructor() : this(make(), null as Any?) {
+    internal constructor() : this(make(), null as Any?) {
         cacheThisInstance();
     }
 
 
-    constructor(foo: String) : this(make(foo), null as Any?) {
+    internal constructor(foo: String) : this(make(foo), null as Any?) {
         cacheThisInstance();
     }
 
@@ -38,7 +38,7 @@ internal class InternalClassWithFunctions : NativeBase {
 
 
 
-    external fun fooBar() : Unit
+    @JvmSynthetic @JvmName("fooBar") internal external fun fooBar() : Unit
 
 
 
@@ -46,10 +46,9 @@ internal class InternalClassWithFunctions : NativeBase {
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
 
-        @JvmStatic private external fun make() : Long
+        @JvmStatic @JvmSynthetic @JvmName("make") private external fun make() : Long
 
-        @JvmStatic private external fun make(foo: String) : Long
+        @JvmStatic @JvmSynthetic @JvmName("make") private external fun make(foo: String) : Long
     }
 }
-
 
