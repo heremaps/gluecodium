@@ -199,10 +199,13 @@ internal class KotlinNameResolver(
     }
 
     private fun resolveFunctionName(limeFunction: LimeFunction): String {
-        return when (val parentElement = getParentElement(limeFunction)) {
-            is LimeLambda -> parentElement.attributes.get(LimeAttributeType.KOTLIN, FUNCTION_NAME) ?: "apply"
+        val parentElement = getParentElement(limeFunction)
+        return when {
+            parentElement is LimeLambda -> parentElement.attributes.get(LimeAttributeType.KOTLIN, FUNCTION_NAME) ?: "apply"
+            parentElement is LimeProperty && limeFunction === parentElement.setter -> resolveSetterName(parentElement)
+            parentElement is LimeProperty -> resolveGetterName(parentElement)
             else -> kotlinNameRules.getName(limeFunction)
-        }
+        } ?: throw GluecodiumExecutionException("Unsupported parent element ${parentElement.path}")
     }
 
     private fun buildPathMap(): Map<String, String> {

@@ -7,6 +7,7 @@
  * Kotlin: minimize the usage of 'JvmSuppressWildcards' annotation for collection parameters. This annotation was used for all generated collection types. It needs to be used only when collection type holds enumeration or open type e.g.: 'open class', 'interface' or 'fun interface'.
  * Kotlin: raise error when '@Internal' elements are defined in interfaces. Kotlin language does not allow usage of 'internal' keyword in interfaces. We need to raise an error, because there is no valid way of generating such code.
  * Kotlin: make the 'Impl' classes private. Such classes are used to represent C++ implementation of interface/lambda in Kotlin and they should not be accessed by the users. Only JNI layer should access such types.
+ * Kotlin: always handle static properties as get/set pair. Moreover, disallow internal static properties/functions in LimeInterface elements.
 
 ## 14.0.0
 Release date 2025-12-01

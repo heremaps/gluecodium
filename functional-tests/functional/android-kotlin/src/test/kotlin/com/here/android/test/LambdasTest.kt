@@ -114,8 +114,8 @@ class LambdasTest {
 
     @org.junit.Test
     fun setGetLambdaProperty() {
-        Lambdas.realConcatenator = Lambdas.getConcatenator(">.<")
-        val result: String = Lambdas.realConcatenator.apply("foo", "bar")
+        Lambdas.setRealConcatenator(Lambdas.getConcatenator(">.<"))
+        val result: String = Lambdas.getRealConcatenator().apply("foo", "bar")
 
         assertEquals("foo>.<bar", result)
     }

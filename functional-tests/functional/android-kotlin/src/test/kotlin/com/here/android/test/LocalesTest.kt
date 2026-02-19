@@ -65,16 +65,16 @@ class LocalesTest {
     @org.junit.Test
     fun localePropertyRoundTrip() {
         val locale: Locale = Locale.getDefault()
-        Locales.localeProperty = locale
+        Locales.setLocaleProperty(locale)
 
-        assertEquals(locale, Locales.localeProperty)
+        assertEquals(locale, Locales.getLocaleProperty())
     }
 
     @org.junit.Test
     fun localeWithMalformedLanguage() {
         assertThrows(IllformedLocaleException::class.java) {
             @Suppress("UNUSED_VARIABLE")
-            val locale = Locales.localeWithMalformedLanguage
+            val locale = Locales.getLocaleWithMalformedLanguage()
         }
     }
 
@@ -82,7 +82,7 @@ class LocalesTest {
     fun localeWithMalformedCountry() {
         assertThrows(IllformedLocaleException::class.java) {
             @Suppress("UNUSED_VARIABLE")
-            val locale = Locales.localeWithMalformedCountry
+            val locale = Locales.getLocaleWithMalformedCountry()
         }
     }
 
@@ -90,7 +90,7 @@ class LocalesTest {
     fun localeWithMalformedScript() {
         assertThrows(IllformedLocaleException::class.java) {
             @Suppress("UNUSED_VARIABLE")
-            val locale = Locales.localeWithMalformedScript
+            val locale = Locales.getLocaleWithMalformedScript()
         }
     }
 

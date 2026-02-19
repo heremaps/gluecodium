@@ -28,13 +28,18 @@ interface InterfaceWithStatic {
             return InterfaceWithStaticImpl.staticFunction()
         }
 
-        @JvmStatic fun getStaticProperty(): String {
-            return InterfaceWithStaticImpl.staticProperty
+
+
+        @JvmStatic fun getStaticProperty() : String {
+            return InterfaceWithStaticImpl.getStaticProperty()
         }
 
-        @JvmStatic fun setStaticProperty(value: String) {
-            InterfaceWithStaticImpl.staticProperty = value
+
+
+        @JvmStatic fun setStaticProperty(value: String) : Unit {
+            InterfaceWithStaticImpl.setStaticProperty(value)
         }
+
     }
 }
 
@@ -63,9 +68,10 @@ private class InterfaceWithStaticImpl : NativeBase, InterfaceWithStatic {
 
 
         @JvmStatic external fun staticFunction() : String
-        @JvmStatic var staticProperty: String
-            external get
-            external set
 
+
+        @JvmStatic external fun getStaticProperty() : String
+
+        @JvmStatic external fun setStaticProperty(value: String) : Unit
     }
 }

@@ -20,6 +20,8 @@ package smoke
 @Internal
 interface InternalInterface {
     fun fooBar()
+
+    static property somePropertyOfInternalInterface: String
 }
 
 @Internal
@@ -108,6 +110,7 @@ struct PublicStructWithInternalConstructors {
 
 @Internal
 class InternalClassWithStaticProperty {
+    @Internal
     static property fooBar: String
 }
 

@@ -61,43 +61,36 @@ class CachedProperties : NativeBase {
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
-        @JvmStatic val staticCachedProperty: ByteArray
-            get() {
-                if (!is_cached_staticCachedProperty) {
-                    cache_staticCachedProperty = getStaticCachedProperty_private()
-                    is_cached_staticCachedProperty = true
-                }
 
-                return cache_staticCachedProperty!!
+
+        @JvmStatic fun getStaticCachedProperty() : ByteArray {
+            if (!is_cached_staticCachedProperty) {
+                cache_staticCachedProperty = getStaticCachedProperty_private()
+                is_cached_staticCachedProperty = true
             }
+
+            return cache_staticCachedProperty!!
+        }
 
         @JvmStatic private var is_cached_staticCachedProperty = false
         @JvmStatic private var cache_staticCachedProperty: ByteArray? = null
         @JvmStatic external private fun getStaticCachedProperty_private() : ByteArray
 
 
-        @JvmStatic internal val internalStaticCachedProperty: ByteArray
-            @JvmSynthetic get() {
-                if (!is_cached_internalStaticCachedProperty) {
-                    cache_internalStaticCachedProperty = getInternalStaticCachedProperty_private()
-                    is_cached_internalStaticCachedProperty = true
-                }
 
-                return cache_internalStaticCachedProperty!!
+        @JvmStatic @JvmSynthetic @JvmName("getInternalStaticCachedProperty") internal fun getInternalStaticCachedProperty() : ByteArray {
+            if (!is_cached_internalStaticCachedProperty) {
+                cache_internalStaticCachedProperty = getInternalStaticCachedProperty_private()
+                is_cached_internalStaticCachedProperty = true
             }
+
+            return cache_internalStaticCachedProperty!!
+        }
 
         @JvmStatic private var is_cached_internalStaticCachedProperty = false
         @JvmStatic private var cache_internalStaticCachedProperty: ByteArray? = null
         @JvmStatic external private fun getInternalStaticCachedProperty_private() : ByteArray
 
-
     }
 }
-
-
-@JvmSynthetic
-fun CachedProperties.Companion.getStaticCachedProperty(): ByteArray = CachedProperties.staticCachedProperty
-
-@JvmSynthetic
-internal fun CachedProperties.Companion.getInternalStaticCachedProperty(): ByteArray = CachedProperties.internalStaticCachedProperty
 

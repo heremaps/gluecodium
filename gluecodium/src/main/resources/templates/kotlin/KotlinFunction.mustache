@@ -27,7 +27,7 @@
 }}{{#unless isInterface}}{{!!
 }}{{#unless this.isConstructor}}{{resolveName "visibility"}}{{/unless}}{{!!
 }}{{#if this.isConstructor}}private {{/if}}{{!!
-}}external {{!!
+}}{{#unless isCached}}external {{/unless}}{{!!
 }}{{/unless}}fun {{resolveName}}({{!!
 }}{{#parameters}}{{!!
 }}{{>kotlin/KotlinAttributesInline}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!

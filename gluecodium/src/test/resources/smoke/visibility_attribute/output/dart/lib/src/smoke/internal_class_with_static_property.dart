@@ -4,19 +4,10 @@ import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
-import 'package:library/src/builtin_types__conversion.dart';
-import 'package:meta/meta.dart';
 
 /// @nodoc
 abstract class InternalClassWithStaticProperty implements Finalizable {
 
-  static String get fooBar => $prototype.fooBar;
-  static set fooBar(String value) { $prototype.fooBar = value; }
-
-
-  /// @nodoc
-  @visibleForTesting
-  static dynamic $prototype = InternalClassWithStaticProperty$Impl(Pointer<Void>.fromAddress(0));
 }
 
 
@@ -36,32 +27,10 @@ final _smokeInternalclasswithstaticpropertyReleaseHandle = __lib.catchArgumentEr
   >('library_smoke_InternalClassWithStaticProperty_release_handle'));
 
 
-/// @nodoc
-@visibleForTesting
+
 class InternalClassWithStaticProperty$Impl extends __lib.NativeBase implements InternalClassWithStaticProperty {
 
   InternalClassWithStaticProperty$Impl(Pointer<Void> handle) : super(handle);
-
-  String get fooBar {
-    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InternalClassWithStaticProperty_fooBar_get'));
-    final __resultHandle = _getFfi(__lib.LibraryContext.isolateId);
-    try {
-      return stringFromFfi(__resultHandle);
-    } finally {
-      stringReleaseFfiHandle(__resultHandle);
-
-    }
-
-  }
-
-  set fooBar(String value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32, Pointer<Void>), void Function(int, Pointer<Void>)>('library_smoke_InternalClassWithStaticProperty_fooBar_set__String'));
-    final _valueHandle = stringToFfi(value);
-    _setFfi(__lib.LibraryContext.isolateId, _valueHandle);
-    stringReleaseFfiHandle(_valueHandle);
-
-  }
-
 
 
 }

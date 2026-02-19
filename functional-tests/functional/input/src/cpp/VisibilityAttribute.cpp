@@ -20,6 +20,7 @@
 
 #include "test/InternalAttributeClassWithFunctions.h"
 #include "test/InternalAttributeClassWithStaticProperty.h"
+#include "test/InternalAttributeInterfaceParent.h"
 #include "test/SomeClassWithInternalMembers.h"
 #include "test/SomeDerivedInternalClass.h"
 #include "test/SomeInternalClassWithMembers.h"

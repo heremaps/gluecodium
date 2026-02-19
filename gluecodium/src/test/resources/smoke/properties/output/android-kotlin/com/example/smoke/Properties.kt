@@ -81,23 +81,14 @@ class Properties : NativeBase {
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
-        @JvmStatic var staticProperty: String
-            external get
-            external set
 
-        @JvmStatic val staticReadonlyProperty: Properties.ExampleStruct
-            external get
 
+        @JvmStatic external fun getStaticProperty() : String
+
+        @JvmStatic external fun setStaticProperty(value: String) : Unit
+
+
+        @JvmStatic external fun getStaticReadonlyProperty() : Properties.ExampleStruct
     }
 }
 
-@JvmSynthetic
-fun Properties.Companion.getStaticProperty(): String = Properties.staticProperty
-
-@JvmSynthetic
-fun Properties.Companion.setStaticProperty(value: String) {
-    Properties.staticProperty = value
-}
-
-@JvmSynthetic
-fun Properties.Companion.getStaticReadonlyProperty(): Properties.ExampleStruct = Properties.staticReadonlyProperty

@@ -55,7 +55,7 @@ class OptimizedListTest {
 
     @org.junit.Test
     fun optimizedListFromProperty() {
-        val result: List<UnreasonablyLazyClass> = UseOptimizedList.lazyOnes
+        val result: List<UnreasonablyLazyClass> = UseOptimizedList.getLazyOnes()
 
         assertEquals(2, result.size)
         assertNotNull(result[0])
@@ -64,7 +64,8 @@ class OptimizedListTest {
 
     @org.junit.Test
     fun optimizedListIteratorFromProperty() {
-        val result: Iterator<UnreasonablyLazyClass> = UseOptimizedList.lazyOnes.iterator()
+        val lazyOnes = UseOptimizedList.getLazyOnes()
+        val result: Iterator<UnreasonablyLazyClass> = lazyOnes.iterator()
 
         assertTrue(result.hasNext())
         assertNotNull(result.next())

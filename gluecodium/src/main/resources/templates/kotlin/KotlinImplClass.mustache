@@ -79,7 +79,7 @@ private class {{resolveName}}Impl : NativeBase, {{resolveName}} {
 {{#properties}}
 {{#if isStatic}}
 {{#set property=this isCached=attributes.cached}}{{#property}}
-{{prefixPartial "kotlin/KotlinProperty" "        "}}
+{{prefixPartial "kotlin/KotlinStaticProperty" "        "}}
 {{/property}}{{/set}}
 {{/if}}
 {{/properties}}

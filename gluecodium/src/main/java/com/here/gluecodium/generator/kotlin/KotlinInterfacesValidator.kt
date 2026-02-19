@@ -37,12 +37,12 @@ internal class KotlinInterfacesValidator(private val logger: LimeLogger) {
      * For LIME elements annotated with '@Internal' we must generate 'internal' keyword for visibility.
      * This would not compile. Therefore, it must be disallowed and the user must know that direct non-static
      * elements and types defined in interface cannot be internal.
+     * Moreover, we cannot use 'JvmStatic' compatibility annotation for non-public members of interfaces.
+     * Therefore, all static functions and properties must also be taken into account.
      */
     private fun validateDirectInternalMembers(limeInterface: LimeInterface): Boolean {
         val elementsToValidate: List<LimeNamedElement> =
-            getDirectNestedTypes(limeInterface) +
-                getNonStaticFunctions(limeInterface) +
-                getNonStaticProperties(limeInterface)
+            getDirectNestedTypes(limeInterface) + limeInterface.functions + limeInterface.properties
 
         val containsDirectInternalElement =
             elementsToValidate.map {
@@ -61,13 +61,5 @@ internal class KotlinInterfacesValidator(private val logger: LimeLogger) {
     private fun getDirectNestedTypes(limeInterface: LimeInterface): List<LimeNamedElement> {
         return limeInterface.structs + limeInterface.enumerations + limeInterface.typeAliases +
             limeInterface.exceptions + limeInterface.classes + limeInterface.interfaces + limeInterface.lambdas
-    }
-
-    private fun getNonStaticFunctions(limeInterface: LimeInterface): List<LimeNamedElement> {
-        return limeInterface.functions.filter { !it.isStatic }
-    }
-
-    private fun getNonStaticProperties(limeInterface: LimeInterface): List<LimeNamedElement> {
-        return limeInterface.properties.filter { !it.isStatic }
     }
 }
