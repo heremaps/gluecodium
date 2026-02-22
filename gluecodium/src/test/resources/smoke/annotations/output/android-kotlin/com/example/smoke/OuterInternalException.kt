@@ -11,6 +11,6 @@ package com.example.smoke
 import com.example.MySmokeTestsInternalApi
 
 @MySmokeTestsInternalApi
-internal class OuterInternalException(@JvmField val error: OuterInternalEnum) : Exception(error.toString())
+internal class OuterInternalException(@JvmSynthetic @JvmField val error: OuterInternalEnum) : Exception(error.toString())
 
 

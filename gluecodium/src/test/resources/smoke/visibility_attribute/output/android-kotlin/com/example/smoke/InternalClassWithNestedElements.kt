@@ -31,7 +31,7 @@ internal class InternalClassWithNestedElements : NativeBase {
      * It should be annotated as internal.
      * Its error field should be internal and synthetic to disallow accessing it from Java.
      */
-    internal class NestedExceptionException(@JvmField val error: InternalClassWithNestedElements.NestedEnum) : Exception(error.toString())
+    internal class NestedExceptionException(@JvmSynthetic @JvmField val error: InternalClassWithNestedElements.NestedEnum) : Exception(error.toString())
 
 
     /**
