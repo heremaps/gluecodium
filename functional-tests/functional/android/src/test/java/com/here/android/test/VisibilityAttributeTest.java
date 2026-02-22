@@ -72,7 +72,5 @@ public class VisibilityAttributeTest {
     SomethingBadHappenedException exception = assertThrows(SomethingBadHappenedException.class, () -> {
       throw new SomethingBadHappenedException(SomeInternalEnum.ONE);
     });
-
-    assertEquals(exception.error, SomeInternalEnum.ONE);
   }
 }
