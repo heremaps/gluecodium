@@ -1,5 +1,8 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+ * Kotlin: explicitly generate 'internal' visibility and synthetic attribute for elements nested in 'internal' type.
+
 ## 14.1.0
 Release date 2026-02-21
  * Kotlin: use `@JvmSynthetic` annotation for Kotlin internal elements whenever possible to hide them from Java code.
