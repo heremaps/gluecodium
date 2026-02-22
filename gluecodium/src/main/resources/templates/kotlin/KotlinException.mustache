@@ -20,5 +20,5 @@
   !}}
 {{>kotlin/KotlinDocComment}}{{>kotlin/KotlinAttributes}}
 {{>kotlin/KotlinTypeVisibility}}{{!!
-}}class {{resolveName}}(@JvmField val error: {{resolveName errorType}}) : Exception(error.toString())
+}}class {{resolveName}}({{resolveName "synthetic"}}@JvmField val error: {{resolveName errorType}}) : Exception(error.toString())
 
