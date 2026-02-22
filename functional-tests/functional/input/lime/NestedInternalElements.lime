@@ -1,0 +1,206 @@
+# Copyright (C) 2016-2026 HERE Europe B.V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# License-Filename: LICENSE
+
+package test
+
+###############################################################################################
+# The test cases in this file are used to check the access to elements nested in internal     #
+# type. They are explicitly treated as internal in Kotlin. Multi-level nesting is tested.     #
+###############################################################################################
+
+// This is a class, which contains multiple nested elements.
+// It has internal visibility because 'Internal' is used.
+// Each element inside should be treated as internal.
+@Skip(Dart, Swift)
+@Internal
+class InternalClassWithNestedElements {
+  // This is a constant nested in internal class.
+  // It should be generated as internal and synthetic.
+  const SOME_CONSTANT: Int = 2026
+
+  // This is a constructor in internal class. It should be explicitly annotated as internal.
+  // Unfortunately, it cannot use synthetic, because constructor is not allowed target.
+  constructor some_constructor(x: Int, y: Int)
+
+  // This is a function in internal class. It should be explicitly annotated as internal.
+  // And use synthetic annotation to hide it from Java.
+  fun some_function(): Int
+
+  // This is a static function in internal class. It should be explicitly annotated as internal.
+  // And use synthetic annotation to hide it from Java.
+  static fun some_static_function(): String
+
+  // This is a property in internal class. It should be explicitly annotated as internal.
+  // And use synthetic for get/set functions to hide them from Java.
+  property some_property: Long
+
+  // This is a static property in internal class.
+  // It is represented as static get/set functions pair.
+  // They should be explicitly annotated as internal and use JvmStatic to hide them from Java.
+  static property some_static_property: Long
+
+  // This is a static function used solely to throw the nested exception.
+  // It should be generated as internal and synthetic.
+  static fun throw_nested_exception() throws Nested
+
+  // This is a static function used solely to created the nested lambda on C++ site.
+  // It should be generated as internal and synthetic.
+  static fun produce_nested_lambda(): NestedLambda
+
+  // This is a static function used solely to created the nested interface impl on C++ site.
+  // It should be generated as internal and synthetic.
+  static fun produce_nested_interface_implementation(): NestedInterface
+
+  // This is a class nested inside internal class.
+  // It should be generated with explicit 'internal' keyword.
+  // Each element nested inside this class should also have explicit internal visibility.
+  class NestedClassLevelOne {
+    // This is a constructor of class nested in internal class.
+    // It should be explicitly annotated as internal.
+    // Unfortunately, it cannot use synthetic, because constructor is not allowed target.
+    constructor some_nested_constructor(x: Int, y: Int)
+
+    // This is a function in class nested inside internal class.
+    // It should be explicitly annotated as internal.
+    // And use synthetic annotation to hide it from Java.
+    fun some_nested_function(): Int
+
+    // This is a static function in class nested in internal class.
+    // It should be explicitly annotated as internal.
+    // And use synthetic annotation to hide it from Java.
+    static fun some_nested_static_function(): String
+
+    // This is a property in class nested in internal class.
+    // It should be explicitly annotated as internal.
+    // And use synthetic for get/set functions to hide them from Java.
+    property some_nested_property: Long
+
+    // This is a static property in class nested in internal class.
+    // It is represented as static get/set functions pair.
+    // They should be explicitly annotated as internal and use JvmStatic to hide them from Java.
+    static property some_nested_static_property: Long
+
+    // This is a class nested inside class, that is nested in internal class.
+    // It should be generated with explicit 'internal' keyword.
+    // Each element nested inside this class should also have explicit internal visibility.
+    class NestedClassLevelTwo {
+      // This is a constructor of class, that is nested in class, that is nested in internal class.
+      // It should be explicitly annotated as internal.
+      // Unfortunately, it cannot use synthetic, because constructor is not allowed target.
+      constructor double_nested_constructor(x: Int, y: Int)
+
+      // This is a function in class, that is nested in class, that is nested in internal class.
+      // It should be explicitly annotated as internal.
+      // And use synthetic annotation to hide it from Java.
+      fun double_nested_function(): Int
+
+      // This is a static function in class, that is nested in class, that is nested in internal class.
+      // It should be explicitly annotated as internal.
+      // And use synthetic annotation to hide it from Java.
+      static fun double_nested_static_function(): String
+
+      // This is a property in class, that is nested in class, that is nested in internal class.
+      // It should be explicitly annotated as internal.
+      // And use synthetic for get/set functions to hide them from Java.
+      property double_nested_property: Long
+
+      // This is a static property in class, that is nested in class, that is nested in internal class.
+      // It is represented as static get/set functions pair.
+      // They should be explicitly annotated as internal and use JvmStatic to hide them from Java.
+      static property double_nested_static_property: Long
+    }
+  }
+
+  // This is an enumeration nested in internal class.
+  // It should be annotated as internal.
+  // Its value field should be synthetic to disallow accessing it from Java.
+  enum NestedEnum {
+    OPTION_1 = 1,
+    OPTION_2 = 2
+  }
+
+  // This is an exception nested in internal class.
+  // It should be annotated as internal.
+  // Its error field should be internal and synthetic to disallow accessing it from Java.
+  exception Nested(NestedEnum)
+
+  // This is a lambda nested in internal class.
+  // It should be annotated as internal.
+  // Its 'call()' function should be synthetic to disallow accessing it from Java.
+  @Overloaded
+  lambda NestedLambda = (String, Long) -> String
+
+  // This is a structure nested in internal class.
+  // It should be annotated as internal.
+  // Its fields should be internal and synthetic.
+  // Its functions should be internal and synthetic.
+  // Its constructors should be internal (sadly, they cannot be synthetic).
+  struct NestedStruct {
+    // This is a field of structure, which is nested in internal class.
+    // It should use 'internal' and synthetic.
+    firstField: Int
+
+    // This is a field of structure, which is nested in internal class.
+    // It should use 'internal' and synthetic.
+    secondField: String
+
+    // This is a field constructor of structure. The structure is nested in internal class.
+    // It should be explicitly internal. Sadly, it cannot be synthetic.
+    field constructor(firstField, secondField)
+
+    // This is a constructor of structure, and the structure is nested in internal class.
+    // It should be explicitly annotated as internal.
+    // Unfortunately, it cannot use synthetic, because constructor is not allowed target.
+    constructor constructor_of_struct(x: Int, y: Int)
+
+    // This is a function in structure nested inside internal class.
+    // It should be explicitly annotated as internal.
+    // And use synthetic annotation to hide it from Java.
+    fun nested_struct_function(): Int
+
+    // This is a static function in structure nested in internal class.
+    // It should be explicitly annotated as internal.
+    // And use synthetic annotation to hide it from Java.
+    static fun nested_struct_static_function(): String
+  }
+
+  // This is an interface nested in internal class.
+  // It should be annotated as internal.
+  // Its fields should be synthetic --> sadly, Kotlin does not allow 'internal' keyword in interfaces.
+  // But from Kotlin language POV elements are not accessible, because interface itself is internal.
+  // The elements should not be accessible in Java because of synthetic attribute.
+  interface NestedInterface {
+    // This is a function in interface nested inside internal class.
+    // It must use synthetic annotation.
+    // Sadly, it cannot use 'internal' keyword.
+    fun nested_interface_function(): Int
+
+    // This is a static function in interface nested in internal class.
+    // Sadly, it cannot use 'internal' keyword.
+    static fun nested_interface_static_function(): String
+
+    // This is a property in interface nested in internal class.
+    // It must use synthetic annotation for get/set functions.
+    // Sadly, it cannot use 'internal' keyword.
+    property nested_interface_property: Long
+
+    // This is a static property in class nested in internal class.
+    // It must use synthetic annotation for get/set functions.
+    // Sadly, it cannot use 'internal' keyword.
+    static property nested_interface_static_property: Long
+  }
+}

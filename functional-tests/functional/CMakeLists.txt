@@ -456,9 +456,11 @@ feature(Visibility android android-kotlin swift dart SOURCES
     input/lime/VisibilityPlatform.lime
     input/lime/VisibilityPlatformReverse.lime
     input/lime/InternalFields.lime
+    input/lime/NestedInternalElements.lime
 
     input/src/cpp/VisibilityAttribute.cpp
     input/src/cpp/VisibilityInternal.cpp
+    input/src/cpp/NestedInternalElements.cpp
 )
 
 feature(SkipAttribute cpp android android-kotlin swift dart SOURCES
