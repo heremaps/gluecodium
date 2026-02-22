@@ -26,19 +26,29 @@
 }}{{#unless setter}}val{{/unless}}{{!!
 }} {{resolveName}}: {{resolveName typeRef}}
 {{#unless isCached}}{{#set thisProperty=this}}{{#thisProperty}}
-    {{#unless isInterface}}{{!!
+    {{resolveName thisProperty "synthetic"}}{{#unless isInterface}}{{!!
 }}{{#unless override}}{{!!
-}}{{#resolveName thisProperty "visibility" ""}}{{#unless this.isEmpty}}@JvmSynthetic {{/unless}}{{/resolveName}}{{!!
-}}{{#ifPredicate thisProperty "propertyGetterRequiresJvmName"}}@JvmName("{{resolveName thisProperty "" "getter"}}") {{/ifPredicate}}{{/unless}}{{!!
+
+}}{{#resolveName thisProperty "visibility" ""}}{{!!
+  }}{{#unless this.isEmpty}}@JvmName("{{resolveName thisProperty "" "getter"}}") {{/unless}}{{!!
+  }}{{#if this.isEmpty}}{{#ifPredicate thisProperty "propertyGetterRequiresJvmName"}}@JvmName("{{resolveName thisProperty "" "getter"}}") {{/ifPredicate}}{{/if}}{{!!
+}}{{/resolveName}}{{!!
+
+}}{{/unless}}{{!!
 }}external {{/unless}}get{{#setter}}
-    {{#unless isInterface}}{{!!
+    {{resolveName thisProperty "synthetic"}}{{#unless isInterface}}{{!!
 }}{{#unless override}}{{!!
-}}{{#resolveName thisProperty "visibility" ""}}{{#unless this.isEmpty}}@JvmSynthetic {{/unless}}{{/resolveName}}{{!!
-}}{{#ifPredicate thisProperty "propertySetterRequiresJvmName"}}@JvmName("{{resolveName thisProperty "" "setter"}}") {{/ifPredicate}}{{/unless}}{{!!
+
+}}{{#resolveName thisProperty "visibility" ""}}{{!!
+  }}{{#unless this.isEmpty}}@JvmName("{{resolveName thisProperty "" "setter"}}") {{/unless}}{{!!
+  }}{{#if this.isEmpty}}{{#ifPredicate thisProperty "propertySetterRequiresJvmName"}}@JvmName("{{resolveName thisProperty "" "setter"}}") {{/ifPredicate}}{{/if}}{{!!
+}}{{/resolveName}}{{!!
+
+}}{{/unless}}{{!!
 }}external {{/unless}}set{{/setter}}
 {{/thisProperty}}{{/set}}{{/unless}}
 {{#if isCached}}{{#set thisProperty=this}}{{#thisProperty}}
-    {{#resolveName thisProperty "visibility" ""}}{{#unless this.isEmpty}}@JvmSynthetic {{/unless}}{{/resolveName}}{{!!
+    {{resolveName thisProperty "synthetic" ""}}{{!!
     }}get() {
         if (!is_cached_{{resolveName}}) {
             cache_{{resolveName}} = {{resolveName this "" "getter"}}_private()

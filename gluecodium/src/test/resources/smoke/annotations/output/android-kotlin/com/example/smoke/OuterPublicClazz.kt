@@ -31,7 +31,7 @@ class OuterPublicClazz : NativeBase {
 
 
 
-        external fun someFunction() : Boolean
+        @JvmSynthetic @JvmName("someFunction") internal external fun someFunction() : Boolean
 
 
 
@@ -40,7 +40,6 @@ class OuterPublicClazz : NativeBase {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
         }
     }
-
 
 
 
@@ -63,5 +62,4 @@ class OuterPublicClazz : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 }
-
 

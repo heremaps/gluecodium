@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2025 HERE Europe B.V.
+ * Copyright (C) 2016-2026 HERE Europe B.V.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,11 +22,9 @@ package com.here.gluecodium.generator.kotlin
 import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.NameResolver
 import com.here.gluecodium.model.lime.LimeElement
-import com.here.gluecodium.model.lime.LimeInterface
-import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeNamedElement
 
-internal class KotlinVisibilityResolver(
+internal class KotlinSyntheticResolver(
     private val referenceMap: Map<String, LimeElement>,
     private val predicate: KotlinInternalVisibilityPredicate = KotlinInternalVisibilityPredicate(referenceMap),
 ) : NameResolver {
@@ -36,16 +34,8 @@ internal class KotlinVisibilityResolver(
         }
 
         return when {
-            isDirectKotlinInterfaceChild(element) -> ""
-            predicate.isConceptuallyInternal(element) -> "internal "
+            predicate.isConceptuallyInternal(element) -> "@JvmSynthetic "
             else -> ""
         }
-    }
-
-    // Elements which are direct children of 'interface' or 'fun interface' cannot use 'internal' keyword in Kotlin.
-    // 'fun interface' is used for LimeLambda
-    private fun isDirectKotlinInterfaceChild(element: LimeNamedElement): Boolean {
-        val parent: LimeElement? = referenceMap[element.path.parent.toString()]
-        return parent != null && (parent is LimeInterface || parent is LimeLambda)
     }
 }
