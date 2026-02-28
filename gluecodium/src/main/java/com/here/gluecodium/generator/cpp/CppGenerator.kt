@@ -209,7 +209,7 @@ internal class CppGenerator : Generator {
     private fun getFunctionUsing(
         limeContainer: LimeContainerWithInheritance,
         signatureResolver: CppSignatureResolver,
-    ) = limeContainer.functions.mapNotNull { signatureResolver.getInheritedOverloads(it).firstOrNull() }
+    ) = limeContainer.functions.mapNotNull { signatureResolver.getInheritedOverloads(it).firstOrNull() }.distinct()
 
     private fun generateImplementation(
         rootElement: LimeNamedElement,
