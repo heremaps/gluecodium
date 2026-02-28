@@ -19,9 +19,13 @@ public:
 
 public:
     virtual void foo( const ::std::string& input ) = 0;
+    virtual void foo( const double input ) = 0;
     virtual void bar( const ::std::string& input ) = 0;
+    virtual void bar( const double input ) = 0;
 
     using ::smoke::ParentClass::foo;
+    using ::smoke::ParentClass::foo;
+    using ::smoke::ParentClass::bar;
     using ::smoke::ParentClass::bar;
 };
 
