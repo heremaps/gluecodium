@@ -24,8 +24,6 @@ public:
     virtual void bar( const double input ) = 0;
 
     using ::smoke::ParentInterface::foo;
-    using ::smoke::ParentInterface::foo;
-    using ::smoke::ParentInterface::bar;
     using ::smoke::ParentInterface::bar;
 };
 
