@@ -38,10 +38,14 @@ interface ChildInterfaceOverloads: ParentInterface {
 
 class ChildClassFromInterfaceOverloads: ParentInterface {
     fun foo(input: String)
+    fun foo(input: Double)
     fun bar(input: String)
+    fun bar(input: Double)
 }
 
 class ChildClassFromClassOverloads: ParentClass {
     fun foo(input: String)
+    fun foo(input: Double)
     fun bar(input: String)
+    fun bar(input: Double)
 }
