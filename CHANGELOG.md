@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased:
+## 14.1.1
+Release date 2026-03-03
  * C++: fixed a bug related to redundant 'using' statements generation for derived classes. We generate using statment to avoid warning/error related to method shadowing, when base and derived classes have method overload with the same name.
 
 ## 14.1.0
