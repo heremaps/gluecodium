@@ -29,6 +29,8 @@ data class GeneratorOptions(
     var javaInternalPackages: List<String> = listOf(),
     var kotlinPackages: List<String> = listOf(),
     var kotlinInternalPackages: List<String> = listOf(),
+    var kmpPackages: List<String> = listOf(),
+    var kmpInternalPackages: List<String> = listOf(),
     var javaNullableAnnotation: Pair<String, List<String>>? = null,
     var javaNonNullAnnotation: Pair<String, List<String>>? = null,
     var androidOptInAnnotation: List<String>? = null,
@@ -60,6 +62,11 @@ data class GeneratorOptions(
         ConfigurationProperties.fromResource(
             Gluecodium::class.java,
             "/namerules/kotlin.properties",
+        ),
+    var kmpNameRules: Configuration =
+        ConfigurationProperties.fromResource(
+            Gluecodium::class.java,
+            "/namerules/kmp.properties",
         ),
     var swiftNameRules: Configuration =
         ConfigurationProperties.fromResource(

@@ -133,7 +133,8 @@ class LimeDocRulesValidator(
                 when (it) {
                     "android" -> "Java"
                     "android-kotlin" -> "Kotlin"
-                    "dart" -> "Dart"
+                    "kmp" -> "Kotlin"
+                    "cpp" -> "C++"
                     "swift" -> "Swift"
                     else -> null
                 }
