@@ -19,6 +19,7 @@
 
 plugins {
     alias libs.plugins.lazan.dependency.export
+    alias libs.plugins.shadow
 }
 dependencies {
     api project(":lime-runtime")
@@ -51,6 +52,23 @@ jar {
                    'Class-Path': configurations.runtimeClasspath.files.collect { it.getName() }.join(' '))
     }
 }
+
+shadowJar {
+    archiveBaseName = project.name
+    archiveClassifier = null
+    manifest {
+        inheritFrom jar.manifest
+    }
+}
+
+// Disable regular jar - we will use only shadow jar
+jar.enabled = false
+
+// Add dependencies to tasks that need shadow jar
+distTar.dependsOn shadowJar
+distZip.dependsOn shadowJar
+startScripts.dependsOn shadowJar
+
 
 apply plugin: 'jacoco'
 jacoco {
@@ -102,6 +120,7 @@ spotless {
         endWithNewline()
     }
 }
+
 
 project.ext.longName = 'Gluecodium command-line tool'
 apply from: "$rootDir/gradle/publishing.gradle"

@@ -1,8 +1,8 @@
 # Gluecodium [![Unit tests](https://github.com/heremaps/gluecodium/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/heremaps/gluecodium/actions/workflows/unit-tests.yml)[![Functional tests](https://github.com/heremaps/gluecodium/actions/workflows/functional-tests.yml/badge.svg)](https://github.com/heremaps/gluecodium/actions/workflows/functional-tests.yml) [![Release](https://jitpack.io/v/heremaps/gluecodium.svg)](https://jitpack.io/#heremaps/gluecodium)
 
 Gluecodium generates **C++**, **Java**, **Kotlin**, **Swift**, and **Dart** code. The main purpose is generating C++ interfaces and
-corresponding Java/Kotlin/Swift/Dart bindings for **Android**/**iOS**/**Flutter** respectively, but other platforms like **macOS**
-and **Linux** work as well. Once implemented in C++ the code can be used directly from Java/Kotlin/Swift/Dart,
+corresponding Java/Kotlin/Swift/Dart bindings for **Android**/**iOS**/**Flutter** respectively, but other platforms like **macOS**,
+**Linux**, and **Desktop JVM** (via **KMP** generator) work as well. Once implemented in C++ the code can be used directly from Java/Kotlin/Swift/Dart,
 eliminating the need for writing conversions and bindings manually.
 To simplify use of platform specific functions, Gluecodium is also able to generate interfaces/protocols
 allowing use of Java/Kotlin/Swift/Dart implementations from C++.
