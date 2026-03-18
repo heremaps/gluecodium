@@ -17,6 +17,26 @@
 
 package test
 
+struct MagicHandle {
+    memory_address: Long
+}
+
+struct ParentMethodParameters {
+    first_handle: MagicHandle
+    second_handle: MagicHandle
+    third_handle: MagicHandle
+}
+
+interface ParentInterfaceType {
+    fun refresh(handles: ParentMethodParameters, label: String): Int
+}
+
+class ChildClassImplementingInterfaceType : ParentInterfaceType {
+    fun refresh(handle: MagicHandle, label: String): Int
+
+    constructor make()
+}
+
 interface ParentInterfaceOverloads {
     fun foo()
     @Dart("fooInt")

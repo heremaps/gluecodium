@@ -18,6 +18,7 @@
  */
 package com.here.android.test;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
@@ -112,5 +113,20 @@ public final class MethodOverloadsTest {
         FieldMatcher.hasFieldWithValue("error", ThrowingConstructor.ErrorEnum.CRASHED));
 
     ThrowingConstructor result = new ThrowingConstructor(1.0);
+  }
+
+  @Test
+  public void overloadedRefreshMethod() {
+    ChildClassImplementingInterfaceType obj = new ChildClassImplementingInterfaceType();
+
+    assertEquals(3, obj.refresh(
+        new ParentMethodParameters(
+          new MagicHandle(1),
+          new MagicHandle(2),
+          new MagicHandle(3)),
+        "Calling parent method!")
+    );
+
+    assertEquals(1, obj.refresh(new MagicHandle(77), "Calling child method!"));
   }
 }

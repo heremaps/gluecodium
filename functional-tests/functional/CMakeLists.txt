@@ -86,6 +86,7 @@ feature(Strings cpp android android-kotlin swift dart SOURCES
 
 feature(MethodOverloading cpp android android-kotlin swift dart SOURCES
     input/src/cpp/MethodOverloads.cpp
+    input/src/cpp/InheritanceOverloads.cpp
 
     input/lime/MethodOverloads.lime
     input/lime/InheritanceOverloads.lime
