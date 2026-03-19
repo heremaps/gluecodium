@@ -20,6 +20,7 @@
 
 #include "test/ChildClassDerivedFromParentType.h"
 #include "test/ChildClassImplementingInterfaceType.h"
+#include "test/ChildClassImplementingMultipleInterfaceTypes.h"
 
 namespace test {
 
@@ -55,6 +56,27 @@ public:
 
 ::std::shared_ptr<ChildClassDerivedFromParentType> ChildClassDerivedFromParentType::make() {
     return std::make_shared<ChildClassDerivedFromParentTypeImpl>();
+}
+
+class ChildClassImplementingMultipleInterfaceTypesImpl : public ChildClassImplementingMultipleInterfaceTypes {
+public:
+    ~ChildClassImplementingMultipleInterfaceTypesImpl() override = default;
+
+    int refresh(const std::string& label) override {
+        return 777;
+    }
+
+    int refresh(const ::test::MagicHandle& handle, const ::std::string& label) override {
+        return 666;
+    }
+
+    int refresh( const ::test::ParentMethodParameters& handles, const ::std::string& label) override {
+        return 555;
+    }
+};
+
+::std::shared_ptr<ChildClassImplementingMultipleInterfaceTypes> ChildClassImplementingMultipleInterfaceTypes::make() {
+    return std::make_shared<ChildClassImplementingMultipleInterfaceTypesImpl>();
 }
 
 }

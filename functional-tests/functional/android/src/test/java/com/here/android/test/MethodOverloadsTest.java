@@ -144,4 +144,21 @@ public final class MethodOverloadsTest {
 
     assertEquals(111, obj.refresh(new MagicHandle(77), "Calling child method!"));
   }
+
+  @Test
+  public void overloadedRefreshMethodTwoParentInterfaces() {
+    ChildClassImplementingMultipleInterfaceTypes obj = new ChildClassImplementingMultipleInterfaceTypes();
+
+    assertEquals(555, obj.refresh(
+        new ParentMethodParameters(
+            new MagicHandle(1),
+            new MagicHandle(2),
+            new MagicHandle(3)),
+        "Calling top-level parent method!")
+    );
+
+    assertEquals(666, obj.refresh(new MagicHandle(77), "Calling mid-level parent method!"));
+
+    assertEquals(777, obj.refresh("Calling child class method!"));
+  }
 }

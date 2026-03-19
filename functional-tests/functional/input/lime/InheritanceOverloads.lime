@@ -47,6 +47,16 @@ open class ChildClassDerivedFromParentType : ParentClassType {
     constructor make()
 }
 
+interface AnotherParentInterfaceType : ParentInterfaceType {
+    fun refresh(handle: MagicHandle, label: String): Int
+}
+
+class ChildClassImplementingMultipleInterfaceTypes : AnotherParentInterfaceType {
+    fun refresh(label: String): Int
+
+    constructor make()
+}
+
 interface ParentInterfaceOverloads {
     fun foo()
     @Dart("fooInt")
