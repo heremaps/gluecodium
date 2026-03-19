@@ -116,7 +116,7 @@ public final class MethodOverloadsTest {
   }
 
   @Test
-  public void overloadedRefreshMethod() {
+  public void overloadedRefreshMethodParentInterface() {
     ChildClassImplementingInterfaceType obj = new ChildClassImplementingInterfaceType();
 
     assertEquals(3, obj.refresh(
@@ -128,5 +128,20 @@ public final class MethodOverloadsTest {
     );
 
     assertEquals(1, obj.refresh(new MagicHandle(77), "Calling child method!"));
+  }
+
+  @Test
+  public void overloadedRefreshMethodParentClass() {
+    ChildClassDerivedFromParentType obj = new ChildClassDerivedFromParentType();
+
+    assertEquals(333, obj.refresh(
+        new ParentMethodParameters(
+            new MagicHandle(1),
+            new MagicHandle(2),
+            new MagicHandle(3)),
+        "Calling parent method!")
+    );
+
+    assertEquals(111, obj.refresh(new MagicHandle(77), "Calling child method!"));
   }
 }

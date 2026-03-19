@@ -18,6 +18,7 @@
 //
 // -------------------------------------------------------------------------------------------------
 
+#include "test/ChildClassDerivedFromParentType.h"
 #include "test/ChildClassImplementingInterfaceType.h"
 
 namespace test {
@@ -37,6 +38,23 @@ public:
 
 ::std::shared_ptr<ChildClassImplementingInterfaceType> ChildClassImplementingInterfaceType::make() {
     return std::make_shared<ChildClassImplementingInterfaceTypeImpl>();
+}
+
+class ChildClassDerivedFromParentTypeImpl : public ChildClassDerivedFromParentType {
+public:
+    ~ChildClassDerivedFromParentTypeImpl() override = default;
+
+    int refresh(const ::test::MagicHandle& handle, const ::std::string& label) override {
+        return 111;
+    }
+
+    int refresh( const ::test::ParentMethodParameters& handles, const ::std::string& label) override {
+        return 333;
+    }
+};
+
+::std::shared_ptr<ChildClassDerivedFromParentType> ChildClassDerivedFromParentType::make() {
+    return std::make_shared<ChildClassDerivedFromParentTypeImpl>();
 }
 
 }
