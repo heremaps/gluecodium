@@ -64,3 +64,11 @@ enum EnumWithToStringHelper {
     FIRST,
     SECOND
 }
+
+@Cpp(EnumValues)
+enum EnumWithAccessibleValues {
+    FOO,
+    BAR,
+    BAZ,
+    FOO_ALIAS = FOO
+}
