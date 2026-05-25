@@ -214,6 +214,7 @@ quotes need to be backslash-escaped, as in the example.
 in C++ generated code. For example, `@Cpp(Type="std::chrono::steady_clock::time_point") Date` will use monotonic clock
 time point type, instead of the system clock time point type which is used by default.
 * **ToString**: marks an enumeration to have a helper `to_string()` function generated, mapping the enum to string.
+* **EnumValues**: marks an enumeration to have a helper `<ENUM_NAME>_enumerators()` function generated. It returns array of unique enum values.
 * **Skip** \[**=** **"**_CustomTag_**"** \]: marks an element to be skipped (not generated) in C++. Can be applied to
 `field constuctor` or `const` elements only. Optionally, if custom tag is specified, the element is only skipped if
 that tag was defined (see `@Skip` above).
