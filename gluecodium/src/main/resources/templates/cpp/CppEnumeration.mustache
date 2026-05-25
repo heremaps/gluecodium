@@ -31,4 +31,9 @@ enum class {{>cpp/CppAttributesInline}}{{resolveName}} {
 std::string_view
 {{>cpp/CppExportMacro}}to_string({{resolveName}} enumeration);
 {{/if}}
+
+{{#if attributes.cpp.enumvalues}}
+std::array<{{resolveName}}, {{uniqueEnumerators.size}}>
+{{>cpp/CppExportMacro}}{{resolveName}}_enumerators();
+{{/if}}
 {{/unless}}

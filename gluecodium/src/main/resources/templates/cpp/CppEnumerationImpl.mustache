@@ -40,3 +40,18 @@ static_assert(
     return "<unknown>";
   }
 {{/if}}
+
+{{#if attributes.cpp.enumvalues}}
+  std::array<{{resolveName}}, {{uniqueEnumerators.size}}>
+  {{resolveName}}_enumerators() {
+    return std::array<{{resolveName}}, {{uniqueEnumerators.size}}>{
+      {
+{{#set thisEnum=this}}{{#thisEnum}}{{!!
+}}{{#uniqueEnumerators}}
+        {{resolveName thisEnum}}::{{resolveName}}{{#if iter.hasNext}},{{/if}}
+{{/uniqueEnumerators}}{{!!
+}}{{/thisEnum}}{{/set}}
+      }
+    };
+  }
+{{/if}}

@@ -24,6 +24,7 @@ import com.here.gluecodium.generator.common.Include
 import com.here.gluecodium.model.lime.LimeAttributeType.ASYNC
 import com.here.gluecodium.model.lime.LimeAttributeType.CPP
 import com.here.gluecodium.model.lime.LimeAttributeType.OPTIMIZED
+import com.here.gluecodium.model.lime.LimeAttributeValueType.ENUM_VALUES
 import com.here.gluecodium.model.lime.LimeAttributeValueType.TO_STRING
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
@@ -72,7 +73,8 @@ internal class CppIncludeResolver(
             is LimeLambda -> cppIncludesCache.resolveIncludes(limeElement) + CppLibraryIncludes.FUNCTIONAL
             is LimeNamedElement ->
                 cppIncludesCache.resolveIncludes(limeElement) +
-                    listOfNotNull(CppLibraryIncludes.STRING_VIEW.takeIf { limeElement.attributes.have(CPP, TO_STRING) })
+                    listOfNotNull(CppLibraryIncludes.STRING_VIEW.takeIf { limeElement.attributes.have(CPP, TO_STRING) }) +
+                    listOfNotNull(CppLibraryIncludes.ARRAY.takeIf { limeElement.attributes.have(CPP, ENUM_VALUES) })
             else -> emptyList()
         }
 

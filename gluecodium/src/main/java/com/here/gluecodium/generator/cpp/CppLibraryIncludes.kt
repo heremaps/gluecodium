@@ -25,6 +25,7 @@ import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeTypeRef
 
 object CppLibraryIncludes {
+    val ARRAY = Include.createSystemInclude("array")
     val INT_TYPES = Include.createSystemInclude("cstdint")
     val MAP = Include.createSystemInclude("unordered_map")
     val MEMORY = Include.createSystemInclude("memory")
