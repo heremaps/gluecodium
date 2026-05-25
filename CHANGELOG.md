@@ -1,5 +1,8 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+ * C++: introduced the new 'EnumValues' attribute, which allows uses to instruct the C++ generator to create helper function for the given enumeration. The mentioned function returns an array of unique enumerator values.
+
 ## 14.1.1
 Release date 2026-03-03
  * C++: fixed a bug related to redundant 'using' statements generation for derived classes. We generate using statment to avoid warning/error related to method shadowing, when base and derived classes have method overload with the same name.
