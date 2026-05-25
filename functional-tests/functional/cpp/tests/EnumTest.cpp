@@ -19,6 +19,7 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "test/EnumWithToStringHelper.h"
+#include "test/EnumWithAccessibleValues.h"
 
 #include <gmock/gmock.h>
 
@@ -32,6 +33,21 @@ TEST( EnumTest, to_string_returns_proper_values )
 {
     EXPECT_EQ(to_string(EnumWithToStringHelper::FIRST), "EnumWithToStringHelper::FIRST");
     EXPECT_EQ(to_string(EnumWithToStringHelper::SECOND), "EnumWithToStringHelper::SECOND");
+}
+
+TEST( EnumTest, enum_values_attribute )
+{
+    // Only unique values are returned.
+    const auto enumerators = EnumWithAccessibleValues_enumerators();
+    ASSERT_EQ(3u, enumerators.size());
+
+    // Values have the same order as defined.
+    EXPECT_EQ(EnumWithAccessibleValues::FOO, enumerators[0]);
+    EXPECT_EQ(EnumWithAccessibleValues::BAR, enumerators[1]);
+    EXPECT_EQ(EnumWithAccessibleValues::BAZ, enumerators[2]);
+
+    // Aliasing enumerator is present -- because its original version is in the container.
+    EXPECT_EQ(EnumWithAccessibleValues::FOO_ALIAS, enumerators[0]);
 }
 
 }  // test
