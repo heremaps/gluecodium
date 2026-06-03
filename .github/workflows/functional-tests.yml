@@ -260,7 +260,7 @@ jobs:
 
   swift-mac:
     name: Swift on MacOS
-    runs-on: macos-14
+    runs-on: macos-15-intel
 
     steps:
       - uses: actions/checkout@v2
@@ -285,6 +285,7 @@ jobs:
         run: |
           export MACOSX_DEPLOYMENT_TARGET=$(sw_vers -productVersion)
           export SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
+          export JAVA_HOME="$JAVA_HOME/Contents/Home"
           ./scripts/build-swift-functional --buildGluecodium
         working-directory: functional-tests
       - name: Removing build folder
@@ -295,10 +296,12 @@ jobs:
         run: |
           export MACOSX_DEPLOYMENT_TARGET=$(sw_vers -productVersion)
           export SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
+          export JAVA_HOME="$JAVA_HOME/Contents/Home"
           ./scripts/build-swift-namerules --publish
         working-directory: functional-tests
       - name: Build examples
         run: |
+          export JAVA_HOME="$JAVA_HOME/Contents/Home"
           mkdir build_example_calculator
           cmake -B build_example_calculator examples/calculator -GXcode -DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_SYSROOT=iphonesimulator -DCMAKE_SYSTEM_NAME=iOS
           cmake --build build_example_calculator
