@@ -73,6 +73,10 @@
 {{#functions}}
 {{#unless isStatic}}
 {{prefixPartial "kotlin/KotlinFunction" "    "}}
+{{#ifPredicate "needsAsyncDecorator"}}
+
+{{prefixPartial "kotlin/KotlinSuspendingFunction" "    "}}
+{{/ifPredicate}}
 {{/unless}}
 {{/functions}}
 

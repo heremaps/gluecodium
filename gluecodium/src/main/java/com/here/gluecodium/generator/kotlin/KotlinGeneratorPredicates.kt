@@ -47,6 +47,7 @@ internal object KotlinGeneratorPredicates {
             "isExceptionSameForCtorAndHookFun" to this::isExceptionSameForCtorAndHookFun,
             "isFunctionalInterface" to this::isFunctionalInterface,
             "isInternal" to this::isInternal,
+            "needsAsyncDecorator" to this::needsAsyncDecorator,
             "propertyGetterRequiresJvmName" to this::propertyGetterRequiresJvmName,
             "propertySetterRequiresJvmName" to this::propertySetterRequiresJvmName,
             "needsAllFieldsConstructor" to this::needsAllFieldsConstructor,
@@ -63,6 +64,10 @@ internal object KotlinGeneratorPredicates {
             limeStruct.fieldConstructors.isEmpty() -> limeStruct.initializedFields.isEmpty()
             else -> false
         }
+    }
+
+    fun needsAsyncDecorator(element: Any): Boolean {
+        return element is LimeFunction && element.attributes.get(LimeAttributeType.ASYNC_DECORATOR, LimeAttributeValueType.CANCEL_FUNCTION) != null
     }
 
     private fun hasStaticFunctions(element: Any) =

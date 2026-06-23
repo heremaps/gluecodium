@@ -166,7 +166,11 @@ internal class KotlinImportResolver(
         val returnTypeImports = resolveTypeRefImports(limeFunction.returnType.typeRef)
         val exceptionImports =
             limeFunction.exception?.let { resolveTypeRefImports(LimeDirectTypeRef(it)) }
-        return returnTypeImports + (exceptionImports ?: emptyList())
+
+        val suspendingFunctionImports =
+            if (KotlinGeneratorPredicates.needsAsyncDecorator(limeFunction)) COROUTINES_IMPORTS else listOf()
+
+        return returnTypeImports + (exceptionImports ?: emptyList()) + suspendingFunctionImports
     }
 
     private fun resolveBasicTypeImport(typeId: TypeId): String? =
@@ -183,5 +187,7 @@ internal class KotlinImportResolver(
         private const val ANDROID_OS_PACKAGE = "android.os"
         private const val PARCELABLE_IMPORT = "$ANDROID_OS_PACKAGE.Parcelable"
         private const val PARCEL_IMPORT = "$ANDROID_OS_PACKAGE.Parcel"
+        private val COROUTINES_IMPORTS = listOf("kotlinx.coroutines.suspendCancellableCoroutine",
+            "kotlin.coroutines.resume", "kotlin.coroutines.resumeWithException")
     }
 }
