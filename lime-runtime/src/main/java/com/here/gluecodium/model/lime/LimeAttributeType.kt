@@ -32,6 +32,8 @@ enum class LimeAttributeType(
     SWIFT("Swift", LimeAttributeValueType.NAME),
     DART("Dart", LimeAttributeValueType.NAME),
     ASYNC("Async"),
+    ASYNC_CALLBACK_METADATA("AsyncCallbackMetadata"),
+    ASYNC_DECORATOR("AsyncDecorator"),
     CACHED("Cached"),
     DEPRECATED("Deprecated", LimeAttributeValueType.MESSAGE),
     ENABLE_IF("EnableIf", LimeAttributeValueType.TAG),

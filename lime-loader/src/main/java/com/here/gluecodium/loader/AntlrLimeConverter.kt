@@ -207,6 +207,14 @@ internal object AntlrLimeConverter {
             annotationValues.forEach { addVisibilityAttribute(attributes, it) }
             return
         }
+        if (attributeType == LimeAttributeType.ASYNC_CALLBACK_METADATA) {
+            annotationValues.forEach { addAsyncCallbackMetadataAttribute(attributes, it) }
+            return
+        }
+        if (attributeType == LimeAttributeType.ASYNC_DECORATOR) {
+            annotationValues.forEach { addAsyncDecoratorAttribute(attributes, it) }
+            return
+        }
 
         annotationValues.forEach {
             val valueType = convertAnnotationValueType(it, attributeType)
@@ -233,6 +241,34 @@ internal object AntlrLimeConverter {
                     else -> rawValue
                 }
             attributes.addAttribute(attributeType, valueType, value)
+        }
+    }
+
+    private fun addAsyncCallbackMetadataAttribute(
+        attributes: LimeAttributes.Builder,
+        valueContext: LimeParser.AnnotationValueContext,
+    ) {
+        val valueTypeText = valueContext.simpleId()?.text
+        if (valueTypeText == "ErrorField") {
+            val value = convertAnnotationValue(valueContext)
+            attributes.addAttribute(LimeAttributeType.ASYNC_CALLBACK_METADATA, LimeAttributeValueType.ERROR_FIELD, value)
+        } else {
+            // If proper name of attribute was not provided, then add empty entry that will be flagged by validation layer.
+            attributes.addAttribute(LimeAttributeType.ASYNC_CALLBACK_METADATA)
+        }
+    }
+
+    private fun addAsyncDecoratorAttribute(
+        attributes: LimeAttributes.Builder,
+        valueContext: LimeParser.AnnotationValueContext,
+    ) {
+        val valueTypeText = valueContext.simpleId()?.text
+        if (valueTypeText == "CancelFunction") {
+            val value = convertAnnotationValue(valueContext)
+            attributes.addAttribute(LimeAttributeType.ASYNC_DECORATOR, LimeAttributeValueType.CANCEL_FUNCTION, value)
+        } else {
+            // If proper name of attribute was not provided, then add empty entry that will be flagged by validation layer.
+            attributes.addAttribute(LimeAttributeType.ASYNC_DECORATOR)
         }
     }
 
@@ -298,6 +334,8 @@ internal object AntlrLimeConverter {
         when (val id = ctx.simpleId().text) {
             "AfterConstruction" -> LimeAttributeType.AFTER_CONSTRUCTION
             "Async" -> LimeAttributeType.ASYNC
+            "AsyncCallbackMetadata" -> LimeAttributeType.ASYNC_CALLBACK_METADATA
+            "AsyncDecorator" -> LimeAttributeType.ASYNC_DECORATOR
             "Cached" -> LimeAttributeType.CACHED
             "Cpp" -> LimeAttributeType.CPP
             "Dart" -> LimeAttributeType.DART
