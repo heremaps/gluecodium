@@ -35,6 +35,13 @@ class LimeLambda(
             parameters = parameters.map { it.asLimeParameter() },
         )
 
+    fun asAsyncCallback() =
+        LimeAsyncCallback(
+            path = path,
+            attributes = attributes,
+            parameters = parameters.map { it.asLimeParameter() },
+        )
+
     val functions
         get() = listOf(asFunction())
 }

@@ -32,4 +32,6 @@ class LimeFunction(
 ) : LimeNamedElement(path, comment, attributes, external) {
     val exception: LimeException?
         get() = thrownType?.typeRef?.type?.let { it.actualType as? LimeException }
+
+    fun asyncFunctionDecorator() = LimeAsyncFunctionDecorator(path, attributes, returnType.typeRef, parameters)
 }
