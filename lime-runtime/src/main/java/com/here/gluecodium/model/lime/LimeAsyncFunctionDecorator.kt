@@ -28,8 +28,9 @@ class LimeAsyncFunctionDecorator(
     val inputParameters: List<LimeParameter> =
         baseFunctionParameters.dropLast(1)
 
-    val asyncCallback: LimeParameter =
-        baseFunctionParameters.last()
+    val asyncCallback: LimeAsyncCallback =
+        (baseFunctionParameters.last().typeRef.type as? LimeLambda)?.asAsyncCallback()
+            ?: throw IllegalStateException("$path: last parameter of async decorator must be async lambda")
 
     private val cancelFunctionName: String
         get() =

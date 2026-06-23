@@ -36,4 +36,14 @@ class LimeAsyncCallback(
 
     val resultFields: List<LimeParameter>
         get() = parameters.filter { it.name != errorFieldName }
+
+    val resultType: LimeType
+        get() {
+            return if (resultFields.size == 1) {
+                resultFields.first().typeRef.type
+            } else {
+                // TODO: need to return tuple type here.
+                resultFields.first().typeRef.type
+            }
+        }
 }
