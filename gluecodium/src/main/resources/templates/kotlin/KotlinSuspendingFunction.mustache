@@ -28,9 +28,9 @@ suspend fun {{resolveName}}({{!!
 }}{{/asyncFunctionDecorator.inputParameters}}) { {{#asyncFunctionDecorator.asyncCallback.parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/asyncFunctionDecorator.asyncCallback.parameters}} ->
         if ({{resolveName asyncFunctionDecorator.asyncCallback.errorField}} != null) {
-            continuation.resumeWithException(Exception({{resolveName asyncFunctionDecorator.asyncCallback.errorField}}))
+            continuation.resumeWithException(Exception({{resolveName asyncFunctionDecorator.asyncCallback.errorField}}.toString()))
         } else {
-            continuation.resume({{resolveName asyncFunctionDecorator.asyncCallback.resultFields.0}})
+            continuation.resume({{resolveName asyncFunctionDecorator.asyncCallback.resultFields.0}}!!)
         }
     }
 

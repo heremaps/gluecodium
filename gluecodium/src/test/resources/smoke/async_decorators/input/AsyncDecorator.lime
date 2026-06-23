@@ -45,6 +45,7 @@ enum EngineError {
 // Outcome of engine work is list of strings.
 // @param[engineError] The error in case of a failure. It is `null` for an operation that succeeds.
 // @param[engineResult] The result from engine. It is `null` in case of an error.
+@AsyncCallbackMetadata(ErrorField="engineError")
 lambda EngineWorkCompletedCallback = (engineError: EngineError?, engineResult: List<String>?) -> Void
 
 // An engine class, which offers users some asynchronous processing.
@@ -52,5 +53,6 @@ class CoolEngine {
     // A function, which downloads some 'cool labels' from the given url.
     // When it finishes, the 'callback' is called.
     // It returns the 'AsyncTaskHandle' which allows checking the status and cancelling the async task.
+    @AsyncDecorator(CancelFunction="cancel")
     fun downloadCoolLabelsAsync(url: String, callback: EngineWorkCompletedCallback): AsyncTaskHandle
 }
