@@ -187,7 +187,11 @@ internal class KotlinImportResolver(
         private const val ANDROID_OS_PACKAGE = "android.os"
         private const val PARCELABLE_IMPORT = "$ANDROID_OS_PACKAGE.Parcelable"
         private const val PARCEL_IMPORT = "$ANDROID_OS_PACKAGE.Parcel"
-        private val COROUTINES_IMPORTS = listOf("kotlinx.coroutines.suspendCancellableCoroutine",
-            "kotlin.coroutines.resume", "kotlin.coroutines.resumeWithException")
+        private val COROUTINES_IMPORTS =
+            listOf(
+                "kotlinx.coroutines.suspendCancellableCoroutine",
+                "kotlin.coroutines.resume",
+                "kotlin.coroutines.resumeWithException",
+            )
     }
 }
