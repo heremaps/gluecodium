@@ -507,6 +507,12 @@ feature(NoCache android android-kotlin swift dart SOURCES
     input/lime/NoCache.lime
 )
 
+feature(AsyncDecorator cpp android android-kotlin swift dart SOURCES
+    input/src/cpp/AsyncDecorator.cpp
+
+    input/lime/AsyncDecorator.lime
+)
+
 feature(Async cpp dart SOURCES
     input/src/cpp/AsyncClass.cpp
     input/src/cpp/AsyncStruct.cpp

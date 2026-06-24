@@ -208,6 +208,7 @@ tasks.configureEach { task ->
 
 dependencies {
     implementation libs.androidx.annotation
+    implementation libs.kotlinx.coroutines.core
 
     testImplementation libs.junit
     testImplementation libs.powermock.reflect
