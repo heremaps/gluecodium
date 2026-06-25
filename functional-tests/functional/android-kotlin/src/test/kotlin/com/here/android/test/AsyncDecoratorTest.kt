@@ -48,6 +48,7 @@ class AsyncDecoratorTest {
     fun tearDown() {
         // Ensure that underlying C++ threads join.
         testedEngine?.waitForCompletion()
+        testedEngine = null
     }
 
     @Test
@@ -154,6 +155,80 @@ class AsyncDecoratorTest {
             val t2ElapsedTimeMs = t2Result.timestamp - startTimestamp
             assertTrue("Time of the second job: $t2ElapsedTimeMs >= 500ms", t2ElapsedTimeMs >= 500)
             assertTrue("Time of the second job: $t2ElapsedTimeMs < 1000ms", t2ElapsedTimeMs < 1000)
+        }
+    }
+
+    @Test
+    fun cancelIsCalledForAsyncTaskHandleWhenCoroutineIsCancelled() {
+        val engine = testedEngine!!
+        val startTimestamp = System.currentTimeMillis()
+
+        // Test scenario is as follows:
+        // 1. We start four asynchronous coroutines.
+        // 2. Each of them starts a low-level C++ async task (3000 ms) and after it wants to start another one.
+        // 3. Before the first async tasks finish we cancel the coroutines.
+        // 4. In the tests our C++ tasks are `NonCancellable` so C++ thread is not stopped.
+        // 5. But we record the fact that cancel was executed on a task. Moreover, the next low-level async tasks are
+        //    not started.
+        runBlocking {
+            // This task should work for a bit longer than 3000 ms if it is almost immediatelly canceled.
+            // The consecutive tasks will not be scheduled -- no additional 1500ms.
+            val tasks = IntRange(0, 3).map {
+                async {
+                    // Worker thread on C++ level will sleep for: 3000 ms.
+                    val dummyLabels: List<String> = engine.downloadCoolLabelsAsync("dummy-labels.com")
+
+                    // Worker thread on C++ level will sleep for: 1000 ms.
+                    val superLabels: List<String> = engine.downloadCoolLabelsAsync("my-super-labels.com")
+
+                    // Worker thread on C++ level will sleep for: 500 ms and would throw.
+                    val invalid: List<String> = engine.downloadCoolLabelsAsync("this-url-will-throw.com")
+
+                    // Return all labels from the tasks.
+                    dummyLabels + superLabels + invalid
+                }
+            }
+
+            // Introduce some delay to allow scheduling the low-level tasks.
+            delay(200)
+
+            // Cancel all tasks.
+            // Note:
+            //   - after this point all coroutines are cancelled and any call to 'await()' throws an exception
+            //   - but... the started low-level C++ thread is still running -- it is not cancellable
+            //   - it is still safe -- when thread finishes and calls 'resume()' after coroutine was cancelled
+            //     then value is rejected -- please see the documentation of 'CancellableContinuation.resume()'
+            tasks.forEach { it.cancel() }
+
+            // Confirm that exception is raised when awaiting -- due to cancelling coroutines.
+            tasks.forEach {
+                var exceptionRaised: Boolean = false
+
+                try {
+                    it.await()
+                } catch (e: Exception) {
+                    exceptionRaised = true
+                }
+
+                assertTrue(exceptionRaised)
+            }
+
+            // The whole work should take slightly more than 200 ms. We still give 500ms margin.
+            // We do not wait for the underlying C++ threads to finish -- in the test they are 'NonCancellable'.
+            // There is no need -- if they try to 'resume()' the value is discarded without problems.
+            // Please see the documentation of 'CancellableContinuation.resume()'.
+            val endTimestamp = System.currentTimeMillis()
+            val elapsedTimeMs = endTimestamp - startTimestamp
+            assertTrue("Whole work should take more than 200ms --> $elapsedTimeMs >= 200", elapsedTimeMs >= 200)
+            assertTrue("Whole work should take less than 700ms --> $elapsedTimeMs < 700", elapsedTimeMs < 700)
+
+            // We had 4 jobs.
+            // If jobs wouldn't be cancelled, they would schedule 3 low-level tasks --> total 4*3 = 12.
+            // But before completing the first job they were cancelled. So, each started just 1 low-level task.
+            assertEquals(4, engine.getTotalTasksStarted())
+
+            // All the tasks should receive the call to `cancel()` function when coroutine is cancelled.
+            assertEquals(4, engine.getCancelledTasksCount())
         }
     }
 }

@@ -60,6 +60,12 @@ class CoolEngine {
     @AsyncDecorator
     fun downloadCoolLabelsAsync(url: String, callback: EngineWorkCompletedCallback): AsyncTaskHandle
 
+    // A function which returns the number of total asynchronous tasks started for this engine.
+    fun getTotalTasksStarted(): Int
+
+    // A function which returns the count of cancelled tasks.
+    fun getCancelledTasksCount(): Int
+
     // Waits for all previously scheduled tasks.
     fun waitForCompletion()
 }

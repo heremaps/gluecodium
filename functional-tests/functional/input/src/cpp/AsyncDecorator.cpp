@@ -22,9 +22,11 @@
 #include "test/CoolEngine.h"
 #include "test/EngineWorkCompletedCallback.h"
 
+#include <algorithm>
 #include <atomic>
 #include <chrono>
 #include <functional>
+#include <iterator>
 #include <memory>
 #include <mutex>
 #include <optional>
@@ -99,15 +101,17 @@ public:
     bool
     cancel() override
     {
-        // In this toy example task is not cancellable.
-        return false;
+        // If it wasn't cancelled then should be false.
+        bool cancelled = false;
+
+        // Return true only if replaced old value to true.
+        return m_is_cancelled.compare_exchange_strong(cancelled, true);
     }
 
     bool
     is_cancelled() override
     {
-        // Non cancellable task is never cancelled.
-        return false;
+        return m_is_cancelled.load();
     }
 
     bool
@@ -119,11 +123,28 @@ public:
 private:
     std::thread m_worker{};
     std::atomic_bool m_is_running{false};
+    std::atomic_bool m_is_cancelled{false};
 };
 
 class CoolEngineImpl : public CoolEngine
 {
 public:
+    int32_t
+    get_total_tasks_started() override
+    {
+        std::lock_guard lock{m_mutex};
+        return m_total_tasks_started;
+    }
+
+    int32_t
+    get_cancelled_tasks_count() override
+    {
+        std::lock_guard lock{m_mutex};
+
+        const auto is_cancelled = [](auto& task) { return task->is_cancelled(); };
+        return std::count_if(std::begin(m_tasks), std::end(m_tasks), is_cancelled);
+    }
+
     std::shared_ptr<test::AsyncTaskHandle>
     download_cool_labels_async(const ::std::string& url, const ::test::EngineWorkCompletedCallback& callback) override
     {
@@ -144,6 +165,8 @@ public:
         m_tasks.emplace_back(
             std::make_shared<NonCancellableAsyncTask>(std::move(do_work))
         );
+
+        ++m_total_tasks_started;
 
         return m_tasks.back();
     }
@@ -171,6 +194,7 @@ private:
     }
 
     std::vector<std::shared_ptr<test::NonCancellableAsyncTask>> m_tasks;
+    int32_t m_total_tasks_started{0};
     std::mutex m_mutex;
 };
 
