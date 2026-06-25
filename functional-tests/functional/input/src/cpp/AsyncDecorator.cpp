@@ -45,23 +45,23 @@ download_cool_labels(const std::string& url)
 
     if (url == "my-super-labels.com")
     {
-        std::this_thread::sleep_for(100ms);
+        std::this_thread::sleep_for(1000ms);
         return std::vector<std::string>{"SUPER_LABEL", "ANOTHER_SUPER_LABEL"};
     }
 
     if (url == "cool-labels.com")
     {
-        std::this_thread::sleep_for(100ms);
+        std::this_thread::sleep_for(1000ms);
         return std::vector<std::string>{"COOL_LABEL"};
     }
 
     if (url == "dummy-labels.com")
     {
-        std::this_thread::sleep_for(300ms);
+        std::this_thread::sleep_for(3000ms);
         return std::vector<std::string>{"DUMMY_LABEL"};
     }
 
-    std::this_thread::sleep_for(50ms);
+    std::this_thread::sleep_for(500ms);
     return std::nullopt;
 }
 

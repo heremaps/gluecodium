@@ -70,12 +70,12 @@ class AsyncDecoratorTest {
         //  - this way we can tell that they were executed concurrently and there was no blocking -- if there was blocking
         //    then elapsed time would be total of given task and the ones before it
         runBlocking {
-            // This task should work for a bit longer than 200 ms.
+            // This task should work for a bit longer than 2000 ms.
             val t0 = async {
-                // Worker thread on C++ level will sleep for: 100 ms.
+                // Worker thread on C++ level will sleep for: 1000 ms.
                 val coolLabels: List<String> = engine.downloadCoolLabelsAsync("cool-labels.com")
 
-                // Worker thread on C++ level will sleep for: 100 ms.
+                // Worker thread on C++ level will sleep for: 1000 ms.
                 val superLabels: List<String> = engine.downloadCoolLabelsAsync("my-super-labels.com")
 
                 // Return all labels from the task + timestamp.
@@ -86,15 +86,15 @@ class AsyncDecoratorTest {
                 )
             }
 
-            // This task should work for a bit longer than 600ms.
+            // This task should work for a bit longer than 6000ms.
             val t1 = async {
-                // Worker thread on C++ level will sleep for: 100 ms.
+                // Worker thread on C++ level will sleep for: 1000 ms.
                 val coolLabels: List<String> = engine.downloadCoolLabelsAsync("cool-labels.com")
 
-                // Introduce artificial delay of 200ms.
-                delay(200)
+                // Introduce artificial delay of 2000ms.
+                delay(2000)
 
-                // Worker thread on C++ level will sleep for: 300 ms.
+                // Worker thread on C++ level will sleep for: 3000 ms.
                 val dummyLabels: List<String> = engine.downloadCoolLabelsAsync("dummy-labels.com")
 
                 // Return all labels from the task + timestamp.
@@ -105,13 +105,13 @@ class AsyncDecoratorTest {
                 )
             }
 
-            // This task should finish with exception after a bit longer than 50ms.
+            // This task should finish with exception after a bit longer than 500ms.
             val t2 = async {
                 var exceptionCaught: Boolean = false
                 var labels = emptyList<String>()
 
                 try {
-                    // This url is not handled. It will throw after 50ms.
+                    // This url is not handled. It will throw after 500ms.
                     labels = engine.downloadCoolLabelsAsync("this-url-will-throw.com")
                 } catch (e: Exception) {
                     exceptionCaught = true
@@ -130,30 +130,30 @@ class AsyncDecoratorTest {
             // Check that expected labels were obtained without exception.
             assertEquals(listOf("COOL_LABEL", "SUPER_LABEL", "ANOTHER_SUPER_LABEL"), t0Result.labels)
             assertFalse(t0Result.exceptionCaught)
-            // Check that job took at least 200ms, and less than 250ms (margin).
+            // Check that job took at least 2000ms, and less than 2500ms (margin).
             val t0ElapsedTimeMs = t0Result.timestamp - startTimestamp
-            assertTrue("Time of the first job: $t0ElapsedTimeMs >= 200ms", t0ElapsedTimeMs >= 200)
-            assertTrue("Time of the first job: $t0ElapsedTimeMs < 250ms", t0ElapsedTimeMs < 250)
+            assertTrue("Time of the first job: $t0ElapsedTimeMs >= 2000ms", t0ElapsedTimeMs >= 2000)
+            assertTrue("Time of the first job: $t0ElapsedTimeMs < 2500ms", t0ElapsedTimeMs < 2500)
 
             // Wait for the second task's result.
             val t1Result = t1.await()
             // Check that expected labels were obtained without exception.
             assertEquals(listOf("COOL_LABEL", "DUMMY_LABEL"), t1Result.labels)
             assertFalse(t1Result.exceptionCaught)
-            // Check that job took at least 600ms, and less than 650ms (margin).
+            // Check that job took at least 6000ms, and less than 6500ms (margin).
             val t1ElapsedTimeMs = t1Result.timestamp - startTimestamp
-            assertTrue("Time of the second job: $t1ElapsedTimeMs >= 600ms", t1ElapsedTimeMs >= 600)
-            assertTrue("Time of the second job: $t1ElapsedTimeMs < 650ms", t1ElapsedTimeMs < 650)
+            assertTrue("Time of the second job: $t1ElapsedTimeMs >= 6000ms", t1ElapsedTimeMs >= 6000)
+            assertTrue("Time of the second job: $t1ElapsedTimeMs < 6500ms", t1ElapsedTimeMs < 6500)
 
             // Wait for the third task's result.
             val t2Result = t2.await()
             // Check that expected labels were obtained without exception.
             assertTrue(t2Result.labels.isEmpty())
             assertTrue(t2Result.exceptionCaught)
-            // Check that job took at least 50ms, and less than 100ms (margin).
+            // Check that job took at least 500ms, and less than 1000ms (margin).
             val t2ElapsedTimeMs = t2Result.timestamp - startTimestamp
-            assertTrue("Time of the second job: $t2ElapsedTimeMs >= 50ms", t2ElapsedTimeMs >= 50)
-            assertTrue("Time of the second job: $t2ElapsedTimeMs < 100ms", t2ElapsedTimeMs < 100)
+            assertTrue("Time of the second job: $t2ElapsedTimeMs >= 500ms", t2ElapsedTimeMs >= 500)
+            assertTrue("Time of the second job: $t2ElapsedTimeMs < 1000ms", t2ElapsedTimeMs < 1000)
         }
     }
 }
