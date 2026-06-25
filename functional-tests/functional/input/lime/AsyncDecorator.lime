@@ -20,6 +20,7 @@ package test
 // Some class that represents the old-style asynchronous handle.
 // It can be used to check if task is running or has been cancelled.
 // It allows also to cancel the task.
+@AsyncTaskHandleMetadata(CancelFunction="cancel")
 class AsyncTaskHandle {
     // Cancels the running asynchronous task.
     fun cancel(): Boolean
@@ -56,7 +57,7 @@ class CoolEngine {
     // A function, which downloads some 'cool labels' from the given url.
     // When it finishes, the 'callback' is called.
     // It returns the 'AsyncTaskHandle' which allows checking the status and cancelling the async task.
-    @AsyncDecorator(CancelFunction="cancel")
+    @AsyncDecorator
     fun downloadCoolLabelsAsync(url: String, callback: EngineWorkCompletedCallback): AsyncTaskHandle
 
     // Waits for all previously scheduled tasks.

@@ -67,8 +67,7 @@ internal object KotlinGeneratorPredicates {
     }
 
     fun needsAsyncDecorator(element: Any): Boolean {
-        return element is LimeFunction &&
-            element.attributes.get(LimeAttributeType.ASYNC_DECORATOR, LimeAttributeValueType.CANCEL_FUNCTION) != null
+        return element is LimeFunction && element.attributes.have(LimeAttributeType.ASYNC_DECORATOR)
     }
 
     private fun hasStaticFunctions(element: Any) =

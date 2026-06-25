@@ -34,8 +34,8 @@ class LimeAsyncFunctionDecorator(
 
     private val cancelFunctionName: String
         get() =
-            attributes?.get(LimeAttributeType.ASYNC_DECORATOR, LimeAttributeValueType.CANCEL_FUNCTION)
-                ?: throw IllegalStateException("$path: async decorator must have 'CancelFunction' specified")
+            asyncTaskHandleType.type.attributes.get(LimeAttributeType.ASYNC_TASK_HANDLE_METADATA, LimeAttributeValueType.CANCEL_FUNCTION)
+                ?: throw IllegalStateException("$path: async task handle (return type) must have 'CancelFunction' specified")
 
     val cancelFunction: LimeFunction
         get() =

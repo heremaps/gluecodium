@@ -211,8 +211,8 @@ internal object AntlrLimeConverter {
             annotationValues.forEach { addAsyncCallbackMetadataAttribute(attributes, it) }
             return
         }
-        if (attributeType == LimeAttributeType.ASYNC_DECORATOR) {
-            annotationValues.forEach { addAsyncDecoratorAttribute(attributes, it) }
+        if (attributeType == LimeAttributeType.ASYNC_TASK_HANDLE_METADATA) {
+            annotationValues.forEach { addAsyncTaskHandleMetadataAttribute(attributes, it) }
             return
         }
 
@@ -258,17 +258,17 @@ internal object AntlrLimeConverter {
         }
     }
 
-    private fun addAsyncDecoratorAttribute(
+    private fun addAsyncTaskHandleMetadataAttribute(
         attributes: LimeAttributes.Builder,
         valueContext: LimeParser.AnnotationValueContext,
     ) {
         val valueTypeText = valueContext.simpleId()?.text
         if (valueTypeText == "CancelFunction") {
             val value = convertAnnotationValue(valueContext)
-            attributes.addAttribute(LimeAttributeType.ASYNC_DECORATOR, LimeAttributeValueType.CANCEL_FUNCTION, value)
+            attributes.addAttribute(LimeAttributeType.ASYNC_TASK_HANDLE_METADATA, LimeAttributeValueType.CANCEL_FUNCTION, value)
         } else {
             // If proper name of attribute was not provided, then add empty entry that will be flagged by validation layer.
-            attributes.addAttribute(LimeAttributeType.ASYNC_DECORATOR)
+            attributes.addAttribute(LimeAttributeType.ASYNC_TASK_HANDLE_METADATA)
         }
     }
 
@@ -336,6 +336,7 @@ internal object AntlrLimeConverter {
             "Async" -> LimeAttributeType.ASYNC
             "AsyncCallbackMetadata" -> LimeAttributeType.ASYNC_CALLBACK_METADATA
             "AsyncDecorator" -> LimeAttributeType.ASYNC_DECORATOR
+            "AsyncTaskHandleMetadata" -> LimeAttributeType.ASYNC_TASK_HANDLE_METADATA
             "Cached" -> LimeAttributeType.CACHED
             "Cpp" -> LimeAttributeType.CPP
             "Dart" -> LimeAttributeType.DART

@@ -34,6 +34,7 @@ enum class LimeAttributeType(
     ASYNC("Async"),
     ASYNC_CALLBACK_METADATA("AsyncCallbackMetadata"),
     ASYNC_DECORATOR("AsyncDecorator"),
+    ASYNC_TASK_HANDLE_METADATA("AsyncTaskHandleMetadata"),
     CACHED("Cached"),
     DEPRECATED("Deprecated", LimeAttributeValueType.MESSAGE),
     ENABLE_IF("EnableIf", LimeAttributeValueType.TAG),
