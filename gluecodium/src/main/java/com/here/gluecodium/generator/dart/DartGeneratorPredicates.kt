@@ -125,6 +125,7 @@ internal class DartGeneratorPredicates(
                 limeStruct.attributes.have(DART, POSITIONAL_DEFAULTS) &&
                     limeStruct.initializedFields.isNotEmpty() -> false
                 limeStruct.external?.dart?.get(LimeExternalDescriptor.CONVERTER_NAME) != null -> true
+                limeStruct.fields.any { CommonGeneratorPredicates.isInternal(it, DART) } -> false
                 limeStruct.attributes.have(IMMUTABLE) -> limeStruct.allFieldsConstructor == null
                 limeStruct.fieldConstructors.isEmpty() -> limeStruct.initializedFields.isEmpty()
                 else -> false
