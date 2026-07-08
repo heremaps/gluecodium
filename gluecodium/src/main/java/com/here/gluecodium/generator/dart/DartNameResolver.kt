@@ -138,7 +138,7 @@ internal class DartNameResolver(
                     when {
                         !useDefaultsConstructor -> ""
                         noFieldsConstructor == null ->
-                            if (DartGeneratorPredicates.allFieldsCtorIsPublic(actualType)) ".withDefaults" else ""
+                            if (DartGeneratorPredicates.allFieldsCtorIsPublic(actualType)) ".withDefaults" else "._withDefaults"
                         noFieldsConstructor.attributes.have(DART, DEFAULT) -> ""
                         else -> resolveName(noFieldsConstructor).let { if (it.isEmpty()) "" else ".$it" }
                     }
