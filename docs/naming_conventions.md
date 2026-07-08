@@ -260,7 +260,7 @@ To preserve all-uppercase naming for acronyms, use platform-specific `Name` attr
 ```
 @Java(Name = "FACTORY")
 @Kotlin(Name = "FACTORY")
-type FACTORY {
+class FACTORY {
     // fields
 }
 ```
@@ -268,7 +268,7 @@ type FACTORY {
 **Swift:**
 ```
 @Swift(Name = "FACTORY")
-type FACTORY {
+class FACTORY {
     // fields
 }
 ```
@@ -276,7 +276,7 @@ type FACTORY {
 **Dart:**
 ```
 @Dart("FACTORY")
-type FACTORY {
+class FACTORY {
     // fields
 }
 ```
