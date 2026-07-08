@@ -233,3 +233,52 @@ error.suffix=Exception
 join.infix=_
 
 ```
+
+Handling all-uppercase acronyms
+-------------------------------
+
+### Known limitation
+
+All-uppercase acronyms in LimeIDL names are converted to mixed case when transformed to camelCase format.
+
+**Example:**
+* Input: `FACTORY` 
+* Output: `Factory` (when using `UpperCamelCase`)
+* Output: `factory` (when using `lowerCamelCase`)
+
+### Root cause
+
+Name transformation logic recognizes common casing patterns (existing camelCase, snake_case with delimiters). Single-word all-uppercase strings do not match any recognized pattern and are treated as generic strings: they are lowercased completely, then the appropriate case style is applied (first letter capitalized for `UpperCamelCase`, kept lowercase for `lowerCamelCase`).
+
+This behavior preserves consistency for `UPPER_SNAKE_CASE` inputs (e.g., `SOME_CONSTANT` → `someConstant`).
+
+### Workaround: Use name attributes
+
+To preserve all-uppercase naming for acronyms, use platform-specific `Name` attributes in LIME:
+
+**Java / Kotlin:**
+```
+@Java(Name = "FACTORY")
+@Kotlin(Name = "FACTORY")
+class FACTORY {
+    // fields
+}
+```
+
+**Swift:**
+```
+@Swift(Name = "FACTORY")
+class FACTORY {
+    // fields
+}
+```
+
+**Dart:**
+```
+@Dart("FACTORY")
+class FACTORY {
+    // fields
+}
+```
+
+Attributes override name transformation rules completely, allowing you to enforce exact names regardless of configured naming conventions.
