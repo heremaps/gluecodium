@@ -56,7 +56,7 @@ interface ParentWithClassReferences {
 
 class ChildWithParentClassReferences : ParentWithClassReferences {}
 
-@Skip(Java, Dart, Swift)
+@Skip(Java, Kotlin, Dart, Swift)
 class ForwardDeclarationBug : ParentClass {
     fun foo(bar: ParentClass)
 }
