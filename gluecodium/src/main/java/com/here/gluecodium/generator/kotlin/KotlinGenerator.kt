@@ -159,6 +159,9 @@ internal class KotlinGenerator : Generator {
                 }
                 .toMutableList()
 
+        resultFiles +=
+            kotlinFilteredModel.topElements
+                .flatMap { KotlinAsyncHelpers.createCoroutineExceptionFiles(it, nameResolver, basePackages, GENERATOR_NAME) }
         val nativeBasePath = (listOf(GENERATOR_NAME) + internalPackageList).joinToString("/")
         resultFiles +=
             GeneratedFile(
@@ -278,11 +281,33 @@ internal class KotlinGenerator : Generator {
 
         val mainContent =
             TemplateEngine.render("kotlin/KotlinFile", templateData, nameResolvers, KotlinGeneratorPredicates.predicates)
+        val contentWithCoroutines =
+            if (limeElement is LimeClass) {
+                injectCoroutineMembers(mainContent, KotlinAsyncHelpers.buildClassCoroutineMembers(limeElement, nameResolver))
+            } else {
+                mainContent
+            }
         val name = nameResolver.resolveName(limeElement)
         val mainFileName = (listOf(GENERATOR_NAME) + packages + "$name.kt").joinToString(File.separator)
-        val mainFile = GeneratedFile(mainContent, mainFileName)
+        val mainFile = GeneratedFile(contentWithCoroutines, mainFileName)
 
         return listOf(mainFile)
+    }
+
+    /**
+     * Inserts pre-rendered coroutine `suspend` members into a generated class body.
+     *
+     * The class content is produced by the `KotlinClass` template and ends with the class' closing
+     * brace, so the members are inserted right before that final brace. No-op when there are none.
+     */
+    private fun injectCoroutineMembers(
+        content: String,
+        members: String,
+    ): String {
+        if (members.isBlank()) return content
+        val classBraceIndex = content.lastIndexOf('}')
+        if (classBraceIndex < 0) return content
+        return content.substring(0, classBraceIndex) + "\n" + members + "\n" + content.substring(classBraceIndex)
     }
 
     private fun selectTemplate(limeElement: LimeNamedElement) =

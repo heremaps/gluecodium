@@ -46,6 +46,14 @@ class LimeAsyncValidatorTest {
 
     private val validator = LimeAsyncValidator(mockk(relaxed = true))
 
+    private fun createCallbackParameter(vararg members: LimeLambdaParameter): LimeParameter {
+        val callbackLambda = LimeLambda(EMPTY_PATH.child("Callback"), parameters = members.toList())
+        return LimeParameter(
+            EMPTY_PATH.child("callback"),
+            attributes = asyncCallbackAttributes,
+            typeRef = LimeDirectTypeRef(callbackLambda),
+        )
+    }
     @Test
     fun validateNoFunctions() {
         allElements[""] = object : LimeContainer(EMPTY_PATH) {}
