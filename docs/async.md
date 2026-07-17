@@ -70,3 +70,81 @@ value. Instead:
 
 All parameters passed to the "result callback" or "error callback" are transformed into the appropriate state of the
 `Future` object on Dart side, allowing for Dart-idiomatic asynchronous usage.
+
+Kotlin coroutine usage
+----------------------
+
+`@KotlinCoroutine` adapts an existing callback-based API into Kotlin `suspend` or `Flow` members. Unlike `@Async`, this
+attribute is consumed only by the Kotlin generator. It does not add C++ functions or change the JNI contract.
+
+### One-shot callbacks
+
+Mark the function, its callback parameter, and any callback error/result members:
+
+```lime
+lambda FetchCallback = (
+  error: @KotlinCoroutine(Error) FetchError?,
+  value: @KotlinCoroutine(Result) String?
+) -> Void
+
+class Client {
+  @KotlinCoroutine
+  fun fetch(@KotlinCoroutine(Callback) callback: FetchCallback): TaskHandle
+}
+```
+
+This generates a concrete class member such as:
+
+```kotlin
+suspend fun fetch(): Result<String>
+```
+
+The generated shape depends on the callback:
+
+* An `Error` member produces `Result<T>` and a typed `<FunctionName>Exception` failure.
+* No `Error` member produces a non-throwing direct `T` return value.
+* No result members produce `Unit` (or `Result<Unit>` when an error member exists).
+* Multiple `Result` members produce a named `<FunctionName>CoroutineResult` data class.
+* `@KotlinCoroutine(Default)` on a non-callback function parameter generates `= Type()` in the Kotlin wrapper.
+* A returned type with an `@AsyncTaskHandle` function (or a function named `cancel`) is cancelled when the coroutine is
+  cancelled. Functions without such a handle remain non-cancellable.
+
+When an error member exists, the error and result members must be nullable because the callback contract is exactly one
+of error or success. Multiple result members can all be marked with `@KotlinCoroutine(Result)`.
+
+### Repeating callbacks and listeners
+
+Use `@KotlinCoroutine(Flow)` for repeating callbacks. Lambda callbacks emit each invocation. Interface listeners mark
+event methods with `Emit` and an optional terminal method with `Complete`:
+
+```lime
+interface DownloadListener {
+  @KotlinCoroutine(Emit)
+  fun on_progress(percentage: Int)
+
+  @KotlinCoroutine(Complete)
+  fun on_complete(@KotlinCoroutine(Error) error: DownloadError?)
+}
+
+class Client {
+  @KotlinCoroutine(Flow)
+  fun download(@KotlinCoroutine(Callback) listener: DownloadListener): TaskHandle
+}
+```
+
+This generates `fun downloadFlow(): Flow<Int>` using `callbackFlow`. A completion error closes the Flow with the typed
+exception; successful completion closes it normally. A terminal result is emitted before closing. Multiple event methods
+produce a sealed `<FlowName>Event` hierarchy, and multiple parameters on one event produce a data class.
+
+Long-lived add/remove listeners pair the registration function with `@KotlinCoroutine(Unregister)`:
+
+```lime
+@KotlinCoroutine(Flow)
+fun add_listener(@KotlinCoroutine(Callback) listener: UpdateListener)
+
+@KotlinCoroutine(Unregister)
+fun remove_listener(listener: UpdateListener)
+```
+
+The generated Flow registers on collection and invokes the matching unregister function from `awaitClose`. Use
+`@KotlinCoroutine(Flow, Name = "updates")` to override the generated Flow member name.

@@ -43,6 +43,7 @@ import com.here.gluecodium.validator.LimeFieldConstructorsValidator
 import com.here.gluecodium.validator.LimeFunctionsValidator
 import com.here.gluecodium.validator.LimeGenericTypesValidator
 import com.here.gluecodium.validator.LimeInheritanceValidator
+import com.here.gluecodium.validator.LimeKotlinCoroutineValidator
 import com.here.gluecodium.validator.LimeLambdaValidator
 import com.here.gluecodium.validator.LimeOptimizedListsValidator
 import com.here.gluecodium.validator.LimePropertiesValidator
@@ -213,6 +214,7 @@ class Gluecodium(
             { LimePropertiesValidator(limeLogger, generatorOptions).validate(it) },
             { LimeSkipValidator(limeLogger).validate(it) },
             { LimeAsyncValidator(limeLogger).validate(it) },
+            { LimeKotlinCoroutineValidator(limeLogger).validate(it) },
             { LimeLambdaValidator(limeLogger, generatorOptions).validate(it) },
         )
 

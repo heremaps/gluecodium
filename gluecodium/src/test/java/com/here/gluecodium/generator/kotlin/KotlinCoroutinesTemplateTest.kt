@@ -48,6 +48,7 @@ class KotlinCoroutinesTemplateTest {
         assertTrue(content.contains("public class CalculateRouteException(public val error: RoutingError)"))
         assertTrue(content.contains("internal class SdkContractViolationException"))
         assertTrue(content.contains("internal suspend fun <E, T, H> awaitResultBridge("))
+        assertTrue(content.contains("internal suspend fun <T, H> awaitValueBridge("))
         assertTrue(content.contains("suspendCancellableCoroutine { continuation ->"))
         assertTrue(content.contains("AtomicBoolean(false)"))
         assertTrue(content.contains("compareAndSet(false, true)"))
@@ -65,11 +66,13 @@ class KotlinCoroutinesTemplateTest {
                             "docComment" to "/**\n * Coroutine (`suspend`) variant of `calculateRoute`.\n */",
                             "name" to "calculateRoute",
                             "params" to "waypoints: List<Waypoint>, options: RoutingOptions",
-                            "resultType" to "List<Route>",
+                            "returnType" to "Result<List<Route>>",
+                            "bridgeName" to "awaitResultBridge",
                             "startCall" to
                                 "this.calculateRoute(waypoints, options, " +
                                 "CalculateRouteCallback { error, result -> callback(error, result) })",
                             "mapErrorExpr" to "CalculateRouteException(error)",
+                            "hasError" to true,
                             "cancelExpr" to "handle.cancel()",
                         ),
                     ),
@@ -95,5 +98,37 @@ class KotlinCoroutinesTemplateTest {
             ),
         )
         assertTrue(content.contains("cancelOperation = { handle -> handle.cancel() }"))
+    }
+
+    @Test
+    fun renderFlowMemberUsesCallbackFlowAndCleanup() {
+        val modelData =
+            mapOf(
+                "functions" to emptyList<Map<String, Any>>(),
+                "flows" to
+                    listOf(
+                        mapOf(
+                            "eventDeclaration" to
+                                "public data class DownloadFlowEvent(\n" +
+                                "    public val percentage: Int,\n" +
+                                ")",
+                            "docComment" to "/** Flow variant of `download`. */",
+                            "name" to "downloadFlow",
+                            "params" to "regionId: Int",
+                            "eventType" to "DownloadFlowEvent",
+                            "body" to
+                                "        val listener = DownloadListener { percentage -> trySend(DownloadFlowEvent(percentage)) }\n" +
+                                "        val handle = this@Downloader.download(regionId, listener)\n" +
+                                "        awaitClose { handle.cancel() }",
+                        ),
+                    ),
+            )
+
+        val content = TemplateEngine.render("kotlin/KotlinCoroutineMembers", modelData)
+
+        assertTrue(content.contains("public data class DownloadFlowEvent("))
+        assertTrue(content.contains("public fun downloadFlow(regionId: Int): Flow<DownloadFlowEvent> ="))
+        assertTrue(content.contains("callbackFlow {"))
+        assertTrue(content.contains("awaitClose { handle.cancel() }"))
     }
 }

@@ -32,6 +32,8 @@ enum class LimeAttributeType(
     SWIFT("Swift", LimeAttributeValueType.NAME),
     DART("Dart", LimeAttributeValueType.NAME),
     ASYNC("Async"),
+    ASYNC_TASK_HANDLE("AsyncTaskHandle"),
+    KOTLIN_COROUTINE("KotlinCoroutine"),
     CACHED("Cached"),
     DEPRECATED("Deprecated", LimeAttributeValueType.MESSAGE),
     ENABLE_IF("EnableIf", LimeAttributeValueType.TAG),

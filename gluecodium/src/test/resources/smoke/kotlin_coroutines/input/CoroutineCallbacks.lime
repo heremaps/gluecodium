@@ -1,0 +1,122 @@
+# Copyright (C) 2016-2026 HERE Europe B.V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# License-Filename: LICENSE
+
+package coroutines
+
+enum OperationError {
+    FAILED
+}
+
+class OperationHandle {
+    @AsyncTaskHandle
+    fun cancel()
+}
+
+lambda ErrorValueCallback = (
+    error: @KotlinCoroutine(Error) OperationError?,
+    value: @KotlinCoroutine(Result) String?
+) -> Void
+
+lambda ErrorOnlyCallback = (
+    error: @KotlinCoroutine(Error) OperationError?
+) -> Void
+
+lambda ValueOnlyCallback = (
+    value: @KotlinCoroutine(Result) String?
+) -> Void
+
+lambda CompletionCallback = () -> Void
+
+lambda MultiValueCallback = (
+    error: @KotlinCoroutine(Error) OperationError?,
+    count: @KotlinCoroutine(Result) Int?,
+    label: @KotlinCoroutine(Result) String?
+) -> Void
+
+lambda TickCallback = (
+    tick: @KotlinCoroutine(Result) Int
+) -> Void
+
+interface ProgressListener {
+    @KotlinCoroutine(Emit)
+    fun on_progress(percentage: Int)
+
+    @KotlinCoroutine(Complete)
+    fun on_complete(@KotlinCoroutine(Error) error: OperationError?)
+}
+
+interface TransferListener {
+    @KotlinCoroutine(Emit)
+    fun on_progress(percentage: Int)
+
+    @KotlinCoroutine(Complete)
+    fun on_complete(
+        @KotlinCoroutine(Error) error: OperationError?,
+        @KotlinCoroutine(Result) receipt: String?
+    )
+}
+
+interface UpdateListener {
+    @KotlinCoroutine(Emit)
+    fun on_update(identifier: Int, message: String)
+}
+
+interface StateListener {
+    @KotlinCoroutine(Emit)
+    fun on_started()
+
+    @KotlinCoroutine(Emit)
+    fun on_message(message: String)
+}
+
+class CoroutineClient {
+    @KotlinCoroutine
+    fun load_value(@KotlinCoroutine(Callback) callback: ErrorValueCallback): OperationHandle
+
+    @KotlinCoroutine
+    fun clear_cache(@KotlinCoroutine(Callback) callback: ErrorOnlyCallback)
+
+    @KotlinCoroutine
+    fun resolve_name(@KotlinCoroutine(Callback) callback: ValueOnlyCallback)
+
+    @KotlinCoroutine
+    fun synchronize(@KotlinCoroutine(Callback) callback: CompletionCallback)
+
+    @KotlinCoroutine
+    fun load_metadata(@KotlinCoroutine(Callback) callback: MultiValueCallback): OperationHandle
+
+    @KotlinCoroutine(Flow)
+    fun observe_ticks(@KotlinCoroutine(Callback) callback: TickCallback): OperationHandle
+
+    @KotlinCoroutine(Flow)
+    fun download(@KotlinCoroutine(Callback) listener: ProgressListener): OperationHandle
+
+    @KotlinCoroutine(Flow)
+    fun transfer(@KotlinCoroutine(Callback) listener: TransferListener): OperationHandle
+
+    @KotlinCoroutine(Flow)
+    fun add_update_listener(@KotlinCoroutine(Callback) listener: UpdateListener)
+
+    @KotlinCoroutine(Unregister)
+    fun remove_update_listener(listener: UpdateListener)
+
+    @KotlinCoroutine(Flow)
+    fun add_state_listener(@KotlinCoroutine(Callback) listener: StateListener)
+
+    @KotlinCoroutine(Unregister)
+    fun remove_state_listener(listener: StateListener)
+}

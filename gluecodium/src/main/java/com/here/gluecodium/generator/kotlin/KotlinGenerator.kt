@@ -160,8 +160,12 @@ internal class KotlinGenerator : Generator {
                 .toMutableList()
 
         resultFiles +=
-            kotlinFilteredModel.topElements
-                .flatMap { KotlinAsyncHelpers.createCoroutineExceptionFiles(it, nameResolver, basePackages, GENERATOR_NAME) }
+            KotlinAsyncHelpers.createCoroutineSupportFiles(
+                kotlinFilteredModel.topElements,
+                nameResolver,
+                basePackages,
+                GENERATOR_NAME,
+            )
         val nativeBasePath = (listOf(GENERATOR_NAME) + internalPackageList).joinToString("/")
         resultFiles +=
             GeneratedFile(
@@ -257,6 +261,15 @@ internal class KotlinGenerator : Generator {
         var imports = importCollector.collectImports(limeElement).filterNot { KotlinNameRules.getPackageFromImportString(it) == packages }
         if (limeElement is LimeInterface || limeElement is LimeLambda) {
             imports = (imports + listOf(importResolver.nativeBaseImport))
+        }
+        if (limeElement is LimeClass && KotlinAsyncHelpers.hasFlowMembers(limeElement)) {
+            imports =
+                imports +
+                listOf(
+                    "kotlinx.coroutines.channels.awaitClose",
+                    "kotlinx.coroutines.flow.Flow",
+                    "kotlinx.coroutines.flow.callbackFlow",
+                )
         }
 
         val optimizedLists = OptimizedListsCollector().getAllOptimizedLists(limeElement)

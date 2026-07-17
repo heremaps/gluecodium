@@ -298,6 +298,8 @@ internal object AntlrLimeConverter {
         when (val id = ctx.simpleId().text) {
             "AfterConstruction" -> LimeAttributeType.AFTER_CONSTRUCTION
             "Async" -> LimeAttributeType.ASYNC
+            "AsyncTaskHandle" -> LimeAttributeType.ASYNC_TASK_HANDLE
+            "KotlinCoroutine" -> LimeAttributeType.KOTLIN_COROUTINE
             "Cached" -> LimeAttributeType.CACHED
             "Cpp" -> LimeAttributeType.CPP
             "Dart" -> LimeAttributeType.DART
@@ -330,10 +332,15 @@ internal object AntlrLimeConverter {
             "Name" -> LimeAttributeValueType.NAME
             "Accessors" -> LimeAttributeValueType.ACCESSORS
             "Attribute" -> LimeAttributeValueType.ATTRIBUTE
+            "Callback" -> LimeAttributeValueType.CALLBACK
+            "Complete" -> LimeAttributeValueType.COMPLETE
             "Const" -> LimeAttributeValueType.CONST
             "Default" -> LimeAttributeValueType.DEFAULT
             "EnableIf" -> LimeAttributeValueType.ENABLE_IF
+            "Emit" -> LimeAttributeValueType.EMIT
             "EnumValues" -> LimeAttributeValueType.ENUM_VALUES
+            "Error" -> LimeAttributeValueType.ERROR
+            "Flow" -> LimeAttributeValueType.FLOW
             "FullName" -> LimeAttributeValueType.FULL_NAME
             "FunctionName" -> LimeAttributeValueType.FUNCTION_NAME
             "Internal" -> LimeAttributeValueType.INTERNAL
@@ -345,10 +352,12 @@ internal object AntlrLimeConverter {
             "PositionalDefaults" -> LimeAttributeValueType.POSITIONAL_DEFAULTS
             "Public" -> LimeAttributeValueType.PUBLIC
             "Ref" -> LimeAttributeValueType.REF
+            "Result" -> LimeAttributeValueType.RESULT
             "Skip" -> LimeAttributeValueType.SKIP
             "Tag" -> LimeAttributeValueType.TAG
             "Type" -> LimeAttributeValueType.TYPE
             "ToString" -> LimeAttributeValueType.TO_STRING
+            "Unregister" -> LimeAttributeValueType.UNREGISTER
             "Weak" -> LimeAttributeValueType.WEAK
             else -> throw LimeLoadingException("Unsupported attribute value: '$id'")
         }

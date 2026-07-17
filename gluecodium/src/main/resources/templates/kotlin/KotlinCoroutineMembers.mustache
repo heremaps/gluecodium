@@ -19,11 +19,32 @@
   !
   !}}
 {{#functions}}
+{{#resultClass}}
+public data class {{name}}(
+{{#fields}}
+  public val {{name}}: {{type}}{{^last}},{{/last}}
+{{/fields}}
+)
+
+{{/resultClass}}
 {{{docComment}}}
-public suspend fun {{name}}({{params}}): Result<{{resultType}}> =
-    awaitResultBridge(
+public suspend fun {{name}}({{params}}): {{returnType}} =
+  {{bridgeName}}(
         startOperation = { callback -> {{startCall}} },
+{{#hasError}}
         mapDomainError = { error -> {{mapErrorExpr}} },
+{{/hasError}}
         cancelOperation = { handle -> {{cancelExpr}} },
     )
 {{/functions}}
+{{#flows}}
+{{#eventDeclaration}}
+{{{eventDeclaration}}}
+
+{{/eventDeclaration}}
+{{{docComment}}}
+public fun {{name}}({{params}}): Flow<{{eventType}}> =
+  callbackFlow {
+{{{body}}}
+  }
+{{/flows}}

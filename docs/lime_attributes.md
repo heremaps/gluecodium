@@ -38,6 +38,10 @@ the same parameter and return types). This can be used in scenarios of multiple 
 LIME model trees.
 * **@Async**: *EXPERIMENTAL* marks a function to be generated with support for asynchronous invocation. Currently,
 only works in Dart. See [async.md](async.md) for details.
+* **@KotlinCoroutine**: *EXPERIMENTAL* generates Kotlin-only `suspend` members for one-shot callbacks and
+`callbackFlow`-based `Flow` members for repeating callbacks/listeners without changing C++ or JNI declarations. Its
+roles are `Callback`, `Error`, `Result`, `Default`, `Flow`, `Emit`, `Complete`, `Unregister`, and optional `Name`.
+See [async.md](async.md#kotlin-coroutine-usage) for callback shapes and examples.
 * **@Optimized**: *EXPERIMENTAL* marks a type reference of `List<>` type to fetch list elements from C++ to platform
 side on demand instead of a creating a full platform-side copy. C++ list is generated as an
 `std::vector<std::shared_ptr<>>` in this case. This attribute can be applied only to:
