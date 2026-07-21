@@ -49,3 +49,39 @@ struct NoCtorsInitializedPublicFieldOneInternalField {
     publicField: Boolean
     initializedField: Int = 77
 }
+
+// A helper structure for test case 3.
+// It defines a few named field constructors.
+// All fields are public.
+// Two of them are initialized.
+struct StructWithNamedFieldConstructors {
+    field1: String
+    field2: String
+    initializedField1: Int = 77
+    initializedField2: Int = 101
+
+    @Dart("explicitAllArgsCtor")
+    field constructor(field1, field2, initializedField1, initializedField2)
+
+    @Dart("withoutTwoInitializedFields")
+    field constructor(field1, field2)
+
+    @Dart("withoutOneInitializedField")
+    field constructor(field1, field2, initializedField1)
+}
+
+// Test case 3
+//
+// Input:
+//  - This structure does not define explicit constructors / field constructors.
+//  - It has three public fields with default values.
+//  - All fields use struct type and we check if the name of constructor is properly resolved.
+//
+// Expected outcome:
+//  - Generated initialized values ctor properly resolves names.
+//
+struct InitializedPublicFieldsViaOverloadedFieldCtors {
+    initializedField1: StructWithNamedFieldConstructors = {"abc", "def", 9, 11}
+    initializedField2: StructWithNamedFieldConstructors = {"abc", "def", 123}
+    initializedField3: StructWithNamedFieldConstructors = {"abc", "def"}
+}
