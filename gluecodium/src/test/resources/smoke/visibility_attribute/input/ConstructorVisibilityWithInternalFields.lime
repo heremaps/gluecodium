@@ -85,3 +85,24 @@ struct InitializedPublicFieldsViaOverloadedFieldCtors {
     initializedField2: StructWithNamedFieldConstructors = {"abc", "def", 123}
     initializedField3: StructWithNamedFieldConstructors = {"abc", "def"}
 }
+
+// Test case 4
+//
+// Input:
+//  - The structure uses `PositionalDefaults` and should get such constructor.
+//  - This structure does not define other constructors / field constructors.
+//  - It has one public field with default value.
+//  - One of fields is internal.
+//
+// Expected outcome:
+//  - Generated positional defaults constructor is not public (because it would expose internal field).
+//
+@Java(PositionalDefaults)
+@Kotlin(PositionalDefaults)
+@Dart(PositionalDefaults)
+struct PosDefaultsWithOneInternalField {
+    @Internal
+    internalField: String
+    publicField: Boolean
+    initializedField: Int = 77
+}

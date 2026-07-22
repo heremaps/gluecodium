@@ -4,6 +4,7 @@ export 'src/smoke/initialized_public_fields_via_overloaded_field_ctors.dart' sho
 export 'src/smoke/internal_property_only.dart' show InternalPropertyOnly;
 export 'src/smoke/no_ctors_initialized_public_field_one_internal_field.dart' show NoCtorsInitializedPublicFieldOneInternalField;
 export 'src/smoke/no_ctors_uninitialized_fields_one_internal_field.dart' show NoCtorsUninitializedFieldsOneInternalField;
+export 'src/smoke/pos_defaults_with_one_internal_field.dart' show PosDefaultsWithOneInternalField;
 export 'src/smoke/public_class.dart' show PublicClass, PublicClass_PublicStruct, PublicClass_PublicStructWithInternalDefaults;
 export 'src/smoke/public_interface.dart' show PublicInterface;
 export 'src/smoke/public_struct_with_internal_constructors.dart' show PublicStructWithInternalConstructors;
