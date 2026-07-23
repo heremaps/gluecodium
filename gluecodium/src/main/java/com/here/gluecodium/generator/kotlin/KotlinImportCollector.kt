@@ -20,6 +20,7 @@
 package com.here.gluecodium.generator.kotlin
 
 import com.here.gluecodium.generator.common.ImportsCollector
+import com.here.gluecodium.model.lime.LimeAttributeType.KOTLIN_COROUTINE
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeContainer
@@ -68,7 +69,15 @@ internal class KotlinImportCollector(
                     limeContainer.inheritedFunctions + limeContainer.inheritedProperties
                 else -> emptyList()
             }
-        return (nestedElements + inheritedElements).flatMap { collectImports(it) }
+        val coroutineCallbackImports =
+            (limeContainer.functions + inheritedElements.filterIsInstance<LimeFunction>())
+                .filter { it.attributes.have(KOTLIN_COROUTINE) }
+                .flatMap { function ->
+                    function.parameters.map { parameter ->
+                        parameter.typeRef.type.actualType
+                    }.flatMap { collectImports(it) }
+                }
+        return (nestedElements + inheritedElements).flatMap { collectImports(it) } + coroutineCallbackImports
     }
 
     private fun collectFunctionImports(limeFunction: LimeFunction): List<String> {

@@ -81,29 +81,21 @@ internal object KotlinAsyncHelpers {
         return coroutineClasses
             .groupBy { (basePackages + it.path.head).map(KotlinNameResolver::normalizePackageName) }
             .map { (packageNames, classes) ->
-                val coroutineFunctions =
-                    classes
-                        .flatMap { it.functions + it.interfaceInheritedFunctions }
-                        .filter { isKotlinCoroutineFunction(it) }
-                        .distinct()
-                val allExceptionClasses =
-                    coroutineFunctions
-                        .mapNotNull { function -> findErrorMember(function)?.let { function to it } }
-                        .map { (function, errorMember) -> buildExceptionClass(function, errorMember, nameResolver) }
-                val conflictingExceptions =
-                    allExceptionClasses.groupBy { it["name"] }
-                        .filterValues { exceptions -> exceptions.map { it["errorType"] }.distinct().size > 1 }
-                require(conflictingExceptions.isEmpty()) {
-                    "Kotlin coroutine exception names collide in package ${packageNames.joinToString(".")}: " +
-                        conflictingExceptions.keys.joinToString()
-                }
-                val exceptionClasses =
-                    allExceptionClasses
-                        .distinctBy { it["name"] }
+                val supports =
+                    classes.map { limeClass ->
+                        val receiverName = nameResolver.resolveName(limeClass)
+                        mapOf(
+                            "contractViolationName" to contractViolationName(receiverName),
+                            "resultBridgeName" to resultBridgeName(receiverName),
+                            "valueBridgeName" to valueBridgeName(receiverName),
+                        )
+                    }
                 val templateData =
                     mapOf(
                         "packageName" to packageNames.joinToString("."),
-                        "exceptions" to exceptionClasses,
+                        "fileJvmName" to
+                            classes.map { nameResolver.resolveName(it) }.sorted().joinToString("") + "KotlinCoroutines",
+                        "supports" to supports,
                     )
                 val content = TemplateEngine.render(TEMPLATE_NAME, templateData)
                 val fileName = (listOf(generatorName) + packageNames + "KotlinCoroutines.kt").joinToString(File.separator)
@@ -130,11 +122,26 @@ internal object KotlinAsyncHelpers {
         if (coroutineFunctions.isEmpty()) return ""
 
         val receiverName = nameResolver.resolveName(limeClass)
+        val allExceptionClasses =
+            coroutineFunctions
+                .mapNotNull { function -> findErrorMember(function)?.let { function to it } }
+                .map { (function, errorMember) -> buildExceptionClass(function, errorMember, nameResolver) }
+        val conflictingExceptions =
+            allExceptionClasses.groupBy { it["name"] }
+                .filterValues { exceptions -> exceptions.map { it["errorType"] }.distinct().size > 1 }
+        require(conflictingExceptions.isEmpty()) {
+            "Kotlin coroutine exception names collide in class $receiverName: " + conflictingExceptions.keys.joinToString()
+        }
+        val exceptionClasses = allExceptionClasses.distinctBy { it["name"] }
         val functions = coroutineFunctions.filterNot { isFlowFunction(it) }.map { buildFunctionModel(it, receiverName, nameResolver) }
         val flows =
             coroutineFunctions.filter { isFlowFunction(it) }
                 .map { buildFlowFunctionModel(it, classFunctions, receiverName, nameResolver) }
-        val content = TemplateEngine.render(MEMBERS_TEMPLATE_NAME, mapOf("functions" to functions, "flows" to flows))
+        val content =
+            TemplateEngine.render(
+                MEMBERS_TEMPLATE_NAME,
+                mapOf("exceptions" to exceptionClasses, "functions" to functions, "flows" to flows),
+            )
         return indentLines(content.trim('\n'), "    ")
     }
 
@@ -152,6 +159,24 @@ internal object KotlinAsyncHelpers {
             findCallbackParameter(limeFunction) != null
 
     private fun isFlowFunction(limeFunction: LimeFunction) = limeFunction.attributes.have(KOTLIN_COROUTINE, FLOW)
+
+    private fun coroutineName(
+        limeFunction: LimeFunction,
+        nameResolver: KotlinNameResolver,
+    ) = limeFunction.attributes.get(KOTLIN_COROUTINE, NAME) ?: nameResolver.resolveName(limeFunction)
+
+    private fun exceptionName(
+        limeFunction: LimeFunction,
+        nameResolver: KotlinNameResolver,
+    ) = "${coroutineName(limeFunction, nameResolver).replaceFirstChar { it.uppercase() }}Exception"
+
+    private fun supportPrefix(receiverName: String) = receiverName.replaceFirstChar { it.lowercase() }
+
+    private fun contractViolationName(receiverName: String) = "${receiverName}SdkContractViolationException"
+
+    private fun resultBridgeName(receiverName: String) = "${supportPrefix(receiverName)}AwaitResultBridge"
+
+    private fun valueBridgeName(receiverName: String) = "${supportPrefix(receiverName)}AwaitValueBridge"
 
     /** The `@KotlinCoroutine(Callback)` parameter, or by convention the sole callback-typed parameter. */
     private fun findCallbackParameter(limeFunction: LimeFunction): LimeParameter? {
@@ -186,12 +211,10 @@ internal object KotlinAsyncHelpers {
         errorMember: LimeTypedElement,
         nameResolver: KotlinNameResolver,
     ): Map<String, Any> {
-        val functionName = nameResolver.resolveName(limeFunction)
-        val exceptionName = "${functionName.replaceFirstChar { it.uppercase() }}Exception"
         val errorType = nameResolver.resolveTypeRef(errorMember.typeRef).removeSuffix("?")
 
         return mapOf(
-            "name" to exceptionName,
+            "name" to exceptionName(limeFunction, nameResolver),
             "errorType" to errorType,
         )
     }
@@ -279,8 +302,10 @@ internal object KotlinAsyncHelpers {
 
         val callbackModel =
             when (val callbackType = callbackParameter.typeRef.type.actualType) {
-                is LimeLambda -> buildLambdaFlowCallback(limeFunction, flowName, callbackTypeName, callbackType, nameResolver)
-                is LimeInterface -> buildInterfaceFlowCallback(limeFunction, flowName, callbackTypeName, callbackType, nameResolver)
+                is LimeLambda ->
+                    buildLambdaFlowCallback(limeFunction, flowName, callbackTypeName, callbackType, receiverName, nameResolver)
+                is LimeInterface ->
+                    buildInterfaceFlowCallback(limeFunction, flowName, callbackTypeName, callbackType, receiverName, nameResolver)
                 else -> error("@KotlinCoroutine(Flow) callback '${callbackParameter.fullName}' must be a lambda or interface")
             }
 
@@ -344,6 +369,7 @@ internal object KotlinAsyncHelpers {
         flowName: String,
         callbackTypeName: String,
         callbackLambda: LimeLambda,
+        receiverName: String,
         nameResolver: KotlinNameResolver,
     ): Map<String, Any?> {
         val errorMembers = callbackLambda.parameters.filter { it.attributes.have(KOTLIN_COROUTINE, ERROR) }
@@ -368,14 +394,14 @@ internal object KotlinAsyncHelpers {
                 errorMember != null,
                 nameResolver,
             )
-        val exceptionName = "${nameResolver.resolveName(limeFunction).replaceFirstChar { it.uppercase() }}Exception"
         val actionLines =
             buildFlowAction(
                 errorMember?.let { "error" },
                 resultMembers,
                 resultLocalNames,
                 valueModel.expression,
-                exceptionName,
+                exceptionName(limeFunction, nameResolver),
+                contractViolationName(receiverName),
                 false,
             )
         val header = if (localNames.isEmpty()) "$callbackTypeName {" else "$callbackTypeName { ${localNames.joinToString(", ")} ->"
@@ -398,6 +424,7 @@ internal object KotlinAsyncHelpers {
         flowName: String,
         callbackTypeName: String,
         callbackInterface: LimeInterface,
+        receiverName: String,
         nameResolver: KotlinNameResolver,
     ): Map<String, Any?> {
         val callbackFunctions = (callbackInterface.functions + callbackInterface.inheritedFunctions).distinct()
@@ -448,7 +475,6 @@ internal object KotlinAsyncHelpers {
             }
         }
 
-        val exceptionName = "${nameResolver.resolveName(limeFunction).replaceFirstChar { it.uppercase() }}Exception"
         val overrides =
             callbackFunctions.joinToString("\n\n") { callbackFunction ->
                 val parameters =
@@ -469,7 +495,8 @@ internal object KotlinAsyncHelpers {
                             resultMembers,
                             resultLocalNames,
                             eventExpressions[callbackFunction],
-                            exceptionName,
+                            exceptionName(limeFunction, nameResolver),
+                            contractViolationName(receiverName),
                             isComplete,
                         )
                     } else {
@@ -574,6 +601,7 @@ internal object KotlinAsyncHelpers {
         resultLocalNames: List<String>,
         valueExpression: String?,
         exceptionName: String,
+        contractViolationName: String,
         isComplete: Boolean,
     ): List<String> {
         val successLines = mutableListOf<String>()
@@ -593,7 +621,7 @@ internal object KotlinAsyncHelpers {
         if (nullResultCondition.isNotEmpty()) {
             result +=
                 "    $nullResultCondition -> " +
-                "close(SdkContractViolationException(\"SDK contract violation: success callback contains null result\"))"
+                "close($contractViolationName(\"SDK contract violation: success callback contains null result\"))"
         }
         result += "    else -> {"
         result += successLines.map { "        $it" }
@@ -624,6 +652,7 @@ internal object KotlinAsyncHelpers {
         nameResolver: KotlinNameResolver,
     ): Map<String, Any?> {
         val functionName = nameResolver.resolveName(limeFunction)
+        val coroutineName = coroutineName(limeFunction, nameResolver)
         val callbackParameter = findCallbackParameter(limeFunction)!!
         val callbackLambda = callbackParameter.typeRef.type.actualType as LimeLambda
         val callbackTypeName = nameResolver.resolveTypeRef(callbackParameter.typeRef).removeSuffix("?")
@@ -638,7 +667,7 @@ internal object KotlinAsyncHelpers {
 
         val resultClassName =
             if (resultMembers.size > 1) {
-                "${functionName.replaceFirstChar { it.uppercase() }}CoroutineResult"
+                "${coroutineName.replaceFirstChar { it.uppercase() }}CoroutineResult"
             } else {
                 null
             }
@@ -723,7 +752,7 @@ internal object KotlinAsyncHelpers {
                     }
                 }
 
-        val exceptionName = errorMember?.let { "${functionName.replaceFirstChar { it.uppercase() }}Exception" }
+        val exceptionName = errorMember?.let { exceptionName(limeFunction, nameResolver) }
         val cancelFunction = findCancelFunction(limeFunction)
         val cancelExpression = cancelFunction?.let { "handle.${nameResolver.resolveName(it)}()" } ?: "Unit"
 
@@ -739,10 +768,11 @@ internal object KotlinAsyncHelpers {
                     nameResolver,
                 ),
             "resultClass" to resultClass,
-            "name" to functionName,
+            "name" to coroutineName,
             "params" to suspendParameters,
             "returnType" to if (errorMember == null) resultType else "Result<$resultType>",
-            "bridgeName" to if (errorMember == null) "awaitValueBridge" else "awaitResultBridge",
+            "continuationIndent" to "      ",
+            "bridgeName" to if (errorMember == null) valueBridgeName(receiverName) else resultBridgeName(receiverName),
             "startCall" to startCall,
             "hasError" to (errorMember != null),
             "mapErrorExpr" to exceptionName?.let { "$it(error)" },

@@ -106,6 +106,7 @@ The generated shape depends on the callback:
 * No result members produce `Unit` (or `Result<Unit>` when an error member exists).
 * Multiple `Result` members produce a named `<FunctionName>CoroutineResult` data class.
 * `@KotlinCoroutine(Default)` on a non-callback function parameter generates `= Type()` in the Kotlin wrapper.
+* `@KotlinCoroutine(Name = "fetchValue")` overrides the generated suspend member name without renaming the callback API.
 * A returned type with an `@AsyncTaskHandle` function (or a function named `cancel`) is cancelled when the coroutine is
   cancelled. Functions without such a handle remain non-cancellable.
 

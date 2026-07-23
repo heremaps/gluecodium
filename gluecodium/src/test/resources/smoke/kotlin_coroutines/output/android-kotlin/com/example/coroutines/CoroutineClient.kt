@@ -72,17 +72,32 @@ class CoroutineClient : NativeBase {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
     }
 
+    /** Typed exception wrapper preserving the callback error value. */
+    public class LoadValueAsyncException(public val error: OperationError) : Exception(error.toString())
+
+    /** Typed exception wrapper preserving the callback error value. */
+    public class ClearCacheException(public val error: OperationError) : Exception(error.toString())
+
+    /** Typed exception wrapper preserving the callback error value. */
+    public class LoadMetadataException(public val error: OperationError) : Exception(error.toString())
+
+    /** Typed exception wrapper preserving the callback error value. */
+    public class DownloadException(public val error: OperationError) : Exception(error.toString())
+
+    /** Typed exception wrapper preserving the callback error value. */
+    public class TransferException(public val error: OperationError) : Exception(error.toString())
+
     /**
      * Coroutine (`suspend`) variant of `loadValue`.
      *
      * Suspends the calling coroutine until the operation completes instead of taking a callback.
      * Cancelling the coroutine cancels the underlying task.
-     * @return [Result] holding the operation value on success, or a failure carrying LoadValueException on error.
+     * @return [Result] holding the operation value on success, or a failure carrying LoadValueAsyncException on error.
      */
-    public suspend fun loadValue(): Result<String> =
-      awaitResultBridge(
+    public suspend fun loadValueAsync(): Result<String> =
+            coroutineClientAwaitResultBridge(
             startOperation = { callback -> this.loadValue(ErrorValueCallback { error, callbackValue1 -> callback(error, callbackValue1) }) },
-            mapDomainError = { error -> LoadValueException(error) },
+            mapDomainError = { error -> LoadValueAsyncException(error) },
             cancelOperation = { handle -> handle.cancel() },
         )
     /**
@@ -92,7 +107,7 @@ class CoroutineClient : NativeBase {
      * @return [Result] holding when the operation completes on success, or a failure carrying ClearCacheException on error.
      */
     public suspend fun clearCache(): Result<Unit> =
-      awaitResultBridge(
+            coroutineClientAwaitResultBridge(
             startOperation = { callback -> this.clearCache(ErrorOnlyCallback { error -> callback(error, if (error == null) Unit else null) }) },
             mapDomainError = { error -> ClearCacheException(error) },
             cancelOperation = { handle -> Unit },
@@ -104,7 +119,7 @@ class CoroutineClient : NativeBase {
      * @return the operation value.
      */
     public suspend fun resolveName(): String? =
-      awaitValueBridge(
+            coroutineClientAwaitValueBridge(
             startOperation = { callback -> this.resolveName(ValueOnlyCallback { callbackValue0 -> callback(callbackValue0) }) },
             cancelOperation = { handle -> Unit },
         )
@@ -115,7 +130,7 @@ class CoroutineClient : NativeBase {
      * @return when the operation completes.
      */
     public suspend fun synchronize(): Unit =
-      awaitValueBridge(
+            coroutineClientAwaitValueBridge(
             startOperation = { callback -> this.synchronize(CompletionCallback { callback(Unit) }) },
             cancelOperation = { handle -> Unit },
         )
@@ -132,7 +147,7 @@ class CoroutineClient : NativeBase {
      * @return [Result] holding the callback values grouped in a generated result type on success, or a failure carrying LoadMetadataException on error.
      */
     public suspend fun loadMetadata(): Result<LoadMetadataCoroutineResult> =
-      awaitResultBridge(
+            coroutineClientAwaitResultBridge(
             startOperation = { callback -> this.loadMetadata(MultiValueCallback { error, callbackValue1, callbackValue2 -> callback(error, if (callbackValue1 != null && callbackValue2 != null) LoadMetadataCoroutineResult(callbackValue1, callbackValue2) else null) }) },
             mapDomainError = { error -> LoadMetadataException(error) },
             cancelOperation = { handle -> handle.cancel() },
@@ -195,7 +210,7 @@ class CoroutineClient : NativeBase {
                     override fun onComplete(error: OperationError?, receipt: String?) {
                         when {
                             error != null -> close(TransferException(error))
-                            receipt == null -> close(SdkContractViolationException("SDK contract violation: success callback contains null result"))
+                            receipt == null -> close(CoroutineClientSdkContractViolationException("SDK contract violation: success callback contains null result"))
                             else -> {
                                 trySend(TransferFlowEvent.OnComplete(receipt))
                                 close()

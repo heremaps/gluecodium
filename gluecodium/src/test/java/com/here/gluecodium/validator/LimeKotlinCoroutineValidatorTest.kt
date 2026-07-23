@@ -27,6 +27,7 @@ import com.here.gluecodium.model.lime.LimeAttributeValueType.COMPLETE
 import com.here.gluecodium.model.lime.LimeAttributeValueType.EMIT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.ERROR
 import com.here.gluecodium.model.lime.LimeAttributeValueType.FLOW
+import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
 import com.here.gluecodium.model.lime.LimeAttributeValueType.RESULT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.UNREGISTER
 import com.here.gluecodium.model.lime.LimeAttributes
@@ -78,6 +79,24 @@ class LimeKotlinCoroutineValidatorTest {
     fun validateOneShotWithoutErrorOrResult() {
         val callback = LimeLambda(path("Callback"))
         val function = wrapperFunction("synchronize", callback)
+        addElements(callback, LimeClass(path("Client"), functions = listOf(function)))
+
+        assertTrue(validate())
+    }
+
+    @Test
+    fun validateOneShotWithCustomName() {
+        val callback = LimeLambda(path("Callback"))
+        val function =
+            LimeFunction(
+                path("Client", "load"),
+                attributes =
+                    LimeAttributes.Builder()
+                        .addAttribute(KOTLIN_COROUTINE)
+                        .addAttribute(KOTLIN_COROUTINE, NAME, "loadValue")
+                        .build(),
+                parameters = listOf(parameter("callback", LimeDirectTypeRef(callback), CALLBACK)),
+            )
         addElements(callback, LimeClass(path("Client"), functions = listOf(function)))
 
         assertTrue(validate())

@@ -84,7 +84,7 @@ interface StateListener {
 }
 
 class CoroutineClient {
-    @KotlinCoroutine
+    @KotlinCoroutine(Name = "loadValueAsync")
     fun load_value(@KotlinCoroutine(Callback) callback: ErrorValueCallback): OperationHandle
 
     @KotlinCoroutine

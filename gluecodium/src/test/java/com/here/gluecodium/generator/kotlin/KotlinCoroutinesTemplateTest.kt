@@ -32,11 +32,13 @@ class KotlinCoroutinesTemplateTest {
         val modelData =
             mapOf(
                 "packageName" to "com.example.routing",
-                "exceptions" to
+                "fileJvmName" to "RoutingEngineKotlinCoroutines",
+                "supports" to
                     listOf(
                         mapOf(
-                            "name" to "CalculateRouteException",
-                            "errorType" to "RoutingError",
+                            "contractViolationName" to "RoutingEngineSdkContractViolationException",
+                            "resultBridgeName" to "routingEngineAwaitResultBridge",
+                            "valueBridgeName" to "routingEngineAwaitValueBridge",
                         ),
                     ),
                 "functions" to emptyList<Map<String, Any>>(),
@@ -44,11 +46,11 @@ class KotlinCoroutinesTemplateTest {
 
         val content = TemplateEngine.render("kotlin/KotlinCoroutines", modelData)
 
+        assertTrue(content.contains("@file:JvmName(\"RoutingEngineKotlinCoroutines\")"))
         assertTrue(content.contains("Coroutine (suspend) support for @KotlinCoroutine functions."))
-        assertTrue(content.contains("public class CalculateRouteException(public val error: RoutingError)"))
-        assertTrue(content.contains("internal class SdkContractViolationException"))
-        assertTrue(content.contains("internal suspend fun <E, T, H> awaitResultBridge("))
-        assertTrue(content.contains("internal suspend fun <T, H> awaitValueBridge("))
+        assertTrue(content.contains("internal class RoutingEngineSdkContractViolationException"))
+        assertTrue(content.contains("internal suspend fun <E, T, H> routingEngineAwaitResultBridge("))
+        assertTrue(content.contains("internal suspend fun <T, H> routingEngineAwaitValueBridge("))
         assertTrue(content.contains("suspendCancellableCoroutine { continuation ->"))
         assertTrue(content.contains("AtomicBoolean(false)"))
         assertTrue(content.contains("compareAndSet(false, true)"))
@@ -60,6 +62,13 @@ class KotlinCoroutinesTemplateTest {
     fun renderMemberDelegatesToBridge() {
         val modelData =
             mapOf(
+                "exceptions" to
+                    listOf(
+                        mapOf(
+                            "name" to "CalculateRouteException",
+                            "errorType" to "RoutingError",
+                        ),
+                    ),
                 "functions" to
                     listOf(
                         mapOf(
@@ -67,7 +76,8 @@ class KotlinCoroutinesTemplateTest {
                             "name" to "calculateRoute",
                             "params" to "waypoints: List<Waypoint>, options: RoutingOptions",
                             "returnType" to "Result<List<Route>>",
-                            "bridgeName" to "awaitResultBridge",
+                            "continuationIndent" to "      ",
+                            "bridgeName" to "routingEngineAwaitResultBridge",
                             "startCall" to
                                 "this.calculateRoute(waypoints, options, " +
                                 "CalculateRouteCallback { error, result -> callback(error, result) })",
@@ -80,12 +90,13 @@ class KotlinCoroutinesTemplateTest {
 
         val content = TemplateEngine.render("kotlin/KotlinCoroutineMembers", modelData)
 
+        assertTrue(content.contains("public class CalculateRouteException(public val error: RoutingError)"))
         assertTrue(
             content.contains(
                 "public suspend fun calculateRoute(waypoints: List<Waypoint>, options: RoutingOptions): Result<List<Route>> =",
             ),
         )
-        assertTrue(content.contains("awaitResultBridge("))
+        assertTrue(content.contains("routingEngineAwaitResultBridge("))
         assertTrue(
             content.contains(
                 "startOperation = { callback -> this.calculateRoute(waypoints, options, " +

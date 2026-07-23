@@ -18,6 +18,11 @@
   ! License-Filename: LICENSE
   !
   !}}
+{{#exceptions}}
+/** Typed exception wrapper preserving the callback error value. */
+public class {{name}}(public val error: {{errorType}}) : Exception(error.toString())
+
+{{/exceptions}}
 {{#functions}}
 {{#resultClass}}
 public data class {{name}}(
@@ -29,7 +34,7 @@ public data class {{name}}(
 {{/resultClass}}
 {{{docComment}}}
 public suspend fun {{name}}({{params}}): {{returnType}} =
-  {{bridgeName}}(
+  {{continuationIndent}}{{bridgeName}}(
         startOperation = { callback -> {{startCall}} },
 {{#hasError}}
         mapDomainError = { error -> {{mapErrorExpr}} },

@@ -109,10 +109,6 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
             logger.error(function, "unsupported Kotlin coroutine function roles: ${unsupportedRoles.joinToString()}")
             isValid = false
         }
-        if (roles.contains(NAME) && !roles.contains(FLOW)) {
-            logger.error(function, "`@KotlinCoroutine(Name)` can only be used with `@KotlinCoroutine(Flow)`")
-            isValid = false
-        }
         if (function.isConstructor) {
             logger.error(function, "`@KotlinCoroutine` cannot be used on constructors")
             isValid = false
