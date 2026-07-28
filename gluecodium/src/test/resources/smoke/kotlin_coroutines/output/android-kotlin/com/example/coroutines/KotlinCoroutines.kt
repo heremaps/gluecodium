@@ -19,7 +19,9 @@ internal class CoroutineClientSdkContractViolationException(message: String) : I
  * - resumes with [Result.failure] produced by [mapDomainError] on a domain error,
  * - fails with [CoroutineClientSdkContractViolationException] if the callback breaks the (error XOR result) contract,
  * - propagates a synchronous throwable from [startOperation],
- * - cancels the underlying task via [cancelOperation] when the coroutine is cancelled.
+ * - cancels the underlying task via [cancelOperation] when the coroutine is cancelled before the
+ *   callback resolves. The cancellation path shares the `resolved` guard with the callback, so a
+ *   cancellation racing a completing callback never cancels an already-finished task.
  */
 internal suspend fun <E, T, H> coroutineClientAwaitResultBridge(
     startOperation: (callback: (E?, T?) -> Unit) -> H,
@@ -51,7 +53,11 @@ internal suspend fun <E, T, H> coroutineClientAwaitResultBridge(
                 null
             }
         if (handle != null) {
-            continuation.invokeOnCancellation { cancelOperation(handle) }
+            continuation.invokeOnCancellation {
+                if (resolved.compareAndSet(false, true)) {
+                    cancelOperation(handle)
+                }
+            }
         }
     }
 
@@ -76,6 +82,10 @@ internal suspend fun <T, H> coroutineClientAwaitValueBridge(
                 null
             }
         if (handle != null) {
-            continuation.invokeOnCancellation { cancelOperation(handle) }
+            continuation.invokeOnCancellation {
+                if (resolved.compareAndSet(false, true)) {
+                    cancelOperation(handle)
+                }
+            }
         }
     }

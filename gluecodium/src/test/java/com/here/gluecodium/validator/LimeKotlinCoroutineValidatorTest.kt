@@ -19,7 +19,6 @@
 
 package com.here.gluecodium.validator
 
-import com.here.gluecodium.model.lime.LimeAttributeType.ASYNC_TASK_HANDLE
 import com.here.gluecodium.model.lime.LimeAttributeType.KOTLIN_COROUTINE
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributeValueType.CALLBACK
@@ -268,17 +267,104 @@ class LimeKotlinCoroutineValidatorTest {
     }
 
     @Test
-    fun rejectTaskHandleFunctionWithParameters() {
-        val invalidCancel =
-            LimeFunction(
-                path("Handle", "cancel"),
-                attributes = LimeAttributes.Builder().addAttribute(ASYNC_TASK_HANDLE).build(),
-                parameters = listOf(parameter("force", LimeBasicTypeRef.INT)),
-            )
-        addElements(LimeClass(path("Handle"), functions = listOf(invalidCancel)))
+    fun rejectCollidingExceptionNamesWithDifferentErrorTypes() {
+        val intCallback =
+            LimeLambda(path("IntCallback"), parameters = listOf(lambdaParameter("error", nullableInt(), ERROR)))
+        val stringCallback =
+            LimeLambda(path("StringCallback"), parameters = listOf(lambdaParameter("error", nullableString(), ERROR)))
+        val first = namedWrapperFunction("loadFast", "load", intCallback)
+        val second = namedWrapperFunction("loadSlow", "load", stringCallback)
+        addElements(intCallback, stringCallback, LimeClass(path("Client"), functions = listOf(first, second)))
 
         assertFalse(validate())
     }
+
+    @Test
+    fun validateCollidingExceptionNamesWithSameErrorType() {
+        val callback =
+            LimeLambda(path("Callback"), parameters = listOf(lambdaParameter("error", nullableInt(), ERROR)))
+        val first = namedWrapperFunction("loadFast", "load", callback)
+        val second = namedWrapperFunction("loadSlow", "load", callback)
+        addElements(callback, LimeClass(path("Client"), functions = listOf(first, second)))
+
+        assertTrue(validate())
+    }
+
+    @Test
+    fun rejectFlowWithMultipleMatchingUnregisterFunctions() {
+        val listener =
+            LimeInterface(
+                path("UpdateListener"),
+                functions =
+                    listOf(
+                        LimeFunction(
+                            path("UpdateListener", "onUpdate"),
+                            attributes = coroutineAttributes(EMIT),
+                            parameters = listOf(parameter("value", LimeBasicTypeRef.INT)),
+                        ),
+                    ),
+            )
+        val addFunction = wrapperFunction("addListener", listener, FLOW)
+        val removeFunction = unregisterFunction("removeListener", listener)
+        val dropFunction = unregisterFunction("dropListener", listener)
+        addElements(listener, LimeClass(path("Client"), functions = listOf(addFunction, removeFunction, dropFunction)))
+
+        assertFalse(validate())
+    }
+
+    @Test
+    fun rejectFlowWhenCancelFunctionHasParameters() {
+        val listener =
+            LimeInterface(
+                path("Listener"),
+                functions =
+                    listOf(
+                        LimeFunction(
+                            path("Listener", "onValue"),
+                            attributes = coroutineAttributes(EMIT),
+                            parameters = listOf(parameter("value", LimeBasicTypeRef.INT)),
+                        ),
+                    ),
+            )
+        val handle =
+            LimeClass(
+                path("OperationHandle"),
+                functions =
+                    listOf(
+                        LimeFunction(
+                            path("OperationHandle", "cancel"),
+                            parameters = listOf(parameter("reason", LimeBasicTypeRef.INT)),
+                        ),
+                    ),
+            )
+        val function = wrapperFunction("observe", listener, FLOW, returnType = LimeReturnType(LimeDirectTypeRef(handle)))
+        addElements(listener, handle, LimeClass(path("Client"), functions = listOf(function)))
+
+        assertFalse(validate())
+    }
+
+    private fun namedWrapperFunction(
+        name: String,
+        coroutineName: String,
+        callbackType: LimeType,
+    ) = LimeFunction(
+        path("Client", name),
+        attributes =
+            LimeAttributes.Builder()
+                .addAttribute(KOTLIN_COROUTINE)
+                .addAttribute(KOTLIN_COROUTINE, NAME, coroutineName)
+                .build(),
+        parameters = listOf(parameter("callback", LimeDirectTypeRef(callbackType), CALLBACK)),
+    )
+
+    private fun unregisterFunction(
+        name: String,
+        callbackType: LimeType,
+    ) = LimeFunction(
+        path("Client", name),
+        attributes = coroutineAttributes(UNREGISTER),
+        parameters = listOf(parameter("listener", LimeDirectTypeRef(callbackType))),
+    )
 
     private fun wrapperFunction(
         name: String,
@@ -293,11 +379,7 @@ class LimeKotlinCoroutineValidatorTest {
     )
 
     private fun cancellationHandle(): LimeClass {
-        val cancel =
-            LimeFunction(
-                path("OperationHandle", "cancel"),
-                attributes = LimeAttributes.Builder().addAttribute(ASYNC_TASK_HANDLE).build(),
-            )
+        val cancel = LimeFunction(path("OperationHandle", "cancel"))
         return LimeClass(path("OperationHandle"), functions = listOf(cancel))
     }
 
@@ -328,6 +410,8 @@ class LimeKotlinCoroutineValidatorTest {
     }
 
     private fun nullableInt() = LimeBasicTypeRef(LimeBasicType.TypeId.INT32, isNullable = true)
+
+    private fun nullableString() = LimeBasicTypeRef(LimeBasicType.TypeId.STRING, isNullable = true)
 
     private fun path(vararg elements: String) = elements.fold(EMPTY_PATH) { current, element -> current.child(element) }
 

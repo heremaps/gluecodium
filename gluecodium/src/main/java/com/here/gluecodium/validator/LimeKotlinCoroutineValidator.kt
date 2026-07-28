@@ -20,7 +20,6 @@
 package com.here.gluecodium.validator
 
 import com.here.gluecodium.common.LimeLogger
-import com.here.gluecodium.model.lime.LimeAttributeType.ASYNC_TASK_HANDLE
 import com.here.gluecodium.model.lime.LimeAttributeType.KOTLIN_COROUTINE
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributeValueType.CALLBACK
@@ -32,6 +31,7 @@ import com.here.gluecodium.model.lime.LimeAttributeValueType.FLOW
 import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
 import com.here.gluecodium.model.lime.LimeAttributeValueType.RESULT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.UNREGISTER
+import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
@@ -72,14 +72,72 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
         container.functions.forEach {
             isValid = validateFunction(it, container) && isValid
         }
+        isValid = validateExceptionNames(container) && isValid
         return isValid
+    }
+
+    /**
+     * Generated exception classes are named after the coroutine name, so two wrapper functions sharing a coroutine name
+     * must agree on the error type. Overloads are the usual cause, and `@KotlinCoroutine(Name = "...")` resolves it.
+     */
+    private fun validateExceptionNames(container: LimeContainer): Boolean {
+        var isValid = true
+        allFunctions(container)
+            .filter { it.attributes.have(KOTLIN_COROUTINE) && !it.attributes.have(KOTLIN_COROUTINE, UNREGISTER) }
+            .mapNotNull { function -> findErrorTypeName(function)?.let { coroutineName(function) to it } }
+            .groupBy({ it.first }, { it.second })
+            .filterValues { errorTypes -> errorTypes.distinct().size > 1 }
+            .forEach { (coroutineName, errorTypes) ->
+                logger.error(
+                    container,
+                    "coroutine functions named `$coroutineName` declare conflicting error types " +
+                        "(${errorTypes.distinct().sorted().joinToString()}); " +
+                        "use `@KotlinCoroutine(Name = \"...\")` to give them distinct names",
+                )
+                isValid = false
+            }
+        return isValid
+    }
+
+    /** Functions visible on the container, including the ones a class inherits from its interfaces. */
+    private fun allFunctions(container: LimeContainer): List<LimeFunction> =
+        when (container) {
+            is LimeClass -> (container.functions + container.interfaceInheritedFunctions).distinct()
+            else -> container.functions
+        }
+
+    private fun coroutineName(function: LimeFunction) = function.attributes.get(KOTLIN_COROUTINE, NAME) ?: function.name
+
+    /** The `@KotlinCoroutine(Callback)` parameter, or by convention the sole callback-typed parameter. */
+    private fun findCallbackParameter(function: LimeFunction): LimeParameter? {
+        val markedCallbacks = function.parameters.filter { it.attributes.have(KOTLIN_COROUTINE, CALLBACK) }
+        if (markedCallbacks.isNotEmpty()) return markedCallbacks.singleOrNull()
+        return function.parameters.filter {
+            val type = it.typeRef.type.actualType
+            type is LimeLambda || type is LimeInterface
+        }.singleOrNull()
+    }
+
+    /** Fully qualified type name of the callback's `@KotlinCoroutine(Error)` member, or null when there is none. */
+    private fun findErrorTypeName(function: LimeFunction): String? {
+        val members: List<LimeTypedElement> =
+            when (val callbackType = findCallbackParameter(function)?.typeRef?.type?.actualType) {
+                is LimeLambda -> callbackType.parameters
+                is LimeInterface -> {
+                    val callbackFunctions = callbackType.functions + callbackType.inheritedFunctions
+                    val completionFunction = callbackFunctions.firstOrNull { it.attributes.have(KOTLIN_COROUTINE, COMPLETE) }
+                    completionFunction?.parameters ?: callbackFunctions.flatMap { it.parameters }
+                }
+                else -> emptyList()
+            }
+        return members.firstOrNull { it.attributes.have(KOTLIN_COROUTINE, ERROR) }?.typeRef?.type?.actualType?.fullName
     }
 
     private fun validateFunction(
         function: LimeFunction,
         container: LimeContainer,
     ): Boolean {
-        var isValid = validateTaskHandleFunction(function)
+        var isValid = true
         if (!function.attributes.have(KOTLIN_COROUTINE)) {
             function.parameters.forEach { parameter ->
                 if (parameter.attributes.have(KOTLIN_COROUTINE)) {
@@ -153,7 +211,22 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
             }
             null -> Unit
             else -> {
-                logger.error(callbackParameter!!, "Kotlin coroutine callback must be lambda- or interface-typed")
+                callbackParameter?.let { logger.error(it, "Kotlin coroutine callback must be lambda- or interface-typed") }
+                isValid = false
+            }
+        }
+
+        if (roles.contains(FLOW) && callbackType != null) {
+            val unregisterFunctions =
+                allFunctions(container).filter { candidate ->
+                    candidate.attributes.have(KOTLIN_COROUTINE, UNREGISTER) &&
+                        candidate.parameters.any { it.typeRef.type.actualType === callbackType }
+                }
+            if (unregisterFunctions.size > 1) {
+                logger.error(
+                    function,
+                    "`@KotlinCoroutine(Flow)` matches more than one `@KotlinCoroutine(Unregister)` function",
+                )
                 isValid = false
             }
         }
@@ -261,7 +334,7 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
 
     private fun validateLambda(lambda: LimeLambda): Boolean {
         var isValid = true
-        if (lambda.attributes.have(KOTLIN_COROUTINE) || lambda.attributes.have(ASYNC_TASK_HANDLE)) {
+        if (lambda.attributes.have(KOTLIN_COROUTINE)) {
             logger.error(lambda, "Kotlin coroutine attributes cannot be applied to a lambda declaration")
             isValid = false
         }
@@ -320,28 +393,10 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
         return true
     }
 
-    private fun validateTaskHandleFunction(function: LimeFunction): Boolean {
-        if (!function.attributes.have(ASYNC_TASK_HANDLE)) return true
-        var isValid = true
-        if (function.parameters.isNotEmpty()) {
-            logger.error(function, "`@AsyncTaskHandle` function must not have parameters")
-            isValid = false
-        }
-        if (!function.returnType.isVoid) {
-            logger.error(function, "`@AsyncTaskHandle` function must return `Void`")
-            isValid = false
-        }
-        return isValid
-    }
-
     private fun validateNonFunction(element: LimeNamedElement): Boolean {
         var isValid = true
         if (element.attributes.have(KOTLIN_COROUTINE)) {
             logger.error(element, "`@KotlinCoroutine` cannot be used on properties")
-            isValid = false
-        }
-        if (element.attributes.have(ASYNC_TASK_HANDLE)) {
-            logger.error(element, "`@AsyncTaskHandle` can only be used on functions")
             isValid = false
         }
         return isValid
@@ -353,12 +408,10 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
         callbackType: Any,
     ): Boolean {
         val returnContainer = function.returnType.typeRef.type.actualType as? LimeContainer
-        val hasCancellation =
-            returnContainer?.functions?.any {
-                it.attributes.have(ASYNC_TASK_HANDLE) || it.name == "cancel"
-            } == true
+        // Must match `KotlinAsyncHelpers.findCancelFunction`: the generated cleanup calls `cancel()` without arguments.
+        val hasCancellation = returnContainer?.functions?.any { it.name == "cancel" && it.parameters.isEmpty() } == true
         val hasUnregister =
-            container.functions.any { candidate ->
+            allFunctions(container).any { candidate ->
                 candidate.attributes.have(KOTLIN_COROUTINE, UNREGISTER) &&
                     candidate.parameters.any { it.typeRef.type.actualType === callbackType }
             }

@@ -9,8 +9,10 @@
 package com.example.coroutines
 
 import com.example.NativeBase
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.callbackFlow
 
 class CoroutineClient : NativeBase {
@@ -43,6 +45,9 @@ class CoroutineClient : NativeBase {
 
 
     external fun loadMetadata(callback: MultiValueCallback) : OperationHandle
+
+
+    external fun listFeatures(callback: TrailingErrorCallback) : Unit
 
 
     external fun observeTicks(callback: TickCallback) : OperationHandle
@@ -80,6 +85,9 @@ class CoroutineClient : NativeBase {
 
     /** Typed exception wrapper preserving the callback error value. */
     public class LoadMetadataException(public val error: OperationError) : Exception(error.toString())
+
+    /** Typed exception wrapper preserving the callback error value. */
+    public class ListFeaturesException(public val error: OperationError) : Exception(error.toString())
 
     /** Typed exception wrapper preserving the callback error value. */
     public class DownloadException(public val error: OperationError) : Exception(error.toString())
@@ -153,6 +161,18 @@ class CoroutineClient : NativeBase {
             cancelOperation = { handle -> handle.cancel() },
         )
     /**
+     * Coroutine (`suspend`) variant of `listFeatures`.
+     *
+     * Suspends the calling coroutine until the operation completes instead of taking a callback.
+     * @return [Result] holding the operation value on success, or a failure carrying ListFeaturesException on error.
+     */
+    public suspend fun listFeatures(): Result<String> =
+            coroutineClientAwaitResultBridge(
+            startOperation = { callback -> this.listFeatures(TrailingErrorCallback { callbackValue0, error -> callback(error, callbackValue0) }) },
+            mapDomainError = { error -> ListFeaturesException(error) },
+            cancelOperation = { handle -> Unit },
+        )
+    /**
      * Flow variant of `observeTicks`. Registers the callback when collected and releases it when collection stops.
      */
     public fun observeTicksFlow(): Flow<Int> =
@@ -162,7 +182,7 @@ class CoroutineClient : NativeBase {
             }
             val handle = this@CoroutineClient.observeTicks(listener)
             awaitClose { handle.cancel() }
-      }
+      }.buffer(onBufferOverflow = BufferOverflow.DROP_OLDEST)
     /**
      * Flow variant of `download`. Registers the callback when collected and releases it when collection stops.
      */
@@ -185,7 +205,7 @@ class CoroutineClient : NativeBase {
                 }
             val handle = this@CoroutineClient.download(listener)
             awaitClose { handle.cancel() }
-      }
+      }.buffer(onBufferOverflow = BufferOverflow.DROP_OLDEST)
     public sealed interface TransferFlowEvent {
         public data class OnProgress(
             public val percentage: Int,
@@ -220,7 +240,7 @@ class CoroutineClient : NativeBase {
                 }
             val handle = this@CoroutineClient.transfer(listener)
             awaitClose { handle.cancel() }
-      }
+      }.buffer(onBufferOverflow = BufferOverflow.DROP_OLDEST)
     public data class AddUpdateListenerFlowEvent(
         public val identifier: Int,
         public val message: String,
@@ -239,7 +259,7 @@ class CoroutineClient : NativeBase {
                 }
             this@CoroutineClient.addUpdateListener(listener)
             awaitClose { this@CoroutineClient.removeUpdateListener(listener) }
-      }
+      }.buffer(onBufferOverflow = BufferOverflow.DROP_OLDEST)
     public sealed interface AddStateListenerFlowEvent {
         public object OnStarted : AddStateListenerFlowEvent
 
@@ -265,5 +285,5 @@ class CoroutineClient : NativeBase {
                 }
             this@CoroutineClient.addStateListener(listener)
             awaitClose { this@CoroutineClient.removeStateListener(listener) }
-      }
+      }.buffer(onBufferOverflow = BufferOverflow.DROP_OLDEST)
 }

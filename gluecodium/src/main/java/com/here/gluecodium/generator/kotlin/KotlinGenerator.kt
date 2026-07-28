@@ -266,8 +266,10 @@ internal class KotlinGenerator : Generator {
             imports =
                 imports +
                 listOf(
+                    "kotlinx.coroutines.channels.BufferOverflow",
                     "kotlinx.coroutines.channels.awaitClose",
                     "kotlinx.coroutines.flow.Flow",
+                    "kotlinx.coroutines.flow.buffer",
                     "kotlinx.coroutines.flow.callbackFlow",
                 )
         }
@@ -290,37 +292,23 @@ internal class KotlinGenerator : Generator {
                 "internalApiAnnotationClassPath" to internalApiAnnotationClassPath,
             )
 
+        // Rendered separately and passed in, so the `KotlinClass` template controls where they land.
+        if (limeElement is LimeClass) {
+            val coroutineMembers = KotlinAsyncHelpers.buildClassCoroutineMembers(limeElement, nameResolver)
+            if (coroutineMembers.isNotBlank()) {
+                templateData["coroutineMembers"] = coroutineMembers
+            }
+        }
+
         val nameResolvers = mapOf("" to nameResolver, "visibility" to visibilityResolver)
 
         val mainContent =
             TemplateEngine.render("kotlin/KotlinFile", templateData, nameResolvers, KotlinGeneratorPredicates.predicates)
-        val contentWithCoroutines =
-            if (limeElement is LimeClass) {
-                injectCoroutineMembers(mainContent, KotlinAsyncHelpers.buildClassCoroutineMembers(limeElement, nameResolver))
-            } else {
-                mainContent
-            }
         val name = nameResolver.resolveName(limeElement)
         val mainFileName = (listOf(GENERATOR_NAME) + packages + "$name.kt").joinToString(File.separator)
-        val mainFile = GeneratedFile(contentWithCoroutines, mainFileName)
+        val mainFile = GeneratedFile(mainContent, mainFileName)
 
         return listOf(mainFile)
-    }
-
-    /**
-     * Inserts pre-rendered coroutine `suspend` members into a generated class body.
-     *
-     * The class content is produced by the `KotlinClass` template and ends with the class' closing
-     * brace, so the members are inserted right before that final brace. No-op when there are none.
-     */
-    private fun injectCoroutineMembers(
-        content: String,
-        members: String,
-    ): String {
-        if (members.isBlank()) return content
-        val classBraceIndex = content.lastIndexOf('}')
-        if (classBraceIndex < 0) return content
-        return content.substring(0, classBraceIndex) + "\n" + members + "\n" + content.substring(classBraceIndex)
     }
 
     private fun selectTemplate(limeElement: LimeNamedElement) =

@@ -55,7 +55,15 @@ class KotlinCoroutinesTemplateTest {
         assertTrue(content.contains("AtomicBoolean(false)"))
         assertTrue(content.contains("compareAndSet(false, true)"))
         assertTrue(content.contains("Result.failure(mapDomainError(error))"))
-        assertTrue(content.contains("continuation.invokeOnCancellation { cancelOperation(handle) }"))
+        assertTrue(
+            content.contains(
+                "continuation.invokeOnCancellation {\n" +
+                    "                if (resolved.compareAndSet(false, true)) {\n" +
+                    "                    cancelOperation(handle)\n" +
+                    "                }\n" +
+                    "            }",
+            ),
+        )
     }
 
     @Test
@@ -141,5 +149,6 @@ class KotlinCoroutinesTemplateTest {
         assertTrue(content.contains("public fun downloadFlow(regionId: Int): Flow<DownloadFlowEvent> ="))
         assertTrue(content.contains("callbackFlow {"))
         assertTrue(content.contains("awaitClose { handle.cancel() }"))
+        assertTrue(content.contains("}.buffer(onBufferOverflow = BufferOverflow.DROP_OLDEST)"))
     }
 }

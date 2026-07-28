@@ -19,9 +19,9 @@
 
 package com.here.gluecodium.generator.kotlin
 
+import com.here.gluecodium.cli.GluecodiumExecutionException
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.templates.TemplateEngine
-import com.here.gluecodium.model.lime.LimeAttributeType.ASYNC_TASK_HANDLE
 import com.here.gluecodium.model.lime.LimeAttributeType.KOTLIN_COROUTINE
 import com.here.gluecodium.model.lime.LimeAttributeValueType.CALLBACK
 import com.here.gluecodium.model.lime.LimeAttributeValueType.COMPLETE
@@ -51,7 +51,7 @@ import java.io.File
  * per concrete class package. Every wrapper calls the existing callback API, so C++ and JNI declarations are unchanged.
  *
  * Callback/result/error roles can be declared explicitly via `@KotlinCoroutine(Callback)`,
- * `@KotlinCoroutine(Result)`, `@KotlinCoroutine(Error)`, and `@AsyncTaskHandle`. When a callback or result role is
+ * `@KotlinCoroutine(Result)`, and `@KotlinCoroutine(Error)`. When a callback or result role is
  * omitted, the generator falls back to convention: the sole callback-typed parameter is the callback, all callback
  * members other than the explicitly marked error are results, and a `cancel()` method on the returned handle is the
  * cancellation hook. `Flow`, `Emit`, `Complete`, and `Unregister` roles describe repeating listener lifecycles.
@@ -122,17 +122,13 @@ internal object KotlinAsyncHelpers {
         if (coroutineFunctions.isEmpty()) return ""
 
         val receiverName = nameResolver.resolveName(limeClass)
-        val allExceptionClasses =
+        // Exception names that collide with a different error type are rejected by `LimeKotlinCoroutineValidator`,
+        // so identical duplicates are all that can reach here and de-duplicating them is safe.
+        val exceptionClasses =
             coroutineFunctions
                 .mapNotNull { function -> findErrorMember(function)?.let { function to it } }
                 .map { (function, errorMember) -> buildExceptionClass(function, errorMember, nameResolver) }
-        val conflictingExceptions =
-            allExceptionClasses.groupBy { it["name"] }
-                .filterValues { exceptions -> exceptions.map { it["errorType"] }.distinct().size > 1 }
-        require(conflictingExceptions.isEmpty()) {
-            "Kotlin coroutine exception names collide in class $receiverName: " + conflictingExceptions.keys.joinToString()
-        }
-        val exceptionClasses = allExceptionClasses.distinctBy { it["name"] }
+                .distinctBy { it["name"] }
         val functions = coroutineFunctions.filterNot { isFlowFunction(it) }.map { buildFunctionModel(it, receiverName, nameResolver) }
         val flows =
             coroutineFunctions.filter { isFlowFunction(it) }
@@ -188,19 +184,22 @@ internal object KotlinAsyncHelpers {
         }.singleOrNull()
     }
 
+    /**
+     * The `@KotlinCoroutine(Error)` member among [members], or null if none. At most one error member can
+     * exist; `LimeKotlinCoroutineValidator` rejects the model otherwise, before generation is reached.
+     */
+    private fun <T : LimeTypedElement> findErrorMember(members: List<T>): T? =
+        members.firstOrNull { it.attributes.have(KOTLIN_COROUTINE, ERROR) }
+
     /** The `@KotlinCoroutine(Error)` member of the callback lambda, or null if none. */
     private fun findErrorMember(limeFunction: LimeFunction): LimeTypedElement? {
         val callbackParameter = findCallbackParameter(limeFunction) ?: return null
         return when (val callbackType = callbackParameter.typeRef.type.actualType) {
-            is LimeLambda -> callbackType.parameters.firstOrNull { it.attributes.have(KOTLIN_COROUTINE, ERROR) }
+            is LimeLambda -> findErrorMember(callbackType.parameters)
             is LimeInterface -> {
-                val completionFunction =
-                    (callbackType.functions + callbackType.inheritedFunctions).firstOrNull {
-                        it.attributes.have(KOTLIN_COROUTINE, COMPLETE)
-                    }
                 val callbackFunctions = callbackType.functions + callbackType.inheritedFunctions
-                (completionFunction?.parameters ?: callbackFunctions.flatMap { it.parameters })
-                    .firstOrNull { it.attributes.have(KOTLIN_COROUTINE, ERROR) }
+                val completionFunction = callbackFunctions.firstOrNull { it.attributes.have(KOTLIN_COROUTINE, COMPLETE) }
+                findErrorMember(completionFunction?.parameters ?: callbackFunctions.flatMap { it.parameters })
             }
             else -> null
         }
@@ -219,11 +218,16 @@ internal object KotlinAsyncHelpers {
         )
     }
 
-    /** The `@AsyncTaskHandle` method on the return type, or by convention a `cancel()` method. */
+    /**
+     * The cancellation hook on the returned handle: by convention a parameterless `cancel()` method.
+     *
+     * The parameter check matters: the generated cleanup emits `handle.cancel()` with no arguments, so matching a
+     * `cancel(reason)` overload would produce code that does not compile. `LimeKotlinCoroutineValidator` applies the
+     * same rule when it decides whether a Flow function has a cancellation handle.
+     */
     private fun findCancelFunction(limeFunction: LimeFunction): LimeFunction? {
         val returnType = limeFunction.returnType.typeRef.type.actualType as? LimeContainer ?: return null
-        return returnType.functions.firstOrNull { it.attributes.have(ASYNC_TASK_HANDLE) }
-            ?: returnType.functions.firstOrNull { it.name == "cancel" }
+        return returnType.functions.firstOrNull { it.name == "cancel" && it.parameters.isEmpty() }
     }
 
     /**
@@ -306,7 +310,11 @@ internal object KotlinAsyncHelpers {
                     buildLambdaFlowCallback(limeFunction, flowName, callbackTypeName, callbackType, receiverName, nameResolver)
                 is LimeInterface ->
                     buildInterfaceFlowCallback(limeFunction, flowName, callbackTypeName, callbackType, receiverName, nameResolver)
-                else -> error("@KotlinCoroutine(Flow) callback '${callbackParameter.fullName}' must be a lambda or interface")
+                // Unreachable: `LimeKotlinCoroutineValidator` rejects callbacks that are neither lambda- nor interface-typed.
+                else ->
+                    throw GluecodiumExecutionException(
+                        "@KotlinCoroutine(Flow) callback '${callbackParameter.fullName}' must be a lambda or interface",
+                    )
             }
 
         val startTarget = if (limeFunction.isStatic) receiverName else "this@$receiverName"
@@ -317,15 +325,12 @@ internal object KotlinAsyncHelpers {
         val startCall = "$startTarget.$functionName($startArguments)"
 
         val callbackType = callbackParameter.typeRef.type.actualType
-        val unregisterFunctions =
-            classFunctions.filter { candidate ->
+        // At most one matching unregister function can exist; enforced by `LimeKotlinCoroutineValidator`.
+        val unregisterFunction =
+            classFunctions.firstOrNull { candidate ->
                 candidate.attributes.have(KOTLIN_COROUTINE, UNREGISTER) &&
                     candidate.parameters.any { it.typeRef.type.actualType === callbackType }
             }
-        require(unregisterFunctions.size <= 1) {
-            "@KotlinCoroutine(Flow) function '${limeFunction.fullName}' has more than one matching unregister function"
-        }
-        val unregisterFunction = unregisterFunctions.singleOrNull()
         val cancelFunction = findCancelFunction(limeFunction)
         val needsHandle = unregisterFunction == null && cancelFunction != null
         val cleanupExpression =
@@ -372,19 +377,9 @@ internal object KotlinAsyncHelpers {
         receiverName: String,
         nameResolver: KotlinNameResolver,
     ): Map<String, Any?> {
-        val errorMembers = callbackLambda.parameters.filter { it.attributes.have(KOTLIN_COROUTINE, ERROR) }
-        require(errorMembers.size <= 1) {
-            "@KotlinCoroutine(Flow) function '${limeFunction.fullName}' has more than one error member"
-        }
-        val errorMember = errorMembers.singleOrNull()
+        val errorMember = findErrorMember(callbackLambda.parameters)
         val resultMembers = findResultMembers(callbackLambda.parameters, errorMember)
-        val localNames =
-            callbackLambda.parameters.mapIndexed {
-                    index,
-                    member,
-                ->
-                if (member === errorMember) "error" else "callbackValue$index"
-            }
+        val localNames = callbackLocalNames(callbackLambda.parameters, errorMember)
         val resultLocalNames = resultMembers.map { localNames[callbackLambda.parameters.indexOf(it)] }
         val valueModel =
             buildFlowValueModel(
@@ -430,18 +425,11 @@ internal object KotlinAsyncHelpers {
         val callbackFunctions = (callbackInterface.functions + callbackInterface.inheritedFunctions).distinct()
         val emitFunctions = callbackFunctions.filter { it.attributes.have(KOTLIN_COROUTINE, EMIT) }
         val completeFunctions = callbackFunctions.filter { it.attributes.have(KOTLIN_COROUTINE, COMPLETE) }
-        require(completeFunctions.size <= 1) {
-            "@KotlinCoroutine(Flow) callback '${callbackInterface.fullName}' has more than one completion function"
-        }
-        require(emitFunctions.isNotEmpty() || completeFunctions.isNotEmpty()) {
-            "@KotlinCoroutine(Flow) callback '${callbackInterface.fullName}' must declare an Emit or Complete function"
-        }
-        val completeFunction = completeFunctions.singleOrNull()
+        val completeFunction = completeFunctions.firstOrNull()
 
         val resultMembersByFunction =
             (emitFunctions + completeFunctions).associateWith { function ->
-                val errorMember = function.parameters.singleOrNull { it.attributes.have(KOTLIN_COROUTINE, ERROR) }
-                findResultMembers(function.parameters, errorMember)
+                findResultMembers(function.parameters, findErrorMember(function.parameters))
             }
         val eventFunctions = emitFunctions + completeFunctions.filter { resultMembersByFunction[it].orEmpty().isNotEmpty() }
         val eventTypeName = "${flowName.replaceFirstChar { it.uppercase() }}Event"
@@ -481,17 +469,14 @@ internal object KotlinAsyncHelpers {
                     callbackFunction.parameters.joinToString(", ") {
                         "${nameResolver.resolveName(it)}: ${nameResolver.resolveTypeRef(it.typeRef)}"
                     }
-                val errorMembers = callbackFunction.parameters.filter { it.attributes.have(KOTLIN_COROUTINE, ERROR) }
-                require(errorMembers.size <= 1) {
-                    "@KotlinCoroutine(Flow) callback function '${callbackFunction.fullName}' has more than one error member"
-                }
+                val errorMember = findErrorMember(callbackFunction.parameters)
                 val resultMembers = resultMembersByFunction[callbackFunction].orEmpty()
                 val resultLocalNames = resultMembers.map { nameResolver.resolveName(it) }
                 val isComplete = callbackFunction === completeFunction
                 val actionLines =
                     if (callbackFunction in emitFunctions || isComplete) {
                         buildFlowAction(
-                            errorMembers.singleOrNull()?.let { nameResolver.resolveName(it) },
+                            errorMember?.let { nameResolver.resolveName(it) },
                             resultMembers,
                             resultLocalNames,
                             eventExpressions[callbackFunction],
@@ -530,6 +515,12 @@ internal object KotlinAsyncHelpers {
         val markedResults = parameters.filter { it.attributes.have(KOTLIN_COROUTINE, RESULT) }
         return markedResults.ifEmpty { parameters.filterNot { it === errorMember } }
     }
+
+    /** Local names for a callback adapter: the error member is always `error`, other members are positional. */
+    private fun callbackLocalNames(
+        members: List<LimeTypedElement>,
+        errorMember: LimeTypedElement?,
+    ): List<String> = members.mapIndexed { index, member -> if (member === errorMember) "error" else "callbackValue$index" }
 
     private fun buildFlowValueModel(
         typeName: String,
@@ -657,13 +648,8 @@ internal object KotlinAsyncHelpers {
         val callbackLambda = callbackParameter.typeRef.type.actualType as LimeLambda
         val callbackTypeName = nameResolver.resolveTypeRef(callbackParameter.typeRef).removeSuffix("?")
 
-        val errorMembers = callbackLambda.parameters.filter { it.attributes.have(KOTLIN_COROUTINE, ERROR) }
-        require(errorMembers.size <= 1) {
-            "@KotlinCoroutine function '${limeFunction.fullName}' has more than one @KotlinCoroutine(Error) callback member"
-        }
-        val errorMember = errorMembers.singleOrNull()
-        val markedResultMembers = callbackLambda.parameters.filter { it.attributes.have(KOTLIN_COROUTINE, RESULT) }
-        val resultMembers = markedResultMembers.ifEmpty { callbackLambda.parameters.filterNot { it === errorMember } }
+        val errorMember = findErrorMember(callbackLambda.parameters)
+        val resultMembers = findResultMembers(callbackLambda.parameters, errorMember)
 
         val resultClassName =
             if (resultMembers.size > 1) {
@@ -689,10 +675,7 @@ internal object KotlinAsyncHelpers {
 
         // SAM adapter parameter names, in the callback's own declaration order. The error member is
         // always forwarded as the bridge's first argument and all result members form the value.
-        val samParameterNames =
-            callbackLambda.parameters.mapIndexed { index, member ->
-                if (member === errorMember) "error" else "callbackValue$index"
-            }
+        val samParameterNames = callbackLocalNames(callbackLambda.parameters, errorMember)
         val samHeader =
             if (samParameterNames.isEmpty()) "$callbackTypeName {" else "$callbackTypeName { ${samParameterNames.joinToString(", ")} ->"
         val resultLocalNames =
@@ -740,17 +723,7 @@ internal object KotlinAsyncHelpers {
                     }
                 else -> resultClassName!!
             }
-        val suspendParameters =
-            limeFunction.parameters
-                .filterNot { it === callbackParameter }
-                .joinToString(", ") { parameter ->
-                    val declaration = "${nameResolver.resolveName(parameter)}: ${nameResolver.resolveTypeRef(parameter.typeRef)}"
-                    if (parameter.attributes.have(KOTLIN_COROUTINE, DEFAULT)) {
-                        "$declaration = ${nameResolver.resolveTypeRef(parameter.typeRef).removeSuffix("?")}()"
-                    } else {
-                        declaration
-                    }
-                }
+        val suspendParameters = buildWrapperParameters(limeFunction, callbackParameter, nameResolver)
 
         val exceptionName = errorMember?.let { exceptionName(limeFunction, nameResolver) }
         val cancelFunction = findCancelFunction(limeFunction)

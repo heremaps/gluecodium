@@ -51,5 +51,5 @@ public suspend fun {{name}}({{params}}): {{returnType}} =
 public fun {{name}}({{params}}): Flow<{{eventType}}> =
   callbackFlow {
 {{{body}}}
-  }
+  }.buffer(onBufferOverflow = BufferOverflow.DROP_OLDEST)
 {{/flows}}
