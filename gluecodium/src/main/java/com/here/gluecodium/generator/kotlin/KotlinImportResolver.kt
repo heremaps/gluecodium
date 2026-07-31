@@ -28,6 +28,7 @@ import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeConstant
+import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
@@ -58,6 +59,20 @@ internal class KotlinImportResolver(
     private val durationImport = (internalPackage + listOf("time", "Duration")).joinToString(".")
     private val abstractNativeListImport = (internalPackage + listOf("AbstractNativeList")).joinToString(".")
     private val internalApiAnnotationImport = (internalPackage + listOf(internalApiAnnotation)).joinToString(".")
+
+    /** The `kotlinx.coroutines.flow.*` imports a container needs when it has at least one `@KotlinCoroutine(Flow)` member. */
+    fun resolveCoroutineFlowImports(limeContainer: LimeContainer): List<String> =
+        if (KotlinAsyncHelpers.hasFlowMembers(limeContainer)) {
+            listOf(
+                "kotlinx.coroutines.channels.BufferOverflow",
+                "kotlinx.coroutines.channels.awaitClose",
+                "kotlinx.coroutines.flow.Flow",
+                "kotlinx.coroutines.flow.buffer",
+                "kotlinx.coroutines.flow.callbackFlow",
+            )
+        } else {
+            emptyList()
+        }
 
     override fun resolveElementImports(limeElement: LimeElement): List<String> =
         when (limeElement) {

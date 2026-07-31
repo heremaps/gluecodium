@@ -69,6 +69,10 @@ internal class KotlinImportCollector(
                     limeContainer.inheritedFunctions + limeContainer.inheritedProperties
                 else -> emptyList()
             }
+        // A `@KotlinCoroutine` function's own callback-type import is already covered above via `collectImports` on
+        // `limeContainer.functions`. This walks one level deeper: the generated exception/result classes for that
+        // function reference the callback's *internal* member types directly (e.g. the error type), in the same
+        // file as the container itself, so those member types need their own imports resolved here too.
         val coroutineCallbackImports =
             (limeContainer.functions + inheritedElements.filterIsInstance<LimeFunction>())
                 .filter { it.attributes.have(KOTLIN_COROUTINE) }

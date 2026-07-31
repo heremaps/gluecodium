@@ -36,7 +36,10 @@ class CoroutineClient : NativeBase {
 
 
     external fun clearCache(callback: ErrorOnlyCallback) : Unit
-
+    /**
+     * Resolves the display name for the current account.
+     * @param callback
+     */
 
     external fun resolveName(callback: ValueOnlyCallback) : Unit
 
@@ -124,6 +127,8 @@ class CoroutineClient : NativeBase {
      * Coroutine (`suspend`) variant of `resolveName`.
      *
      * Suspends the calling coroutine until the operation completes instead of taking a callback.
+     *
+     * Resolves the display name for the current account.
      * @return the operation value.
      */
     public suspend fun resolveName(): String? =
@@ -287,3 +292,4 @@ class CoroutineClient : NativeBase {
             awaitClose { this@CoroutineClient.removeStateListener(listener) }
       }.buffer(onBufferOverflow = BufferOverflow.DROP_OLDEST)
 }
+

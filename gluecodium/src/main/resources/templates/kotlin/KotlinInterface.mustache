@@ -42,6 +42,11 @@
 {{/properties}}
 {{/set}}
 
+{{#if coroutineMembers}}
+
+{{{coroutineMembers}}}
+{{/if}}
+
 {{#ifPredicate "needsCompanionObject"}}
     companion object {
 {{#constants}}{{prefixPartial "kotlin/KotlinConstant" "        "}}
@@ -73,6 +78,10 @@
 {{/properties}}
 {{/set}}
 {{/ifPredicate}}
+{{#if staticCoroutineMembers}}
+
+{{{staticCoroutineMembers}}}
+{{/if}}
     }
 {{/ifPredicate}}{{!!
 

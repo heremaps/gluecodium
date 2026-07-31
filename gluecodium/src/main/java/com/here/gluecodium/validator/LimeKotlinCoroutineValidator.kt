@@ -31,8 +31,10 @@ import com.here.gluecodium.model.lime.LimeAttributeValueType.FLOW
 import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
 import com.here.gluecodium.model.lime.LimeAttributeValueType.RESULT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.UNREGISTER
-import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainer
+import com.here.gluecodium.model.lime.LimeEnumerator
+import com.here.gluecodium.model.lime.LimeException
+import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
@@ -40,7 +42,13 @@ import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeProperty
+import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypedElement
+import com.here.gluecodium.model.lime.allCoroutineFunctions
+import com.here.gluecodium.model.lime.findCoroutineCallbackCandidates
+import com.here.gluecodium.model.lime.findCoroutineCancelFunction
+import com.here.gluecodium.model.lime.findCoroutineErrorMember
+import com.here.gluecodium.model.lime.findCoroutineUnregisterFunctions
 
 /** Validates Kotlin-only coroutine and Flow annotation roles. */
 internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
@@ -54,8 +62,14 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
         allElements.filterIsInstance<LimeLambda>().forEach {
             isValid = validateLambda(it) && isValid
         }
-        allElements.filterIsInstance<LimeProperty>().forEach {
-            isValid = validateNonFunction(it) && isValid
+        listOf(
+            allElements.filterIsInstance<LimeProperty>(),
+            allElements.filterIsInstance<LimeField>(),
+            allElements.filterIsInstance<LimeEnumerator>(),
+            allElements.filterIsInstance<LimeException>(),
+            allElements.filterIsInstance<LimeTypeAlias>(),
+        ).flatten().forEach {
+            isValid = validateUnsupportedTarget(it) && isValid
         }
 
         return isValid
@@ -100,38 +114,13 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
     }
 
     /** Functions visible on the container, including the ones a class inherits from its interfaces. */
-    private fun allFunctions(container: LimeContainer): List<LimeFunction> =
-        when (container) {
-            is LimeClass -> (container.functions + container.interfaceInheritedFunctions).distinct()
-            else -> container.functions
-        }
+    private fun allFunctions(container: LimeContainer): List<LimeFunction> = container.allCoroutineFunctions()
 
     private fun coroutineName(function: LimeFunction) = function.attributes.get(KOTLIN_COROUTINE, NAME) ?: function.name
 
-    /** The `@KotlinCoroutine(Callback)` parameter, or by convention the sole callback-typed parameter. */
-    private fun findCallbackParameter(function: LimeFunction): LimeParameter? {
-        val markedCallbacks = function.parameters.filter { it.attributes.have(KOTLIN_COROUTINE, CALLBACK) }
-        if (markedCallbacks.isNotEmpty()) return markedCallbacks.singleOrNull()
-        return function.parameters.filter {
-            val type = it.typeRef.type.actualType
-            type is LimeLambda || type is LimeInterface
-        }.singleOrNull()
-    }
-
     /** Fully qualified type name of the callback's `@KotlinCoroutine(Error)` member, or null when there is none. */
-    private fun findErrorTypeName(function: LimeFunction): String? {
-        val members: List<LimeTypedElement> =
-            when (val callbackType = findCallbackParameter(function)?.typeRef?.type?.actualType) {
-                is LimeLambda -> callbackType.parameters
-                is LimeInterface -> {
-                    val callbackFunctions = callbackType.functions + callbackType.inheritedFunctions
-                    val completionFunction = callbackFunctions.firstOrNull { it.attributes.have(KOTLIN_COROUTINE, COMPLETE) }
-                    completionFunction?.parameters ?: callbackFunctions.flatMap { it.parameters }
-                }
-                else -> emptyList()
-            }
-        return members.firstOrNull { it.attributes.have(KOTLIN_COROUTINE, ERROR) }?.typeRef?.type?.actualType?.fullName
-    }
+    private fun findErrorTypeName(function: LimeFunction): String? =
+        function.findCoroutineErrorMember()?.typeRef?.type?.actualType?.fullName
 
     private fun validateFunction(
         function: LimeFunction,
@@ -172,16 +161,7 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
             isValid = false
         }
 
-        val markedCallbacks = function.parameters.filter { it.attributes.have(KOTLIN_COROUTINE, CALLBACK) }
-        val callbackCandidates =
-            if (markedCallbacks.isNotEmpty()) {
-                markedCallbacks
-            } else {
-                function.parameters.filter { parameter ->
-                    val type = parameter.typeRef.type.actualType
-                    type is LimeLambda || type is LimeInterface
-                }
-            }
+        val callbackCandidates = function.findCoroutineCallbackCandidates()
         val callbackParameter = callbackCandidates.singleOrNull()
         if (callbackCandidates.size != 1) {
             logger.error(function, "`@KotlinCoroutine` requires exactly one callback parameter")
@@ -211,17 +191,13 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
             }
             null -> Unit
             else -> {
-                callbackParameter?.let { logger.error(it, "Kotlin coroutine callback must be lambda- or interface-typed") }
+                logger.error(callbackParameter, "Kotlin coroutine callback must be lambda- or interface-typed")
                 isValid = false
             }
         }
 
         if (roles.contains(FLOW) && callbackType != null) {
-            val unregisterFunctions =
-                allFunctions(container).filter { candidate ->
-                    candidate.attributes.have(KOTLIN_COROUTINE, UNREGISTER) &&
-                        candidate.parameters.any { it.typeRef.type.actualType === callbackType }
-                }
+            val unregisterFunctions = allFunctions(container).findCoroutineUnregisterFunctions(callbackType)
             if (unregisterFunctions.size > 1) {
                 logger.error(
                     function,
@@ -385,21 +361,24 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
     ): Boolean {
         if (!parameter.attributes.have(KOTLIN_COROUTINE)) return true
         val roles = parameter.attributes.getAllAttributeValueTypes(KOTLIN_COROUTINE)
+        if (roles.isEmpty()) {
+            val roleNames = allowedRoles.joinToString { "`$it`" }
+            logger.error(parameter, "`@KotlinCoroutine` on a parameter requires a role: $roleNames")
+            return false
+        }
         val unsupportedRoles = roles - allowedRoles
-        if (roles.isEmpty() || unsupportedRoles.isNotEmpty()) {
-            logger.error(parameter, "unsupported Kotlin coroutine parameter roles: ${unsupportedRoles.ifEmpty { roles }.joinToString()}")
+        if (unsupportedRoles.isNotEmpty()) {
+            logger.error(parameter, "unsupported Kotlin coroutine parameter roles: ${unsupportedRoles.joinToString()}")
             return false
         }
         return true
     }
 
-    private fun validateNonFunction(element: LimeNamedElement): Boolean {
-        var isValid = true
-        if (element.attributes.have(KOTLIN_COROUTINE)) {
-            logger.error(element, "`@KotlinCoroutine` cannot be used on properties")
-            isValid = false
-        }
-        return isValid
+    /** `@KotlinCoroutine` is only meaningful on functions, their parameters, and callback lambda/interface members. */
+    private fun validateUnsupportedTarget(element: LimeNamedElement): Boolean {
+        if (!element.attributes.have(KOTLIN_COROUTINE)) return true
+        logger.error(element, "`@KotlinCoroutine` cannot be used here")
+        return false
     }
 
     private fun hasFlowCleanup(
@@ -407,14 +386,8 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
         container: LimeContainer,
         callbackType: Any,
     ): Boolean {
-        val returnContainer = function.returnType.typeRef.type.actualType as? LimeContainer
-        // Must match `KotlinAsyncHelpers.findCancelFunction`: the generated cleanup calls `cancel()` without arguments.
-        val hasCancellation = returnContainer?.functions?.any { it.name == "cancel" && it.parameters.isEmpty() } == true
-        val hasUnregister =
-            allFunctions(container).any { candidate ->
-                candidate.attributes.have(KOTLIN_COROUTINE, UNREGISTER) &&
-                    candidate.parameters.any { it.typeRef.type.actualType === callbackType }
-            }
+        val hasCancellation = function.findCoroutineCancelFunction() != null
+        val hasUnregister = allFunctions(container).findCoroutineUnregisterFunctions(callbackType).isNotEmpty()
         return hasCancellation || hasUnregister
     }
 }

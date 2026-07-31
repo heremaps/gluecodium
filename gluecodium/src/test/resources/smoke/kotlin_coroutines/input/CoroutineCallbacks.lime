@@ -88,6 +88,12 @@ interface StateListener {
     fun on_message(message: String)
 }
 
+interface RemoteService {
+    // Checks whether the remote service is currently reachable.
+    @KotlinCoroutine
+    fun check_connection(@KotlinCoroutine(Callback) callback: ErrorOnlyCallback)
+}
+
 class CoroutineClient {
     @KotlinCoroutine(Name = "loadValueAsync")
     fun load_value(@KotlinCoroutine(Callback) callback: ErrorValueCallback): OperationHandle
@@ -95,6 +101,7 @@ class CoroutineClient {
     @KotlinCoroutine
     fun clear_cache(@KotlinCoroutine(Callback) callback: ErrorOnlyCallback)
 
+    // Resolves the display name for the current account.
     @KotlinCoroutine
     fun resolve_name(@KotlinCoroutine(Callback) callback: ValueOnlyCallback)
 

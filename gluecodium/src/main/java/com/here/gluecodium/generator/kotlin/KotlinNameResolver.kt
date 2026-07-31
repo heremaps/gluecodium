@@ -105,6 +105,18 @@ internal class KotlinNameResolver(
 
     override fun resolveSetterName(element: Any) = (element as? LimeTypedElement)?.let { kotlinNameRules.getSetterName(it) }
 
+    /**
+     * Applies the configured `type` name rule to a compound identifier with no backing [LimeElement], e.g. a
+     * generated data class or sealed interface name built from an existing resolved name plus a literal suffix.
+     */
+    fun resolveGeneratedTypeName(name: String): String = kotlinNameRules.ruleSet.getTypeName(name)
+
+    /** Same as [resolveGeneratedTypeName], but for generated exception/error type names via the `error` rule. */
+    fun resolveGeneratedErrorName(name: String): String = kotlinNameRules.ruleSet.getErrorName(name)
+
+    /** Same as [resolveGeneratedTypeName], but for generated function names via the `method` rule. */
+    fun resolveGeneratedMethodName(name: String): String = kotlinNameRules.ruleSet.getMethodName(name)
+
     private fun resolveComment(limeComment: LimeComment): String {
         val commentText = limeComment.getFor("Kotlin")
         if (commentText.isBlank()) return ""

@@ -34,6 +34,7 @@ import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.jni.JniTemplates
 import com.here.gluecodium.model.lime.LimeAttributeType.KOTLIN
 import com.here.gluecodium.model.lime.LimeClass
+import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CONVERTER_NAME
@@ -262,16 +263,8 @@ internal class KotlinGenerator : Generator {
         if (limeElement is LimeInterface || limeElement is LimeLambda) {
             imports = (imports + listOf(importResolver.nativeBaseImport))
         }
-        if (limeElement is LimeClass && KotlinAsyncHelpers.hasFlowMembers(limeElement)) {
-            imports =
-                imports +
-                listOf(
-                    "kotlinx.coroutines.channels.BufferOverflow",
-                    "kotlinx.coroutines.channels.awaitClose",
-                    "kotlinx.coroutines.flow.Flow",
-                    "kotlinx.coroutines.flow.buffer",
-                    "kotlinx.coroutines.flow.callbackFlow",
-                )
+        if (limeElement is LimeContainer) {
+            imports = imports + importResolver.resolveCoroutineFlowImports(limeElement)
         }
 
         val optimizedLists = OptimizedListsCollector().getAllOptimizedLists(limeElement)
@@ -292,11 +285,15 @@ internal class KotlinGenerator : Generator {
                 "internalApiAnnotationClassPath" to internalApiAnnotationClassPath,
             )
 
-        // Rendered separately and passed in, so the `KotlinClass` template controls where they land.
-        if (limeElement is LimeClass) {
-            val coroutineMembers = KotlinAsyncHelpers.buildClassCoroutineMembers(limeElement, nameResolver)
-            if (coroutineMembers.isNotBlank()) {
-                templateData["coroutineMembers"] = coroutineMembers
+        // Rendered separately and passed in, so the `KotlinClass`/`KotlinInterface`/`KotlinStruct` templates control
+        // where they land: instance members in the main body, static members in the companion object.
+        if (limeElement is LimeContainer) {
+            val coroutineMembers = KotlinAsyncHelpers.buildCoroutineMembers(limeElement, nameResolver)
+            if (coroutineMembers.instance.isNotBlank()) {
+                templateData["coroutineMembers"] = coroutineMembers.instance
+            }
+            if (coroutineMembers.static.isNotBlank()) {
+                templateData["staticCoroutineMembers"] = coroutineMembers.static
             }
         }
 
