@@ -60,7 +60,7 @@ internal class KotlinImportResolver(
     private val abstractNativeListImport = (internalPackage + listOf("AbstractNativeList")).joinToString(".")
     private val internalApiAnnotationImport = (internalPackage + listOf(internalApiAnnotation)).joinToString(".")
 
-    /** The `kotlinx.coroutines.flow.*` imports a container needs when it has at least one `@KotlinCoroutine(Flow)` member. */
+    /** The `kotlinx.coroutines.flow.*` imports a container needs when it has at least one `@AsyncDecorator(Flow)` member. */
     fun resolveCoroutineFlowImports(limeContainer: LimeContainer): List<String> =
         if (KotlinAsyncHelpers.hasFlowMembers(limeContainer)) {
             listOf(

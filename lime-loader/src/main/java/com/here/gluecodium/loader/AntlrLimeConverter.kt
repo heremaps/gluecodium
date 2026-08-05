@@ -298,7 +298,8 @@ internal object AntlrLimeConverter {
         when (val id = ctx.simpleId().text) {
             "AfterConstruction" -> LimeAttributeType.AFTER_CONSTRUCTION
             "Async" -> LimeAttributeType.ASYNC
-            "KotlinCoroutine" -> LimeAttributeType.KOTLIN_COROUTINE
+            "AsyncDecorator" -> LimeAttributeType.ASYNC_DECORATOR
+            "AsyncTaskHandle" -> LimeAttributeType.ASYNC_TASK_HANDLE
             "Cached" -> LimeAttributeType.CACHED
             "Cpp" -> LimeAttributeType.CPP
             "Dart" -> LimeAttributeType.DART

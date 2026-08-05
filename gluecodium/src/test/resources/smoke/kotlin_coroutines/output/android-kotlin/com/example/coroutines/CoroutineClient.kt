@@ -17,6 +17,21 @@ import kotlinx.coroutines.flow.callbackFlow
 
 class CoroutineClient : NativeBase {
 
+    class Options {
+        @JvmField var retryCount: Int
+
+
+
+        constructor(retryCount: Int) {
+            this.retryCount = retryCount
+        }
+
+
+
+
+
+    }
+
 
 
     /**
@@ -33,6 +48,9 @@ class CoroutineClient : NativeBase {
 
 
     external fun loadValue(callback: ErrorValueCallback) : OperationHandle
+
+
+    external fun refresh(callback: ErrorOnlyCallback) : AbortableHandle
 
 
     external fun clearCache(callback: ErrorOnlyCallback) : Unit
@@ -78,218 +96,9 @@ class CoroutineClient : NativeBase {
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
+
+        @JvmStatic external fun preload(callback: ErrorOnlyCallback) : Unit
     }
-
-    /** Typed exception wrapper preserving the callback error value. */
-    public class LoadValueAsyncException(public val error: OperationError) : Exception(error.toString())
-
-    /** Typed exception wrapper preserving the callback error value. */
-    public class ClearCacheException(public val error: OperationError) : Exception(error.toString())
-
-    /** Typed exception wrapper preserving the callback error value. */
-    public class LoadMetadataException(public val error: OperationError) : Exception(error.toString())
-
-    /** Typed exception wrapper preserving the callback error value. */
-    public class ListFeaturesException(public val error: OperationError) : Exception(error.toString())
-
-    /** Typed exception wrapper preserving the callback error value. */
-    public class DownloadException(public val error: OperationError) : Exception(error.toString())
-
-    /** Typed exception wrapper preserving the callback error value. */
-    public class TransferException(public val error: OperationError) : Exception(error.toString())
-
-    /**
-     * Coroutine (`suspend`) variant of `loadValue`.
-     *
-     * Suspends the calling coroutine until the operation completes instead of taking a callback.
-     * Cancelling the coroutine cancels the underlying task.
-     * @return [Result] holding the operation value on success, or a failure carrying LoadValueAsyncException on error.
-     */
-    public suspend fun loadValueAsync(): Result<String> =
-            coroutineClientAwaitResultBridge(
-            startOperation = { callback -> this.loadValue(ErrorValueCallback { error, callbackValue1 -> callback(error, callbackValue1) }) },
-            mapDomainError = { error -> LoadValueAsyncException(error) },
-            cancelOperation = { handle -> handle.cancel() },
-        )
-    /**
-     * Coroutine (`suspend`) variant of `clearCache`.
-     *
-     * Suspends the calling coroutine until the operation completes instead of taking a callback.
-     * @return [Result] holding when the operation completes on success, or a failure carrying ClearCacheException on error.
-     */
-    public suspend fun clearCache(): Result<Unit> =
-            coroutineClientAwaitResultBridge(
-            startOperation = { callback -> this.clearCache(ErrorOnlyCallback { error -> callback(error, if (error == null) Unit else null) }) },
-            mapDomainError = { error -> ClearCacheException(error) },
-            cancelOperation = { handle -> Unit },
-        )
-    /**
-     * Coroutine (`suspend`) variant of `resolveName`.
-     *
-     * Suspends the calling coroutine until the operation completes instead of taking a callback.
-     *
-     * Resolves the display name for the current account.
-     * @return the operation value.
-     */
-    public suspend fun resolveName(): String? =
-            coroutineClientAwaitValueBridge(
-            startOperation = { callback -> this.resolveName(ValueOnlyCallback { callbackValue0 -> callback(callbackValue0) }) },
-            cancelOperation = { handle -> Unit },
-        )
-    /**
-     * Coroutine (`suspend`) variant of `synchronize`.
-     *
-     * Suspends the calling coroutine until the operation completes instead of taking a callback.
-     * @return when the operation completes.
-     */
-    public suspend fun synchronize(): Unit =
-            coroutineClientAwaitValueBridge(
-            startOperation = { callback -> this.synchronize(CompletionCallback { callback(Unit) }) },
-            cancelOperation = { handle -> Unit },
-        )
-    public data class LoadMetadataCoroutineResult(
-      public val count: Int,
-      public val label: String
-    )
-
-    /**
-     * Coroutine (`suspend`) variant of `loadMetadata`.
-     *
-     * Suspends the calling coroutine until the operation completes instead of taking a callback.
-     * Cancelling the coroutine cancels the underlying task.
-     * @return [Result] holding the callback values grouped in a generated result type on success, or a failure carrying LoadMetadataException on error.
-     */
-    public suspend fun loadMetadata(): Result<LoadMetadataCoroutineResult> =
-            coroutineClientAwaitResultBridge(
-            startOperation = { callback -> this.loadMetadata(MultiValueCallback { error, callbackValue1, callbackValue2 -> callback(error, if (callbackValue1 != null && callbackValue2 != null) LoadMetadataCoroutineResult(callbackValue1, callbackValue2) else null) }) },
-            mapDomainError = { error -> LoadMetadataException(error) },
-            cancelOperation = { handle -> handle.cancel() },
-        )
-    /**
-     * Coroutine (`suspend`) variant of `listFeatures`.
-     *
-     * Suspends the calling coroutine until the operation completes instead of taking a callback.
-     * @return [Result] holding the operation value on success, or a failure carrying ListFeaturesException on error.
-     */
-    public suspend fun listFeatures(): Result<String> =
-            coroutineClientAwaitResultBridge(
-            startOperation = { callback -> this.listFeatures(TrailingErrorCallback { callbackValue0, error -> callback(error, callbackValue0) }) },
-            mapDomainError = { error -> ListFeaturesException(error) },
-            cancelOperation = { handle -> Unit },
-        )
-    /**
-     * Flow variant of `observeTicks`. Registers the callback when collected and releases it when collection stops.
-     */
-    public fun observeTicksFlow(): Flow<Int> =
-      callbackFlow {
-            val listener = TickCallback { callbackValue0 ->
-                trySend(callbackValue0)
-            }
-            val handle = this@CoroutineClient.observeTicks(listener)
-            awaitClose { handle.cancel() }
-      }.buffer(onBufferOverflow = BufferOverflow.DROP_OLDEST)
-    /**
-     * Flow variant of `download`. Registers the callback when collected and releases it when collection stops.
-     */
-    public fun downloadFlow(): Flow<Int> =
-      callbackFlow {
-            val listener =
-                object : ProgressListener {
-                    override fun onProgress(percentage: Int) {
-                        trySend(percentage)
-                    }
-
-                    override fun onComplete(error: OperationError?) {
-                        when {
-                            error != null -> close(DownloadException(error))
-                            else -> {
-                                close()
-                            }
-                        }
-                    }
-                }
-            val handle = this@CoroutineClient.download(listener)
-            awaitClose { handle.cancel() }
-      }.buffer(onBufferOverflow = BufferOverflow.DROP_OLDEST)
-    public sealed interface TransferFlowEvent {
-        public data class OnProgress(
-            public val percentage: Int,
-        ) : TransferFlowEvent
-
-        public data class OnComplete(
-            public val receipt: String,
-        ) : TransferFlowEvent
-    }
-
-    /**
-     * Flow variant of `transfer`. Registers the callback when collected and releases it when collection stops.
-     */
-    public fun transferFlow(): Flow<TransferFlowEvent> =
-      callbackFlow {
-            val listener =
-                object : TransferListener {
-                    override fun onProgress(percentage: Int) {
-                        trySend(TransferFlowEvent.OnProgress(percentage))
-                    }
-
-                    override fun onComplete(error: OperationError?, receipt: String?) {
-                        when {
-                            error != null -> close(TransferException(error))
-                            receipt == null -> close(CoroutineClientSdkContractViolationException("SDK contract violation: success callback contains null result"))
-                            else -> {
-                                trySend(TransferFlowEvent.OnComplete(receipt))
-                                close()
-                            }
-                        }
-                    }
-                }
-            val handle = this@CoroutineClient.transfer(listener)
-            awaitClose { handle.cancel() }
-      }.buffer(onBufferOverflow = BufferOverflow.DROP_OLDEST)
-    public data class AddUpdateListenerFlowEvent(
-        public val identifier: Int,
-        public val message: String,
-    )
-
-    /**
-     * Flow variant of `addUpdateListener`. Registers the callback when collected and releases it when collection stops.
-     */
-    public fun addUpdateListenerFlow(): Flow<AddUpdateListenerFlowEvent> =
-      callbackFlow {
-            val listener =
-                object : UpdateListener {
-                    override fun onUpdate(identifier: Int, message: String) {
-                        trySend(AddUpdateListenerFlowEvent(identifier, message))
-                    }
-                }
-            this@CoroutineClient.addUpdateListener(listener)
-            awaitClose { this@CoroutineClient.removeUpdateListener(listener) }
-      }.buffer(onBufferOverflow = BufferOverflow.DROP_OLDEST)
-    public sealed interface AddStateListenerFlowEvent {
-        public object OnStarted : AddStateListenerFlowEvent
-
-        public data class OnMessage(
-            public val message: String,
-        ) : AddStateListenerFlowEvent
-    }
-
-    /**
-     * Flow variant of `addStateListener`. Registers the callback when collected and releases it when collection stops.
-     */
-    public fun addStateListenerFlow(): Flow<AddStateListenerFlowEvent> =
-      callbackFlow {
-            val listener =
-                object : StateListener {
-                    override fun onStarted() {
-                        trySend(AddStateListenerFlowEvent.OnStarted)
-                    }
-
-                    override fun onMessage(message: String) {
-                        trySend(AddStateListenerFlowEvent.OnMessage(message))
-                    }
-                }
-            this@CoroutineClient.addStateListener(listener)
-            awaitClose { this@CoroutineClient.removeStateListener(listener) }
-      }.buffer(onBufferOverflow = BufferOverflow.DROP_OLDEST)
 }
 

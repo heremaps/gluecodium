@@ -20,7 +20,8 @@
 package com.here.gluecodium.validator
 
 import com.here.gluecodium.common.LimeLogger
-import com.here.gluecodium.model.lime.LimeAttributeType.KOTLIN_COROUTINE
+import com.here.gluecodium.model.lime.LimeAttributeType.ASYNC_DECORATOR
+import com.here.gluecodium.model.lime.LimeAttributeType.ASYNC_TASK_HANDLE
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributeValueType.CALLBACK
 import com.here.gluecodium.model.lime.LimeAttributeValueType.COMPLETE
@@ -31,7 +32,9 @@ import com.here.gluecodium.model.lime.LimeAttributeValueType.FLOW
 import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
 import com.here.gluecodium.model.lime.LimeAttributeValueType.RESULT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.UNREGISTER
+import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeContainer
+import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeField
@@ -44,14 +47,18 @@ import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypedElement
-import com.here.gluecodium.model.lime.allCoroutineFunctions
-import com.here.gluecodium.model.lime.findCoroutineCallbackCandidates
-import com.here.gluecodium.model.lime.findCoroutineCancelFunction
-import com.here.gluecodium.model.lime.findCoroutineErrorMember
-import com.here.gluecodium.model.lime.findCoroutineUnregisterFunctions
+import com.here.gluecodium.model.lime.allAsyncDecoratorFunctions
+import com.here.gluecodium.model.lime.allFunctionsWithInherited
+import com.here.gluecodium.model.lime.findAsyncCallbackCandidates
+import com.here.gluecodium.model.lime.findAsyncCancelFunction
+import com.here.gluecodium.model.lime.findAsyncErrorMember
+import com.here.gluecodium.model.lime.findAsyncErrorMembers
+import com.here.gluecodium.model.lime.findAsyncResultMembers
+import com.here.gluecodium.model.lime.findAsyncUnregisterFunctions
+import com.here.gluecodium.model.lime.isAsyncCallbackTyped
 
-/** Validates Kotlin-only coroutine and Flow annotation roles. */
-internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
+/** Validates `@AsyncDecorator` annotation roles. Platform-agnostic: runs regardless of the selected generators. */
+internal class LimeAsyncDecoratorValidator(private val logger: LimeLogger) {
     fun validate(limeModel: LimeModel): Boolean {
         val allElements = limeModel.referenceMap.values
         var isValid = true
@@ -65,6 +72,8 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
         listOf(
             allElements.filterIsInstance<LimeProperty>(),
             allElements.filterIsInstance<LimeField>(),
+            allElements.filterIsInstance<LimeConstant>(),
+            allElements.filterIsInstance<LimeEnumeration>(),
             allElements.filterIsInstance<LimeEnumerator>(),
             allElements.filterIsInstance<LimeException>(),
             allElements.filterIsInstance<LimeTypeAlias>(),
@@ -76,10 +85,10 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
     }
 
     private fun validateContainer(container: LimeContainer): Boolean {
-        var isValid = true
-        val completionFunctions = container.functions.filter { it.attributes.have(KOTLIN_COROUTINE, COMPLETE) }
+        var isValid = validateUnsupportedTarget(container)
+        val completionFunctions = container.functions.filter { it.attributes.have(ASYNC_DECORATOR, COMPLETE) }
         if (completionFunctions.size > 1) {
-            logger.error(container, "a coroutine Flow listener can have at most one `@KotlinCoroutine(Complete)` function")
+            logger.error(container, "an `@AsyncDecorator(Flow)` listener can have at most one `@AsyncDecorator(Complete)` function")
             isValid = false
         }
 
@@ -87,26 +96,42 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
             isValid = validateFunction(it, container) && isValid
         }
         isValid = validateExceptionNames(container) && isValid
+        isValid = validateTaskHandleFunctions(container) && isValid
+        return isValid
+    }
+
+    /** `@AsyncTaskHandle` marks the single cancellation hook on a handle type returned by a decorated function. */
+    private fun validateTaskHandleFunctions(container: LimeContainer): Boolean {
+        var isValid = true
+        val handleFunctions = container.functions.filter { it.attributes.have(ASYNC_TASK_HANDLE) }
+        if (handleFunctions.size > 1) {
+            logger.error(container, "a type can declare at most one `@AsyncTaskHandle` function")
+            isValid = false
+        }
+        handleFunctions.filter { it.parameters.isNotEmpty() }.forEach {
+            logger.error(it, "an `@AsyncTaskHandle` function cannot have parameters")
+            isValid = false
+        }
         return isValid
     }
 
     /**
-     * Generated exception classes are named after the coroutine name, so two wrapper functions sharing a coroutine name
-     * must agree on the error type. Overloads are the usual cause, and `@KotlinCoroutine(Name = "...")` resolves it.
+     * Generated exception classes are named after the decorated name, so two wrapper functions sharing a decorated name
+     * must agree on the error type. Overloads are the usual cause, and `@AsyncDecorator(Name = "...")` resolves it.
      */
     private fun validateExceptionNames(container: LimeContainer): Boolean {
         var isValid = true
         allFunctions(container)
-            .filter { it.attributes.have(KOTLIN_COROUTINE) && !it.attributes.have(KOTLIN_COROUTINE, UNREGISTER) }
-            .mapNotNull { function -> findErrorTypeName(function)?.let { coroutineName(function) to it } }
+            .filter { it.attributes.have(ASYNC_DECORATOR) && !it.attributes.have(ASYNC_DECORATOR, UNREGISTER) }
+            .mapNotNull { function -> findErrorTypeName(function)?.let { decoratedName(function) to it } }
             .groupBy({ it.first }, { it.second })
             .filterValues { errorTypes -> errorTypes.distinct().size > 1 }
-            .forEach { (coroutineName, errorTypes) ->
+            .forEach { (decoratedName, errorTypes) ->
                 logger.error(
                     container,
-                    "coroutine functions named `$coroutineName` declare conflicting error types " +
+                    "`@AsyncDecorator` functions named `$decoratedName` declare conflicting error types " +
                         "(${errorTypes.distinct().sorted().joinToString()}); " +
-                        "use `@KotlinCoroutine(Name = \"...\")` to give them distinct names",
+                        "use `@AsyncDecorator(Name = \"...\")` to give them distinct names",
                 )
                 isValid = false
             }
@@ -114,30 +139,29 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
     }
 
     /** Functions visible on the container, including the ones a class inherits from its interfaces. */
-    private fun allFunctions(container: LimeContainer): List<LimeFunction> = container.allCoroutineFunctions()
+    private fun allFunctions(container: LimeContainer): List<LimeFunction> = container.allAsyncDecoratorFunctions()
 
-    private fun coroutineName(function: LimeFunction) = function.attributes.get(KOTLIN_COROUTINE, NAME) ?: function.name
+    private fun decoratedName(function: LimeFunction) = function.attributes.get(ASYNC_DECORATOR, NAME) ?: function.name
 
-    /** Fully qualified type name of the callback's `@KotlinCoroutine(Error)` member, or null when there is none. */
-    private fun findErrorTypeName(function: LimeFunction): String? =
-        function.findCoroutineErrorMember()?.typeRef?.type?.actualType?.fullName
+    /** Fully qualified type name of the callback's `@AsyncDecorator(Error)` member, or null when there is none. */
+    private fun findErrorTypeName(function: LimeFunction): String? = function.findAsyncErrorMember()?.typeRef?.type?.actualType?.fullName
 
     private fun validateFunction(
         function: LimeFunction,
         container: LimeContainer,
     ): Boolean {
         var isValid = true
-        if (!function.attributes.have(KOTLIN_COROUTINE)) {
+        if (!function.attributes.have(ASYNC_DECORATOR)) {
             function.parameters.forEach { parameter ->
-                if (parameter.attributes.have(KOTLIN_COROUTINE)) {
-                    logger.error(parameter, "Kotlin coroutine parameter roles require a `@KotlinCoroutine` function")
+                if (parameter.attributes.have(ASYNC_DECORATOR)) {
+                    logger.error(parameter, "`@AsyncDecorator` parameter roles require an `@AsyncDecorator` function")
                     isValid = false
                 }
             }
             return isValid
         }
 
-        val roles = function.attributes.getAllAttributeValueTypes(KOTLIN_COROUTINE)
+        val roles = function.attributes.getAllAttributeValueTypes(ASYNC_DECORATOR)
         return when {
             roles.contains(EMIT) || roles.contains(COMPLETE) -> validateListenerFunction(function, container) && isValid
             roles.contains(UNREGISTER) -> validateUnregisterFunction(function) && isValid
@@ -150,21 +174,21 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
         container: LimeContainer,
     ): Boolean {
         var isValid = true
-        val roles = function.attributes.getAllAttributeValueTypes(KOTLIN_COROUTINE)
+        val roles = function.attributes.getAllAttributeValueTypes(ASYNC_DECORATOR)
         val unsupportedRoles = roles - setOf(FLOW, NAME)
         if (unsupportedRoles.isNotEmpty()) {
-            logger.error(function, "unsupported Kotlin coroutine function roles: ${unsupportedRoles.joinToString()}")
+            logger.error(function, "unsupported `@AsyncDecorator` function roles: ${unsupportedRoles.joinToString()}")
             isValid = false
         }
         if (function.isConstructor) {
-            logger.error(function, "`@KotlinCoroutine` cannot be used on constructors")
+            logger.error(function, "`@AsyncDecorator` cannot be used on constructors")
             isValid = false
         }
 
-        val callbackCandidates = function.findCoroutineCallbackCandidates()
+        val callbackCandidates = function.findAsyncCallbackCandidates()
         val callbackParameter = callbackCandidates.singleOrNull()
         if (callbackCandidates.size != 1) {
-            logger.error(function, "`@KotlinCoroutine` requires exactly one callback parameter")
+            logger.error(function, "`@AsyncDecorator` requires exactly one callback parameter")
             isValid = false
         }
 
@@ -177,31 +201,31 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
         when (callbackType) {
             is LimeLambda -> {
                 if (!callbackType.returnType.isVoid) {
-                    logger.error(callbackType, "a Kotlin coroutine callback lambda must return `Void`")
+                    logger.error(callbackType, "an `@AsyncDecorator` callback lambda must return `Void`")
                     isValid = false
                 }
                 isValid = validateCallbackMembers(callbackType.parameters, callbackType) && isValid
             }
             is LimeInterface -> {
                 if (!roles.contains(FLOW)) {
-                    logger.error(function, "interface callbacks require `@KotlinCoroutine(Flow)`")
+                    logger.error(function, "interface callbacks require `@AsyncDecorator(Flow)`")
                     isValid = false
                 }
                 isValid = validateFlowInterface(callbackType) && isValid
             }
             null -> Unit
             else -> {
-                logger.error(callbackParameter, "Kotlin coroutine callback must be lambda- or interface-typed")
+                logger.error(callbackParameter, "`@AsyncDecorator` callback must be lambda- or interface-typed")
                 isValid = false
             }
         }
 
         if (roles.contains(FLOW) && callbackType != null) {
-            val unregisterFunctions = allFunctions(container).findCoroutineUnregisterFunctions(callbackType)
+            val unregisterFunctions = allFunctions(container).findAsyncUnregisterFunctions(callbackType)
             if (unregisterFunctions.size > 1) {
                 logger.error(
                     function,
-                    "`@KotlinCoroutine(Flow)` matches more than one `@KotlinCoroutine(Unregister)` function",
+                    "`@AsyncDecorator(Flow)` matches more than one `@AsyncDecorator(Unregister)` function",
                 )
                 isValid = false
             }
@@ -210,13 +234,11 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
         if (roles.contains(FLOW) && callbackType != null && !hasFlowCleanup(function, container, callbackType)) {
             val selfCompleting =
                 callbackType is LimeInterface &&
-                    (callbackType.functions + callbackType.inheritedFunctions).any {
-                        it.attributes.have(KOTLIN_COROUTINE, COMPLETE)
-                    }
+                    callbackType.allFunctionsWithInherited().any { it.attributes.have(ASYNC_DECORATOR, COMPLETE) }
             if (!selfCompleting) {
                 logger.error(
                     function,
-                    "`@KotlinCoroutine(Flow)` requires a cancellation handle, completion function, or unregister function",
+                    "`@AsyncDecorator(Flow)` requires a cancellation handle, completion function, or unregister function",
                 )
                 isValid = false
             }
@@ -230,10 +252,10 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
         container: LimeContainer,
     ): Boolean {
         var isValid = true
-        val roles = function.attributes.getAllAttributeValueTypes(KOTLIN_COROUTINE)
+        val roles = function.attributes.getAllAttributeValueTypes(ASYNC_DECORATOR)
         val listenerRoles = roles.intersect(setOf(EMIT, COMPLETE))
         if (container !is LimeInterface) {
-            logger.error(function, "`@KotlinCoroutine(Emit/Complete)` can only be used on interface functions")
+            logger.error(function, "`@AsyncDecorator(Emit/Complete)` can only be used on interface functions")
             isValid = false
         }
         if (listenerRoles.size != 1 || roles.size != 1) {
@@ -253,27 +275,23 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
 
     private fun validateUnregisterFunction(function: LimeFunction): Boolean {
         var isValid = true
-        val roles = function.attributes.getAllAttributeValueTypes(KOTLIN_COROUTINE)
+        val roles = function.attributes.getAllAttributeValueTypes(ASYNC_DECORATOR)
         if (roles != setOf(UNREGISTER)) {
-            logger.error(function, "`@KotlinCoroutine(Unregister)` cannot be combined with other coroutine roles")
+            logger.error(function, "`@AsyncDecorator(Unregister)` cannot be combined with other `@AsyncDecorator` roles")
             isValid = false
         }
         if (!function.returnType.isVoid) {
-            logger.error(function, "a coroutine unregister function must return `Void`")
+            logger.error(function, "an `@AsyncDecorator(Unregister)` function must return `Void`")
             isValid = false
         }
-        val callbackParameters =
-            function.parameters.filter {
-                val type = it.typeRef.type.actualType
-                type is LimeLambda || type is LimeInterface
-            }
+        val callbackParameters = function.parameters.filter { it.isAsyncCallbackTyped() }
         if (function.parameters.size != 1 || callbackParameters.size != 1) {
-            logger.error(function, "a coroutine unregister function must have exactly one parameter: the callback")
+            logger.error(function, "an `@AsyncDecorator(Unregister)` function must have exactly one parameter: the callback")
             isValid = false
         }
         function.parameters.forEach {
-            if (it.attributes.have(KOTLIN_COROUTINE)) {
-                logger.error(it, "unregister function parameters must not have Kotlin coroutine roles")
+            if (it.attributes.have(ASYNC_DECORATOR)) {
+                logger.error(it, "unregister function parameters must not have `@AsyncDecorator` roles")
                 isValid = false
             }
         }
@@ -281,28 +299,28 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
     }
 
     private fun validateFlowInterface(callbackInterface: LimeInterface): Boolean {
-        val functions = callbackInterface.functions + callbackInterface.inheritedFunctions
+        val functions = callbackInterface.allFunctionsWithInherited()
         var isValid = true
         val properties = callbackInterface.properties + callbackInterface.inheritedProperties
         if (properties.isNotEmpty()) {
-            logger.error(callbackInterface, "a coroutine Flow listener cannot declare properties")
+            logger.error(callbackInterface, "an `@AsyncDecorator(Flow)` listener cannot declare properties")
             isValid = false
         }
         functions.forEach { function ->
             val flowRoles =
-                function.attributes.getAllAttributeValueTypes(KOTLIN_COROUTINE)
+                function.attributes.getAllAttributeValueTypes(ASYNC_DECORATOR)
                     .intersect(setOf(EMIT, COMPLETE))
             if (flowRoles.size != 1) {
-                logger.error(function, "every coroutine Flow listener function must declare exactly one `Emit` or `Complete` role")
+                logger.error(function, "every `@AsyncDecorator(Flow)` listener function must declare exactly one `Emit` or `Complete` role")
                 isValid = false
             }
         }
-        if (functions.none { it.attributes.have(KOTLIN_COROUTINE, EMIT) }) {
-            logger.error(callbackInterface, "a coroutine Flow listener must have at least one `@KotlinCoroutine(Emit)` function")
+        if (functions.none { it.attributes.have(ASYNC_DECORATOR, EMIT) }) {
+            logger.error(callbackInterface, "an `@AsyncDecorator(Flow)` listener must have at least one `@AsyncDecorator(Emit)` function")
             isValid = false
         }
-        if (functions.count { it.attributes.have(KOTLIN_COROUTINE, COMPLETE) } > 1) {
-            logger.error(callbackInterface, "a coroutine Flow listener can have at most one completion function")
+        if (functions.count { it.attributes.have(ASYNC_DECORATOR, COMPLETE) } > 1) {
+            logger.error(callbackInterface, "an `@AsyncDecorator(Flow)` listener can have at most one completion function")
             isValid = false
         }
         return isValid
@@ -310,8 +328,8 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
 
     private fun validateLambda(lambda: LimeLambda): Boolean {
         var isValid = true
-        if (lambda.attributes.have(KOTLIN_COROUTINE)) {
-            logger.error(lambda, "Kotlin coroutine attributes cannot be applied to a lambda declaration")
+        if (lambda.attributes.have(ASYNC_DECORATOR)) {
+            logger.error(lambda, "`@AsyncDecorator` attributes cannot be applied to a lambda declaration")
             isValid = false
         }
         isValid = validateCallbackMembers(lambda.parameters, lambda) && isValid
@@ -324,31 +342,36 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
     ): Boolean {
         var isValid = true
         members.forEach { member ->
-            if (member.attributes.have(KOTLIN_COROUTINE)) {
-                val roles = member.attributes.getAllAttributeValueTypes(KOTLIN_COROUTINE)
+            if (member.attributes.have(ASYNC_DECORATOR)) {
+                val roles = member.attributes.getAllAttributeValueTypes(ASYNC_DECORATOR)
                 val unsupportedRoles = roles - setOf(ERROR, RESULT)
-                if (roles.isEmpty() || unsupportedRoles.isNotEmpty()) {
-                    logger.error(member, "callback members only support `Error` and `Result` coroutine roles")
-                    isValid = false
+                when {
+                    roles.isEmpty() -> {
+                        logger.error(member, "`@AsyncDecorator` on a callback member requires a role: `$ERROR` or `$RESULT`")
+                        isValid = false
+                    }
+                    unsupportedRoles.isNotEmpty() -> {
+                        logger.error(member, "unsupported `@AsyncDecorator` callback member roles: ${unsupportedRoles.joinToString()}")
+                        isValid = false
+                    }
                 }
             }
         }
-        val errorMembers = members.filter { it.attributes.have(KOTLIN_COROUTINE, ERROR) }
+        val errorMembers = members.findAsyncErrorMembers()
         if (errorMembers.size > 1) {
-            logger.error(owner, "a Kotlin coroutine callback can have at most one error member")
+            logger.error(owner, "an `@AsyncDecorator` callback can have at most one error member")
             isValid = false
         }
         val errorMember = errorMembers.singleOrNull()
         if (errorMember != null && !errorMember.typeRef.isNullable) {
-            logger.error(errorMember, "a Kotlin coroutine error member must be nullable")
+            logger.error(errorMember, "an `@AsyncDecorator` error member must be nullable")
             isValid = false
         }
 
-        val markedResults = members.filter { it.attributes.have(KOTLIN_COROUTINE, RESULT) }
-        val resultMembers = markedResults.ifEmpty { members.filterNot { it === errorMember } }
+        val resultMembers = members.findAsyncResultMembers(errorMember)
         if (errorMember != null) {
             resultMembers.filterNot { it.typeRef.isNullable }.forEach {
-                logger.error(it, "Kotlin coroutine results paired with an error member must be nullable")
+                logger.error(it, "`@AsyncDecorator` results paired with an error member must be nullable")
                 isValid = false
             }
         }
@@ -359,25 +382,25 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
         parameter: LimeParameter,
         allowedRoles: Set<LimeAttributeValueType>,
     ): Boolean {
-        if (!parameter.attributes.have(KOTLIN_COROUTINE)) return true
-        val roles = parameter.attributes.getAllAttributeValueTypes(KOTLIN_COROUTINE)
+        if (!parameter.attributes.have(ASYNC_DECORATOR)) return true
+        val roles = parameter.attributes.getAllAttributeValueTypes(ASYNC_DECORATOR)
         if (roles.isEmpty()) {
             val roleNames = allowedRoles.joinToString { "`$it`" }
-            logger.error(parameter, "`@KotlinCoroutine` on a parameter requires a role: $roleNames")
+            logger.error(parameter, "`@AsyncDecorator` on a parameter requires a role: $roleNames")
             return false
         }
         val unsupportedRoles = roles - allowedRoles
         if (unsupportedRoles.isNotEmpty()) {
-            logger.error(parameter, "unsupported Kotlin coroutine parameter roles: ${unsupportedRoles.joinToString()}")
+            logger.error(parameter, "unsupported `@AsyncDecorator` parameter roles: ${unsupportedRoles.joinToString()}")
             return false
         }
         return true
     }
 
-    /** `@KotlinCoroutine` is only meaningful on functions, their parameters, and callback lambda/interface members. */
+    /** `@AsyncDecorator` is only meaningful on functions, their parameters, and callback lambda/interface members. */
     private fun validateUnsupportedTarget(element: LimeNamedElement): Boolean {
-        if (!element.attributes.have(KOTLIN_COROUTINE)) return true
-        logger.error(element, "`@KotlinCoroutine` cannot be used here")
+        if (!element.attributes.have(ASYNC_DECORATOR)) return true
+        logger.error(element, "`@AsyncDecorator` cannot be used here")
         return false
     }
 
@@ -386,8 +409,8 @@ internal class LimeKotlinCoroutineValidator(private val logger: LimeLogger) {
         container: LimeContainer,
         callbackType: Any,
     ): Boolean {
-        val hasCancellation = function.findCoroutineCancelFunction() != null
-        val hasUnregister = allFunctions(container).findCoroutineUnregisterFunctions(callbackType).isNotEmpty()
+        val hasCancellation = function.findAsyncCancelFunction() != null
+        val hasUnregister = allFunctions(container).findAsyncUnregisterFunctions(callbackType).isNotEmpty()
         return hasCancellation || hasUnregister
     }
 }

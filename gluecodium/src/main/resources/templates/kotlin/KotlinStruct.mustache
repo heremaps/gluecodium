@@ -199,11 +199,6 @@
 {{/unless}}
 {{/functions}}
 
-{{#if coroutineMembers}}
-
-{{{coroutineMembers}}}
-{{/if}}
-
 {{#eval "optimizedLists" path}}{{#this}}
 {{#elementType}}{{prefixPartial "kotlin/KotlinLazyNativeList" "    "}}{{/elementType}}
 {{/this}}{{/eval}}
@@ -226,10 +221,6 @@
 {{#unless external.kotlin.name}}
 {{#if attributes.serializable}}{{prefixPartial "kotlin/KotlinParcelableCreator" "        "}}
 {{/if}}{{/unless}}
-{{#if staticCoroutineMembers}}
-
-{{{staticCoroutineMembers}}}
-{{/if}}
     }
 {{/ifPredicate}}
 }

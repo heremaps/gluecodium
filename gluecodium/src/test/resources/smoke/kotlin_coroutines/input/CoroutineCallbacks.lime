@@ -25,114 +25,144 @@ class OperationHandle {
     fun cancel()
 }
 
+# The cancel hook is explicit, so it does not have to be named `cancel`.
+class AbortableHandle {
+    @AsyncTaskHandle
+    fun abort()
+}
+
 lambda ErrorValueCallback = (
-    error: @KotlinCoroutine(Error) OperationError?,
-    value: @KotlinCoroutine(Result) String?
+    error: @AsyncDecorator(Error) OperationError?,
+    value: @AsyncDecorator(Result) String?
 ) -> Void
 
 lambda ErrorOnlyCallback = (
-    error: @KotlinCoroutine(Error) OperationError?
+    error: @AsyncDecorator(Error) OperationError?
 ) -> Void
 
 lambda ValueOnlyCallback = (
-    value: @KotlinCoroutine(Result) String?
+    value: @AsyncDecorator(Result) String?
 ) -> Void
 
 lambda CompletionCallback = () -> Void
 
 lambda MultiValueCallback = (
-    error: @KotlinCoroutine(Error) OperationError?,
-    count: @KotlinCoroutine(Result) Int?,
-    label: @KotlinCoroutine(Result) String?
+    error: @AsyncDecorator(Error) OperationError?,
+    count: @AsyncDecorator(Result) Int?,
+    label: @AsyncDecorator(Result) String?
 ) -> Void
 
 lambda TickCallback = (
-    tick: @KotlinCoroutine(Result) Int
+    tick: @AsyncDecorator(Result) Int
 ) -> Void
 
 # The error member is declared last and the result member is not marked, so both are resolved by convention.
 lambda TrailingErrorCallback = (
     value: String?,
-    error: @KotlinCoroutine(Error) OperationError?
+    error: @AsyncDecorator(Error) OperationError?
 ) -> Void
 
 interface ProgressListener {
-    @KotlinCoroutine(Emit)
+    @AsyncDecorator(Emit)
     fun on_progress(percentage: Int)
 
-    @KotlinCoroutine(Complete)
-    fun on_complete(@KotlinCoroutine(Error) error: OperationError?)
+    @AsyncDecorator(Complete)
+    fun on_complete(@AsyncDecorator(Error) error: OperationError?)
 }
 
 interface TransferListener {
-    @KotlinCoroutine(Emit)
+    @AsyncDecorator(Emit)
     fun on_progress(percentage: Int)
 
-    @KotlinCoroutine(Complete)
+    @AsyncDecorator(Complete)
     fun on_complete(
-        @KotlinCoroutine(Error) error: OperationError?,
-        @KotlinCoroutine(Result) receipt: String?
+        @AsyncDecorator(Error) error: OperationError?,
+        @AsyncDecorator(Result) receipt: String?
     )
 }
 
 interface UpdateListener {
-    @KotlinCoroutine(Emit)
+    @AsyncDecorator(Emit)
     fun on_update(identifier: Int, message: String)
 }
 
 interface StateListener {
-    @KotlinCoroutine(Emit)
+    @AsyncDecorator(Emit)
     fun on_started()
 
-    @KotlinCoroutine(Emit)
+    @AsyncDecorator(Emit)
     fun on_message(message: String)
 }
 
 interface RemoteService {
     // Checks whether the remote service is currently reachable.
-    @KotlinCoroutine
-    fun check_connection(@KotlinCoroutine(Callback) callback: ErrorOnlyCallback)
+    @AsyncDecorator
+    fun check_connection(@AsyncDecorator(Callback) callback: ErrorOnlyCallback)
+}
+
+# Structs are supported receivers, not just classes.
+struct UploadSession {
+    label: String
+
+    @AsyncDecorator
+    fun upload(@AsyncDecorator(Callback) callback: ErrorValueCallback)
+
+    @AsyncDecorator
+    static fun open_session(@AsyncDecorator(Callback) callback: ErrorOnlyCallback)
 }
 
 class CoroutineClient {
-    @KotlinCoroutine(Name = "loadValueAsync")
-    fun load_value(@KotlinCoroutine(Callback) callback: ErrorValueCallback): OperationHandle
+    # A nested type must not pick up the enclosing class's coroutine members.
+    struct Options {
+        retry_count: Int
+    }
 
-    @KotlinCoroutine
-    fun clear_cache(@KotlinCoroutine(Callback) callback: ErrorOnlyCallback)
+    @AsyncDecorator(Name = "loadValueAsync")
+    fun load_value(@AsyncDecorator(Callback) callback: ErrorValueCallback): OperationHandle
+
+    # Static functions belong in the companion object, not the class body.
+    @AsyncDecorator
+    static fun preload(@AsyncDecorator(Callback) callback: ErrorOnlyCallback)
+
+    # Cancellation resolved via `@AsyncTaskHandle`, not via the `cancel()` name convention.
+    @AsyncDecorator
+    fun refresh(@AsyncDecorator(Callback) callback: ErrorOnlyCallback): AbortableHandle
+
+    @AsyncDecorator
+    fun clear_cache(@AsyncDecorator(Callback) callback: ErrorOnlyCallback)
 
     // Resolves the display name for the current account.
-    @KotlinCoroutine
-    fun resolve_name(@KotlinCoroutine(Callback) callback: ValueOnlyCallback)
+    @AsyncDecorator
+    fun resolve_name(@AsyncDecorator(Callback) callback: ValueOnlyCallback)
 
-    @KotlinCoroutine
-    fun synchronize(@KotlinCoroutine(Callback) callback: CompletionCallback)
+    @AsyncDecorator
+    fun synchronize(@AsyncDecorator(Callback) callback: CompletionCallback)
 
-    @KotlinCoroutine
-    fun load_metadata(@KotlinCoroutine(Callback) callback: MultiValueCallback): OperationHandle
+    @AsyncDecorator
+    fun load_metadata(@AsyncDecorator(Callback) callback: MultiValueCallback): OperationHandle
 
     # The callback parameter is not marked, so it is resolved by convention as the sole callback-typed parameter.
-    @KotlinCoroutine
+    @AsyncDecorator
     fun list_features(callback: TrailingErrorCallback)
 
-    @KotlinCoroutine(Flow)
-    fun observe_ticks(@KotlinCoroutine(Callback) callback: TickCallback): OperationHandle
+    @AsyncDecorator(Flow)
+    fun observe_ticks(@AsyncDecorator(Callback) callback: TickCallback): OperationHandle
 
-    @KotlinCoroutine(Flow)
-    fun download(@KotlinCoroutine(Callback) listener: ProgressListener): OperationHandle
+    @AsyncDecorator(Flow)
+    fun download(@AsyncDecorator(Callback) listener: ProgressListener): OperationHandle
 
-    @KotlinCoroutine(Flow)
-    fun transfer(@KotlinCoroutine(Callback) listener: TransferListener): OperationHandle
+    @AsyncDecorator(Flow)
+    fun transfer(@AsyncDecorator(Callback) listener: TransferListener): OperationHandle
 
-    @KotlinCoroutine(Flow)
-    fun add_update_listener(@KotlinCoroutine(Callback) listener: UpdateListener)
+    @AsyncDecorator(Flow)
+    fun add_update_listener(@AsyncDecorator(Callback) listener: UpdateListener)
 
-    @KotlinCoroutine(Unregister)
+    @AsyncDecorator(Unregister)
     fun remove_update_listener(listener: UpdateListener)
 
-    @KotlinCoroutine(Flow)
-    fun add_state_listener(@KotlinCoroutine(Callback) listener: StateListener)
+    @AsyncDecorator(Flow)
+    fun add_state_listener(@AsyncDecorator(Callback) listener: StateListener)
 
-    @KotlinCoroutine(Unregister)
+    @AsyncDecorator(Unregister)
     fun remove_state_listener(listener: StateListener)
 }

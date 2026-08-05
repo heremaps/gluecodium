@@ -47,14 +47,14 @@ class KotlinCoroutinesTemplateTest {
         val content = TemplateEngine.render("kotlin/KotlinCoroutines", modelData)
 
         assertTrue(content.contains("@file:JvmName(\"RoutingEngineKotlinCoroutines\")"))
-        assertTrue(content.contains("Coroutine (suspend) support for @KotlinCoroutine functions."))
+        assertTrue(content.contains("Coroutine (suspend) support for @AsyncDecorator functions."))
         assertTrue(content.contains("internal class RoutingEngineSdkContractViolationException"))
         assertTrue(content.contains("internal suspend fun <E, T, H> routingEngineAwaitResultBridge("))
         assertTrue(content.contains("internal suspend fun <T, H> routingEngineAwaitValueBridge("))
         assertTrue(content.contains("suspendCancellableCoroutine { continuation ->"))
         assertTrue(content.contains("AtomicBoolean(false)"))
         assertTrue(content.contains("compareAndSet(false, true)"))
-        assertTrue(content.contains("Result.failure(mapDomainError(error))"))
+        assertTrue(content.contains("continuation.resumeWithException(mapDomainError(error))"))
         assertTrue(
             content.contains(
                 "continuation.invokeOnCancellation {\n" +
@@ -83,14 +83,13 @@ class KotlinCoroutinesTemplateTest {
                             "docComment" to "/**\n * Coroutine (`suspend`) variant of `calculateRoute`.\n */",
                             "name" to "calculateRoute",
                             "params" to "waypoints: List<Waypoint>, options: RoutingOptions",
-                            "returnType" to "Result<List<Route>>",
+                            "returnType" to "List<Route>",
                             "continuationIndent" to "      ",
                             "bridgeName" to "routingEngineAwaitResultBridge",
                             "startCall" to
                                 "this.calculateRoute(waypoints, options, " +
                                 "CalculateRouteCallback { error, result -> callback(error, result) })",
                             "mapErrorExpr" to "CalculateRouteException(error)",
-                            "hasError" to true,
                             "cancelExpr" to "handle.cancel()",
                         ),
                     ),
@@ -101,7 +100,7 @@ class KotlinCoroutinesTemplateTest {
         assertTrue(content.contains("public class CalculateRouteException(public val error: RoutingError)"))
         assertTrue(
             content.contains(
-                "public suspend fun calculateRoute(waypoints: List<Waypoint>, options: RoutingOptions): Result<List<Route>> =",
+                "public suspend fun calculateRoute(waypoints: List<Waypoint>, options: RoutingOptions): List<Route> =",
             ),
         )
         assertTrue(content.contains("routingEngineAwaitResultBridge("))

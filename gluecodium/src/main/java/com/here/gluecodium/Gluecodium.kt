@@ -35,6 +35,7 @@ import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeModelLoader
 import com.here.gluecodium.model.lime.LimeModelLoaderException
 import com.here.gluecodium.validator.LimeAndroidAttributesMismatchValidator
+import com.here.gluecodium.validator.LimeAsyncDecoratorValidator
 import com.here.gluecodium.validator.LimeAsyncValidator
 import com.here.gluecodium.validator.LimeConstantRefsValidator
 import com.here.gluecodium.validator.LimeDocRulesValidator
@@ -43,7 +44,6 @@ import com.here.gluecodium.validator.LimeFieldConstructorsValidator
 import com.here.gluecodium.validator.LimeFunctionsValidator
 import com.here.gluecodium.validator.LimeGenericTypesValidator
 import com.here.gluecodium.validator.LimeInheritanceValidator
-import com.here.gluecodium.validator.LimeKotlinCoroutineValidator
 import com.here.gluecodium.validator.LimeLambdaValidator
 import com.here.gluecodium.validator.LimeOptimizedListsValidator
 import com.here.gluecodium.validator.LimePropertiesValidator
@@ -214,7 +214,7 @@ class Gluecodium(
             { LimePropertiesValidator(limeLogger, generatorOptions).validate(it) },
             { LimeSkipValidator(limeLogger).validate(it) },
             { LimeAsyncValidator(limeLogger).validate(it) },
-            { LimeKotlinCoroutineValidator(limeLogger).validate(it) },
+            { LimeAsyncDecoratorValidator(limeLogger).validate(it) },
             { LimeLambdaValidator(limeLogger, generatorOptions).validate(it) },
         )
 

@@ -164,6 +164,7 @@ internal class KotlinGenerator : Generator {
             KotlinAsyncHelpers.createCoroutineSupportFiles(
                 kotlinFilteredModel.topElements,
                 nameResolver,
+                importCollector,
                 basePackages,
                 GENERATOR_NAME,
             )
@@ -284,18 +285,6 @@ internal class KotlinGenerator : Generator {
                 "internalApiAnnotation" to internalApiAnnotation,
                 "internalApiAnnotationClassPath" to internalApiAnnotationClassPath,
             )
-
-        // Rendered separately and passed in, so the `KotlinClass`/`KotlinInterface`/`KotlinStruct` templates control
-        // where they land: instance members in the main body, static members in the companion object.
-        if (limeElement is LimeContainer) {
-            val coroutineMembers = KotlinAsyncHelpers.buildCoroutineMembers(limeElement, nameResolver)
-            if (coroutineMembers.instance.isNotBlank()) {
-                templateData["coroutineMembers"] = coroutineMembers.instance
-            }
-            if (coroutineMembers.static.isNotBlank()) {
-                templateData["staticCoroutineMembers"] = coroutineMembers.static
-            }
-        }
 
         val nameResolvers = mapOf("" to nameResolver, "visibility" to visibilityResolver)
 

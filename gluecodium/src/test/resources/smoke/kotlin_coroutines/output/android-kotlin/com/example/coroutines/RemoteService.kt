@@ -21,24 +21,6 @@ fun interface RemoteService {
 
 
 
-    /** Typed exception wrapper preserving the callback error value. */
-    public class CheckConnectionException(public val error: OperationError) : Exception(error.toString())
-
-    /**
-     * Coroutine (`suspend`) variant of `checkConnection`.
-     *
-     * Suspends the calling coroutine until the operation completes instead of taking a callback.
-     *
-     * Checks whether the remote service is currently reachable.
-     * @return [Result] holding when the operation completes on success, or a failure carrying CheckConnectionException on error.
-     */
-    public suspend fun checkConnection(): Result<Unit> =
-            remoteServiceAwaitResultBridge(
-            startOperation = { callback -> this.checkConnection(ErrorOnlyCallback { error -> callback(error, if (error == null) Unit else null) }) },
-            mapDomainError = { error -> CheckConnectionException(error) },
-            cancelOperation = { handle -> Unit },
-        )
-
 }
 
 /**

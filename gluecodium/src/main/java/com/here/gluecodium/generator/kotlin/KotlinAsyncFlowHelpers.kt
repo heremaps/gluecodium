@@ -20,7 +20,7 @@
 package com.here.gluecodium.generator.kotlin
 
 import com.here.gluecodium.cli.GluecodiumExecutionException
-import com.here.gluecodium.model.lime.LimeAttributeType.KOTLIN_COROUTINE
+import com.here.gluecodium.model.lime.LimeAttributeType.ASYNC_DECORATOR
 import com.here.gluecodium.model.lime.LimeAttributeValueType.COMPLETE
 import com.here.gluecodium.model.lime.LimeAttributeValueType.EMIT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.ERROR
@@ -30,16 +30,18 @@ import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeTypedElement
-import com.here.gluecodium.model.lime.findCoroutineCallbackParameter
-import com.here.gluecodium.model.lime.findCoroutineCancelFunction
-import com.here.gluecodium.model.lime.findCoroutineErrorMember
-import com.here.gluecodium.model.lime.findCoroutineUnregisterFunctions
+import com.here.gluecodium.model.lime.allFunctionsWithInherited
+import com.here.gluecodium.model.lime.findAsyncCallbackParameter
+import com.here.gluecodium.model.lime.findAsyncCancelFunction
+import com.here.gluecodium.model.lime.findAsyncErrorMember
+import com.here.gluecodium.model.lime.findAsyncResultMembers
+import com.here.gluecodium.model.lime.findAsyncUnregisterFunctions
 
 /**
- * Generates the `Flow<T>` wrappers for functions marked `@KotlinCoroutine(Flow)`.
+ * Generates the `Flow<T>` wrappers for functions marked `@AsyncDecorator(Flow)`.
  *
- * Split out of [KotlinAsyncHelpers] (which still owns the one-shot `suspend` wrappers and the helpers shared by
- * both: exception/bridge naming, result-member resolution, and callback member naming).
+ * Split out of [KotlinAsyncHelpers], which still owns the one-shot `suspend` wrappers and the Kotlin-specific helpers
+ * shared by both: exception/bridge naming and callback member naming.
  */
 internal object KotlinAsyncFlowHelpers {
     private data class FlowValueModel(
@@ -55,8 +57,11 @@ internal object KotlinAsyncFlowHelpers {
         nameResolver: KotlinNameResolver,
     ): Map<String, Any?> {
         val functionName = nameResolver.resolveName(limeFunction)
-        val flowName = limeFunction.attributes.get(KOTLIN_COROUTINE, NAME) ?: "${functionName}Flow"
-        val callbackParameter = limeFunction.findCoroutineCallbackParameter()!!
+        // Suffixed onto the already-resolved name, then re-normalized, so the result still obeys the `method` rule.
+        val flowName =
+            limeFunction.attributes.get(ASYNC_DECORATOR, NAME)
+                ?: nameResolver.resolveGeneratedMethodName("${functionName}Flow")
+        val callbackParameter = limeFunction.findAsyncCallbackParameter()!!
         val callbackTypeName = nameResolver.resolveTypeRef(callbackParameter.typeRef).removeSuffix("?")
 
         val callbackModel =
@@ -65,14 +70,16 @@ internal object KotlinAsyncFlowHelpers {
                     buildLambdaFlowCallback(limeFunction, flowName, callbackTypeName, callbackType, receiverName, nameResolver)
                 is LimeInterface ->
                     buildInterfaceFlowCallback(limeFunction, flowName, callbackTypeName, callbackType, receiverName, nameResolver)
-                // Unreachable: `LimeKotlinCoroutineValidator` rejects callbacks that are neither lambda- nor interface-typed.
+                // Unreachable: `LimeAsyncDecoratorValidator` rejects callbacks that are neither lambda- nor interface-typed.
                 else ->
                     throw GluecodiumExecutionException(
-                        "@KotlinCoroutine(Flow) callback '${callbackParameter.fullName}' must be a lambda or interface",
+                        "@AsyncDecorator(Flow) callback '${callbackParameter.fullName}' must be a lambda or interface",
                     )
             }
 
-        val startTarget = if (limeFunction.isStatic) receiverName else "this@$receiverName"
+        // Inside `callbackFlow { }` the implicit receiver is the producer scope, so the extension receiver has to be
+        // named by the function's own label rather than by the class.
+        val startTarget = if (limeFunction.isStatic) receiverName else "this@$flowName"
         val startArguments =
             limeFunction.parameters.joinToString(", ") {
                 if (it === callbackParameter) "listener" else nameResolver.resolveName(it)
@@ -80,14 +87,14 @@ internal object KotlinAsyncFlowHelpers {
         val startCall = "$startTarget.$functionName($startArguments)"
 
         val callbackType = callbackParameter.typeRef.type.actualType
-        // At most one matching unregister function can exist; enforced by `LimeKotlinCoroutineValidator`.
-        val unregisterFunction = containerFunctions.findCoroutineUnregisterFunctions(callbackType).firstOrNull()
-        val cancelFunction = limeFunction.findCoroutineCancelFunction()
+        // At most one matching unregister function can exist; enforced by `LimeAsyncDecoratorValidator`.
+        val unregisterFunction = containerFunctions.findAsyncUnregisterFunctions(callbackType).firstOrNull()
+        val cancelFunction = limeFunction.findAsyncCancelFunction()
         val needsHandle = unregisterFunction == null && cancelFunction != null
         val cleanupExpression =
             when {
                 unregisterFunction != null -> {
-                    val target = if (unregisterFunction.isStatic) receiverName else "this@$receiverName"
+                    val target = if (unregisterFunction.isStatic) receiverName else "this@$flowName"
                     val arguments =
                         unregisterFunction.parameters.joinToString(", ") { parameter ->
                             if (parameter.typeRef.type.actualType === callbackType) "listener" else nameResolver.resolveName(parameter)
@@ -113,6 +120,7 @@ internal object KotlinAsyncFlowHelpers {
         return mapOf(
             "eventDeclaration" to callbackModel["eventDeclaration"],
             "docComment" to docComment,
+            "receiver" to if (limeFunction.isStatic) "$receiverName.Companion." else "$receiverName.",
             "name" to flowName,
             "params" to parameters,
             "eventType" to callbackModel["eventType"],
@@ -128,8 +136,8 @@ internal object KotlinAsyncFlowHelpers {
         receiverName: String,
         nameResolver: KotlinNameResolver,
     ): Map<String, Any?> {
-        val errorMember = callbackLambda.parameters.findCoroutineErrorMember()
-        val resultMembers = KotlinAsyncHelpers.findResultMembers(callbackLambda.parameters, errorMember)
+        val errorMember = callbackLambda.parameters.findAsyncErrorMember()
+        val resultMembers = callbackLambda.parameters.findAsyncResultMembers(errorMember)
         val localNames = KotlinAsyncHelpers.callbackLocalNames(callbackLambda.parameters, errorMember)
         val resultLocalNames = resultMembers.map { localNames[callbackLambda.parameters.indexOf(it)] }
         val valueModel =
@@ -173,14 +181,14 @@ internal object KotlinAsyncFlowHelpers {
         receiverName: String,
         nameResolver: KotlinNameResolver,
     ): Map<String, Any?> {
-        val callbackFunctions = (callbackInterface.functions + callbackInterface.inheritedFunctions).distinct()
-        val emitFunctions = callbackFunctions.filter { it.attributes.have(KOTLIN_COROUTINE, EMIT) }
-        val completeFunctions = callbackFunctions.filter { it.attributes.have(KOTLIN_COROUTINE, COMPLETE) }
+        val callbackFunctions = callbackInterface.allFunctionsWithInherited()
+        val emitFunctions = callbackFunctions.filter { it.attributes.have(ASYNC_DECORATOR, EMIT) }
+        val completeFunctions = callbackFunctions.filter { it.attributes.have(ASYNC_DECORATOR, COMPLETE) }
         val completeFunction = completeFunctions.firstOrNull()
 
         val resultMembersByFunction =
             (emitFunctions + completeFunctions).associateWith { function ->
-                KotlinAsyncHelpers.findResultMembers(function.parameters, function.parameters.findCoroutineErrorMember())
+                function.parameters.findAsyncResultMembers(function.parameters.findAsyncErrorMember())
             }
         val eventFunctions = emitFunctions + completeFunctions.filter { resultMembersByFunction[it].orEmpty().isNotEmpty() }
         val eventTypeName = nameResolver.resolveGeneratedTypeName("${flowName}Event")
@@ -196,7 +204,7 @@ internal object KotlinAsyncFlowHelpers {
             } else {
                 val members = resultMembersByFunction[eventFunction].orEmpty()
                 val localNames = members.map { nameResolver.resolveName(it) }
-                val hasError = eventFunction.parameters.any { it.attributes.have(KOTLIN_COROUTINE, ERROR) }
+                val hasError = eventFunction.parameters.any { it.attributes.have(ASYNC_DECORATOR, ERROR) }
                 val valueModel = buildFlowValueModel(eventTypeName, members, localNames, hasError, nameResolver)
                 eventType = valueModel.type
                 eventDeclaration = valueModel.declaration
@@ -220,7 +228,7 @@ internal object KotlinAsyncFlowHelpers {
                     callbackFunction.parameters.joinToString(", ") {
                         "${nameResolver.resolveName(it)}: ${nameResolver.resolveTypeRef(it.typeRef)}"
                     }
-                val errorMember = callbackFunction.parameters.findCoroutineErrorMember()
+                val errorMember = callbackFunction.parameters.findAsyncErrorMember()
                 val resultMembers = resultMembersByFunction[callbackFunction].orEmpty()
                 val resultLocalNames = resultMembers.map { nameResolver.resolveName(it) }
                 val isComplete = callbackFunction === completeFunction
@@ -293,7 +301,7 @@ internal object KotlinAsyncFlowHelpers {
             functions.joinToString("\n\n") { function ->
                 val variantName = nameResolver.resolveGeneratedTypeName(nameResolver.resolveName(function))
                 val members = resultMembersByFunction[function].orEmpty()
-                val hasError = function.parameters.any { it.attributes.have(KOTLIN_COROUTINE, ERROR) }
+                val hasError = function.parameters.any { it.attributes.have(ASYNC_DECORATOR, ERROR) }
                 if (members.isEmpty()) {
                     "    public object $variantName : $eventTypeName"
                 } else {

@@ -71,11 +71,15 @@ value. Instead:
 All parameters passed to the "result callback" or "error callback" are transformed into the appropriate state of the
 `Future` object on Dart side, allowing for Dart-idiomatic asynchronous usage.
 
-Kotlin coroutine usage
-----------------------
+Async decorator usage
+---------------------
 
-`@KotlinCoroutine` adapts an existing callback-based API into Kotlin `suspend` or `Flow` members. Unlike `@Async`, this
-attribute is consumed only by the Kotlin generator. It does not add C++ functions or change the JNI contract.
+`@AsyncDecorator` adapts an existing callback-based API into an idiomatic asynchronous API on the target platform.
+Unlike `@Async`, it does not add C++ functions or change the JNI contract: it only describes the callback shape
+(callback parameter, error/result members, cancellation and listener lifecycle) so a generator can emit a wrapper.
+
+The attribute itself is platform-agnostic. Currently only the Kotlin generator consumes it, emitting `suspend` and
+`Flow` members; other generators ignore it.
 
 ### One-shot callbacks
 
@@ -83,13 +87,13 @@ Mark the function, its callback parameter, and any callback error/result members
 
 ```lime
 lambda FetchCallback = (
-  error: @KotlinCoroutine(Error) FetchError?,
-  value: @KotlinCoroutine(Result) String?
+  error: @AsyncDecorator(Error) FetchError?,
+  value: @AsyncDecorator(Result) String?
 ) -> Void
 
 class Client {
-  @KotlinCoroutine
-  fun fetch(@KotlinCoroutine(Callback) callback: FetchCallback): TaskHandle
+  @AsyncDecorator
+  fun fetch(@AsyncDecorator(Callback) callback: FetchCallback): TaskHandle
 }
 ```
 
@@ -105,31 +109,31 @@ The generated shape depends on the callback:
 * No `Error` member produces a non-throwing direct `T` return value.
 * No result members produce `Unit` (or `Result<Unit>` when an error member exists).
 * Multiple `Result` members produce a named `<FunctionName>CoroutineResult` data class.
-* `@KotlinCoroutine(Default)` on a non-callback function parameter generates `= Type()` in the Kotlin wrapper.
-* `@KotlinCoroutine(Name = "fetchValue")` overrides the generated suspend member name without renaming the callback API.
+* `@AsyncDecorator(Default)` on a non-callback function parameter generates `= Type()` in the Kotlin wrapper.
+* `@AsyncDecorator(Name = "fetchValue")` overrides the generated suspend member name without renaming the callback API.
 * A returned type with a function named `cancel` is cancelled when the coroutine is
   cancelled. Functions without such a handle remain non-cancellable.
 
 When an error member exists, the error and result members must be nullable because the callback contract is exactly one
-of error or success. Multiple result members can all be marked with `@KotlinCoroutine(Result)`.
+of error or success. Multiple result members can all be marked with `@AsyncDecorator(Result)`.
 
 ### Repeating callbacks and listeners
 
-Use `@KotlinCoroutine(Flow)` for repeating callbacks. Lambda callbacks emit each invocation. Interface listeners mark
+Use `@AsyncDecorator(Flow)` for repeating callbacks. Lambda callbacks emit each invocation. Interface listeners mark
 event methods with `Emit` and an optional terminal method with `Complete`:
 
 ```lime
 interface DownloadListener {
-  @KotlinCoroutine(Emit)
+  @AsyncDecorator(Emit)
   fun on_progress(percentage: Int)
 
-  @KotlinCoroutine(Complete)
-  fun on_complete(@KotlinCoroutine(Error) error: DownloadError?)
+  @AsyncDecorator(Complete)
+  fun on_complete(@AsyncDecorator(Error) error: DownloadError?)
 }
 
 class Client {
-  @KotlinCoroutine(Flow)
-  fun download(@KotlinCoroutine(Callback) listener: DownloadListener): TaskHandle
+  @AsyncDecorator(Flow)
+  fun download(@AsyncDecorator(Callback) listener: DownloadListener): TaskHandle
 }
 ```
 
@@ -137,15 +141,15 @@ This generates `fun downloadFlow(): Flow<Int>` using `callbackFlow`. A completio
 exception; successful completion closes it normally. A terminal result is emitted before closing. Multiple event methods
 produce a sealed `<FlowName>Event` hierarchy, and multiple parameters on one event produce a data class.
 
-Long-lived add/remove listeners pair the registration function with `@KotlinCoroutine(Unregister)`:
+Long-lived add/remove listeners pair the registration function with `@AsyncDecorator(Unregister)`:
 
 ```lime
-@KotlinCoroutine(Flow)
-fun add_listener(@KotlinCoroutine(Callback) listener: UpdateListener)
+@AsyncDecorator(Flow)
+fun add_listener(@AsyncDecorator(Callback) listener: UpdateListener)
 
-@KotlinCoroutine(Unregister)
+@AsyncDecorator(Unregister)
 fun remove_listener(listener: UpdateListener)
 ```
 
 The generated Flow registers on collection and invokes the matching unregister function from `awaitClose`. Use
-`@KotlinCoroutine(Flow, Name = "updates")` to override the generated Flow member name.
+`@AsyncDecorator(Flow, Name = "updates")` to override the generated Flow member name.

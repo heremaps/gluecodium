@@ -19,7 +19,8 @@
 
 package com.here.gluecodium.validator
 
-import com.here.gluecodium.model.lime.LimeAttributeType.KOTLIN_COROUTINE
+import com.here.gluecodium.common.LimeLogger
+import com.here.gluecodium.model.lime.LimeAttributeType.ASYNC_DECORATOR
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributeValueType.CALLBACK
 import com.here.gluecodium.model.lime.LimeAttributeValueType.COMPLETE
@@ -33,18 +34,24 @@ import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
 import com.here.gluecodium.model.lime.LimeClass
+import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
+import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeLambdaParameter
 import com.here.gluecodium.model.lime.LimeModel
+import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
 import com.here.gluecodium.model.lime.LimeReturnType
+import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
+import com.here.gluecodium.model.lime.LimeValue
 import io.mockk.mockk
+import io.mockk.verify
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -52,9 +59,10 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 
 @RunWith(JUnit4::class)
-class LimeKotlinCoroutineValidatorTest {
+class LimeAsyncDecoratorValidatorTest {
     private val allElements = mutableMapOf<String, LimeElement>()
-    private val validator = LimeKotlinCoroutineValidator(mockk(relaxed = true))
+    private val logger = mockk<LimeLogger>(relaxed = true)
+    private val validator = LimeAsyncDecoratorValidator(logger)
 
     @Test
     fun validateOneShotWithOptionalErrorAndMultipleResults() {
@@ -91,8 +99,8 @@ class LimeKotlinCoroutineValidatorTest {
                 path("Client", "load"),
                 attributes =
                     LimeAttributes.Builder()
-                        .addAttribute(KOTLIN_COROUTINE)
-                        .addAttribute(KOTLIN_COROUTINE, NAME, "loadValue")
+                        .addAttribute(ASYNC_DECORATOR)
+                        .addAttribute(ASYNC_DECORATOR, NAME, "loadValue")
                         .build(),
                 parameters = listOf(parameter("callback", LimeDirectTypeRef(callback), CALLBACK)),
             )
@@ -343,6 +351,54 @@ class LimeKotlinCoroutineValidatorTest {
         assertFalse(validate())
     }
 
+    @Test
+    fun rejectAttributeOnContainer() {
+        addElements(LimeClass(path("Client"), attributes = coroutineAttributes()))
+
+        assertFalse(validate())
+    }
+
+    @Test
+    fun rejectAttributeOnStruct() {
+        addElements(LimeStruct(path("Options"), attributes = coroutineAttributes()))
+
+        assertFalse(validate())
+    }
+
+    @Test
+    fun rejectAttributeOnConstant() {
+        val constant =
+            LimeConstant(
+                path("Client", "LIMIT"),
+                attributes = coroutineAttributes(),
+                typeRef = LimeBasicTypeRef.INT,
+                value = LimeValue.Literal(LimeBasicTypeRef.INT, "1"),
+            )
+        addElements(constant)
+
+        assertFalse(validate())
+    }
+
+    @Test
+    fun rejectAttributeOnEnumeration() {
+        addElements(LimeEnumeration(path("Status"), attributes = coroutineAttributes()))
+
+        assertFalse(validate())
+    }
+
+    @Test
+    fun rejectCallbackMemberWithoutRole() {
+        val callback =
+            LimeLambda(
+                path("Callback"),
+                parameters = listOf(lambdaParameter("value", LimeBasicTypeRef.INT)),
+            )
+        addElements(callback, LimeClass(path("Client"), functions = listOf(wrapperFunction("fetch", callback))))
+
+        assertFalse(validate())
+        verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("requires a role") }) }
+    }
+
     private fun namedWrapperFunction(
         name: String,
         coroutineName: String,
@@ -351,8 +407,8 @@ class LimeKotlinCoroutineValidatorTest {
         path("Client", name),
         attributes =
             LimeAttributes.Builder()
-                .addAttribute(KOTLIN_COROUTINE)
-                .addAttribute(KOTLIN_COROUTINE, NAME, coroutineName)
+                .addAttribute(ASYNC_DECORATOR)
+                .addAttribute(ASYNC_DECORATOR, NAME, coroutineName)
                 .build(),
         parameters = listOf(parameter("callback", LimeDirectTypeRef(callbackType), CALLBACK)),
     )
@@ -404,8 +460,8 @@ class LimeKotlinCoroutineValidatorTest {
     )
 
     private fun coroutineAttributes(vararg roles: LimeAttributeValueType): LimeAttributes {
-        val builder = LimeAttributes.Builder().addAttribute(KOTLIN_COROUTINE)
-        roles.forEach { builder.addAttribute(KOTLIN_COROUTINE, it) }
+        val builder = LimeAttributes.Builder().addAttribute(ASYNC_DECORATOR)
+        roles.forEach { builder.addAttribute(ASYNC_DECORATOR, it) }
         return builder.build()
     }
 
