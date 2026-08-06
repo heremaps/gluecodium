@@ -515,6 +515,12 @@ feature(Async cpp dart SOURCES
     input/lime/Async.lime
 )
 
+feature(AsyncDecorator android-kotlin SOURCES
+    input/src/cpp/AsyncDecoratorFactory.cpp
+
+    input/lime/AsyncDecorator.lime
+)
+
 # OBJECT suits all test variants except swift for linux,
 # because build system can't mix Swift and C++ code in single target
 if (swift IN_LIST GLUECODIUM_GENERATORS_DEFAULT AND NOT CMAKE_GENERATOR STREQUAL "Xcode")
