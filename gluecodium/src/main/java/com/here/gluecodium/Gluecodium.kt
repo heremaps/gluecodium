@@ -198,6 +198,7 @@ class Gluecodium(
             { LimeOptimizedListsValidator(limeLogger).validate(it) },
             { LimeFieldConstructorsValidator(limeLogger).validate(it) },
             { LimeValuesValidator(limeLogger).validate(it) },
+            { LimeAsyncDecoratorValidator(limeLogger).validate(it) },
             { LimeDocRulesValidator(limeLogger, gluecodiumOptions.docsValidationRules, discoverGenerators()).validate(it) },
         ) +
             if (generatorOptions.enableAndroidAttributesMismatchWarning) {
@@ -214,7 +215,6 @@ class Gluecodium(
             { LimePropertiesValidator(limeLogger, generatorOptions).validate(it) },
             { LimeSkipValidator(limeLogger).validate(it) },
             { LimeAsyncValidator(limeLogger).validate(it) },
-            { LimeAsyncDecoratorValidator(limeLogger).validate(it) },
             { LimeLambdaValidator(limeLogger, generatorOptions).validate(it) },
         )
 

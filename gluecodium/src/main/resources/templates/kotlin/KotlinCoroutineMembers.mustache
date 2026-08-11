@@ -19,12 +19,17 @@
   !
   !}}
 {{#exceptions}}
-/** Typed exception wrapper preserving the callback error value. */
+/**
+ * Typed exception wrapper preserving the callback error value.
+ *
+ * @param error the domain-specific error returned by the callback.
+ */
 public class {{name}}(public val error: {{errorType}}) : Exception(error.toString())
 
 {{/exceptions}}
 {{#functions}}
 {{#resultClass}}
+/** Groups multiple result values returned by the `{{coroutineName}}` coroutine wrapper. */
 public data class {{name}}(
 {{#fields}}
   public val {{name}}: {{type}}{{^last}},{{/last}}

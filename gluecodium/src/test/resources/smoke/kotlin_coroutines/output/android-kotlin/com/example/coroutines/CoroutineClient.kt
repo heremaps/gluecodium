@@ -9,11 +9,6 @@
 package com.example.coroutines
 
 import com.example.NativeBase
-import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.buffer
-import kotlinx.coroutines.flow.callbackFlow
 
 class CoroutineClient : NativeBase {
 
@@ -32,6 +27,33 @@ class CoroutineClient : NativeBase {
 
     }
 
+    class NestedClient : NativeBase {
+
+
+
+        /**
+         * For internal use only.
+         * @suppress
+         * @param nativeHandle The handle to resources on C++ side.
+         * @param tag Tag used by callers to avoid overload resolution problems.
+         */
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
+            : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+
+
+
+
+        external fun fetchNested(callback: ErrorValueCallback) : OperationHandle
+
+
+
+
+        companion object {
+            @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+        }
+    }
+
 
 
     /**
@@ -48,6 +70,9 @@ class CoroutineClient : NativeBase {
 
 
     external fun loadValue(callback: ErrorValueCallback) : OperationHandle
+
+
+    external fun loadWithOptions(options: RequestOptions, callback: ErrorValueCallback) : Unit
 
 
     external fun refresh(callback: ErrorOnlyCallback) : AbortableHandle

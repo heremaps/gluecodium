@@ -20,35 +20,68 @@
 
 #include "test/AsyncDecoratorFactory.h"
 #include "test/AsyncDecoratorTaskHandle.h"
+#include "test/FetchOptions.h"
 
 #include <atomic>
 #include <chrono>
 #include <memory>
+#include <mutex>
 #include <optional>
 #include <string>
 #include <thread>
+#include <utility>
 
 namespace test
 {
 namespace
 {
-bool s_stop_called = false;
+// Read by the test thread while the worker thread writes it.
+std::atomic_bool s_stop_called{ false };
+
+constexpr auto k_completion_delay = std::chrono::milliseconds(50);
+constexpr auto k_slow_completion_delay = std::chrono::milliseconds(300);
+// Wide enough that a second collector always registers well before the first flow finishes.
+constexpr auto k_tick_interval = std::chrono::milliseconds(30);
+
+// Shared with the worker instead of the handle itself, so the worker never keeps alive the object
+// that joins it.
+struct TaskState final {
+    std::atomic_bool stopped{ false };
+};
 
 class AsyncDecoratorTaskHandleImpl final : public AsyncDecoratorTaskHandle {
 public:
-    void stop() override
+    AsyncDecoratorTaskHandleImpl(std::shared_ptr<TaskState> state, std::thread worker)
+        : m_state(std::move(state))
+        , m_worker(std::move(worker))
     {
-        m_stopped.store(true);
-        s_stop_called = true;
     }
 
-    bool is_stopped() const
+    ~AsyncDecoratorTaskHandleImpl() override
     {
-        return m_stopped.load();
+        m_state->stopped.store(true);
+        join_worker();
+    }
+
+    void stop() override
+    {
+        m_state->stopped.store(true);
+        s_stop_called.store(true);
+        join_worker();
     }
 
 private:
-    std::atomic<bool> m_stopped{ false };
+    void join_worker()
+    {
+        const std::lock_guard<std::mutex> lock(m_worker_mutex);
+        if (m_worker.joinable()) {
+            m_worker.join();
+        }
+    }
+
+    const std::shared_ptr<TaskState> m_state;
+    std::mutex m_worker_mutex;
+    std::thread m_worker;
 };
 
 class AsyncDecoratorFactoryImpl final : public AsyncDecoratorFactory {
@@ -58,37 +91,80 @@ public:
         const DecoratedValueCallback& callback
     ) override
     {
-        auto handle = std::make_shared<AsyncDecoratorTaskHandleImpl>();
+        auto state = std::make_shared<TaskState>();
 
-        if (should_fail) {
-            callback(AsyncDecoratorErrorCode::FAILED, std::nullopt);
-        } else {
-            callback(std::nullopt, std::string("async-value"));
-        }
+        // Completes off the calling thread, so the coroutine must actually suspend and resume.
+        std::thread worker([state, callback, should_fail]() {
+            std::this_thread::sleep_for(k_completion_delay);
+            if (state->stopped.load()) {
+                return;
+            }
+            if (should_fail) {
+                callback(AsyncDecoratorErrorCode::FAILED, std::nullopt);
+            } else {
+                callback(std::nullopt, std::string("async-value"));
+            }
+        });
 
-        return handle;
+        return std::make_shared<AsyncDecoratorTaskHandleImpl>(state, std::move(worker));
+    }
+
+    std::shared_ptr<AsyncDecoratorTaskHandle> fetch_value_slow(
+        const DecoratedSlowCallback& callback
+    ) override
+    {
+        auto state = std::make_shared<TaskState>();
+
+        std::thread worker([state, callback]() {
+            std::this_thread::sleep_for(k_slow_completion_delay);
+            if (state->stopped.load()) {
+                return;
+            }
+            callback(std::string("slow-value"));
+        });
+
+        return std::make_shared<AsyncDecoratorTaskHandleImpl>(state, std::move(worker));
+    }
+
+    std::shared_ptr<AsyncDecoratorTaskHandle> fetch_with_options(
+        const FetchOptions& options,
+        const DecoratedValueCallback& callback
+    ) override
+    {
+        auto state = std::make_shared<TaskState>();
+        const auto retry_count = options.retry_count;
+
+        // Echoes the value back so the test can prove which `FetchOptions` reached native code.
+        std::thread worker([state, callback, retry_count]() {
+            std::this_thread::sleep_for(k_completion_delay);
+            if (state->stopped.load()) {
+                return;
+            }
+            callback(std::nullopt, "retries-" + std::to_string(retry_count));
+        });
+
+        return std::make_shared<AsyncDecoratorTaskHandleImpl>(state, std::move(worker));
     }
 
     std::shared_ptr<AsyncDecoratorTaskHandle>
     start_ticks(const DecoratedTickCallback& callback) override
     {
-        auto handle = std::make_shared<AsyncDecoratorTaskHandleImpl>();
+        auto state = std::make_shared<TaskState>();
 
-        // Emit asynchronously so callback registration on the managed side is fully established.
-        std::thread([
-            callback,
-            handle
-        ]() {
+        std::thread worker([state, callback]() {
             for (int value = 1; value <= 3; ++value) {
-                if (handle->is_stopped()) {
+                // Sleep between ticks only, so cancellation is not delayed after the final one.
+                if (value > 1) {
+                    std::this_thread::sleep_for(k_tick_interval);
+                }
+                if (state->stopped.load()) {
                     return;
                 }
                 callback(value);
-                std::this_thread::sleep_for(std::chrono::milliseconds(5));
             }
-        }).detach();
+        });
 
-        return handle;
+        return std::make_shared<AsyncDecoratorTaskHandleImpl>(state, std::move(worker));
     }
 };
 }  // namespace
@@ -102,13 +178,13 @@ AsyncDecoratorFactory::create()
 bool
 AsyncDecoratorFactory::was_stop_called()
 {
-    return s_stop_called;
+    return s_stop_called.load();
 }
 
 void
 AsyncDecoratorFactory::reset_stop_called()
 {
-    s_stop_called = false;
+    s_stop_called.store(false);
 }
 
 }  // namespace test

@@ -26,8 +26,8 @@ class OperationHandle {
 }
 
 # The cancel hook is explicit, so it does not have to be named `cancel`.
+@AsyncTaskHandle(Name = "abort")
 class AbortableHandle {
-    @AsyncTaskHandle
     fun abort()
 }
 
@@ -100,6 +100,13 @@ interface RemoteService {
     fun check_connection(@AsyncDecorator(Callback) callback: ErrorOnlyCallback)
 }
 
+# All fields have defaults and `PositionalDefaults` is set, so the generated Kotlin type can be built with no
+# arguments -- which is exactly what `@AsyncDecorator(Default)` emits.
+@Kotlin(PositionalDefaults)
+struct RequestOptions {
+    retry_count: Int = 3
+}
+
 # Structs are supported receivers, not just classes.
 struct UploadSession {
     label: String
@@ -117,8 +124,21 @@ class CoroutineClient {
         retry_count: Int
     }
 
+    # A nested class gets its own extensions, resolved against its fully qualified name.
+    class NestedClient {
+        @AsyncDecorator
+        fun fetch_nested(@AsyncDecorator(Callback) callback: ErrorValueCallback): OperationHandle
+    }
+
     @AsyncDecorator(Name = "loadValueAsync")
     fun load_value(@AsyncDecorator(Callback) callback: ErrorValueCallback): OperationHandle
+
+    # `Default` gives the generated wrapper a default argument for a non-callback parameter.
+    @AsyncDecorator
+    fun load_with_options(
+        @AsyncDecorator(Default) options: RequestOptions,
+        @AsyncDecorator(Callback) callback: ErrorValueCallback
+    )
 
     # Static functions belong in the companion object, not the class body.
     @AsyncDecorator

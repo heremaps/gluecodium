@@ -24,6 +24,7 @@ import com.here.gluecodium.model.lime.LimeAttributeType.ASYNC_TASK_HANDLE
 import com.here.gluecodium.model.lime.LimeAttributeValueType.CALLBACK
 import com.here.gluecodium.model.lime.LimeAttributeValueType.COMPLETE
 import com.here.gluecodium.model.lime.LimeAttributeValueType.ERROR
+import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
 import com.here.gluecodium.model.lime.LimeAttributeValueType.RESULT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.UNREGISTER
 
@@ -92,13 +93,16 @@ fun <T : LimeTypedElement> List<T>.findAsyncResultMembers(errorMember: T?): List
 }
 
 /**
- * The cancellation hook on the returned handle: the function marked `@AsyncTaskHandle`, or by convention a
- * parameterless `cancel()` method when no function is marked.
+ * The cancellation hook on the returned handle: the function named by `@AsyncTaskHandle(Name = "...")` on the
+ * handle class, defaulting to a parameterless `cancel()` when the annotation is absent.
  */
 fun LimeFunction.findAsyncCancelFunction(): LimeFunction? {
     val returnContainer = returnType.typeRef.type.actualType as? LimeContainer ?: return null
-    return returnContainer.functions.firstOrNull { it.attributes.have(ASYNC_TASK_HANDLE) }
-        ?: returnContainer.functions.firstOrNull { it.name == "cancel" && it.parameters.isEmpty() }
+    if (returnContainer.attributes.have(ASYNC_TASK_HANDLE)) {
+        val cancelName = returnContainer.attributes.get(ASYNC_TASK_HANDLE, NAME) ?: "cancel"
+        return returnContainer.functions.firstOrNull { it.name == cancelName && it.parameters.isEmpty() }
+    }
+    return returnContainer.functions.firstOrNull { it.name == "cancel" && it.parameters.isEmpty() }
 }
 
 /** The `@AsyncDecorator(Unregister)` functions among these functions matching [callbackType]. */

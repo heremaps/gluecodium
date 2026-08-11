@@ -54,13 +54,14 @@ internal object KotlinAsyncFlowHelpers {
         limeFunction: LimeFunction,
         containerFunctions: List<LimeFunction>,
         receiverName: String,
+        receiverTypeName: String,
         nameResolver: KotlinNameResolver,
     ): Map<String, Any?> {
         val functionName = nameResolver.resolveName(limeFunction)
         // Suffixed onto the already-resolved name, then re-normalized, so the result still obeys the `method` rule.
         val flowName =
             limeFunction.attributes.get(ASYNC_DECORATOR, NAME)
-                ?: nameResolver.resolveGeneratedMethodName("${functionName}Flow")
+                ?: nameResolver.resolveCoroutineFlowName(functionName)
         val callbackParameter = limeFunction.findAsyncCallbackParameter()!!
         val callbackTypeName = nameResolver.resolveTypeRef(callbackParameter.typeRef).removeSuffix("?")
 
@@ -79,7 +80,7 @@ internal object KotlinAsyncFlowHelpers {
 
         // Inside `callbackFlow { }` the implicit receiver is the producer scope, so the extension receiver has to be
         // named by the function's own label rather than by the class.
-        val startTarget = if (limeFunction.isStatic) receiverName else "this@$flowName"
+        val startTarget = if (limeFunction.isStatic) receiverTypeName else "this@$flowName"
         val startArguments =
             limeFunction.parameters.joinToString(", ") {
                 if (it === callbackParameter) "listener" else nameResolver.resolveName(it)
@@ -94,7 +95,7 @@ internal object KotlinAsyncFlowHelpers {
         val cleanupExpression =
             when {
                 unregisterFunction != null -> {
-                    val target = if (unregisterFunction.isStatic) receiverName else "this@$flowName"
+                    val target = if (unregisterFunction.isStatic) receiverTypeName else "this@$flowName"
                     val arguments =
                         unregisterFunction.parameters.joinToString(", ") { parameter ->
                             if (parameter.typeRef.type.actualType === callbackType) "listener" else nameResolver.resolveName(parameter)
@@ -120,7 +121,7 @@ internal object KotlinAsyncFlowHelpers {
         return mapOf(
             "eventDeclaration" to callbackModel["eventDeclaration"],
             "docComment" to docComment,
-            "receiver" to if (limeFunction.isStatic) "$receiverName.Companion." else "$receiverName.",
+            "receiver" to if (limeFunction.isStatic) "$receiverTypeName.Companion." else "$receiverTypeName.",
             "name" to flowName,
             "params" to parameters,
             "eventType" to callbackModel["eventType"],
@@ -142,7 +143,7 @@ internal object KotlinAsyncFlowHelpers {
         val resultLocalNames = resultMembers.map { localNames[callbackLambda.parameters.indexOf(it)] }
         val valueModel =
             buildFlowValueModel(
-                nameResolver.resolveGeneratedTypeName("${flowName}Event"),
+                nameResolver.resolveCoroutineFlowEventName(flowName),
                 resultMembers,
                 resultLocalNames,
                 errorMember != null,
@@ -154,8 +155,8 @@ internal object KotlinAsyncFlowHelpers {
                 resultMembers,
                 resultLocalNames,
                 valueModel.expression,
-                KotlinAsyncHelpers.exceptionName(limeFunction, nameResolver),
-                KotlinAsyncHelpers.contractViolationName(receiverName, nameResolver),
+                KotlinAsyncHelpers.exceptionName(limeFunction, receiverName, nameResolver),
+                nameResolver.resolveCoroutineContractViolationName(),
                 false,
             )
         val header = if (localNames.isEmpty()) "$callbackTypeName {" else "$callbackTypeName { ${localNames.joinToString(", ")} ->"
@@ -191,7 +192,7 @@ internal object KotlinAsyncFlowHelpers {
                 function.parameters.findAsyncResultMembers(function.parameters.findAsyncErrorMember())
             }
         val eventFunctions = emitFunctions + completeFunctions.filter { resultMembersByFunction[it].orEmpty().isNotEmpty() }
-        val eventTypeName = nameResolver.resolveGeneratedTypeName("${flowName}Event")
+        val eventTypeName = nameResolver.resolveCoroutineFlowEventName(flowName)
         val eventExpressions = mutableMapOf<LimeFunction, String>()
         val eventDeclaration: String?
         val eventType: String
@@ -214,7 +215,7 @@ internal object KotlinAsyncFlowHelpers {
             eventType = eventTypeName
             eventDeclaration = buildSealedFlowEvent(eventTypeName, eventFunctions, resultMembersByFunction, nameResolver)
             eventFunctions.forEach { function ->
-                val variantName = nameResolver.resolveGeneratedTypeName(nameResolver.resolveName(function))
+                val variantName = nameResolver.resolveCoroutineFlowEventVariantName(nameResolver.resolveName(function))
                 val members = resultMembersByFunction[function].orEmpty()
                 val arguments = members.joinToString(", ") { nameResolver.resolveName(it) }
                 eventExpressions[function] =
@@ -239,8 +240,8 @@ internal object KotlinAsyncFlowHelpers {
                             resultMembers,
                             resultLocalNames,
                             eventExpressions[callbackFunction],
-                            KotlinAsyncHelpers.exceptionName(limeFunction, nameResolver),
-                            KotlinAsyncHelpers.contractViolationName(receiverName, nameResolver),
+                            KotlinAsyncHelpers.exceptionName(limeFunction, receiverName, nameResolver),
+                            nameResolver.resolveCoroutineContractViolationName(),
                             isComplete,
                         )
                     } else {
@@ -299,7 +300,7 @@ internal object KotlinAsyncFlowHelpers {
     ): String {
         val variants =
             functions.joinToString("\n\n") { function ->
-                val variantName = nameResolver.resolveGeneratedTypeName(nameResolver.resolveName(function))
+                val variantName = nameResolver.resolveCoroutineFlowEventVariantName(nameResolver.resolveName(function))
                 val members = resultMembersByFunction[function].orEmpty()
                 val hasError = function.parameters.any { it.attributes.have(ASYNC_DECORATOR, ERROR) }
                 if (members.isEmpty()) {
@@ -357,7 +358,7 @@ internal object KotlinAsyncFlowHelpers {
         if (nullResultCondition.isNotEmpty()) {
             result +=
                 "    $nullResultCondition -> " +
-                "close($contractViolationName(\"SDK contract violation: success callback contains null result\"))"
+                "close($contractViolationName(\"Callback contract violation: success callback contains null result\"))"
         }
         result += "    else -> {"
         result += successLines.map { "        $it" }

@@ -69,20 +69,17 @@ internal class KotlinImportCollector(
                     limeContainer.inheritedFunctions + limeContainer.inheritedProperties
                 else -> emptyList()
             }
-        // A `@AsyncDecorator` function's own callback-type import is already covered above via `collectImports` on
-        // `limeContainer.functions`. This walks one level deeper: the generated exception/result classes for that
-        // function reference the callback's *internal* member types directly (e.g. the error type), in the same
-        // file as the container itself, so those member types need their own imports resolved here too.
-        val coroutineCallbackImports =
-            (limeContainer.functions + inheritedElements.filterIsInstance<LimeFunction>())
-                .filter { it.attributes.have(ASYNC_DECORATOR) }
-                .flatMap { function ->
-                    function.parameters.map { parameter ->
-                        parameter.typeRef.type.actualType
-                    }.flatMap { collectImports(it) }
-                }
-        return (nestedElements + inheritedElements).flatMap { collectImports(it) } + coroutineCallbackImports
+        return (nestedElements + inheritedElements).flatMap { collectImports(it) }
     }
+
+    /**
+     * Types referenced by an `@AsyncDecorator` callback's own members. The generated exception and result types
+     * live in the coroutine support file, so these imports belong to that file rather than to the container's.
+     */
+    fun collectAsyncDecoratorCallbackImports(limeContainer: LimeContainer): List<String> =
+        limeContainer.functions
+            .filter { it.attributes.have(ASYNC_DECORATOR) }
+            .flatMap { function -> function.parameters.flatMap { collectImports(it.typeRef.type.actualType) } }
 
     private fun collectFunctionImports(limeFunction: LimeFunction): List<String> {
         return limeFunction.parameters.flatMap { importsResolver.resolveElementImports(it) }

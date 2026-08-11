@@ -105,17 +105,43 @@ internal class KotlinNameResolver(
 
     override fun resolveSetterName(element: Any) = (element as? LimeTypedElement)?.let { kotlinNameRules.getSetterName(it) }
 
+    /** Name of the exception type generated for a coroutine wrapper's error channel, qualified by its receiver. */
+    fun resolveCoroutineExceptionName(
+        receiverName: String,
+        coroutineName: String,
+    ): String = kotlinNameRules.ruleSet.getErrorName(receiverName + coroutineName.replaceFirstChar { it.uppercase() })
+
     /**
-     * Applies the configured `type` name rule to a compound identifier with no backing [LimeElement], e.g. a
-     * generated data class or sealed interface name built from an existing resolved name plus a literal suffix.
+     * Package-relative type name, including enclosing types. Coroutine wrappers live in their own top-level
+     * file, so a nested receiver has to be qualified by its outer types to resolve there.
      */
-    fun resolveGeneratedTypeName(name: String): String = kotlinNameRules.ruleSet.getTypeName(name)
+    fun resolveNestedTypeName(limeElement: LimeNamedElement): String {
+        val elementName = resolveName(limeElement)
+        if (!limeElement.path.hasParent) return elementName
+        return "${resolveNestedTypeName(getParentElement(limeElement))}.$elementName"
+    }
 
-    /** Same as [resolveGeneratedTypeName], but for generated exception/error type names via the `error` rule. */
-    fun resolveGeneratedErrorName(name: String): String = kotlinNameRules.ruleSet.getErrorName(name)
+    /** Name of the contract-violation exception generated once per package. */
+    fun resolveCoroutineContractViolationName(): String = kotlinNameRules.ruleSet.getErrorName("CoroutineContractViolation")
 
-    /** Same as [resolveGeneratedTypeName], but for generated function names via the `method` rule. */
-    fun resolveGeneratedMethodName(name: String): String = kotlinNameRules.ruleSet.getMethodName(name)
+    /** Name of the shared bridge adapting an error-and-result callback into a suspending call. */
+    fun resolveCoroutineResultBridgeName(): String = kotlinNameRules.ruleSet.getMethodName("awaitCoroutineResultBridge")
+
+    /** Name of the shared bridge adapting a value-only callback into a suspending call. */
+    fun resolveCoroutineValueBridgeName(): String = kotlinNameRules.ruleSet.getMethodName("awaitCoroutineValueBridge")
+
+    /** Name of the data class grouping several callback result values. */
+    fun resolveCoroutineResultTypeName(coroutineName: String): String =
+        kotlinNameRules.ruleSet.getTypeName("${coroutineName}CoroutineResult")
+
+    /** Name of the generated `Flow` wrapper function. */
+    fun resolveCoroutineFlowName(functionName: String): String = kotlinNameRules.ruleSet.getMethodName("${functionName}Flow")
+
+    /** Name of the event type emitted by a generated `Flow`. */
+    fun resolveCoroutineFlowEventName(flowName: String): String = kotlinNameRules.ruleSet.getTypeName("${flowName}Event")
+
+    /** Name of one sealed variant of a multi-event `Flow` event type. */
+    fun resolveCoroutineFlowEventVariantName(functionName: String): String = kotlinNameRules.ruleSet.getTypeName(functionName)
 
     private fun resolveComment(limeComment: LimeComment): String {
         val commentText = limeComment.getFor("Kotlin")

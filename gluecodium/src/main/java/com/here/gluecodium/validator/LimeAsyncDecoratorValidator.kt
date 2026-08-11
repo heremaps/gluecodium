@@ -79,6 +79,7 @@ internal class LimeAsyncDecoratorValidator(private val logger: LimeLogger) {
             allElements.filterIsInstance<LimeTypeAlias>(),
         ).flatten().forEach {
             isValid = validateUnsupportedTarget(it) && isValid
+            isValid = validateTaskHandleTarget(it) && isValid
         }
 
         return isValid
@@ -96,23 +97,24 @@ internal class LimeAsyncDecoratorValidator(private val logger: LimeLogger) {
             isValid = validateFunction(it, container) && isValid
         }
         isValid = validateExceptionNames(container) && isValid
-        isValid = validateTaskHandleFunctions(container) && isValid
+        isValid = validateTaskHandle(container) && isValid
         return isValid
     }
 
-    /** `@AsyncTaskHandle` marks the single cancellation hook on a handle type returned by a decorated function. */
-    private fun validateTaskHandleFunctions(container: LimeContainer): Boolean {
-        var isValid = true
-        val handleFunctions = container.functions.filter { it.attributes.have(ASYNC_TASK_HANDLE) }
-        if (handleFunctions.size > 1) {
-            logger.error(container, "a type can declare at most one `@AsyncTaskHandle` function")
-            isValid = false
+    /** `@AsyncTaskHandle` annotates the handle class itself; the `Name` value names the cancel function. */
+    private fun validateTaskHandle(container: LimeContainer): Boolean {
+        if (!container.attributes.have(ASYNC_TASK_HANDLE)) return true
+        val cancelName = container.attributes.get(ASYNC_TASK_HANDLE, LimeAttributeValueType.NAME) ?: "cancel"
+        val cancelFunction = container.functions.firstOrNull { it.name == cancelName }
+        if (cancelFunction == null) {
+            logger.error(container, "`@AsyncTaskHandle` names function `$cancelName` but no such function exists in this type")
+            return false
         }
-        handleFunctions.filter { it.parameters.isNotEmpty() }.forEach {
-            logger.error(it, "an `@AsyncTaskHandle` function cannot have parameters")
-            isValid = false
+        if (cancelFunction.parameters.isNotEmpty()) {
+            logger.error(cancelFunction, "the `@AsyncTaskHandle` cancel function cannot have parameters")
+            return false
         }
-        return isValid
+        return true
     }
 
     /**
@@ -152,6 +154,10 @@ internal class LimeAsyncDecoratorValidator(private val logger: LimeLogger) {
     ): Boolean {
         var isValid = true
         if (!function.attributes.have(ASYNC_DECORATOR)) {
+            if (function.attributes.have(ASYNC_TASK_HANDLE)) {
+                logger.error(function, "`@AsyncTaskHandle` must be placed on the handle class, not on a function")
+                isValid = false
+            }
             function.parameters.forEach { parameter ->
                 if (parameter.attributes.have(ASYNC_DECORATOR)) {
                     logger.error(parameter, "`@AsyncDecorator` parameter roles require an `@AsyncDecorator` function")
@@ -323,6 +329,21 @@ internal class LimeAsyncDecoratorValidator(private val logger: LimeLogger) {
             logger.error(callbackInterface, "an `@AsyncDecorator(Flow)` listener can have at most one completion function")
             isValid = false
         }
+        // With a completion function present, the generated exception type is derived from its members alone, so an
+        // error declared on an `Emit` function would be referenced by the generated Flow without ever being generated.
+        if (functions.any { it.attributes.have(ASYNC_DECORATOR, COMPLETE) }) {
+            functions
+                .filter { it.attributes.have(ASYNC_DECORATOR, EMIT) }
+                .flatMap { it.parameters.findAsyncErrorMembers() }
+                .forEach {
+                    logger.error(
+                        it,
+                        "an `@AsyncDecorator(Error)` member must be declared on the `@AsyncDecorator(Complete)` " +
+                            "function when the listener has one",
+                    )
+                    isValid = false
+                }
+        }
         return isValid
     }
 
@@ -401,6 +422,13 @@ internal class LimeAsyncDecoratorValidator(private val logger: LimeLogger) {
     private fun validateUnsupportedTarget(element: LimeNamedElement): Boolean {
         if (!element.attributes.have(ASYNC_DECORATOR)) return true
         logger.error(element, "`@AsyncDecorator` cannot be used here")
+        return false
+    }
+
+    /** `@AsyncTaskHandle` describes a handle type, so it is only meaningful on the type itself. */
+    private fun validateTaskHandleTarget(element: LimeNamedElement): Boolean {
+        if (!element.attributes.have(ASYNC_TASK_HANDLE)) return true
+        logger.error(element, "`@AsyncTaskHandle` can only be used on the handle type")
         return false
     }
 

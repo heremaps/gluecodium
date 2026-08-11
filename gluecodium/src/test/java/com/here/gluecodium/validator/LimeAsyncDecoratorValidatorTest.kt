@@ -21,9 +21,11 @@ package com.here.gluecodium.validator
 
 import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.model.lime.LimeAttributeType.ASYNC_DECORATOR
+import com.here.gluecodium.model.lime.LimeAttributeType.ASYNC_TASK_HANDLE
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributeValueType.CALLBACK
 import com.here.gluecodium.model.lime.LimeAttributeValueType.COMPLETE
+import com.here.gluecodium.model.lime.LimeAttributeValueType.DEFAULT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.EMIT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.ERROR
 import com.here.gluecodium.model.lime.LimeAttributeValueType.FLOW
@@ -46,6 +48,7 @@ import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
+import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
@@ -397,6 +400,241 @@ class LimeAsyncDecoratorValidatorTest {
 
         assertFalse(validate())
         verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("requires a role") }) }
+    }
+
+    @Test
+    fun validateDefaultRoleOnNonCallbackParameter() {
+        val callback =
+            LimeLambda(
+                path("Callback"),
+                parameters = listOf(lambdaParameter("value", nullableString(), RESULT)),
+            )
+        val function =
+            LimeFunction(
+                path("Client", "fetch"),
+                attributes = coroutineAttributes(),
+                parameters =
+                    listOf(
+                        parameter("options", LimeBasicTypeRef.INT, DEFAULT),
+                        parameter("callback", LimeDirectTypeRef(callback), CALLBACK),
+                    ),
+            )
+        addElements(callback, LimeClass(path("Client"), functions = listOf(function)))
+
+        assertTrue(validate())
+    }
+
+    @Test
+    fun rejectDefaultRoleOnCallbackParameter() {
+        val callback =
+            LimeLambda(
+                path("Callback"),
+                parameters = listOf(lambdaParameter("value", nullableString(), RESULT)),
+            )
+        val function =
+            LimeFunction(
+                path("Client", "fetch"),
+                attributes = coroutineAttributes(),
+                parameters = listOf(parameter("callback", LimeDirectTypeRef(callback), CALLBACK, DEFAULT)),
+            )
+        addElements(callback, LimeClass(path("Client"), functions = listOf(function)))
+
+        assertFalse(validate())
+        verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("unsupported") }) }
+    }
+
+    @Test
+    fun validateTaskHandleAnnotationOnClass() {
+        val stopFn = LimeFunction(path("Handle", "stop"))
+        val handle =
+            LimeClass(
+                path("Handle"),
+                attributes =
+                    LimeAttributes.Builder()
+                        .addAttribute(ASYNC_TASK_HANDLE)
+                        .addAttribute(ASYNC_TASK_HANDLE, LimeAttributeValueType.NAME, "stop")
+                        .build(),
+                functions = listOf(stopFn),
+            )
+        addElements(handle)
+
+        assertTrue(validate())
+    }
+
+    @Test
+    fun rejectTaskHandleWhenNamedFunctionMissing() {
+        val handle =
+            LimeClass(
+                path("Handle"),
+                attributes =
+                    LimeAttributes.Builder()
+                        .addAttribute(ASYNC_TASK_HANDLE)
+                        .addAttribute(ASYNC_TASK_HANDLE, LimeAttributeValueType.NAME, "abort")
+                        .build(),
+                functions = listOf(LimeFunction(path("Handle", "stop"))),
+            )
+        addElements(handle)
+
+        assertFalse(validate())
+        verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("`abort`") }) }
+    }
+
+    @Test
+    fun rejectTaskHandleOnFunction() {
+        val fn =
+            LimeFunction(
+                path("Handle", "stop"),
+                attributes = LimeAttributes.Builder().addAttribute(ASYNC_TASK_HANDLE).build(),
+            )
+        addElements(LimeClass(path("Handle"), functions = listOf(fn)))
+
+        assertFalse(validate())
+        verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("must be placed on the handle class") }) }
+    }
+
+    @Test
+    fun rejectTaskHandleOnEnumeration() {
+        addElements(
+            LimeEnumeration(
+                path("Status"),
+                attributes = LimeAttributes.Builder().addAttribute(ASYNC_TASK_HANDLE).build(),
+            ),
+        )
+
+        assertFalse(validate())
+        verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("only be used on the handle type") }) }
+    }
+
+    @Test
+    fun rejectDecoratorOnConstructor() {
+        val callback = LimeLambda(path("Callback"))
+        val constructor =
+            LimeFunction(
+                path("Client", "create"),
+                attributes = coroutineAttributes(),
+                parameters = listOf(parameter("callback", LimeDirectTypeRef(callback), CALLBACK)),
+                isConstructor = true,
+            )
+        addElements(callback, LimeClass(path("Client"), functions = listOf(constructor)))
+
+        assertFalse(validate())
+        verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("cannot be used on constructors") }) }
+    }
+
+    @Test
+    fun rejectDecoratorWithoutCallbackParameter() {
+        val function =
+            LimeFunction(
+                path("Client", "fetch"),
+                attributes = coroutineAttributes(),
+                parameters = listOf(parameter("count", LimeBasicTypeRef.INT)),
+            )
+        addElements(LimeClass(path("Client"), functions = listOf(function)))
+
+        assertFalse(validate())
+        verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("exactly one callback parameter") }) }
+    }
+
+    @Test
+    fun rejectDecoratorWithMultipleCallbackParameters() {
+        val callback = LimeLambda(path("Callback"))
+        val otherCallback = LimeLambda(path("OtherCallback"))
+        val function =
+            LimeFunction(
+                path("Client", "fetch"),
+                attributes = coroutineAttributes(),
+                parameters =
+                    listOf(
+                        parameter("first", LimeDirectTypeRef(callback)),
+                        parameter("second", LimeDirectTypeRef(otherCallback)),
+                    ),
+            )
+        addElements(callback, otherCallback, LimeClass(path("Client"), functions = listOf(function)))
+
+        assertFalse(validate())
+        verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("exactly one callback parameter") }) }
+    }
+
+    @Test
+    fun rejectFlowListenerWithProperties() {
+        val listener =
+            LimeInterface(
+                path("Listener"),
+                functions =
+                    listOf(
+                        LimeFunction(
+                            path("Listener", "onValue"),
+                            attributes = coroutineAttributes(EMIT),
+                            parameters = listOf(parameter("value", LimeBasicTypeRef.INT)),
+                        ),
+                    ),
+                properties =
+                    listOf(
+                        LimeProperty(
+                            path("Listener", "state"),
+                            typeRef = LimeBasicTypeRef.INT,
+                            getter = LimeFunction(path("Listener", "state", "get")),
+                        ),
+                    ),
+            )
+        val handle = cancellationHandle()
+        val function = wrapperFunction("observe", listener, FLOW, returnType = LimeReturnType(LimeDirectTypeRef(handle)))
+        addElements(listener, handle, LimeClass(path("Client"), functions = listOf(function)))
+
+        assertFalse(validate())
+        verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("cannot declare properties") }) }
+    }
+
+    @Test
+    fun rejectFlowListenerWithoutEmitFunction() {
+        val listener =
+            LimeInterface(
+                path("Listener"),
+                functions =
+                    listOf(
+                        LimeFunction(
+                            path("Listener", "onComplete"),
+                            attributes = coroutineAttributes(COMPLETE),
+                            parameters = listOf(parameter("error", nullableInt(), ERROR)),
+                        ),
+                    ),
+            )
+        val handle = cancellationHandle()
+        val function = wrapperFunction("observe", listener, FLOW, returnType = LimeReturnType(LimeDirectTypeRef(handle)))
+        addElements(listener, handle, LimeClass(path("Client"), functions = listOf(function)))
+
+        assertFalse(validate())
+        verify {
+            logger.error(any<LimeNamedElement>(), match<String> { it.contains("at least one `@AsyncDecorator(Emit)` function") })
+        }
+    }
+
+    @Test
+    fun rejectErrorOnEmitFunctionWhenCompletionFunctionExists() {
+        val listener =
+            LimeInterface(
+                path("Listener"),
+                functions =
+                    listOf(
+                        LimeFunction(
+                            path("Listener", "onChunk"),
+                            attributes = coroutineAttributes(EMIT),
+                            parameters = listOf(parameter("error", nullableInt(), ERROR)),
+                        ),
+                        LimeFunction(path("Listener", "onFinished"), attributes = coroutineAttributes(COMPLETE)),
+                    ),
+            )
+        val handle = cancellationHandle()
+        val function = wrapperFunction("observe", listener, FLOW, returnType = LimeReturnType(LimeDirectTypeRef(handle)))
+        addElements(listener, handle, LimeClass(path("Client"), functions = listOf(function)))
+
+        assertFalse(validate())
+        verify {
+            logger.error(
+                any<LimeNamedElement>(),
+                match<String> { it.contains("must be declared on the `@AsyncDecorator(Complete)` function") },
+            )
+        }
     }
 
     private fun namedWrapperFunction(

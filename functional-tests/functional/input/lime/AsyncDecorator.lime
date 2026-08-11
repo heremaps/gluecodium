@@ -22,8 +22,8 @@ enum AsyncDecoratorErrorCode {
     FAILED
 }
 
+@AsyncTaskHandle(Name = "stop")
 class AsyncDecoratorTaskHandle {
-    @AsyncTaskHandle
     fun stop()
 }
 
@@ -36,6 +36,18 @@ lambda DecoratedTickCallback = (
     tick: @AsyncDecorator(Result) Int
 ) -> Void
 
+# No error member: the generated wrapper returns String directly and never throws.
+lambda DecoratedSlowCallback = (
+    value: @AsyncDecorator(Result) String
+) -> Void
+
+# All fields have defaults and `PositionalDefaults` is set, so the generated Kotlin type can be built with no
+# arguments -- which is exactly what `@AsyncDecorator(Default)` emits.
+@Kotlin(PositionalDefaults)
+struct FetchOptions {
+    retry_count: Int = 3
+}
+
 class AsyncDecoratorFactory {
     constructor create()
 
@@ -43,6 +55,18 @@ class AsyncDecoratorFactory {
     fun fetch_value(
         should_fail: Boolean,
         @AsyncDecorator(Callback) callback: DecoratedValueCallback
+    ): AsyncDecoratorTaskHandle
+
+    @AsyncDecorator
+    fun fetch_with_options(
+        @AsyncDecorator(Default) options: FetchOptions,
+        @AsyncDecorator(Callback) callback: DecoratedValueCallback
+    ): AsyncDecoratorTaskHandle
+
+    # Completes slower than fetch_value so tests can prove two different deadlines are met concurrently.
+    @AsyncDecorator
+    fun fetch_value_slow(
+        @AsyncDecorator(Callback) callback: DecoratedSlowCallback
     ): AsyncDecoratorTaskHandle
 
     @AsyncDecorator(Flow)

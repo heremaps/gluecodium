@@ -34,7 +34,6 @@ import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.jni.JniTemplates
 import com.here.gluecodium.model.lime.LimeAttributeType.KOTLIN
 import com.here.gluecodium.model.lime.LimeClass
-import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.CONVERTER_NAME
@@ -263,9 +262,6 @@ internal class KotlinGenerator : Generator {
         var imports = importCollector.collectImports(limeElement).filterNot { KotlinNameRules.getPackageFromImportString(it) == packages }
         if (limeElement is LimeInterface || limeElement is LimeLambda) {
             imports = (imports + listOf(importResolver.nativeBaseImport))
-        }
-        if (limeElement is LimeContainer) {
-            imports = imports + importResolver.resolveCoroutineFlowImports(limeElement)
         }
 
         val optimizedLists = OptimizedListsCollector().getAllOptimizedLists(limeElement)

@@ -79,7 +79,10 @@ Unlike `@Async`, it does not add C++ functions or change the JNI contract: it on
 (callback parameter, error/result members, cancellation and listener lifecycle) so a generator can emit a wrapper.
 
 The attribute itself is platform-agnostic. Currently only the Kotlin generator consumes it, emitting `suspend` and
-`Flow` members; other generators ignore it.
+`Flow` extension functions; other generators ignore it.
+
+The generated wrappers use `kotlinx.coroutines`, so a project that enables `@AsyncDecorator` has to put
+`kotlinx-coroutines-core` (or `kotlinx-coroutines-android`) on the Kotlin runtime classpath.
 
 ### One-shot callbacks
 
@@ -97,10 +100,10 @@ class Client {
 }
 ```
 
-This generates a concrete class member such as:
+This generates a top-level Kotlin extension function such as:
 
 ```kotlin
-suspend fun fetch(): Result<String>
+public suspend fun Client.fetch(): String
 ```
 
 The generated shape depends on the callback:
@@ -109,10 +112,13 @@ The generated shape depends on the callback:
 * No `Error` member produces a non-throwing direct `T` return value.
 * No result members produce `Unit` (or `Result<Unit>` when an error member exists).
 * Multiple `Result` members produce a named `<FunctionName>CoroutineResult` data class.
-* `@AsyncDecorator(Default)` on a non-callback function parameter generates `= Type()` in the Kotlin wrapper.
-* `@AsyncDecorator(Name = "fetchValue")` overrides the generated suspend member name without renaming the callback API.
-* A returned type with a function named `cancel` is cancelled when the coroutine is
-  cancelled. Functions without such a handle remain non-cancellable.
+* `@AsyncDecorator(Default)` on a non-callback function parameter generates `= Type()` in the Kotlin wrapper, so
+  that parameter's type has to be constructible without arguments: for example a struct declared with
+  `@Kotlin(PositionalDefaults)` whose fields all have default values.
+* `@AsyncDecorator(Name = "fetchValue")` overrides the generated extension function name without renaming the callback API.
+* A returned type annotated `@AsyncTaskHandle` is cancelled when the coroutine is cancelled; its optional `Name` value
+  names the cancel function, defaulting to a parameterless `cancel`. Functions without such a handle remain
+  non-cancellable.
 
 When an error member exists, the error and result members must be nullable because the callback contract is exactly one
 of error or success. Multiple result members can all be marked with `@AsyncDecorator(Result)`.
@@ -137,7 +143,7 @@ class Client {
 }
 ```
 
-This generates `fun downloadFlow(): Flow<Int>` using `callbackFlow`. A completion error closes the Flow with the typed
+This generates a top-level extension `fun Client.downloadFlow(): Flow<Int>` using `callbackFlow`. A completion error closes the Flow with the typed
 exception; successful completion closes it normally. A terminal result is emitted before closing. Multiple event methods
 produce a sealed `<FlowName>Event` hierarchy, and multiple parameters on one event produce a data class.
 

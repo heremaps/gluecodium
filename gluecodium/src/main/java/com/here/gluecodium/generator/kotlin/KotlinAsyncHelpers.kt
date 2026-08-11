@@ -44,14 +44,16 @@ import java.io.File
 /**
  * Generates Kotlin coroutine (`suspend fun`) and Flow wrappers for functions marked `@AsyncDecorator`.
  *
- * Wrappers are emitted as members of concrete generated classes. Shared bridges and typed exceptions are emitted once
- * per concrete class package. Every wrapper calls the existing callback API, so C++ and JNI declarations are unchanged.
+ * Wrappers are emitted as top-level extension functions in a per-package support file. Shared bridges and typed
+ * exceptions are emitted once per package. Every wrapper calls the existing callback API, so C++ and bindings
+ * declarations are unchanged.
  *
  * Callback/result/error roles can be declared explicitly via `@AsyncDecorator(Callback)`,
  * `@AsyncDecorator(Result)`, and `@AsyncDecorator(Error)`. When a callback or result role is
  * omitted, the generator falls back to convention: the sole callback-typed parameter is the callback, all callback
- * members other than the explicitly marked error are results, and a `cancel()` method on the returned handle is the
- * cancellation hook. `Flow`, `Emit`, `Complete`, and `Unregister` roles describe repeating listener lifecycles.
+ * members other than the explicitly marked error are results, and the returned handle's `@AsyncTaskHandle` function
+ * (a parameterless `cancel()` by convention) is the cancellation hook. `Flow`, `Emit`, `Complete`, and `Unregister`
+ * roles describe repeating listener lifecycles.
  *
  * The resulting model describes the callback/result/error/cancel shape and can be reused by a future Swift `async`
  * generator, while this implementation emits Kotlin only.
@@ -77,28 +79,26 @@ internal object KotlinAsyncHelpers {
         return coroutineContainers
             .groupBy { (basePackages + it.path.head).map(KotlinNameResolver::normalizePackageName) }
             .map { (packageNames, containers) ->
+                // The bridges are fully generic, so one shared pair serves every type in the package.
                 val supports =
-                    containers.map { container ->
-                        val receiverName = nameResolver.resolveName(container)
-                        mapOf(
-                            "contractViolationName" to contractViolationName(receiverName, nameResolver),
-                            "resultBridgeName" to resultBridgeName(receiverName, nameResolver),
-                            "valueBridgeName" to valueBridgeName(receiverName, nameResolver),
-                        )
-                    }
-                // The wrappers are extensions, so they sit outside their receiver's file and need their own imports
-                // for every parameter, return, result and error type that lives in another package.
+                    mapOf(
+                        "contractViolationName" to nameResolver.resolveCoroutineContractViolationName(),
+                        "resultBridgeName" to nameResolver.resolveCoroutineResultBridgeName(),
+                        "valueBridgeName" to nameResolver.resolveCoroutineValueBridgeName(),
+                    )
+                // The generated exception and result types reference the callback's own member types, so the
+                // coroutine support file needs those imports even though the container's file does not.
                 val imports =
                     containers
-                        .flatMap { importCollector.collectImports(it) }
+                        .flatMap { importCollector.collectImports(it) + importCollector.collectAsyncDecoratorCallbackImports(it) }
                         .filterNot { KotlinNameRules.getPackageFromImportString(it) == packageNames }
                         .distinct()
                         .sorted()
                 val templateData =
                     mapOf(
                         "packageName" to packageNames.joinToString("."),
-                        "fileJvmName" to
-                            containers.map { nameResolver.resolveName(it) }.sorted().joinToString("") + "KotlinCoroutines",
+                        // Fixed, so adding or removing a decorated type does not rename the class Java callers use.
+                        "fileJvmName" to "KotlinCoroutines",
                         "imports" to imports,
                         "supports" to supports,
                         "extensions" to containers.joinToString("\n") { buildCoroutineExtensions(it, nameResolver) },
@@ -127,12 +127,13 @@ internal object KotlinAsyncHelpers {
         if (coroutineFunctions.isEmpty()) return ""
 
         val receiverName = nameResolver.resolveName(limeContainer)
+        val receiverTypeName = nameResolver.resolveNestedTypeName(limeContainer)
         // Exception names that collide with a different error type are rejected by `LimeAsyncDecoratorValidator`,
         // so identical duplicates are all that can reach here and de-duplicating them is safe.
         val exceptionClasses =
             coroutineFunctions
                 .mapNotNull { function -> function.findAsyncErrorMember()?.let { function to it } }
-                .map { (function, errorMember) -> buildExceptionClass(function, errorMember, nameResolver) }
+                .map { (function, errorMember) -> buildExceptionClass(function, errorMember, receiverName, nameResolver) }
                 .distinctBy { it["name"] }
 
         val (flowFunctions, plainFunctions) = coroutineFunctions.partition { isFlowFunction(it) }
@@ -141,10 +142,16 @@ internal object KotlinAsyncHelpers {
             MEMBERS_TEMPLATE_NAME,
             mapOf(
                 "exceptions" to exceptionClasses,
-                "functions" to plainFunctions.map { buildFunctionModel(it, receiverName, nameResolver) },
+                "functions" to plainFunctions.map { buildFunctionModel(it, receiverName, receiverTypeName, nameResolver) },
                 "flows" to
                     flowFunctions.map {
-                        KotlinAsyncFlowHelpers.buildFlowFunctionModel(it, containerFunctions, receiverName, nameResolver)
+                        KotlinAsyncFlowHelpers.buildFlowFunctionModel(
+                            it,
+                            containerFunctions,
+                            receiverName,
+                            receiverTypeName,
+                            nameResolver,
+                        )
                     },
             ),
         )
@@ -174,36 +181,27 @@ internal object KotlinAsyncHelpers {
         nameResolver: KotlinNameResolver,
     ) = limeFunction.attributes.get(ASYNC_DECORATOR, NAME) ?: nameResolver.resolveName(limeFunction)
 
-    /** The `error` name rule already appends the configured error suffix (`Exception` by default for Kotlin). */
+    /**
+     * Prefixed with the receiver name because every type in a package shares one coroutine file, so two types
+     * declaring the same function name would otherwise generate the same exception class twice.
+     * The `error` name rule appends the configured suffix (`Exception` by default for Kotlin).
+     */
     internal fun exceptionName(
         limeFunction: LimeFunction,
-        nameResolver: KotlinNameResolver,
-    ) = nameResolver.resolveGeneratedErrorName(coroutineName(limeFunction, nameResolver))
-
-    internal fun contractViolationName(
         receiverName: String,
         nameResolver: KotlinNameResolver,
-    ) = nameResolver.resolveGeneratedErrorName("${receiverName}SdkContractViolation")
-
-    private fun resultBridgeName(
-        receiverName: String,
-        nameResolver: KotlinNameResolver,
-    ) = nameResolver.resolveGeneratedMethodName("${receiverName}AwaitResultBridge")
-
-    private fun valueBridgeName(
-        receiverName: String,
-        nameResolver: KotlinNameResolver,
-    ) = nameResolver.resolveGeneratedMethodName("${receiverName}AwaitValueBridge")
+    ) = nameResolver.resolveCoroutineExceptionName(receiverName, coroutineName(limeFunction, nameResolver))
 
     private fun buildExceptionClass(
         limeFunction: LimeFunction,
         errorMember: LimeTypedElement,
+        receiverName: String,
         nameResolver: KotlinNameResolver,
     ): Map<String, Any> {
         val errorType = nameResolver.resolveTypeRef(errorMember.typeRef).removeSuffix("?")
 
         return mapOf(
-            "name" to exceptionName(limeFunction, nameResolver),
+            "name" to exceptionName(limeFunction, receiverName, nameResolver),
             "errorType" to errorType,
         )
     }
@@ -229,7 +227,8 @@ internal object KotlinAsyncHelpers {
         docLines += ""
         docLines += "Suspends the calling coroutine until the operation completes instead of taking a callback."
         if (isCancellable) {
-            docLines += "Cancelling the coroutine cancels the underlying task."
+            docLines += "Cancelling the coroutine requests cancellation of the underlying task;" +
+                " the task may still run to completion on the native side."
         }
 
         val mainComment = nameResolver.resolveName(limeFunction.comment)
@@ -255,12 +254,10 @@ internal object KotlinAsyncHelpers {
                     ).lines().joinToString(" ").trim().ifBlank { "the operation value" }
                 else -> "the callback values grouped in a generated result type"
             }
-        docLines +=
-            if (exceptionName == null) {
-                "@return $resultDescription."
-            } else {
-                "@return $resultDescription.\n@throws $exceptionName on error."
-            }
+        docLines += "@return $resultDescription."
+        if (exceptionName != null) {
+            docLines += "@throws $exceptionName on error."
+        }
 
         return "/**\n" + docLines.joinToString("\n") { if (it.isEmpty()) " *" else " * $it" } + "\n */"
     }
@@ -290,6 +287,7 @@ internal object KotlinAsyncHelpers {
     private fun buildFunctionModel(
         limeFunction: LimeFunction,
         receiverName: String,
+        receiverTypeName: String,
         nameResolver: KotlinNameResolver,
     ): Map<String, Any?> {
         val functionName = nameResolver.resolveName(limeFunction)
@@ -303,7 +301,7 @@ internal object KotlinAsyncHelpers {
 
         val resultClassName =
             if (resultMembers.size > 1) {
-                nameResolver.resolveGeneratedTypeName("${coroutineName}CoroutineResult")
+                nameResolver.resolveCoroutineResultTypeName(coroutineName)
             } else {
                 null
             }
@@ -320,7 +318,7 @@ internal object KotlinAsyncHelpers {
                             "last" to (index == resultMembers.lastIndex),
                         )
                     }
-                mapOf("name" to className, "fields" to fields)
+                mapOf("name" to className, "fields" to fields, "coroutineName" to coroutineName)
             }
 
         // SAM adapter parameter names, in the callback's own declaration order. The error member is
@@ -361,7 +359,7 @@ internal object KotlinAsyncHelpers {
                 if (it === callbackParameter) adaptedCallback else nameResolver.resolveName(it)
             }
         val isStatic = limeFunction.isStatic
-        val startTarget = if (isStatic) receiverName else "this"
+        val startTarget = if (isStatic) receiverTypeName else "this"
         val startCall = "$startTarget.$functionName($startArguments)"
         val resultType =
             when (resultMembers.size) {
@@ -374,7 +372,7 @@ internal object KotlinAsyncHelpers {
             }
         val suspendParameters = buildWrapperParameters(limeFunction, callbackParameter, nameResolver)
 
-        val exceptionName = errorMember?.let { exceptionName(limeFunction, nameResolver) }
+        val exceptionName = errorMember?.let { exceptionName(limeFunction, receiverName, nameResolver) }
         val cancelFunction = limeFunction.findAsyncCancelFunction()
         val cancelExpression = cancelFunction?.let { "handle.${nameResolver.resolveName(it)}()" } ?: "Unit"
 
@@ -390,16 +388,16 @@ internal object KotlinAsyncHelpers {
                     nameResolver,
                 ),
             "resultClass" to resultClass,
-            "receiver" to if (isStatic) "$receiverName.Companion." else "$receiverName.",
+            "receiver" to if (isStatic) "$receiverTypeName.Companion." else "$receiverTypeName.",
             "name" to coroutineName,
             "params" to suspendParameters,
             "returnType" to resultType,
             "continuationIndent" to "      ",
             "bridgeName" to
                 if (errorMember == null) {
-                    valueBridgeName(receiverName, nameResolver)
+                    nameResolver.resolveCoroutineValueBridgeName()
                 } else {
-                    resultBridgeName(receiverName, nameResolver)
+                    nameResolver.resolveCoroutineResultBridgeName()
                 },
             "startCall" to startCall,
             "mapErrorExpr" to exceptionName?.let { "$it(error)" },
