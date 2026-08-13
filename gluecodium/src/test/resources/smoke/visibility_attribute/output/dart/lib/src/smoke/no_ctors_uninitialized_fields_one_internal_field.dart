@@ -22,7 +22,7 @@ class NoCtorsUninitializedFieldsOneInternalField {
 
   bool publicField;
 
-  NoCtorsUninitializedFieldsOneInternalField(this._internalField, this.publicField);
+  NoCtorsUninitializedFieldsOneInternalField._(this._internalField, this.publicField);
 }
 
 
@@ -60,7 +60,7 @@ NoCtorsUninitializedFieldsOneInternalField smokeNoctorsuninitializedfieldsoneint
   final _internalFieldHandle = _smokeNoctorsuninitializedfieldsoneinternalfieldGetFieldinternalField(handle);
   final _publicFieldHandle = _smokeNoctorsuninitializedfieldsoneinternalfieldGetFieldpublicField(handle);
   try {
-    return NoCtorsUninitializedFieldsOneInternalField(
+    return NoCtorsUninitializedFieldsOneInternalField._(
       stringFromFfi(_internalFieldHandle), 
       booleanFromFfi(_publicFieldHandle)
     );

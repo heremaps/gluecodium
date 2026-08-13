@@ -25,7 +25,7 @@ class InitializedPublicFieldsViaOverloadedFieldCtors {
 
   InitializedPublicFieldsViaOverloadedFieldCtors._(this.initializedField1, this.initializedField2, this.initializedField3);
   InitializedPublicFieldsViaOverloadedFieldCtors()
-    : initializedField1 = StructWithNamedFieldConstructors("abc", "def", 9, 11), initializedField2 = StructWithNamedFieldConstructors("abc", "def", 123), initializedField3 = StructWithNamedFieldConstructors("abc", "def");
+    : initializedField1 = StructWithNamedFieldConstructors.explicitAllArgsCtor("abc", "def", 9, 11), initializedField2 = StructWithNamedFieldConstructors.withoutOneInitializedField("abc", "def", 123), initializedField3 = StructWithNamedFieldConstructors.withoutTwoInitializedFields("abc", "def");
 }
 
 
