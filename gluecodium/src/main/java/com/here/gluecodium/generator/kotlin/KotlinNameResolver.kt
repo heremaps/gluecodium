@@ -115,11 +115,7 @@ internal class KotlinNameResolver(
      * Package-relative type name, including enclosing types. Coroutine wrappers live in their own top-level
      * file, so a nested receiver has to be qualified by its outer types to resolve there.
      */
-    fun resolveNestedTypeName(limeElement: LimeNamedElement): String {
-        val elementName = resolveName(limeElement)
-        if (!limeElement.path.hasParent) return elementName
-        return "${resolveNestedTypeName(getParentElement(limeElement))}.$elementName"
-    }
+    fun resolveNestedTypeName(limeElement: LimeNamedElement): String = resolveNestedNames(limeElement).joinToString(".")
 
     /** Name of the shared bridge adapting an error-and-result callback into a suspending call. */
     fun resolveCoroutineResultBridgeName(): String = kotlinNameRules.ruleSet.getMethodName("awaitCoroutineResultBridge")

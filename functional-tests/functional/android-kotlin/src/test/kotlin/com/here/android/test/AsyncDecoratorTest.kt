@@ -19,7 +19,8 @@
 package com.here.android.test
 
 import com.here.android.RobolectricApplication
-import kotlin.system.measureTimeMillis
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.measureTime
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.cancelAndJoin
@@ -133,14 +134,14 @@ class AsyncDecoratorTest {
         val callCount = 8
 
         // All 8 coroutines share the single thread.  Concurrent: total ≈ 50ms.  Serial: 400ms.
-        val elapsedMs = measureTimeMillis {
+        val elapsed = measureTime {
             val values = (1..callCount).map { async { factory.fetchValue(false) } }.awaitAll()
             assertEquals(List(callCount) { "async-value" }, values)
         }
 
         assertTrue(
-            "expected concurrent execution, but $callCount calls took ${elapsedMs}ms (serial would be ${callCount * NATIVE_COMPLETION_DELAY_MS}ms)",
-            elapsedMs < NATIVE_COMPLETION_DELAY_MS * 3,
+            "expected concurrent execution, but $callCount calls took $elapsed (serial would be ${callCount * NATIVE_COMPLETION_DELAY_MS}ms)",
+            elapsed < (NATIVE_COMPLETION_DELAY_MS * 3).milliseconds,
         )
     }
 

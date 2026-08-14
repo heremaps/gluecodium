@@ -82,6 +82,25 @@ class LimeAsyncDecoratorValidatorTest {
     }
 
     @Test
+    fun validateOneShotWarnsWhenOnlySomeResultsAreMarked() {
+        val callback =
+            LimeLambda(
+                path("Callback"),
+                parameters =
+                    listOf(
+                        lambdaParameter("error", nullableInt(), ERROR),
+                        lambdaParameter("count", nullableInt(), RESULT),
+                        LimeLambdaParameter(nullableInt(), path("Callback", "label")),
+                    ),
+            )
+        val function = wrapperFunction("load", callback)
+        addElements(callback, LimeClass(path("Client"), functions = listOf(function)))
+
+        assertTrue(validate())
+        verify { logger.warning(any<LimeNamedElement>(), match<String> { it.contains("dropped by the coroutine wrapper") }) }
+    }
+
+    @Test
     fun validateOneShotWithoutErrorOrResult() {
         val callback = LimeLambda(path("Callback"))
         val function = wrapperFunction("synchronize", callback)

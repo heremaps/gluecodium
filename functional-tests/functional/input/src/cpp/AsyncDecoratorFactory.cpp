@@ -69,6 +69,7 @@ public:
     }
 
 private:
+    // stop() and the destructor can race, so the joinable/join check-then-act has to be atomic.
     void join_worker()
     {
         const std::lock_guard<std::mutex> lock(m_worker_mutex);

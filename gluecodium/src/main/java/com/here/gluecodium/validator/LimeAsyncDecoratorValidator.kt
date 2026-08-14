@@ -290,6 +290,15 @@ internal class LimeAsyncDecoratorValidator(private val logger: LimeLogger) {
                 isValid = false
             }
         }
+
+        // Marking any member `Result` narrows the results to just those, so unmarked ones are dropped without a trace.
+        (members.filterNot { it === errorMember } - resultMembers.toSet()).forEach {
+            logger.warning(
+                it,
+                "`@AsyncDecorator` callback member is not marked `$RESULT`, so it is dropped by the coroutine wrapper; " +
+                    "mark it `$RESULT` to return it, or remove `$RESULT` from the other members to return all of them",
+            )
+        }
         return isValid
     }
 
