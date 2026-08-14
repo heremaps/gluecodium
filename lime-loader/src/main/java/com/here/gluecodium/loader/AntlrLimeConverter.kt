@@ -333,14 +333,11 @@ internal object AntlrLimeConverter {
             "Accessors" -> LimeAttributeValueType.ACCESSORS
             "Attribute" -> LimeAttributeValueType.ATTRIBUTE
             "Callback" -> LimeAttributeValueType.CALLBACK
-            "Complete" -> LimeAttributeValueType.COMPLETE
             "Const" -> LimeAttributeValueType.CONST
             "Default" -> LimeAttributeValueType.DEFAULT
             "EnableIf" -> LimeAttributeValueType.ENABLE_IF
-            "Emit" -> LimeAttributeValueType.EMIT
             "EnumValues" -> LimeAttributeValueType.ENUM_VALUES
             "Error" -> LimeAttributeValueType.ERROR
-            "Flow" -> LimeAttributeValueType.FLOW
             "FullName" -> LimeAttributeValueType.FULL_NAME
             "FunctionName" -> LimeAttributeValueType.FUNCTION_NAME
             "Internal" -> LimeAttributeValueType.INTERNAL
@@ -357,7 +354,6 @@ internal object AntlrLimeConverter {
             "Tag" -> LimeAttributeValueType.TAG
             "Type" -> LimeAttributeValueType.TYPE
             "ToString" -> LimeAttributeValueType.TO_STRING
-            "Unregister" -> LimeAttributeValueType.UNREGISTER
             "Weak" -> LimeAttributeValueType.WEAK
             else -> throw LimeLoadingException("Unsupported attribute value: '$id'")
         }

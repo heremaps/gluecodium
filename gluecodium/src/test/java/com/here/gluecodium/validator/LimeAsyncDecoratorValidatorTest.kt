@@ -24,14 +24,10 @@ import com.here.gluecodium.model.lime.LimeAttributeType.ASYNC_DECORATOR
 import com.here.gluecodium.model.lime.LimeAttributeType.ASYNC_TASK_HANDLE
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributeValueType.CALLBACK
-import com.here.gluecodium.model.lime.LimeAttributeValueType.COMPLETE
 import com.here.gluecodium.model.lime.LimeAttributeValueType.DEFAULT
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EMIT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.ERROR
-import com.here.gluecodium.model.lime.LimeAttributeValueType.FLOW
 import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
 import com.here.gluecodium.model.lime.LimeAttributeValueType.RESULT
-import com.here.gluecodium.model.lime.LimeAttributeValueType.UNREGISTER
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
@@ -40,6 +36,7 @@ import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeEnumeration
+import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
@@ -48,7 +45,6 @@ import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimePath.Companion.EMPTY_PATH
-import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeReturnType
 import com.here.gluecodium.model.lime.LimeStruct
 import com.here.gluecodium.model.lime.LimeType
@@ -113,84 +109,6 @@ class LimeAsyncDecoratorValidatorTest {
     }
 
     @Test
-    fun validateProgressFlowWithCancellation() {
-        val listener =
-            LimeInterface(
-                path("ProgressListener"),
-                functions =
-                    listOf(
-                        LimeFunction(
-                            path("ProgressListener", "onProgress"),
-                            attributes = coroutineAttributes(EMIT),
-                            parameters = listOf(parameter("percentage", LimeBasicTypeRef.INT)),
-                        ),
-                        LimeFunction(
-                            path("ProgressListener", "onComplete"),
-                            attributes = coroutineAttributes(COMPLETE),
-                            parameters = listOf(parameter("error", nullableInt(), ERROR)),
-                        ),
-                    ),
-            )
-        val handle = cancellationHandle()
-        val function = wrapperFunction("download", listener, FLOW, returnType = LimeReturnType(LimeDirectTypeRef(handle)))
-        addElements(listener, handle, LimeClass(path("Client"), functions = listOf(function)))
-
-        assertTrue(validate())
-    }
-
-    @Test
-    fun validateRepeatingFlowWithUnregister() {
-        val listener =
-            LimeInterface(
-                path("UpdateListener"),
-                functions =
-                    listOf(
-                        LimeFunction(
-                            path("UpdateListener", "onUpdate"),
-                            attributes = coroutineAttributes(EMIT),
-                            parameters = listOf(parameter("value", LimeBasicTypeRef.INT)),
-                        ),
-                    ),
-            )
-        val addFunction = wrapperFunction("addListener", listener, FLOW)
-        val removeFunction =
-            LimeFunction(
-                path("Client", "removeListener"),
-                attributes = coroutineAttributes(UNREGISTER),
-                parameters = listOf(parameter("listener", LimeDirectTypeRef(listener))),
-            )
-        addElements(listener, LimeClass(path("Client"), functions = listOf(addFunction, removeFunction)))
-
-        assertTrue(validate())
-    }
-
-    @Test
-    fun rejectInterfaceCallbackWithoutFlowRole() {
-        val listener =
-            LimeInterface(
-                path("Listener"),
-                functions = listOf(LimeFunction(path("Listener", "onValue"), attributes = coroutineAttributes(EMIT))),
-            )
-        val function = wrapperFunction("observe", listener)
-        addElements(listener, LimeClass(path("Client"), functions = listOf(function)))
-
-        assertFalse(validate())
-    }
-
-    @Test
-    fun rejectRepeatingFlowWithoutCleanup() {
-        val callback =
-            LimeLambda(
-                path("TickCallback"),
-                parameters = listOf(lambdaParameter("tick", LimeBasicTypeRef.INT, RESULT)),
-            )
-        val function = wrapperFunction("observe", callback, FLOW)
-        addElements(callback, LimeClass(path("Client"), functions = listOf(function)))
-
-        assertFalse(validate())
-    }
-
-    @Test
     fun rejectCallbackLambdaWithReturnValue() {
         val callback =
             LimeLambda(
@@ -199,63 +117,6 @@ class LimeAsyncDecoratorValidatorTest {
             )
         val function = wrapperFunction("load", callback)
         addElements(callback, LimeClass(path("Client"), functions = listOf(function)))
-
-        assertFalse(validate())
-    }
-
-    @Test
-    fun rejectUnclassifiedFlowListenerFunction() {
-        val listener =
-            LimeInterface(
-                path("Listener"),
-                functions =
-                    listOf(
-                        LimeFunction(path("Listener", "onValue"), attributes = coroutineAttributes(EMIT)),
-                        LimeFunction(path("Listener", "onIgnored")),
-                    ),
-            )
-        val handle = cancellationHandle()
-        val function = wrapperFunction("observe", listener, FLOW, returnType = LimeReturnType(LimeDirectTypeRef(handle)))
-        addElements(listener, handle, LimeClass(path("Client"), functions = listOf(function)))
-
-        assertFalse(validate())
-    }
-
-    @Test
-    fun rejectUnregisterFunctionWithAdditionalParameters() {
-        val listener =
-            LimeInterface(
-                path("Listener"),
-                functions = listOf(LimeFunction(path("Listener", "onValue"), attributes = coroutineAttributes(EMIT))),
-            )
-        val addFunction = wrapperFunction("addListener", listener, FLOW)
-        val removeFunction =
-            LimeFunction(
-                path("Client", "removeListener"),
-                attributes = coroutineAttributes(UNREGISTER),
-                parameters =
-                    listOf(
-                        parameter("listener", LimeDirectTypeRef(listener)),
-                        parameter("identifier", LimeBasicTypeRef.INT),
-                    ),
-            )
-        addElements(listener, LimeClass(path("Client"), functions = listOf(addFunction, removeFunction)))
-
-        assertFalse(validate())
-    }
-
-    @Test
-    fun rejectMultipleCompletionFunctions() {
-        val listener =
-            LimeInterface(
-                path("Listener"),
-                functions =
-                    listOf(
-                        LimeFunction(path("Listener", "completeOne"), attributes = coroutineAttributes(COMPLETE)),
-                        LimeFunction(path("Listener", "completeTwo"), attributes = coroutineAttributes(COMPLETE)),
-                    ),
-            )
-        addElements(listener)
 
         assertFalse(validate())
     }
@@ -294,64 +155,55 @@ class LimeAsyncDecoratorValidatorTest {
     fun validateCollidingExceptionNamesWithSameErrorType() {
         val callback =
             LimeLambda(path("Callback"), parameters = listOf(lambdaParameter("error", nullableInt(), ERROR)))
-        val first = namedWrapperFunction("loadFast", "load", callback)
-        val second = namedWrapperFunction("loadSlow", "load", callback)
+        // Distinct non-callback parameters keep the wrappers apart as Kotlin overloads while the exception name is shared.
+        val first = namedWrapperFunction("loadFast", "load", callback, parameter("key", LimeBasicTypeRef.INT))
+        val second = namedWrapperFunction("loadSlow", "load", callback, parameter("key", nullableString()))
         addElements(callback, LimeClass(path("Client"), functions = listOf(first, second)))
 
         assertTrue(validate())
     }
 
     @Test
-    fun rejectFlowWithMultipleMatchingUnregisterFunctions() {
-        val listener =
-            LimeInterface(
-                path("UpdateListener"),
-                functions =
-                    listOf(
-                        LimeFunction(
-                            path("UpdateListener", "onUpdate"),
-                            attributes = coroutineAttributes(EMIT),
-                            parameters = listOf(parameter("value", LimeBasicTypeRef.INT)),
-                        ),
-                    ),
-            )
-        val addFunction = wrapperFunction("addListener", listener, FLOW)
-        val removeFunction = unregisterFunction("removeListener", listener)
-        val dropFunction = unregisterFunction("dropListener", listener)
-        addElements(listener, LimeClass(path("Client"), functions = listOf(addFunction, removeFunction, dropFunction)))
+    fun rejectCollidingExceptionNamesDifferingOnlyInNameStyle() {
+        val intCallback =
+            LimeLambda(path("IntCallback"), parameters = listOf(lambdaParameter("error", nullableInt(), ERROR)))
+        val stringCallback =
+            LimeLambda(path("StringCallback"), parameters = listOf(lambdaParameter("error", nullableString(), ERROR)))
+        val first = wrapperFunction("load_value", intCallback)
+        val second = wrapperFunction("loadValue", stringCallback)
+        addElements(intCallback, stringCallback, LimeClass(path("Client"), functions = listOf(first, second)))
 
         assertFalse(validate())
+        verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("conflicting error types") }) }
     }
 
     @Test
-    fun rejectFlowWhenCancelFunctionHasParameters() {
-        val listener =
+    fun validateInheritedFunctionSharingDecoratedNameWithDeclaredOverload() {
+        val intCallback =
+            LimeLambda(path("IntCallback"), parameters = listOf(lambdaParameter("error", nullableInt(), ERROR)))
+        val stringCallback =
+            LimeLambda(path("StringCallback"), parameters = listOf(lambdaParameter("error", nullableString(), ERROR)))
+        val parent =
             LimeInterface(
-                path("Listener"),
+                path("Loader"),
                 functions =
                     listOf(
                         LimeFunction(
-                            path("Listener", "onValue"),
-                            attributes = coroutineAttributes(EMIT),
-                            parameters = listOf(parameter("value", LimeBasicTypeRef.INT)),
+                            path("Loader", "load"),
+                            attributes = coroutineAttributes(),
+                            parameters = listOf(parameter("callback", LimeDirectTypeRef(intCallback), CALLBACK)),
                         ),
                     ),
             )
-        val handle =
+        val client =
             LimeClass(
-                path("OperationHandle"),
-                functions =
-                    listOf(
-                        LimeFunction(
-                            path("OperationHandle", "cancel"),
-                            parameters = listOf(parameter("reason", LimeBasicTypeRef.INT)),
-                        ),
-                    ),
+                path("Client"),
+                functions = listOf(namedWrapperFunction("fetch", "load", stringCallback)),
+                parents = listOf(LimeDirectTypeRef(parent)),
             )
-        val function = wrapperFunction("observe", listener, FLOW, returnType = LimeReturnType(LimeDirectTypeRef(handle)))
-        addElements(listener, handle, LimeClass(path("Client"), functions = listOf(function)))
+        addElements(intCallback, stringCallback, parent, client)
 
-        assertFalse(validate())
+        assertTrue(validate())
     }
 
     @Test
@@ -409,19 +261,71 @@ class LimeAsyncDecoratorValidatorTest {
                 path("Callback"),
                 parameters = listOf(lambdaParameter("value", nullableString(), RESULT)),
             )
+        val options = defaultConstructibleStruct()
         val function =
             LimeFunction(
                 path("Client", "fetch"),
                 attributes = coroutineAttributes(),
                 parameters =
                     listOf(
-                        parameter("options", LimeBasicTypeRef.INT, DEFAULT),
+                        parameter("options", LimeDirectTypeRef(options), DEFAULT),
+                        parameter("callback", LimeDirectTypeRef(callback), CALLBACK),
+                    ),
+            )
+        addElements(callback, options, LimeClass(path("Client"), functions = listOf(function)))
+
+        assertTrue(validate())
+    }
+
+    @Test
+    fun rejectDefaultRoleOnTypeWithoutNoArgumentConstructor() {
+        val callback =
+            LimeLambda(
+                path("Callback"),
+                parameters = listOf(lambdaParameter("value", nullableString(), RESULT)),
+            )
+        val function =
+            LimeFunction(
+                path("Client", "fetch"),
+                attributes = coroutineAttributes(),
+                parameters =
+                    listOf(
+                        parameter("count", LimeBasicTypeRef.INT, DEFAULT),
                         parameter("callback", LimeDirectTypeRef(callback), CALLBACK),
                     ),
             )
         addElements(callback, LimeClass(path("Client"), functions = listOf(function)))
 
-        assertTrue(validate())
+        assertFalse(validate())
+        verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("constructible without arguments") }) }
+    }
+
+    @Test
+    fun rejectDefaultRoleOnStructWithUninitializedFields() {
+        val callback =
+            LimeLambda(
+                path("Callback"),
+                parameters = listOf(lambdaParameter("value", nullableString(), RESULT)),
+            )
+        val options =
+            LimeStruct(
+                path("Options"),
+                fields = listOf(LimeField(path("Options", "retryCount"), typeRef = LimeBasicTypeRef.INT)),
+            )
+        val function =
+            LimeFunction(
+                path("Client", "fetch"),
+                attributes = coroutineAttributes(),
+                parameters =
+                    listOf(
+                        parameter("options", LimeDirectTypeRef(options), DEFAULT),
+                        parameter("callback", LimeDirectTypeRef(callback), CALLBACK),
+                    ),
+            )
+        addElements(callback, options, LimeClass(path("Client"), functions = listOf(function)))
+
+        assertFalse(validate())
+        verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("constructible without arguments") }) }
     }
 
     @Test
@@ -441,6 +345,63 @@ class LimeAsyncDecoratorValidatorTest {
 
         assertFalse(validate())
         verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("unsupported") }) }
+    }
+
+    @Test
+    fun rejectCallbackParameterOfUnsupportedType() {
+        val function =
+            LimeFunction(
+                path("Client", "fetch"),
+                attributes = coroutineAttributes(),
+                parameters = listOf(parameter("callback", LimeBasicTypeRef.INT, CALLBACK)),
+            )
+        addElements(LimeClass(path("Client"), functions = listOf(function)))
+
+        assertFalse(validate())
+        verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("must be lambda-typed") }) }
+    }
+
+    @Test
+    fun rejectWrapperFunctionsCollapsingToTheSameSignature() {
+        val firstCallback =
+            LimeLambda(path("CallbackA"), parameters = listOf(lambdaParameter("value", nullableString(), RESULT)))
+        val secondCallback =
+            LimeLambda(path("CallbackB"), parameters = listOf(lambdaParameter("value", nullableString(), RESULT)))
+        val first = wrapperFunction("load", firstCallback)
+        val second = wrapperFunction("load", secondCallback)
+        addElements(firstCallback, secondCallback, LimeClass(path("Client"), functions = listOf(first, second)))
+
+        assertFalse(validate())
+        verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("same coroutine wrapper signature") }) }
+    }
+
+    @Test
+    fun validateOverloadsKeepingDistinctNonCallbackParameters() {
+        val callback =
+            LimeLambda(path("Callback"), parameters = listOf(lambdaParameter("value", nullableString(), RESULT)))
+        val first =
+            LimeFunction(
+                path("Client", "load"),
+                attributes = coroutineAttributes(),
+                parameters =
+                    listOf(
+                        parameter("key", LimeBasicTypeRef.INT),
+                        parameter("callback", LimeDirectTypeRef(callback), CALLBACK),
+                    ),
+            )
+        val second =
+            LimeFunction(
+                path("Client", "load"),
+                attributes = coroutineAttributes(),
+                parameters =
+                    listOf(
+                        parameter("key", nullableString()),
+                        parameter("callback", LimeDirectTypeRef(callback), CALLBACK),
+                    ),
+            )
+        addElements(callback, LimeClass(path("Client"), functions = listOf(first, second)))
+
+        assertTrue(validate())
     }
 
     @Test
@@ -555,92 +516,11 @@ class LimeAsyncDecoratorValidatorTest {
         verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("exactly one callback parameter") }) }
     }
 
-    @Test
-    fun rejectFlowListenerWithProperties() {
-        val listener =
-            LimeInterface(
-                path("Listener"),
-                functions =
-                    listOf(
-                        LimeFunction(
-                            path("Listener", "onValue"),
-                            attributes = coroutineAttributes(EMIT),
-                            parameters = listOf(parameter("value", LimeBasicTypeRef.INT)),
-                        ),
-                    ),
-                properties =
-                    listOf(
-                        LimeProperty(
-                            path("Listener", "state"),
-                            typeRef = LimeBasicTypeRef.INT,
-                            getter = LimeFunction(path("Listener", "state", "get")),
-                        ),
-                    ),
-            )
-        val handle = cancellationHandle()
-        val function = wrapperFunction("observe", listener, FLOW, returnType = LimeReturnType(LimeDirectTypeRef(handle)))
-        addElements(listener, handle, LimeClass(path("Client"), functions = listOf(function)))
-
-        assertFalse(validate())
-        verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("cannot declare properties") }) }
-    }
-
-    @Test
-    fun rejectFlowListenerWithoutEmitFunction() {
-        val listener =
-            LimeInterface(
-                path("Listener"),
-                functions =
-                    listOf(
-                        LimeFunction(
-                            path("Listener", "onComplete"),
-                            attributes = coroutineAttributes(COMPLETE),
-                            parameters = listOf(parameter("error", nullableInt(), ERROR)),
-                        ),
-                    ),
-            )
-        val handle = cancellationHandle()
-        val function = wrapperFunction("observe", listener, FLOW, returnType = LimeReturnType(LimeDirectTypeRef(handle)))
-        addElements(listener, handle, LimeClass(path("Client"), functions = listOf(function)))
-
-        assertFalse(validate())
-        verify {
-            logger.error(any<LimeNamedElement>(), match<String> { it.contains("at least one `@AsyncDecorator(Emit)` function") })
-        }
-    }
-
-    @Test
-    fun rejectErrorOnEmitFunctionWhenCompletionFunctionExists() {
-        val listener =
-            LimeInterface(
-                path("Listener"),
-                functions =
-                    listOf(
-                        LimeFunction(
-                            path("Listener", "onChunk"),
-                            attributes = coroutineAttributes(EMIT),
-                            parameters = listOf(parameter("error", nullableInt(), ERROR)),
-                        ),
-                        LimeFunction(path("Listener", "onFinished"), attributes = coroutineAttributes(COMPLETE)),
-                    ),
-            )
-        val handle = cancellationHandle()
-        val function = wrapperFunction("observe", listener, FLOW, returnType = LimeReturnType(LimeDirectTypeRef(handle)))
-        addElements(listener, handle, LimeClass(path("Client"), functions = listOf(function)))
-
-        assertFalse(validate())
-        verify {
-            logger.error(
-                any<LimeNamedElement>(),
-                match<String> { it.contains("must be declared on the `@AsyncDecorator(Complete)` function") },
-            )
-        }
-    }
-
     private fun namedWrapperFunction(
         name: String,
         coroutineName: String,
         callbackType: LimeType,
+        vararg extraParameters: LimeParameter,
     ) = LimeFunction(
         path("Client", name),
         attributes =
@@ -648,16 +528,7 @@ class LimeAsyncDecoratorValidatorTest {
                 .addAttribute(ASYNC_DECORATOR)
                 .addAttribute(ASYNC_DECORATOR, NAME, coroutineName)
                 .build(),
-        parameters = listOf(parameter("callback", LimeDirectTypeRef(callbackType), CALLBACK)),
-    )
-
-    private fun unregisterFunction(
-        name: String,
-        callbackType: LimeType,
-    ) = LimeFunction(
-        path("Client", name),
-        attributes = coroutineAttributes(UNREGISTER),
-        parameters = listOf(parameter("listener", LimeDirectTypeRef(callbackType))),
+        parameters = extraParameters.toList() + parameter("callback", LimeDirectTypeRef(callbackType), CALLBACK),
     )
 
     private fun wrapperFunction(
@@ -676,6 +547,19 @@ class LimeAsyncDecoratorValidatorTest {
         val cancel = LimeFunction(path("OperationHandle", "cancel"))
         return LimeClass(path("OperationHandle"), functions = listOf(cancel))
     }
+
+    private fun defaultConstructibleStruct() =
+        LimeStruct(
+            path("Options"),
+            fields =
+                listOf(
+                    LimeField(
+                        path("Options", "retryCount"),
+                        typeRef = LimeBasicTypeRef.INT,
+                        defaultValue = LimeValue.Literal(LimeBasicTypeRef.INT, "3"),
+                    ),
+                ),
+        )
 
     private fun lambdaParameter(
         name: String,

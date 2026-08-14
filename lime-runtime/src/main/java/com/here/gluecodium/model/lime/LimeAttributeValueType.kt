@@ -24,14 +24,11 @@ enum class LimeAttributeValueType(private val tag: String) {
     ACCESSORS("Accessors"),
     ATTRIBUTE("Attribute"),
     CALLBACK("Callback"),
-    COMPLETE("Complete"),
     CONST("Const"),
     DEFAULT("Default"),
     ENABLE_IF("EnableIf"),
-    EMIT("Emit"),
     ENUM_VALUES("EnumValues"),
     ERROR("Error"),
-    FLOW("Flow"),
     FULL_NAME("FullName"),
     FUNCTION_NAME("FunctionName"),
     FUNCTION("Function"),
@@ -49,7 +46,6 @@ enum class LimeAttributeValueType(private val tag: String) {
     TAG("Tag"),
     TYPE("Type"),
     TO_STRING("ToString"),
-    UNREGISTER("Unregister"),
     WEAK("Weak"),
     ;
 

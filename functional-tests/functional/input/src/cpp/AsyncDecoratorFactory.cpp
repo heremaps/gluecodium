@@ -40,8 +40,6 @@ std::atomic_bool s_stop_called{ false };
 
 constexpr auto k_completion_delay = std::chrono::milliseconds(50);
 constexpr auto k_slow_completion_delay = std::chrono::milliseconds(300);
-// Wide enough that a second collector always registers well before the first flow finishes.
-constexpr auto k_tick_interval = std::chrono::milliseconds(30);
 
 // Shared with the worker instead of the handle itself, so the worker never keeps alive the object
 // that joins it.
@@ -141,27 +139,6 @@ public:
                 return;
             }
             callback(std::nullopt, "retries-" + std::to_string(retry_count));
-        });
-
-        return std::make_shared<AsyncDecoratorTaskHandleImpl>(state, std::move(worker));
-    }
-
-    std::shared_ptr<AsyncDecoratorTaskHandle>
-    start_ticks(const DecoratedTickCallback& callback) override
-    {
-        auto state = std::make_shared<TaskState>();
-
-        std::thread worker([state, callback]() {
-            for (int value = 1; value <= 3; ++value) {
-                // Sleep between ticks only, so cancellation is not delayed after the final one.
-                if (value > 1) {
-                    std::this_thread::sleep_for(k_tick_interval);
-                }
-                if (state->stopped.load()) {
-                    return;
-                }
-                callback(value);
-            }
         });
 
         return std::make_shared<AsyncDecoratorTaskHandleImpl>(state, std::move(worker));

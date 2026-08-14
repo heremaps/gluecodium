@@ -121,27 +121,17 @@ internal class KotlinNameResolver(
         return "${resolveNestedTypeName(getParentElement(limeElement))}.$elementName"
     }
 
-    /** Name of the contract-violation exception generated once per package. */
-    fun resolveCoroutineContractViolationName(): String = kotlinNameRules.ruleSet.getErrorName("CoroutineContractViolation")
-
     /** Name of the shared bridge adapting an error-and-result callback into a suspending call. */
     fun resolveCoroutineResultBridgeName(): String = kotlinNameRules.ruleSet.getMethodName("awaitCoroutineResultBridge")
 
     /** Name of the shared bridge adapting a value-only callback into a suspending call. */
     fun resolveCoroutineValueBridgeName(): String = kotlinNameRules.ruleSet.getMethodName("awaitCoroutineValueBridge")
 
-    /** Name of the data class grouping several callback result values. */
-    fun resolveCoroutineResultTypeName(coroutineName: String): String =
-        kotlinNameRules.ruleSet.getTypeName("${coroutineName}CoroutineResult")
-
-    /** Name of the generated `Flow` wrapper function. */
-    fun resolveCoroutineFlowName(functionName: String): String = kotlinNameRules.ruleSet.getMethodName("${functionName}Flow")
-
-    /** Name of the event type emitted by a generated `Flow`. */
-    fun resolveCoroutineFlowEventName(flowName: String): String = kotlinNameRules.ruleSet.getTypeName("${flowName}Event")
-
-    /** Name of one sealed variant of a multi-event `Flow` event type. */
-    fun resolveCoroutineFlowEventVariantName(functionName: String): String = kotlinNameRules.ruleSet.getTypeName(functionName)
+    /** Name of the data class grouping several callback result values, qualified by its receiver. */
+    fun resolveCoroutineResultTypeName(
+        receiverName: String,
+        coroutineName: String,
+    ): String = kotlinNameRules.ruleSet.getTypeName(receiverName + coroutineName.replaceFirstChar { it.uppercase() } + "CoroutineResult")
 
     private fun resolveComment(limeComment: LimeComment): String {
         val commentText = limeComment.getFor("Kotlin")

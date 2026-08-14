@@ -24,10 +24,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
@@ -157,52 +153,6 @@ class AsyncDecoratorTest {
         delay(NATIVE_COMPLETION_DELAY_MS / 2)
         job.cancelAndJoin()
 
-        assertTrue(AsyncDecoratorFactory.wasStopCalled())
-    }
-
-    @Test
-    fun flowExtension_emitsValues_and_callsCancellationHook() = runBlocking {
-        val factory = AsyncDecoratorFactory()
-        AsyncDecoratorFactory.resetStopCalled()
-
-        val values = withTimeout(5_000) {
-            factory.startTicksFlow().take(3).toList()
-        }
-
-        assertEquals(listOf(1, 2, 3), values)
-        assertTrue(AsyncDecoratorFactory.wasStopCalled())
-    }
-
-    @Test
-    fun concurrentFlowCollectorsInterleaveOnOneThread() = runBlocking {
-        val factory = AsyncDecoratorFactory()
-        val arrivals = mutableListOf<String>()
-
-        // Both collectors share the single runBlocking thread. A blocking implementation would deliver every
-        // "a" value before the first "b"; interleaved arrivals prove neither collector holds on to the thread.
-        val first = launch { factory.startTicksFlow().take(3).onEach { arrivals += "a$it" }.toList() }
-        val second = launch { factory.startTicksFlow().take(3).onEach { arrivals += "b$it" }.toList() }
-        withTimeout(5_000) {
-            first.join()
-            second.join()
-        }
-
-        assertEquals(listOf("a1", "a2", "a3"), arrivals.filter { it.startsWith("a") })
-        assertEquals(listOf("b1", "b2", "b3"), arrivals.filter { it.startsWith("b") })
-        assertTrue(
-            "expected interleaved delivery across both flows, got $arrivals",
-            arrivals.indexOfFirst { it.startsWith("b") } < arrivals.indexOfLast { it.startsWith("a") },
-        )
-    }
-
-    @Test
-    fun flowExtension_cancelsNativeTaskWhenCollectionStopsEarly() = runBlocking {
-        val factory = AsyncDecoratorFactory()
-        AsyncDecoratorFactory.resetStopCalled()
-
-        val firstValue = withTimeout(5_000) { factory.startTicksFlow().first() }
-
-        assertEquals(1, firstValue)
         assertTrue(AsyncDecoratorFactory.wasStopCalled())
     }
 

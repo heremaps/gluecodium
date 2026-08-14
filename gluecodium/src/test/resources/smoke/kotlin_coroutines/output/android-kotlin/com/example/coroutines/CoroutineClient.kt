@@ -96,27 +96,6 @@ class CoroutineClient : NativeBase {
     external fun listFeatures(callback: TrailingErrorCallback) : Unit
 
 
-    external fun observeTicks(callback: TickCallback) : OperationHandle
-
-
-    external fun download(listener: ProgressListener) : OperationHandle
-
-
-    external fun transfer(listener: TransferListener) : OperationHandle
-
-
-    external fun addUpdateListener(listener: UpdateListener) : Unit
-
-
-    external fun removeUpdateListener(listener: UpdateListener) : Unit
-
-
-    external fun addStateListener(listener: StateListener) : Unit
-
-
-    external fun removeStateListener(listener: StateListener) : Unit
-
-
 
 
     companion object {

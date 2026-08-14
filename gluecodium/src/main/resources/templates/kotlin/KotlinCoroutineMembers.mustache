@@ -47,14 +47,4 @@ public suspend fun {{receiver}}{{name}}({{params}}): {{returnType}} =
         cancelOperation = { handle -> {{cancelExpr}} },
     )
 {{/functions}}
-{{#flows}}
-{{#eventDeclaration}}
-{{{eventDeclaration}}}
 
-{{/eventDeclaration}}
-{{{docComment}}}
-public fun {{receiver}}{{name}}({{params}}): Flow<{{eventType}}> =
-  callbackFlow {
-{{{body}}}
-  }.buffer(onBufferOverflow = BufferOverflow.DROP_OLDEST)
-{{/flows}}

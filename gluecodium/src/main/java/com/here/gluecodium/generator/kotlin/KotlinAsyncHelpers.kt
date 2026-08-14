@@ -23,9 +23,7 @@ import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.templates.TemplateEngine
 import com.here.gluecodium.model.lime.LimeAttributeType.ASYNC_DECORATOR
 import com.here.gluecodium.model.lime.LimeAttributeValueType.DEFAULT
-import com.here.gluecodium.model.lime.LimeAttributeValueType.FLOW
 import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
-import com.here.gluecodium.model.lime.LimeAttributeValueType.UNREGISTER
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeLambda
@@ -34,7 +32,6 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeTypeHelper
 import com.here.gluecodium.model.lime.LimeTypedElement
-import com.here.gluecodium.model.lime.allAsyncDecoratorFunctions
 import com.here.gluecodium.model.lime.findAsyncCallbackParameter
 import com.here.gluecodium.model.lime.findAsyncCancelFunction
 import com.here.gluecodium.model.lime.findAsyncErrorMember
@@ -42,7 +39,7 @@ import com.here.gluecodium.model.lime.findAsyncResultMembers
 import java.io.File
 
 /**
- * Generates Kotlin coroutine (`suspend fun`) and Flow wrappers for functions marked `@AsyncDecorator`.
+ * Generates Kotlin coroutine (`suspend fun`) wrappers for functions marked `@AsyncDecorator`.
  *
  * Wrappers are emitted as top-level extension functions in a per-package support file. Shared bridges and typed
  * exceptions are emitted once per package. Every wrapper calls the existing callback API, so C++ and bindings
@@ -52,8 +49,7 @@ import java.io.File
  * `@AsyncDecorator(Result)`, and `@AsyncDecorator(Error)`. When a callback or result role is
  * omitted, the generator falls back to convention: the sole callback-typed parameter is the callback, all callback
  * members other than the explicitly marked error are results, and the returned handle's `@AsyncTaskHandle` function
- * (a parameterless `cancel()` by convention) is the cancellation hook. `Flow`, `Emit`, `Complete`, and `Unregister`
- * roles describe repeating listener lifecycles.
+ * (a parameterless `cancel()` by convention) is the cancellation hook.
  *
  * The resulting model describes the callback/result/error/cancel shape and can be reused by a future Swift `async`
  * generator, while this implementation emits Kotlin only.
@@ -62,6 +58,29 @@ internal object KotlinAsyncHelpers {
     private const val TEMPLATE_NAME = "kotlin/KotlinCoroutines"
     private const val MEMBERS_TEMPLATE_NAME = "kotlin/KotlinCoroutineMembers"
 
+    /**
+     * Builds a deterministic per-file suffix from the set of containers emitted into one coroutine file.
+     *
+     * Several modules can generate `KotlinCoroutines.kt` into the same Kotlin package. Without a unique JVM
+     * file-class name this produces duplicate `.../KotlinCoroutinesKt` classes during Kotlin compilation.
+     */
+    private fun coroutineFileJvmSuffix(containers: List<LimeContainer>): String {
+        val signature = containers.map { it.path.toString() }.sorted().joinToString("|")
+        val hex = signature.hashCode().toUInt().toString(16)
+        return "_$hex"
+    }
+
+    /** Containers that contribute coroutine APIs, grouped by the package file they are emitted into. */
+    internal fun groupCoroutineContainersByPackage(
+        rootElements: List<LimeNamedElement>,
+        basePackages: List<String>,
+    ): Map<List<String>, List<LimeContainer>> =
+        rootElements
+            .flatMap { LimeTypeHelper.getAllTypes(it) }
+            .filterIsInstance<LimeContainer>()
+            .filter { container -> declaredAsyncDecoratorFunctions(container).isNotEmpty() }
+            .groupBy { (basePackages + it.path.head).map(KotlinNameResolver::normalizePackageName) }
+
     /** Generates one bridge/exception support file per package containing coroutine APIs. */
     fun createCoroutineSupportFiles(
         rootElements: List<LimeNamedElement>,
@@ -69,20 +88,12 @@ internal object KotlinAsyncHelpers {
         importCollector: KotlinImportCollector,
         basePackages: List<String>,
         generatorName: String,
-    ): List<GeneratedFile> {
-        val coroutineContainers =
-            rootElements
-                .flatMap { LimeTypeHelper.getAllTypes(it) }
-                .filterIsInstance<LimeContainer>()
-                .filter { container -> declaredAsyncDecoratorFunctions(container).isNotEmpty() }
-
-        return coroutineContainers
-            .groupBy { (basePackages + it.path.head).map(KotlinNameResolver::normalizePackageName) }
+    ): List<GeneratedFile> =
+        groupCoroutineContainersByPackage(rootElements, basePackages)
             .map { (packageNames, containers) ->
                 // The bridges are fully generic, so one shared pair serves every type in the package.
                 val supports =
                     mapOf(
-                        "contractViolationName" to nameResolver.resolveCoroutineContractViolationName(),
                         "resultBridgeName" to nameResolver.resolveCoroutineResultBridgeName(),
                         "valueBridgeName" to nameResolver.resolveCoroutineValueBridgeName(),
                     )
@@ -97,21 +108,19 @@ internal object KotlinAsyncHelpers {
                 val templateData =
                     mapOf(
                         "packageName" to packageNames.joinToString("."),
-                        // Fixed, so adding or removing a decorated type does not rename the class Java callers use.
-                        "fileJvmName" to "KotlinCoroutines",
+                        // Stable per generated package-file and unique across modules sharing one package.
+                        "fileJvmName" to "KotlinCoroutines${coroutineFileJvmSuffix(containers)}",
                         "imports" to imports,
                         "supports" to supports,
                         "extensions" to containers.joinToString("\n") { buildCoroutineExtensions(it, nameResolver) },
-                        "hasFlows" to containers.any { hasFlowMembers(it) },
                     )
                 val content = TemplateEngine.render(TEMPLATE_NAME, templateData)
                 val fileName = (listOf(generatorName) + packageNames + "KotlinCoroutines.kt").joinToString(File.separator)
                 GeneratedFile(content, fileName)
             }
-    }
 
     /**
-     * Renders the coroutine `suspend`/`Flow` wrappers for [limeContainer] as top-level extension functions.
+     * Renders the coroutine `suspend` wrappers for [limeContainer] as top-level extension functions.
      *
      * Extensions rather than members, so that the callback-based API stays uncluttered, Java callers never see a
      * `Continuation` parameter, and the wrappers can be attached to interfaces as well as classes: an extension is
@@ -122,12 +131,22 @@ internal object KotlinAsyncHelpers {
         limeContainer: LimeContainer,
         nameResolver: KotlinNameResolver,
     ): String {
-        val containerFunctions = limeContainer.allAsyncDecoratorFunctions()
-        val coroutineFunctions = declaredAsyncDecoratorFunctions(limeContainer)
-        if (coroutineFunctions.isEmpty()) return ""
+        val model = buildCoroutineModel(limeContainer, nameResolver) ?: return ""
+        return TemplateEngine.render(MEMBERS_TEMPLATE_NAME, mapOf("exceptions" to model.first, "functions" to model.second))
+    }
 
-        val receiverName = nameResolver.resolveName(limeContainer)
+    /** The exception and wrapper models rendered into the coroutine file, or null when the container has no wrappers. */
+    private fun buildCoroutineModel(
+        limeContainer: LimeContainer,
+        nameResolver: KotlinNameResolver,
+    ): Pair<List<Map<String, Any>>, List<Map<String, Any?>>>? {
+        val coroutineFunctions = declaredAsyncDecoratorFunctions(limeContainer)
+        if (coroutineFunctions.isEmpty()) return null
+
         val receiverTypeName = nameResolver.resolveNestedTypeName(limeContainer)
+        // Generated symbols are top-level in a shared per-package file, so a nested receiver has to contribute its
+        // whole path: two `Nested` types under different outers would otherwise produce the same symbol names.
+        val receiverName = receiverTypeName.replace(".", "")
         // Exception names that collide with a different error type are rejected by `LimeAsyncDecoratorValidator`,
         // so identical duplicates are all that can reach here and de-duplicating them is safe.
         val exceptionClasses =
@@ -136,28 +155,22 @@ internal object KotlinAsyncHelpers {
                 .map { (function, errorMember) -> buildExceptionClass(function, errorMember, receiverName, nameResolver) }
                 .distinctBy { it["name"] }
 
-        val (flowFunctions, plainFunctions) = coroutineFunctions.partition { isFlowFunction(it) }
-
-        return TemplateEngine.render(
-            MEMBERS_TEMPLATE_NAME,
-            mapOf(
-                "exceptions" to exceptionClasses,
-                "functions" to plainFunctions.map { buildFunctionModel(it, receiverName, receiverTypeName, nameResolver) },
-                "flows" to
-                    flowFunctions.map {
-                        KotlinAsyncFlowHelpers.buildFlowFunctionModel(
-                            it,
-                            containerFunctions,
-                            receiverName,
-                            receiverTypeName,
-                            nameResolver,
-                        )
-                    },
-            ),
-        )
+        return exceptionClasses to coroutineFunctions.map { buildFunctionModel(it, receiverName, receiverTypeName, nameResolver) }
     }
 
-    fun hasFlowMembers(limeContainer: LimeContainer): Boolean = declaredAsyncDecoratorFunctions(limeContainer).any { isFlowFunction(it) }
+    /**
+     * Every top-level Kotlin symbol [limeContainer] contributes to the shared per-package coroutine file. Derived from
+     * the same models that are rendered, so it cannot drift from what is actually emitted.
+     */
+    internal fun collectGeneratedSymbols(
+        limeContainer: LimeContainer,
+        nameResolver: KotlinNameResolver,
+    ): List<String> {
+        val (exceptions, functions) = buildCoroutineModel(limeContainer, nameResolver) ?: return emptyList()
+        return exceptions.map { "class ${it["name"]}" } +
+            functions.mapNotNull { (it["resultClass"] as? Map<*, *>)?.get("name")?.let { name -> "class $name" } } +
+            functions.map { "fun ${it["receiver"]}${it["name"]}(${it["params"]})" }
+    }
 
     /**
      * The `@AsyncDecorator` functions a container generates wrappers for.
@@ -171,10 +184,7 @@ internal object KotlinAsyncHelpers {
 
     private fun isAsyncDecoratorFunction(limeFunction: LimeFunction) =
         limeFunction.attributes.have(ASYNC_DECORATOR) &&
-            !limeFunction.attributes.have(ASYNC_DECORATOR, UNREGISTER) &&
             limeFunction.findAsyncCallbackParameter() != null
-
-    private fun isFlowFunction(limeFunction: LimeFunction) = limeFunction.attributes.have(ASYNC_DECORATOR, FLOW)
 
     private fun coroutineName(
         limeFunction: LimeFunction,
@@ -301,7 +311,7 @@ internal object KotlinAsyncHelpers {
 
         val resultClassName =
             if (resultMembers.size > 1) {
-                nameResolver.resolveCoroutineResultTypeName(coroutineName)
+                nameResolver.resolveCoroutineResultTypeName(receiverName, coroutineName)
             } else {
                 null
             }

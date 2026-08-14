@@ -31,24 +31,10 @@ package {{packageName}}
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlinx.coroutines.suspendCancellableCoroutine
-{{#hasFlows}}
-import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.buffer
-import kotlinx.coroutines.flow.callbackFlow
-{{/hasFlows}}
 {{#imports}}
 import {{this}}
 {{/imports}}
 {{#supports}}
-
-/**
- * Thrown when the underlying callback breaks its (error XOR result) contract.
- *
- * @param message description of the violated contract.
- */
-internal class {{contractViolationName}}(message: String) : IllegalStateException(message)
 
 /**
  * Generic bridge that adapts a callback-style [startOperation] into a `suspend` call returning [Result].
@@ -56,7 +42,7 @@ internal class {{contractViolationName}}(message: String) : IllegalStateExceptio
  * Behavior:
  * - resumes with [Result.success] carrying the callback value,
  * - resumes with [Result.failure] produced by [mapDomainError] on a domain error,
- * - fails with [{{contractViolationName}}] if the callback breaks the (error XOR result) contract,
+ * - fails with [IllegalStateException] if the callback breaks the (error XOR result) contract,
  * - propagates a synchronous throwable from [startOperation],
  * - cancels the underlying task via [cancelOperation] when the coroutine is cancelled before the
  *   callback resolves. The cancellation path shares the `resolved` guard with the callback, so a
@@ -67,7 +53,7 @@ internal class {{contractViolationName}}(message: String) : IllegalStateExceptio
  * @param cancelOperation requests cancellation of the in-flight operation; the task may still
  *   complete on the native side.
  */
-internal suspend fun <E, T, H> {{resultBridgeName}}(
+private suspend fun <E, T, H> {{resultBridgeName}}(
     startOperation: (callback: (E?, T?) -> Unit) -> H,
     mapDomainError: (E) -> Throwable,
     cancelOperation: (H) -> Unit,
@@ -84,9 +70,9 @@ internal suspend fun <E, T, H> {{resultBridgeName}}(
                             error == null && value != null -> continuation.resume(value)
                             error != null && value == null -> continuation.resumeWithException(mapDomainError(error))
                             error == null && value == null ->
-                                continuation.resumeWithException({{contractViolationName}}("Callback contract violation: both error and value are null"))
+                                continuation.resumeWithException(IllegalStateException("Callback contract violation: both error and value are null"))
                             else ->
-                                continuation.resumeWithException({{contractViolationName}}("Callback contract violation: both error and value are non-null"))
+                                continuation.resumeWithException(IllegalStateException("Callback contract violation: both error and value are non-null"))
                         }
                     }
                 }
@@ -111,7 +97,7 @@ internal suspend fun <E, T, H> {{resultBridgeName}}(
  * @param cancelOperation requests cancellation of the in-flight operation; the task may still
  *   complete on the native side.
  */
-internal suspend fun <T, H> {{valueBridgeName}}(
+private suspend fun <T, H> {{valueBridgeName}}(
     startOperation: (callback: (T) -> Unit) -> H,
     cancelOperation: (H) -> Unit,
 ): T =

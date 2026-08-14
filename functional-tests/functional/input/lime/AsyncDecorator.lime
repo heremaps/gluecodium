@@ -32,10 +32,6 @@ lambda DecoratedValueCallback = (
     value: @AsyncDecorator(Result) String?
 ) -> Void
 
-lambda DecoratedTickCallback = (
-    tick: @AsyncDecorator(Result) Int
-) -> Void
-
 # No error member: the generated wrapper returns String directly and never throws.
 lambda DecoratedSlowCallback = (
     value: @AsyncDecorator(Result) String
@@ -67,11 +63,6 @@ class AsyncDecoratorFactory {
     @AsyncDecorator
     fun fetch_value_slow(
         @AsyncDecorator(Callback) callback: DecoratedSlowCallback
-    ): AsyncDecoratorTaskHandle
-
-    @AsyncDecorator(Flow)
-    fun start_ticks(
-        @AsyncDecorator(Callback) callback: DecoratedTickCallback
     ): AsyncDecoratorTaskHandle
 
     static fun was_stop_called(): Boolean

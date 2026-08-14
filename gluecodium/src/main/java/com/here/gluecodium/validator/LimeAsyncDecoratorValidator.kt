@@ -24,14 +24,11 @@ import com.here.gluecodium.model.lime.LimeAttributeType.ASYNC_DECORATOR
 import com.here.gluecodium.model.lime.LimeAttributeType.ASYNC_TASK_HANDLE
 import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeAttributeValueType.CALLBACK
-import com.here.gluecodium.model.lime.LimeAttributeValueType.COMPLETE
 import com.here.gluecodium.model.lime.LimeAttributeValueType.DEFAULT
-import com.here.gluecodium.model.lime.LimeAttributeValueType.EMIT
 import com.here.gluecodium.model.lime.LimeAttributeValueType.ERROR
-import com.here.gluecodium.model.lime.LimeAttributeValueType.FLOW
 import com.here.gluecodium.model.lime.LimeAttributeValueType.NAME
 import com.here.gluecodium.model.lime.LimeAttributeValueType.RESULT
-import com.here.gluecodium.model.lime.LimeAttributeValueType.UNREGISTER
+import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeEnumeration
@@ -39,23 +36,20 @@ import com.here.gluecodium.model.lime.LimeEnumerator
 import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeField
 import com.here.gluecodium.model.lime.LimeFunction
-import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeParameter
 import com.here.gluecodium.model.lime.LimeProperty
+import com.here.gluecodium.model.lime.LimeStruct
+import com.here.gluecodium.model.lime.LimeType
 import com.here.gluecodium.model.lime.LimeTypeAlias
 import com.here.gluecodium.model.lime.LimeTypedElement
-import com.here.gluecodium.model.lime.allAsyncDecoratorFunctions
-import com.here.gluecodium.model.lime.allFunctionsWithInherited
 import com.here.gluecodium.model.lime.findAsyncCallbackCandidates
-import com.here.gluecodium.model.lime.findAsyncCancelFunction
+import com.here.gluecodium.model.lime.findAsyncCallbackParameter
 import com.here.gluecodium.model.lime.findAsyncErrorMember
 import com.here.gluecodium.model.lime.findAsyncErrorMembers
 import com.here.gluecodium.model.lime.findAsyncResultMembers
-import com.here.gluecodium.model.lime.findAsyncUnregisterFunctions
-import com.here.gluecodium.model.lime.isAsyncCallbackTyped
 
 /** Validates `@AsyncDecorator` annotation roles. Platform-agnostic: runs regardless of the selected generators. */
 internal class LimeAsyncDecoratorValidator(private val logger: LimeLogger) {
@@ -87,19 +81,44 @@ internal class LimeAsyncDecoratorValidator(private val logger: LimeLogger) {
 
     private fun validateContainer(container: LimeContainer): Boolean {
         var isValid = validateUnsupportedTarget(container)
-        val completionFunctions = container.functions.filter { it.attributes.have(ASYNC_DECORATOR, COMPLETE) }
-        if (completionFunctions.size > 1) {
-            logger.error(container, "an `@AsyncDecorator(Flow)` listener can have at most one `@AsyncDecorator(Complete)` function")
-            isValid = false
-        }
 
         container.functions.forEach {
             isValid = validateFunction(it, container) && isValid
         }
         isValid = validateExceptionNames(container) && isValid
+        isValid = validateWrapperSignatures(container) && isValid
         isValid = validateTaskHandle(container) && isValid
         return isValid
     }
+
+    /**
+     * The generated wrapper drops the callback parameter, so two functions differing only by callback type collapse
+     * into the same declaration. Overloads that keep distinct non-callback parameters stay valid Kotlin overloads.
+     */
+    private fun validateWrapperSignatures(container: LimeContainer): Boolean {
+        var isValid = true
+        container.functions
+            .filter { it.attributes.have(ASYNC_DECORATOR) }
+            .mapNotNull { function -> function.findAsyncCallbackParameter()?.let { function to it } }
+            .groupBy { (function, callbackParameter) ->
+                normalizeDecoratedName(decoratedName(function)) to
+                    function.parameters.filterNot { it === callbackParameter }.map { parameterSignature(it) }
+            }
+            .filterValues { it.size > 1 }
+            .forEach { (_, entries) ->
+                val names = entries.map { it.first.name }.distinct().sorted().joinToString { "`$it`" }
+                logger.error(
+                    container,
+                    "`@AsyncDecorator` functions named $names generate the same coroutine wrapper signature; " +
+                        "use `@AsyncDecorator(Name = \"...\")` to give them distinct names",
+                )
+                isValid = false
+            }
+        return isValid
+    }
+
+    private fun parameterSignature(parameter: LimeParameter): String =
+        parameter.typeRef.type.actualType.fullName + if (parameter.typeRef.isNullable) "?" else ""
 
     /** `@AsyncTaskHandle` annotates the handle class itself; the `Name` value names the cancel function. */
     private fun validateTaskHandle(container: LimeContainer): Boolean {
@@ -120,19 +139,23 @@ internal class LimeAsyncDecoratorValidator(private val logger: LimeLogger) {
     /**
      * Generated exception classes are named after the decorated name, so two wrapper functions sharing a decorated name
      * must agree on the error type. Overloads are the usual cause, and `@AsyncDecorator(Name = "...")` resolves it.
+     *
+     * Only declared functions are compared, because an inherited function's wrapper (and its exception) is generated
+     * on the interface declaring it, under that interface's own name.
      */
     private fun validateExceptionNames(container: LimeContainer): Boolean {
         var isValid = true
-        allFunctions(container)
-            .filter { it.attributes.have(ASYNC_DECORATOR) && !it.attributes.have(ASYNC_DECORATOR, UNREGISTER) }
+        container.functions
+            .filter { it.attributes.have(ASYNC_DECORATOR) }
             .mapNotNull { function -> findErrorTypeName(function)?.let { decoratedName(function) to it } }
-            .groupBy({ it.first }, { it.second })
-            .filterValues { errorTypes -> errorTypes.distinct().size > 1 }
-            .forEach { (decoratedName, errorTypes) ->
+            .groupBy { normalizeDecoratedName(it.first) }
+            .filterValues { entries -> entries.map { it.second }.distinct().size > 1 }
+            .forEach { (_, entries) ->
+                val names = entries.map { it.first }.distinct().sorted().joinToString { "`$it`" }
+                val errorTypes = entries.map { it.second }.distinct().sorted().joinToString()
                 logger.error(
                     container,
-                    "`@AsyncDecorator` functions named `$decoratedName` declare conflicting error types " +
-                        "(${errorTypes.distinct().sorted().joinToString()}); " +
+                    "`@AsyncDecorator` functions named $names declare conflicting error types ($errorTypes); " +
                         "use `@AsyncDecorator(Name = \"...\")` to give them distinct names",
                 )
                 isValid = false
@@ -140,13 +163,13 @@ internal class LimeAsyncDecoratorValidator(private val logger: LimeLogger) {
         return isValid
     }
 
-    /** Functions visible on the container, including the ones a class inherits from its interfaces. */
-    private fun allFunctions(container: LimeContainer): List<LimeFunction> = container.allAsyncDecoratorFunctions()
-
-    private fun decoratedName(function: LimeFunction) = function.attributes.get(ASYNC_DECORATOR, NAME) ?: function.name
+    /** Generators normalize LIME names, so `load_value` and `loadValue` end up as one and the same generated symbol. */
+    private fun normalizeDecoratedName(name: String) = name.replace("_", "").lowercase()
 
     /** Fully qualified type name of the callback's `@AsyncDecorator(Error)` member, or null when there is none. */
     private fun findErrorTypeName(function: LimeFunction): String? = function.findAsyncErrorMember()?.typeRef?.type?.actualType?.fullName
+
+    private fun decoratedName(function: LimeFunction) = function.attributes.get(ASYNC_DECORATOR, NAME) ?: function.name
 
     private fun validateFunction(
         function: LimeFunction,
@@ -167,21 +190,13 @@ internal class LimeAsyncDecoratorValidator(private val logger: LimeLogger) {
             return isValid
         }
 
-        val roles = function.attributes.getAllAttributeValueTypes(ASYNC_DECORATOR)
-        return when {
-            roles.contains(EMIT) || roles.contains(COMPLETE) -> validateListenerFunction(function, container) && isValid
-            roles.contains(UNREGISTER) -> validateUnregisterFunction(function) && isValid
-            else -> validateWrapperFunction(function, container) && isValid
-        }
+        return validateWrapperFunction(function) && isValid
     }
 
-    private fun validateWrapperFunction(
-        function: LimeFunction,
-        container: LimeContainer,
-    ): Boolean {
+    private fun validateWrapperFunction(function: LimeFunction): Boolean {
         var isValid = true
         val roles = function.attributes.getAllAttributeValueTypes(ASYNC_DECORATOR)
-        val unsupportedRoles = roles - setOf(FLOW, NAME)
+        val unsupportedRoles = roles - setOf(NAME)
         if (unsupportedRoles.isNotEmpty()) {
             logger.error(function, "unsupported `@AsyncDecorator` function roles: ${unsupportedRoles.joinToString()}")
             isValid = false
@@ -201,149 +216,28 @@ internal class LimeAsyncDecoratorValidator(private val logger: LimeLogger) {
         function.parameters.forEach { parameter ->
             val allowedRoles = if (parameter === callbackParameter) setOf(CALLBACK) else setOf(DEFAULT)
             isValid = validateParameterRoles(parameter, allowedRoles) && isValid
+            if (parameter !== callbackParameter) {
+                isValid = validateDefaultParameter(parameter) && isValid
+            }
         }
 
         val callbackType = callbackParameter?.typeRef?.type?.actualType
         when (callbackType) {
             is LimeLambda -> {
+                // Members are validated once per lambda declaration in `validateLambda`, so checking them again here
+                // would report every member problem twice.
                 if (!callbackType.returnType.isVoid) {
                     logger.error(callbackType, "an `@AsyncDecorator` callback lambda must return `Void`")
                     isValid = false
                 }
-                isValid = validateCallbackMembers(callbackType.parameters, callbackType) && isValid
-            }
-            is LimeInterface -> {
-                if (!roles.contains(FLOW)) {
-                    logger.error(function, "interface callbacks require `@AsyncDecorator(Flow)`")
-                    isValid = false
-                }
-                isValid = validateFlowInterface(callbackType) && isValid
             }
             null -> Unit
             else -> {
-                logger.error(callbackParameter, "`@AsyncDecorator` callback must be lambda- or interface-typed")
+                logger.error(callbackParameter, "`@AsyncDecorator` callback must be lambda-typed")
                 isValid = false
             }
         }
 
-        if (roles.contains(FLOW) && callbackType != null) {
-            val unregisterFunctions = allFunctions(container).findAsyncUnregisterFunctions(callbackType)
-            if (unregisterFunctions.size > 1) {
-                logger.error(
-                    function,
-                    "`@AsyncDecorator(Flow)` matches more than one `@AsyncDecorator(Unregister)` function",
-                )
-                isValid = false
-            }
-        }
-
-        if (roles.contains(FLOW) && callbackType != null && !hasFlowCleanup(function, container, callbackType)) {
-            val selfCompleting =
-                callbackType is LimeInterface &&
-                    callbackType.allFunctionsWithInherited().any { it.attributes.have(ASYNC_DECORATOR, COMPLETE) }
-            if (!selfCompleting) {
-                logger.error(
-                    function,
-                    "`@AsyncDecorator(Flow)` requires a cancellation handle, completion function, or unregister function",
-                )
-                isValid = false
-            }
-        }
-
-        return isValid
-    }
-
-    private fun validateListenerFunction(
-        function: LimeFunction,
-        container: LimeContainer,
-    ): Boolean {
-        var isValid = true
-        val roles = function.attributes.getAllAttributeValueTypes(ASYNC_DECORATOR)
-        val listenerRoles = roles.intersect(setOf(EMIT, COMPLETE))
-        if (container !is LimeInterface) {
-            logger.error(function, "`@AsyncDecorator(Emit/Complete)` can only be used on interface functions")
-            isValid = false
-        }
-        if (listenerRoles.size != 1 || roles.size != 1) {
-            logger.error(function, "a Flow listener function must have exactly one `Emit` or `Complete` role")
-            isValid = false
-        }
-        if (!function.returnType.isVoid) {
-            logger.error(function, "a Flow listener function must return `Void`")
-            isValid = false
-        }
-        function.parameters.forEach {
-            isValid = validateParameterRoles(it, setOf(ERROR, RESULT)) && isValid
-        }
-        isValid = validateCallbackMembers(function.parameters, function) && isValid
-        return isValid
-    }
-
-    private fun validateUnregisterFunction(function: LimeFunction): Boolean {
-        var isValid = true
-        val roles = function.attributes.getAllAttributeValueTypes(ASYNC_DECORATOR)
-        if (roles != setOf(UNREGISTER)) {
-            logger.error(function, "`@AsyncDecorator(Unregister)` cannot be combined with other `@AsyncDecorator` roles")
-            isValid = false
-        }
-        if (!function.returnType.isVoid) {
-            logger.error(function, "an `@AsyncDecorator(Unregister)` function must return `Void`")
-            isValid = false
-        }
-        val callbackParameters = function.parameters.filter { it.isAsyncCallbackTyped() }
-        if (function.parameters.size != 1 || callbackParameters.size != 1) {
-            logger.error(function, "an `@AsyncDecorator(Unregister)` function must have exactly one parameter: the callback")
-            isValid = false
-        }
-        function.parameters.forEach {
-            if (it.attributes.have(ASYNC_DECORATOR)) {
-                logger.error(it, "unregister function parameters must not have `@AsyncDecorator` roles")
-                isValid = false
-            }
-        }
-        return isValid
-    }
-
-    private fun validateFlowInterface(callbackInterface: LimeInterface): Boolean {
-        val functions = callbackInterface.allFunctionsWithInherited()
-        var isValid = true
-        val properties = callbackInterface.properties + callbackInterface.inheritedProperties
-        if (properties.isNotEmpty()) {
-            logger.error(callbackInterface, "an `@AsyncDecorator(Flow)` listener cannot declare properties")
-            isValid = false
-        }
-        functions.forEach { function ->
-            val flowRoles =
-                function.attributes.getAllAttributeValueTypes(ASYNC_DECORATOR)
-                    .intersect(setOf(EMIT, COMPLETE))
-            if (flowRoles.size != 1) {
-                logger.error(function, "every `@AsyncDecorator(Flow)` listener function must declare exactly one `Emit` or `Complete` role")
-                isValid = false
-            }
-        }
-        if (functions.none { it.attributes.have(ASYNC_DECORATOR, EMIT) }) {
-            logger.error(callbackInterface, "an `@AsyncDecorator(Flow)` listener must have at least one `@AsyncDecorator(Emit)` function")
-            isValid = false
-        }
-        if (functions.count { it.attributes.have(ASYNC_DECORATOR, COMPLETE) } > 1) {
-            logger.error(callbackInterface, "an `@AsyncDecorator(Flow)` listener can have at most one completion function")
-            isValid = false
-        }
-        // With a completion function present, the generated exception type is derived from its members alone, so an
-        // error declared on an `Emit` function would be referenced by the generated Flow without ever being generated.
-        if (functions.any { it.attributes.have(ASYNC_DECORATOR, COMPLETE) }) {
-            functions
-                .filter { it.attributes.have(ASYNC_DECORATOR, EMIT) }
-                .flatMap { it.parameters.findAsyncErrorMembers() }
-                .forEach {
-                    logger.error(
-                        it,
-                        "an `@AsyncDecorator(Error)` member must be declared on the `@AsyncDecorator(Complete)` " +
-                            "function when the listener has one",
-                    )
-                    isValid = false
-                }
-        }
         return isValid
     }
 
@@ -399,6 +293,31 @@ internal class LimeAsyncDecoratorValidator(private val logger: LimeLogger) {
         return isValid
     }
 
+    /** `@AsyncDecorator(Default)` generates a `Type()` default argument, so the type needs a no-argument constructor. */
+    private fun validateDefaultParameter(parameter: LimeParameter): Boolean {
+        if (!parameter.attributes.have(ASYNC_DECORATOR, DEFAULT)) return true
+        val limeType = parameter.typeRef.type.actualType
+        if (isDefaultConstructible(limeType)) return true
+        logger.error(
+            parameter,
+            "`@AsyncDecorator(Default)` requires a type constructible without arguments, but `${limeType.fullName}` is not",
+        )
+        return false
+    }
+
+    private fun isDefaultConstructible(limeType: LimeType): Boolean =
+        when (limeType) {
+            // A struct without explicit constructors gets a generated one taking only its fields that lack defaults.
+            is LimeStruct ->
+                limeType.constructors.any { it.parameters.isEmpty() } ||
+                    (
+                        limeType.constructors.isEmpty() && limeType.fieldConstructors.isEmpty() &&
+                            limeType.uninitializedFields.isEmpty()
+                    )
+            is LimeClass -> limeType.constructors.any { it.parameters.isEmpty() }
+            else -> false
+        }
+
     private fun validateParameterRoles(
         parameter: LimeParameter,
         allowedRoles: Set<LimeAttributeValueType>,
@@ -418,7 +337,7 @@ internal class LimeAsyncDecoratorValidator(private val logger: LimeLogger) {
         return true
     }
 
-    /** `@AsyncDecorator` is only meaningful on functions, their parameters, and callback lambda/interface members. */
+    /** `@AsyncDecorator` is only meaningful on functions, their parameters, and callback lambda members. */
     private fun validateUnsupportedTarget(element: LimeNamedElement): Boolean {
         if (!element.attributes.have(ASYNC_DECORATOR)) return true
         logger.error(element, "`@AsyncDecorator` cannot be used here")
@@ -430,15 +349,5 @@ internal class LimeAsyncDecoratorValidator(private val logger: LimeLogger) {
         if (!element.attributes.have(ASYNC_TASK_HANDLE)) return true
         logger.error(element, "`@AsyncTaskHandle` can only be used on the handle type")
         return false
-    }
-
-    private fun hasFlowCleanup(
-        function: LimeFunction,
-        container: LimeContainer,
-        callbackType: Any,
-    ): Boolean {
-        val hasCancellation = function.findAsyncCancelFunction() != null
-        val hasUnregister = allFunctions(container).findAsyncUnregisterFunctions(callbackType).isNotEmpty()
-        return hasCancellation || hasUnregister
     }
 }

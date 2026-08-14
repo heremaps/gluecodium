@@ -40,9 +40,8 @@ LIME model trees.
 only works in Dart. See [async.md](async.md) for details.
 * **@AsyncDecorator**: *EXPERIMENTAL* marks a callback-based function so that an idiomatic asynchronous variant can be
 generated for it, without changing C++ or bindings declarations. The attribute is platform-agnostic; currently only the
-Kotlin generator consumes it, emitting `suspend` extension functions for one-shot callbacks and `callbackFlow`-based
-`Flow` extension functions for repeating callbacks/listeners. Its roles are `Callback`, `Error`, `Result`, `Default`,
-`Flow`, `Emit`, `Complete`, `Unregister`, and optional `Name`. See [async.md](async.md#async-decorator-usage) for
+Kotlin generator consumes it, emitting `suspend` extension functions for one-shot callbacks. Its roles are `Callback`,
+`Error`, `Result`, `Default`, and optional `Name`. See [async.md](async.md#async-decorator-usage) for
 callback shapes and examples.
 * **@AsyncTaskHandle**: *EXPERIMENTAL* marks the handle class returned by an `@AsyncDecorator` function. The optional
 `Name` value names the parameterless function that cancels the in-flight task, e.g. `@AsyncTaskHandle(Name = "abort")`.

@@ -76,10 +76,10 @@ Async decorator usage
 
 `@AsyncDecorator` adapts an existing callback-based API into an idiomatic asynchronous API on the target platform.
 Unlike `@Async`, it does not add C++ functions or change the JNI contract: it only describes the callback shape
-(callback parameter, error/result members, cancellation and listener lifecycle) so a generator can emit a wrapper.
+(callback parameter, error/result members, cancellation) so a generator can emit a wrapper.
 
-The attribute itself is platform-agnostic. Currently only the Kotlin generator consumes it, emitting `suspend` and
-`Flow` extension functions; other generators ignore it.
+The attribute itself is platform-agnostic. Currently only the Kotlin generator consumes it, emitting `suspend`
+extension functions; other generators ignore it.
 
 The generated wrappers use `kotlinx.coroutines`, so a project that enables `@AsyncDecorator` has to put
 `kotlinx-coroutines-core` (or `kotlinx-coroutines-android`) on the Kotlin runtime classpath.
@@ -122,40 +122,3 @@ The generated shape depends on the callback:
 
 When an error member exists, the error and result members must be nullable because the callback contract is exactly one
 of error or success. Multiple result members can all be marked with `@AsyncDecorator(Result)`.
-
-### Repeating callbacks and listeners
-
-Use `@AsyncDecorator(Flow)` for repeating callbacks. Lambda callbacks emit each invocation. Interface listeners mark
-event methods with `Emit` and an optional terminal method with `Complete`:
-
-```lime
-interface DownloadListener {
-  @AsyncDecorator(Emit)
-  fun on_progress(percentage: Int)
-
-  @AsyncDecorator(Complete)
-  fun on_complete(@AsyncDecorator(Error) error: DownloadError?)
-}
-
-class Client {
-  @AsyncDecorator(Flow)
-  fun download(@AsyncDecorator(Callback) listener: DownloadListener): TaskHandle
-}
-```
-
-This generates a top-level extension `fun Client.downloadFlow(): Flow<Int>` using `callbackFlow`. A completion error closes the Flow with the typed
-exception; successful completion closes it normally. A terminal result is emitted before closing. Multiple event methods
-produce a sealed `<FlowName>Event` hierarchy, and multiple parameters on one event produce a data class.
-
-Long-lived add/remove listeners pair the registration function with `@AsyncDecorator(Unregister)`:
-
-```lime
-@AsyncDecorator(Flow)
-fun add_listener(@AsyncDecorator(Callback) listener: UpdateListener)
-
-@AsyncDecorator(Unregister)
-fun remove_listener(listener: UpdateListener)
-```
-
-The generated Flow registers on collection and invokes the matching unregister function from `awaitClose`. Use
-`@AsyncDecorator(Flow, Name = "updates")` to override the generated Flow member name.

@@ -52,47 +52,11 @@ lambda MultiValueCallback = (
     label: @AsyncDecorator(Result) String?
 ) -> Void
 
-lambda TickCallback = (
-    tick: @AsyncDecorator(Result) Int
-) -> Void
-
 # The error member is declared last and the result member is not marked, so both are resolved by convention.
 lambda TrailingErrorCallback = (
     value: String?,
     error: @AsyncDecorator(Error) OperationError?
 ) -> Void
-
-interface ProgressListener {
-    @AsyncDecorator(Emit)
-    fun on_progress(percentage: Int)
-
-    @AsyncDecorator(Complete)
-    fun on_complete(@AsyncDecorator(Error) error: OperationError?)
-}
-
-interface TransferListener {
-    @AsyncDecorator(Emit)
-    fun on_progress(percentage: Int)
-
-    @AsyncDecorator(Complete)
-    fun on_complete(
-        @AsyncDecorator(Error) error: OperationError?,
-        @AsyncDecorator(Result) receipt: String?
-    )
-}
-
-interface UpdateListener {
-    @AsyncDecorator(Emit)
-    fun on_update(identifier: Int, message: String)
-}
-
-interface StateListener {
-    @AsyncDecorator(Emit)
-    fun on_started()
-
-    @AsyncDecorator(Emit)
-    fun on_message(message: String)
-}
 
 interface RemoteService {
     // Checks whether the remote service is currently reachable.
@@ -164,25 +128,13 @@ class CoroutineClient {
     # The callback parameter is not marked, so it is resolved by convention as the sole callback-typed parameter.
     @AsyncDecorator
     fun list_features(callback: TrailingErrorCallback)
+}
 
-    @AsyncDecorator(Flow)
-    fun observe_ticks(@AsyncDecorator(Callback) callback: TickCallback): OperationHandle
-
-    @AsyncDecorator(Flow)
-    fun download(@AsyncDecorator(Callback) listener: ProgressListener): OperationHandle
-
-    @AsyncDecorator(Flow)
-    fun transfer(@AsyncDecorator(Callback) listener: TransferListener): OperationHandle
-
-    @AsyncDecorator(Flow)
-    fun add_update_listener(@AsyncDecorator(Callback) listener: UpdateListener)
-
-    @AsyncDecorator(Unregister)
-    fun remove_update_listener(listener: UpdateListener)
-
-    @AsyncDecorator(Flow)
-    fun add_state_listener(@AsyncDecorator(Callback) listener: StateListener)
-
-    @AsyncDecorator(Unregister)
-    fun remove_state_listener(listener: StateListener)
+# Every type in a package shares one coroutine file, so generated names have to stay unique across receivers.
+# This declares a second `NestedClient` under a different outer, and reuses `load_metadata` from `CoroutineClient`.
+class SecondaryClient {
+    class NestedClient {
+        @AsyncDecorator
+        fun load_metadata(@AsyncDecorator(Callback) callback: MultiValueCallback): OperationHandle
+    }
 }
