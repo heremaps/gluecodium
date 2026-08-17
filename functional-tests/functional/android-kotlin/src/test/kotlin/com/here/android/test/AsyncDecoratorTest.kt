@@ -19,8 +19,7 @@
 package com.here.android.test
 
 import com.here.android.RobolectricApplication
-import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.measureTime
+import java.util.Collections
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.cancelAndJoin
@@ -84,47 +83,44 @@ class AsyncDecoratorTest {
     @Test
     fun multipleSuspendingFunctionsWithDifferentDurationsExecutedConcurrently() = runBlocking {
         val factory = AsyncDecoratorFactory()
-        val startMs = System.currentTimeMillis()
+        val completionOrder = Collections.synchronizedList(mutableListOf<String>())
 
-        // All three coroutines share the single thread owned by runBlocking's dispatcher.
-        // If any call blocks that thread the remaining coroutines cannot start until it returns.
-        //   Concurrent execution: total ≈ max(fast, slow, error) ≈ SLOW_DELAY_MS
-        //   Serial   execution: total ≈ fast + slow + error     ≈ SLOW_DELAY_MS + 2 * FAST_DELAY_MS
-        // The assertion below passes only under the concurrent schedule.
-        val fastJob = async { factory.fetchValue(false) }          // ~50ms, returns "async-value"
-        val slowJob = async { factory.fetchValueSlow() }           // ~300ms, returns "slow-value"
+        // All three coroutines share the single thread owned by runBlocking's dispatcher, and the
+        // longest call is started first on purpose. A wrapper that blocked that thread would have to
+        // run the slow call to completion before the shorter ones could start, recording "slow"
+        // first; only a suspending wrapper lets the shorter calls resume ahead of it.
+        val slowJob = async {
+            factory.fetchValueSlow().also { completionOrder += "slow" }
+        }
+        val fastJob = async {
+            factory.fetchValue(false).also { completionOrder += "fast" }
+        }
         val errorJob = async {
-            try {
+            val caught = try {
                 factory.fetchValue(true)
                 false
             } catch (e: AsyncDecoratorFactoryFetchValueException) {
                 true
             }
-        }                                                           // ~50ms, throws AsyncDecoratorFactoryFetchValueException
+            completionOrder += "error"
+            caught
+        }
 
-        val fastResult = fastJob.await()
-        val fastElapsedMs = System.currentTimeMillis() - startMs
+        assertEquals("async-value", fastJob.await())
+        assertTrue("error coroutine should have caught AsyncDecoratorFactoryFetchValueException", errorJob.await())
+        assertEquals("slow-value", slowJob.await())
 
-        val slowResult = slowJob.await()
-        val slowElapsedMs = System.currentTimeMillis() - startMs
-
-        val errorCaught = errorJob.await()
-
-        assertEquals("async-value", fastResult)
-        assertEquals("slow-value", slowResult)
-        assertTrue("error coroutine should have caught AsyncDecoratorFactoryFetchValueException", errorCaught)
-
-        // Fast and error tasks complete at ~50ms from start.
-        // If they had to wait for slow, this would be > 300ms.
-        assertTrue(
-            "fast task took ${fastElapsedMs}ms; expected < ${FAST_UPPER_BOUND_MS}ms",
-            fastElapsedMs < FAST_UPPER_BOUND_MS,
+        // Relative ordering rather than elapsed milliseconds, so scheduler jitter and CI load cannot
+        // flip the result: the outcome only depends on the fixture's slow delay being the longest.
+        assertEquals(
+            "expected the slow call to resume last, got $completionOrder",
+            "slow",
+            completionOrder.last(),
         )
-
-        // Slow task completes at ~300ms.  If fast had to finish first (serial), it would be > 350ms.
-        assertTrue(
-            "slow task took ${slowElapsedMs}ms; expected < ${SERIAL_UPPER_BOUND_MS}ms",
-            slowElapsedMs < SERIAL_UPPER_BOUND_MS,
+        assertEquals(
+            "expected both short calls to resume before the slow call, got $completionOrder",
+            setOf("fast", "error"),
+            completionOrder.dropLast(1).toSet(),
         )
     }
 
@@ -133,16 +129,18 @@ class AsyncDecoratorTest {
         val factory = AsyncDecoratorFactory()
         val callCount = 8
 
-        // All 8 coroutines share the single thread.  Concurrent: total ≈ 50ms.  Serial: 400ms.
-        val elapsed = measureTime {
-            val values = (1..callCount).map { async { factory.fetchValue(false) } }.awaitAll()
-            assertEquals(List(callCount) { "async-value" }, values)
-        }
+        // Started first and outlasts every call below, so it can only still be in flight at the
+        // assertion if the generated wrapper suspends instead of blocking the shared thread.
+        val slowJob = async { factory.fetchValueSlow() }
+
+        val values = (1..callCount).map { async { factory.fetchValue(false) } }.awaitAll()
 
         assertTrue(
-            "expected concurrent execution, but $callCount calls took $elapsed (serial would be ${callCount * NATIVE_COMPLETION_DELAY_MS}ms)",
-            elapsed < (NATIVE_COMPLETION_DELAY_MS * 3).milliseconds,
+            "expected the slow call to still be suspended after $callCount concurrent calls completed",
+            slowJob.isActive,
         )
+        assertEquals(List(callCount) { "async-value" }, values)
+        assertEquals("slow-value", slowJob.await())
     }
 
     @Test
@@ -150,21 +148,21 @@ class AsyncDecoratorTest {
         val factory = AsyncDecoratorFactory()
         AsyncDecoratorFactory.resetStopCalled()
 
-        val job = launch { factory.fetchValue(false) }
-        delay(NATIVE_COMPLETION_DELAY_MS / 2)
+        // The slow call is used so the task is still in flight when the cancellation arrives: the
+        // handover delay below only has to outlast reaching the native call, not race its callback.
+        val job = launch { factory.fetchValueSlow() }
+        delay(HANDOVER_DELAY_MS)
         job.cancelAndJoin()
 
-        assertTrue(AsyncDecoratorFactory.wasStopCalled())
+        assertTrue(
+            "cancelling the coroutine must call stop() on the native task handle",
+            AsyncDecoratorFactory.wasStopCalled(),
+        )
     }
 
     private companion object {
-        // Must mirror k_completion_delay and k_slow_completion_delay in AsyncDecoratorFactory.cpp.
-        const val NATIVE_COMPLETION_DELAY_MS = 50L
-        const val SLOW_NATIVE_DELAY_MS = 300L
-
-        // fast + 50% overhead; fails if fast task had to wait for slow to finish first.
-        const val FAST_UPPER_BOUND_MS = NATIVE_COMPLETION_DELAY_MS * 3    // 150ms
-        // slow + one fast task; fails if slow started after fast completed (serial schedule).
-        const val SERIAL_UPPER_BOUND_MS = SLOW_NATIVE_DELAY_MS + NATIVE_COMPLETION_DELAY_MS  // 350ms
+        // Long enough for the launched coroutine to reach the native call and register its task
+        // handle, and far below k_slow_completion_delay (300ms) in AsyncDecoratorFactory.cpp.
+        const val HANDOVER_DELAY_MS = 50L
     }
 }

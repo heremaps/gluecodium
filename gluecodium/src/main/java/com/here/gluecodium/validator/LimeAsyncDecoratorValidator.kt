@@ -124,13 +124,15 @@ internal class LimeAsyncDecoratorValidator(private val logger: LimeLogger) {
     private fun validateTaskHandle(container: LimeContainer): Boolean {
         if (!container.attributes.have(ASYNC_TASK_HANDLE)) return true
         val cancelName = container.attributes.get(ASYNC_TASK_HANDLE, LimeAttributeValueType.NAME) ?: "cancel"
-        val cancelFunction = container.functions.firstOrNull { it.name == cancelName }
-        if (cancelFunction == null) {
+        val cancelOverloads = container.functions.filter { it.name == cancelName }
+        if (cancelOverloads.isEmpty()) {
             logger.error(container, "`@AsyncTaskHandle` names function `$cancelName` but no such function exists in this type")
             return false
         }
-        if (cancelFunction.parameters.isNotEmpty()) {
-            logger.error(cancelFunction, "the `@AsyncTaskHandle` cancel function cannot have parameters")
+        // Matches `findAsyncCancelFunction`, which resolves on name *and* zero arity, so overloads are fine
+        // as long as one of them is parameterless.
+        if (cancelOverloads.none { it.parameters.isEmpty() }) {
+            logger.error(cancelOverloads.first(), "the `@AsyncTaskHandle` cancel function cannot have parameters")
             return false
         }
         return true

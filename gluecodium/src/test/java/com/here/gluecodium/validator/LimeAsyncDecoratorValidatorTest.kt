@@ -460,6 +460,42 @@ class LimeAsyncDecoratorValidatorTest {
     }
 
     @Test
+    fun validateTaskHandleWithOverloadedCancelFunction() {
+        val handle =
+            LimeClass(
+                path("Handle"),
+                attributes =
+                    LimeAttributes.Builder()
+                        .addAttribute(ASYNC_TASK_HANDLE)
+                        .addAttribute(ASYNC_TASK_HANDLE, LimeAttributeValueType.NAME, "stop")
+                        .build(),
+                // Parameterized overload declared first: the generator still resolves the parameterless one.
+                functions =
+                    listOf(
+                        LimeFunction(path("Handle", "stop"), parameters = listOf(parameter("reason", nullableString()))),
+                        LimeFunction(path("Handle", "stop")),
+                    ),
+            )
+        addElements(handle)
+
+        assertTrue(validate())
+    }
+
+    @Test
+    fun rejectTaskHandleWhenNoCancelOverloadIsParameterless() {
+        val handle =
+            LimeClass(
+                path("Handle"),
+                attributes = LimeAttributes.Builder().addAttribute(ASYNC_TASK_HANDLE).build(),
+                functions = listOf(LimeFunction(path("Handle", "cancel"), parameters = listOf(parameter("reason", nullableString())))),
+            )
+        addElements(handle)
+
+        assertFalse(validate())
+        verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("cannot have parameters") }) }
+    }
+
+    @Test
     fun rejectTaskHandleOnFunction() {
         val fn =
             LimeFunction(

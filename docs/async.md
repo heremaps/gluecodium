@@ -81,6 +81,9 @@ Unlike `@Async`, it does not add C++ functions or change the JNI contract: it on
 The attribute itself is platform-agnostic. Currently only the Kotlin generator consumes it, emitting `suspend`
 extension functions; other generators ignore it.
 
+Runtime behaviour of the generated wrappers is currently validated only by the `android-kotlin` functional tests in
+`functional-tests/functional/android-kotlin`, so the semantics described below are exercised for Kotlin alone.
+
 The generated wrappers use `kotlinx.coroutines`, so a project that enables `@AsyncDecorator` has to put
 `kotlinx-coroutines-core` (or `kotlinx-coroutines-android`) on the Kotlin runtime classpath.
 
