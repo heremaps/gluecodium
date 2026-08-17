@@ -7,7 +7,7 @@ class PublicStructWithNonDefaultInternalField {
   String _internalField;
   bool publicField;
   PublicStructWithNonDefaultInternalField._(this.defaultedField, this._internalField, this.publicField);
-  PublicStructWithNonDefaultInternalField(String internalField, bool publicField)
+  PublicStructWithNonDefaultInternalField._withDefaults(String internalField, bool publicField)
     : defaultedField = 42, _internalField = internalField, publicField = publicField;
 }
 // PublicStructWithNonDefaultInternalField "private" section, not exported.

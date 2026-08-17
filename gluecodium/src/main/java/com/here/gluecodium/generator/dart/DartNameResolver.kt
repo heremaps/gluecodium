@@ -158,6 +158,7 @@ internal class DartNameResolver(
             valueCount != 0 -> ""
             limeStruct.attributes.have(DART, LimeAttributeValueType.POSITIONAL_DEFAULTS) -> ""
             DartGeneratorPredicates.allFieldsCtorIsPublic(limeStruct) -> ".withDefaults"
+            DartGeneratorPredicates.hasInternalFreeArgsConstructor(limeStruct) -> "._withDefaults"
             else -> ""
         }
     }

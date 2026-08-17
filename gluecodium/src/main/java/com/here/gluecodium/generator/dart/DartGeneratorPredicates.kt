@@ -48,6 +48,9 @@ internal class DartGeneratorPredicates(
             "allFieldsCtorIsPublic" to { limeStruct: Any ->
                 limeStruct is LimeStruct && allFieldsCtorIsPublic(limeStruct)
             },
+            "hasInternalFreeArgsConstructor" to { limeStruct: Any ->
+                limeStruct is LimeStruct && hasInternalFreeArgsConstructor(limeStruct)
+            },
             "fieldHasConstCtor" to { limeField: Any ->
                 if (limeField is LimeField) {
                     when (limeField.typeRef.type) {
@@ -130,6 +133,9 @@ internal class DartGeneratorPredicates(
                 limeStruct.fieldConstructors.isEmpty() -> limeStruct.initializedFields.isEmpty()
                 else -> false
             }
+
+        fun hasInternalFreeArgsConstructor(limeStruct: LimeStruct) =
+            limeStruct.uninitializedFields.any { CommonGeneratorPredicates.isInternal(it, DART) }
 
         fun skipDeclaration(limeType: LimeType) =
             limeType.external?.dart != null &&

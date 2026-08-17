@@ -25,7 +25,7 @@ class NoCtorsInitializedPublicFieldOneInternalField {
   int initializedField;
 
   NoCtorsInitializedPublicFieldOneInternalField._(this._internalField, this.publicField, this.initializedField);
-  NoCtorsInitializedPublicFieldOneInternalField(String internalField, bool publicField)
+  NoCtorsInitializedPublicFieldOneInternalField._withDefaults(String internalField, bool publicField)
     : _internalField = internalField, publicField = publicField, initializedField = 77;
 }
 
