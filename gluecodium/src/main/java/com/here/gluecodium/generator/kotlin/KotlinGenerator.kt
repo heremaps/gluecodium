@@ -159,6 +159,14 @@ internal class KotlinGenerator : Generator {
                 }
                 .toMutableList()
 
+        resultFiles +=
+            KotlinAsyncHelpers.createCoroutineSupportFiles(
+                kotlinFilteredModel.topElements,
+                nameResolver,
+                importCollector,
+                basePackages,
+                GENERATOR_NAME,
+            )
         val nativeBasePath = (listOf(GENERATOR_NAME) + internalPackageList).joinToString("/")
         resultFiles +=
             GeneratedFile(

@@ -20,6 +20,7 @@
 package com.here.gluecodium.generator.kotlin
 
 import com.here.gluecodium.generator.common.ImportsCollector
+import com.here.gluecodium.model.lime.LimeAttributeType.ASYNC_DECORATOR
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeConstant
 import com.here.gluecodium.model.lime.LimeContainer
@@ -70,6 +71,15 @@ internal class KotlinImportCollector(
             }
         return (nestedElements + inheritedElements).flatMap { collectImports(it) }
     }
+
+    /**
+     * Types referenced by an `@AsyncDecorator` callback's own members. The generated exception and result types
+     * live in the coroutine support file, so these imports belong to that file rather than to the container's.
+     */
+    fun collectAsyncDecoratorCallbackImports(limeContainer: LimeContainer): List<String> =
+        limeContainer.functions
+            .filter { it.attributes.have(ASYNC_DECORATOR) }
+            .flatMap { function -> function.parameters.flatMap { collectImports(it.typeRef.type.actualType) } }
 
     private fun collectFunctionImports(limeFunction: LimeFunction): List<String> {
         return limeFunction.parameters.flatMap { importsResolver.resolveElementImports(it) }

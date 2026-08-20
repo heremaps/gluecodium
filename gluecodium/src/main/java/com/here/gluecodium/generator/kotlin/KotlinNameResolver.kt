@@ -105,6 +105,30 @@ internal class KotlinNameResolver(
 
     override fun resolveSetterName(element: Any) = (element as? LimeTypedElement)?.let { kotlinNameRules.getSetterName(it) }
 
+    /** Name of the exception type generated for a coroutine wrapper's error channel, qualified by its receiver. */
+    fun resolveCoroutineExceptionName(
+        receiverName: String,
+        coroutineName: String,
+    ): String = kotlinNameRules.ruleSet.getErrorName(receiverName + coroutineName.replaceFirstChar { it.uppercase() })
+
+    /**
+     * Package-relative type name, including enclosing types. Coroutine wrappers live in their own top-level
+     * file, so a nested receiver has to be qualified by its outer types to resolve there.
+     */
+    fun resolveNestedTypeName(limeElement: LimeNamedElement): String = resolveNestedNames(limeElement).joinToString(".")
+
+    /** Name of the shared bridge adapting an error-and-result callback into a suspending call. */
+    fun resolveCoroutineResultBridgeName(): String = kotlinNameRules.ruleSet.getMethodName("awaitCoroutineResultBridge")
+
+    /** Name of the shared bridge adapting a value-only callback into a suspending call. */
+    fun resolveCoroutineValueBridgeName(): String = kotlinNameRules.ruleSet.getMethodName("awaitCoroutineValueBridge")
+
+    /** Name of the data class grouping several callback result values, qualified by its receiver. */
+    fun resolveCoroutineResultTypeName(
+        receiverName: String,
+        coroutineName: String,
+    ): String = kotlinNameRules.ruleSet.getTypeName(receiverName + coroutineName.replaceFirstChar { it.uppercase() } + "CoroutineResult")
+
     private fun resolveComment(limeComment: LimeComment): String {
         val commentText = limeComment.getFor("Kotlin")
         if (commentText.isBlank()) return ""

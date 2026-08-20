@@ -70,3 +70,134 @@ value. Instead:
 
 All parameters passed to the "result callback" or "error callback" are transformed into the appropriate state of the
 `Future` object on Dart side, allowing for Dart-idiomatic asynchronous usage.
+
+Async decorator usage
+---------------------
+
+`@AsyncDecorator` adapts an existing callback-based API into an idiomatic asynchronous API on the target platform.
+Unlike `@Async`, it does not add C++ functions or change the JNI contract: it only describes the callback shape
+(callback parameter, error/result members, cancellation) so a generator can emit a wrapper.
+
+The attribute itself is platform-agnostic. Currently only the Kotlin generator consumes it, emitting `suspend`
+extension functions; other generators ignore it.
+
+Runtime behaviour of the generated wrappers is currently validated only by the `android-kotlin` functional tests in
+`functional-tests/functional/android-kotlin`, so the semantics described below are exercised for Kotlin alone.
+
+The generated wrappers use `kotlinx.coroutines`, so a project that enables `@AsyncDecorator` has to put
+`kotlinx-coroutines-core` (or `kotlinx-coroutines-android`) on the Kotlin runtime classpath.
+
+### One-shot callbacks
+
+Mark the function, its callback parameter, and any callback error/result members:
+
+```lime
+lambda FetchCallback = (
+  error: @AsyncDecorator(Error) FetchError?,
+  value: @AsyncDecorator(Result) String?
+) -> Void
+
+class Client {
+  @AsyncDecorator
+  fun fetch(@AsyncDecorator(Callback) callback: FetchCallback): TaskHandle
+}
+```
+
+This generates a top-level Kotlin extension function such as:
+
+```kotlin
+public suspend fun Client.fetch(): String
+```
+
+`@AsyncDecorator(Result)` means: return this callback value from the generated Kotlin `suspend` function when the
+operation succeeds. It does not change the value's type. For example, a `String` result returns `String`, and a
+`List<String>` result returns `List<String>`. The `Error` member is not returned; it becomes a typed exception.
+
+### What does `Result` return?
+
+The type after `Result` is the successful return type:
+
+```lime
+lambda NamesCallback = (
+  error: @AsyncDecorator(Error) FetchError?,
+  names: @AsyncDecorator(Result) List<String>?
+) -> Void
+```
+
+Generated Kotlin:
+
+```kotlin
+public suspend fun Client.fetchNames(): List<String>
+```
+
+Usage:
+
+```kotlin
+val names: List<String> = client.fetchNames()
+```
+
+Yes, `Result` can return `List<String>` and other supported LIME types, such as `Int`, `String`, structs, enums,
+`Map<String, Int>`, and `List<SomeStruct>`.
+
+The callback's result field is nullable when an error field exists because the callback sends either an error or a
+value. The generated successful Kotlin return type is non-null in that case.
+
+When no callback member is marked `Result`, every callback member except the `Error` member is treated as a result by
+convention. For example, these two callbacks return the same generated Kotlin type:
+
+```lime
+lambda ExplicitResults = (
+  error: @AsyncDecorator(Error) FetchError?,
+  count: @AsyncDecorator(Result) Int?,
+  label: @AsyncDecorator(Result) String?
+) -> Void
+
+lambda ImplicitResults = (
+  error: @AsyncDecorator(Error) FetchError?,
+  count: Int?,
+  label: String?
+) -> Void
+```
+
+If at least one callback member is explicitly marked `Result`, only the marked members are returned. For example,
+marking `count` as `Result` while leaving `label` unmarked generates a function returning `Int`; `label` is still
+passed to the original callback but is not included in the coroutine result.
+
+When there are multiple result fields, Gluecodium puts them in one generated data class:
+
+```lime
+lambda ExplicitResults = (
+  error: @AsyncDecorator(Error) FetchError?,
+  count: @AsyncDecorator(Result) Int?,
+  label: @AsyncDecorator(Result) String?
+) -> Void
+```
+
+Generated Kotlin:
+
+```kotlin
+public data class FetchCoroutineResult(
+    public val count: Int,
+    public val label: String,
+)
+
+public suspend fun Client.fetch(): FetchCoroutineResult
+```
+
+The generated shape depends on the callback:
+
+* An `Error` member produces a typed `<FunctionName>Exception` failure; the successful return type is determined by the result members.
+* No `Error` member produces a non-throwing direct `T` return value.
+* No result members produce `Unit`; when an error member exists, failures still produce the typed exception.
+* One `Result` member returns that member's type, such as `String` or `List<String>`.
+* Multiple `Result` members produce a named `<FunctionName>CoroutineResult` data class containing those values.
+* `@AsyncDecorator(Default)` on a non-callback function parameter generates `= Type()` in the Kotlin wrapper, so
+  that parameter's type has to be constructible without arguments: for example a struct declared with
+  `@Kotlin(PositionalDefaults)` whose fields all have default values.
+* `@AsyncDecorator(Name = "fetchValue")` overrides the generated extension function name without renaming the callback API.
+* A returned type annotated `@AsyncTaskHandle` is cancelled when the coroutine is cancelled; its optional `Name` value
+  names the cancel function, defaulting to a parameterless `cancel`. Functions without such a handle remain
+  non-cancellable.
+
+When an error member exists, the error and result members must be nullable because the callback contract is exactly one
+of error or success. Multiple result members can all be marked with `@AsyncDecorator(Result)`.

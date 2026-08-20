@@ -1,0 +1,140 @@
+# Copyright (C) 2016-2026 HERE Europe B.V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# License-Filename: LICENSE
+
+package coroutines
+
+enum OperationError {
+    FAILED
+}
+
+class OperationHandle {
+    fun cancel()
+}
+
+# The cancel hook is explicit, so it does not have to be named `cancel`.
+@AsyncTaskHandle(Name = "abort")
+class AbortableHandle {
+    fun abort()
+}
+
+lambda ErrorValueCallback = (
+    error: @AsyncDecorator(Error) OperationError?,
+    value: @AsyncDecorator(Result) String?
+) -> Void
+
+lambda ErrorOnlyCallback = (
+    error: @AsyncDecorator(Error) OperationError?
+) -> Void
+
+lambda ValueOnlyCallback = (
+    value: @AsyncDecorator(Result) String?
+) -> Void
+
+lambda CompletionCallback = () -> Void
+
+lambda MultiValueCallback = (
+    error: @AsyncDecorator(Error) OperationError?,
+    count: @AsyncDecorator(Result) Int?,
+    label: @AsyncDecorator(Result) String?
+) -> Void
+
+# The error member is declared last and the result member is not marked, so both are resolved by convention.
+lambda TrailingErrorCallback = (
+    value: String?,
+    error: @AsyncDecorator(Error) OperationError?
+) -> Void
+
+interface RemoteService {
+    // Checks whether the remote service is currently reachable.
+    @AsyncDecorator
+    fun check_connection(@AsyncDecorator(Callback) callback: ErrorOnlyCallback)
+}
+
+# All fields have defaults and `PositionalDefaults` is set, so the generated Kotlin type can be built with no
+# arguments -- which is exactly what `@AsyncDecorator(Default)` emits.
+@Kotlin(PositionalDefaults)
+struct RequestOptions {
+    retry_count: Int = 3
+}
+
+# Structs are supported receivers, not just classes.
+struct UploadSession {
+    label: String
+
+    @AsyncDecorator
+    fun upload(@AsyncDecorator(Callback) callback: ErrorValueCallback)
+
+    @AsyncDecorator
+    static fun open_session(@AsyncDecorator(Callback) callback: ErrorOnlyCallback)
+}
+
+class CoroutineClient {
+    # A nested type must not pick up the enclosing class's coroutine members.
+    struct Options {
+        retry_count: Int
+    }
+
+    # A nested class gets its own extensions, resolved against its fully qualified name.
+    class NestedClient {
+        @AsyncDecorator
+        fun fetch_nested(@AsyncDecorator(Callback) callback: ErrorValueCallback): OperationHandle
+    }
+
+    @AsyncDecorator(Name = "loadValueAsync")
+    fun load_value(@AsyncDecorator(Callback) callback: ErrorValueCallback): OperationHandle
+
+    # `Default` gives the generated wrapper a default argument for a non-callback parameter.
+    @AsyncDecorator
+    fun load_with_options(
+        @AsyncDecorator(Default) options: RequestOptions,
+        @AsyncDecorator(Callback) callback: ErrorValueCallback
+    )
+
+    # Static functions belong in the companion object, not the class body.
+    @AsyncDecorator
+    static fun preload(@AsyncDecorator(Callback) callback: ErrorOnlyCallback)
+
+    # Cancellation resolved via `@AsyncTaskHandle`, not via the `cancel()` name convention.
+    @AsyncDecorator
+    fun refresh(@AsyncDecorator(Callback) callback: ErrorOnlyCallback): AbortableHandle
+
+    @AsyncDecorator
+    fun clear_cache(@AsyncDecorator(Callback) callback: ErrorOnlyCallback)
+
+    // Resolves the display name for the current account.
+    @AsyncDecorator
+    fun resolve_name(@AsyncDecorator(Callback) callback: ValueOnlyCallback)
+
+    @AsyncDecorator
+    fun synchronize(@AsyncDecorator(Callback) callback: CompletionCallback)
+
+    @AsyncDecorator
+    fun load_metadata(@AsyncDecorator(Callback) callback: MultiValueCallback): OperationHandle
+
+    # The callback parameter is not marked, so it is resolved by convention as the sole callback-typed parameter.
+    @AsyncDecorator
+    fun list_features(callback: TrailingErrorCallback)
+}
+
+# Every type in a package shares one coroutine file, so generated names have to stay unique across receivers.
+# This declares a second `NestedClient` under a different outer, and reuses `load_metadata` from `CoroutineClient`.
+class SecondaryClient {
+    class NestedClient {
+        @AsyncDecorator
+        fun load_metadata(@AsyncDecorator(Callback) callback: MultiValueCallback): OperationHandle
+    }
+}

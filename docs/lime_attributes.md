@@ -38,6 +38,14 @@ the same parameter and return types). This can be used in scenarios of multiple 
 LIME model trees.
 * **@Async**: *EXPERIMENTAL* marks a function to be generated with support for asynchronous invocation. Currently,
 only works in Dart. See [async.md](async.md) for details.
+* **@AsyncDecorator**: *EXPERIMENTAL* marks a callback-based function so that an idiomatic asynchronous variant can be
+generated for it, without changing C++ or bindings declarations. The attribute is platform-agnostic; currently only the
+Kotlin generator consumes it, emitting `suspend` extension functions for one-shot callbacks. Its roles are `Callback`,
+`Error`, `Result`, `Default`, and optional `Name`. See [async.md](async.md#async-decorator-usage) for
+callback shapes and examples.
+* **@AsyncTaskHandle**: *EXPERIMENTAL* marks the handle class returned by an `@AsyncDecorator` function. The optional
+`Name` value names the parameterless function that cancels the in-flight task, e.g. `@AsyncTaskHandle(Name = "abort")`.
+When the value is omitted, a parameterless function named `cancel` is used by convention.
 * **@Optimized**: *EXPERIMENTAL* marks a type reference of `List<>` type to fetch list elements from C++ to platform
 side on demand instead of a creating a full platform-side copy. C++ list is generated as an
 `std::vector<std::shared_ptr<>>` in this case. This attribute can be applied only to:

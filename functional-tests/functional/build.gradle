@@ -128,6 +128,10 @@ android {
             sourceCompatibility JavaVersion.VERSION_17
             targetCompatibility JavaVersion.VERSION_17
         }
+
+        kotlinOptions {
+            jvmTarget = JavaVersion.VERSION_17.toString()
+        }
     } else {
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
@@ -208,6 +212,7 @@ tasks.configureEach { task ->
 
 dependencies {
     implementation libs.androidx.annotation
+    implementation libs.kotlinx.coroutines.android
 
     testImplementation libs.junit
     testImplementation libs.powermock.reflect
