@@ -64,7 +64,8 @@ Initialized fields constructor
 
 }}{{#unless constructors}}{{#unless fieldConstructors}}{{#if initializedFields}}{{#set struct=this}}{{#struct}}
   {{#if attributes.immutable}}const {{/if}}{{resolveName}}{{#if external.dart.converter}}Internal{{/if}}{{!!
-}}{{#ifPredicate "allFieldsCtorIsPublic"}}.withDefaults{{/ifPredicate}}({{!!
+}}{{#ifPredicate "allFieldsCtorIsPublic"}}.withDefaults{{/ifPredicate}}{{!!
+}}{{#unlessPredicate "allFieldsCtorIsPublic"}}{{#ifPredicate "hasInternalFreeArgsConstructor"}}._withDefaults{{/ifPredicate}}{{/unlessPredicate}}({{!!
 }}{{#uninitializedFields}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}})
     : {{#fields}}{{resolveName "visibility"}}{{resolveName}} = {{!!
     }}{{#if defaultValue}}{{#if struct.attributes.immutable}}{{>constPrefix}}{{/if}}{{resolveName defaultValue}}{{/if}}{{!!

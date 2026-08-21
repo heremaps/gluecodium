@@ -166,7 +166,7 @@ class PublicClass_PublicStruct {
   /// @nodoc
   PublicClass_InternalStruct _internalField;
 
-  PublicClass_PublicStruct(this._internalField);
+  PublicClass_PublicStruct._(this._internalField);
 }
 
 
@@ -197,7 +197,7 @@ Pointer<Void> smokePublicclassPublicstructToFfi(PublicClass_PublicStruct value) 
 PublicClass_PublicStruct smokePublicclassPublicstructFromFfi(Pointer<Void> handle) {
   final _internalFieldHandle = _smokePublicclassPublicstructGetFieldinternalField(handle);
   try {
-    return PublicClass_PublicStruct(
+    return PublicClass_PublicStruct._(
       smokePublicclassInternalstructFromFfi(_internalFieldHandle)
     );
   } finally {

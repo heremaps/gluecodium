@@ -132,16 +132,7 @@ internal class DartNameResolver(
                 if (actualType !is LimeStruct) {
                     throw GluecodiumExecutionException("Unsupported type ${actualType.javaClass.name} for struct initializer")
                 }
-                val useDefaultsConstructor = actualType.fields.isNotEmpty() && limeValue.values.isEmpty()
-                val noFieldsConstructor = actualType.noFieldsConstructor
-                val constructorName =
-                    when {
-                        !useDefaultsConstructor -> ""
-                        noFieldsConstructor == null ->
-                            if (DartGeneratorPredicates.allFieldsCtorIsPublic(actualType)) ".withDefaults" else ""
-                        noFieldsConstructor.attributes.have(DART, DEFAULT) -> ""
-                        else -> resolveName(noFieldsConstructor).let { if (it.isEmpty()) "" else ".$it" }
-                    }
+                val constructorName = resolveStructInitializerConstructorName(actualType, limeValue.values.size)
                 limeValue.values.joinToString(
                     prefix = "${resolveTypeRefName(limeValue.typeRef, ignoreNullability = true)}$constructorName(",
                     postfix = ")",
@@ -151,6 +142,26 @@ internal class DartNameResolver(
             is LimeValue.KeyValuePair -> "${resolveValue(limeValue.key)}: ${resolveValue(limeValue.value)}"
             is LimeValue.Duration -> resolveDurationValue(limeValue)
         }
+
+    private fun resolveStructInitializerConstructorName(
+        limeStruct: LimeStruct,
+        valueCount: Int,
+    ): String {
+        val matchingOverload: LimeNamedElement? =
+            limeStruct.fieldConstructors.firstOrNull { it.fieldRefs.size == valueCount }
+                ?: limeStruct.constructors.firstOrNull { it.parameters.size == valueCount }
+        val hasSingleConstructor = limeStruct.constructors.size + limeStruct.fieldConstructors.size == 1
+        return when {
+            matchingOverload != null && matchingOverload.attributes.have(DART, DEFAULT) -> ""
+            matchingOverload != null && hasSingleConstructor && !matchingOverload.attributes.have(DART, NAME) -> ""
+            matchingOverload != null -> resolveName(matchingOverload).let { if (it.isEmpty()) "" else ".$it" }
+            valueCount != 0 -> ""
+            limeStruct.attributes.have(DART, LimeAttributeValueType.POSITIONAL_DEFAULTS) -> ""
+            DartGeneratorPredicates.allFieldsCtorIsPublic(limeStruct) -> ".withDefaults"
+            DartGeneratorPredicates.hasInternalFreeArgsConstructor(limeStruct) -> "._withDefaults"
+            else -> ""
+        }
+    }
 
     private fun resolveLiteralValue(limeValue: LimeValue.Literal): String {
         val limeType = limeValue.typeRef.type.actualType

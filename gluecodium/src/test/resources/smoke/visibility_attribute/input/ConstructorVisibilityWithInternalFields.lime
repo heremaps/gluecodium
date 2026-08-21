@@ -1,0 +1,108 @@
+# Copyright (C) 2016-2026 HERE Europe B.V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# License-Filename: LICENSE
+
+package smoke
+
+// Test case 1
+//
+// Input:
+//  - This structure does not define explicit constructors / field constructors.
+//  - It has fields without default values.
+//  - One of fields is internal.
+//
+// Expected outcome:
+//  - Generated all args constructor is not public (because it would expose internal field).
+//
+struct NoCtorsUninitializedFieldsOneInternalField {
+    @Internal
+    internalField: String
+    publicField: Boolean
+}
+
+// Test case 2
+//
+// Input:
+//  - This structure does not define explicit constructors / field constructors.
+//  - It has one public field with default value.
+//  - One of fields is internal.
+//
+// Expected outcome:
+//  - Generated initialized args constructor is not public (because it would expose internal field).
+//
+struct NoCtorsInitializedPublicFieldOneInternalField {
+    @Internal
+    internalField: String
+    publicField: Boolean
+    initializedField: Int = 77
+}
+
+// A helper structure for test case 3.
+// It defines a few named field constructors.
+// All fields are public.
+// Two of them are initialized.
+struct StructWithNamedFieldConstructors {
+    field1: String
+    field2: String
+    initializedField1: Int = 77
+    initializedField2: Int = 101
+
+    @Dart("explicitAllArgsCtor")
+    field constructor(field1, field2, initializedField1, initializedField2)
+
+    @Dart("withoutTwoInitializedFields")
+    field constructor(field1, field2)
+
+    @Dart("withoutOneInitializedField")
+    field constructor(field1, field2, initializedField1)
+}
+
+// Test case 3
+//
+// Input:
+//  - This structure does not define explicit constructors / field constructors.
+//  - It has three public fields with default values.
+//  - All fields use struct type and we check if the name of constructor is properly resolved.
+//
+// Expected outcome:
+//  - Generated initialized values ctor properly resolves names.
+//
+struct InitializedPublicFieldsViaOverloadedFieldCtors {
+    initializedField1: StructWithNamedFieldConstructors = {"abc", "def", 9, 11}
+    initializedField2: StructWithNamedFieldConstructors = {"abc", "def", 123}
+    initializedField3: StructWithNamedFieldConstructors = {"abc", "def"}
+}
+
+// Test case 4
+//
+// Input:
+//  - The structure uses `PositionalDefaults` and should get such constructor.
+//  - This structure does not define other constructors / field constructors.
+//  - It has one public field with default value.
+//  - One of fields is internal.
+//
+// Expected outcome:
+//  - Generated positional defaults constructor is not public (because it would expose internal field).
+//
+@Java(PositionalDefaults)
+@Kotlin(PositionalDefaults)
+@Dart(PositionalDefaults)
+struct PosDefaultsWithOneInternalField {
+    @Internal
+    internalField: String
+    publicField: Boolean
+    initializedField: Int = 77
+}
