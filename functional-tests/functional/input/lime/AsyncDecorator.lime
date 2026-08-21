@@ -37,6 +37,10 @@ lambda DecoratedSlowCallback = (
     value: @AsyncDecorator(Result) String
 ) -> Void
 
+lambda ProgressCallback = (
+    step: Int
+) -> Void
+
 # All fields have defaults and `PositionalDefaults` is set, so the generated Kotlin type can be built with no
 # arguments -- which is exactly what `@AsyncDecorator(Default)` emits.
 @Kotlin(PositionalDefaults)
@@ -50,21 +54,37 @@ class AsyncDecoratorFactory {
     @AsyncDecorator
     fun fetch_value(
         should_fail: Boolean,
-        @AsyncDecorator(Callback) callback: DecoratedValueCallback
+        callback: DecoratedValueCallback
     ): AsyncDecoratorTaskHandle
 
     @AsyncDecorator
     fun fetch_with_options(
         @AsyncDecorator(Default) options: FetchOptions,
-        @AsyncDecorator(Callback) callback: DecoratedValueCallback
+        callback: DecoratedValueCallback
     ): AsyncDecoratorTaskHandle
 
     # Completes slower than fetch_value so tests can prove two different deadlines are met concurrently.
     @AsyncDecorator
     fun fetch_value_slow(
-        @AsyncDecorator(Callback) callback: DecoratedSlowCallback
+        callback: DecoratedSlowCallback
+    ): AsyncDecoratorTaskHandle
+
+    @AsyncDecorator(Name = "fetchValueWithProgress", Callback = "on_complete")
+    fun fetch_with_progress(
+        on_complete: DecoratedValueCallback,
+        on_progress: ProgressCallback
     ): AsyncDecoratorTaskHandle
 
     static fun was_stop_called(): Boolean
     static fun reset_stop_called()
+
+    class NestedProcessor {
+        constructor create()
+
+        @AsyncDecorator
+        fun process(
+            input: String,
+            callback: DecoratedValueCallback
+        ): AsyncDecoratorTaskHandle
+    }
 }
