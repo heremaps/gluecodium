@@ -89,7 +89,7 @@ The generated wrappers use `kotlinx.coroutines`, so a project that enables `@Asy
 
 ### One-shot callbacks
 
-Mark the function, its callback parameter, and any callback error/result members:
+Mark the function and any callback error/result members:
 
 ```lime
 lambda FetchCallback = (
@@ -99,9 +99,21 @@ lambda FetchCallback = (
 
 class Client {
   @AsyncDecorator
-  fun fetch(@AsyncDecorator(Callback) callback: FetchCallback): TaskHandle
+  fun fetch(callback: FetchCallback): TaskHandle
 }
 ```
+
+If the function has multiple lambda-typed parameters, select the completion callback on the function annotation:
+
+```lime
+class Client {
+  @AsyncDecorator(Callback = "callback")
+  fun fetch(callback: FetchCallback, progress: ProgressCallback): TaskHandle
+}
+```
+
+`Callback` must match a function parameter name exactly, including case. When the `Callback` value is omitted, the
+sole lambda-typed parameter is inferred as the completion callback.
 
 This generates a top-level Kotlin extension function such as:
 
@@ -195,9 +207,14 @@ The generated shape depends on the callback:
   that parameter's type has to be constructible without arguments: for example a struct declared with
   `@Kotlin(PositionalDefaults)` whose fields all have default values.
 * `@AsyncDecorator(Name = "fetchValue")` overrides the generated extension function name without renaming the callback API.
+* `@AsyncDecorator(Name = "fetchValue", Callback = "callback")` combines a custom wrapper name with explicit callback
+  selection for functions with multiple lambda parameters.
 * A returned type annotated `@AsyncTaskHandle` is cancelled when the coroutine is cancelled; its optional `Name` value
   names the cancel function, defaulting to a parameterless `cancel`. Functions without such a handle remain
   non-cancellable.
+
+For one-shot coroutine wrappers, parameter-level `@AsyncDecorator(Callback)` is no longer used. Flow/listener
+decorators keep their existing callback annotations.
 
 When an error member exists, the error and result members must be nullable because the callback contract is exactly one
 of error or success. Multiple result members can all be marked with `@AsyncDecorator(Result)`.

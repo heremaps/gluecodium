@@ -33,13 +33,22 @@ import com.here.gluecodium.model.lime.LimeAttributeValueType.RESULT
 /** An `@AsyncDecorator` callback is always lambda-typed. */
 fun LimeParameter.isAsyncCallbackTyped(): Boolean = typeRef.type.actualType is LimeLambda
 
-/** The parameters marked `@AsyncDecorator(Callback)`, or by convention any lambda-typed parameters. */
+/** The callback name selected through `@AsyncDecorator(Callback = "...")`, or null when inference should be used. */
+fun LimeFunction.getAsyncCallbackName(): String? = attributes.get(ASYNC_DECORATOR, CALLBACK)
+
+/** The function parameter named by `@AsyncDecorator(Callback = "...")`, or null when it is absent or unresolved. */
+fun LimeFunction.findAsyncNamedCallbackParameter(): LimeParameter? =
+    getAsyncCallbackName()?.takeIf { it.isNotBlank() }?.let { callbackName ->
+        parameters.firstOrNull { it.name == callbackName }
+    }
+
+/** The named callback parameter, or by convention any lambda-typed parameters. */
 fun LimeFunction.findAsyncCallbackCandidates(): List<LimeParameter> {
-    val annotated = parameters.filter { it.attributes.have(ASYNC_DECORATOR, CALLBACK) }
-    return annotated.ifEmpty { parameters.filter { it.isAsyncCallbackTyped() } }
+    val named = findAsyncNamedCallbackParameter()
+    return if (named != null) listOf(named) else parameters.filter { it.isAsyncCallbackTyped() }
 }
 
-/** The `@AsyncDecorator(Callback)` parameter, or by convention the sole callback-typed parameter. */
+/** The parameter named by `@AsyncDecorator(Callback = "...")`, or by convention the sole callback-typed parameter. */
 fun LimeFunction.findAsyncCallbackParameter(): LimeParameter? = findAsyncCallbackCandidates().singleOrNull()
 
 /** This function's callback members, i.e. the callback lambda's parameters. */

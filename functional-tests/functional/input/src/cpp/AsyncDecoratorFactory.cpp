@@ -144,8 +144,57 @@ public:
 
         return std::make_shared<AsyncDecoratorTaskHandleImpl>(state, std::move(worker));
     }
+
+    std::shared_ptr<AsyncDecoratorTaskHandle> fetch_with_progress(
+        const DecoratedValueCallback& on_complete,
+        const ProgressCallback& on_progress
+    ) override
+    {
+        auto state = std::make_shared<TaskState>();
+
+        std::thread worker([state, on_complete, on_progress]() {
+            on_progress(1);
+            std::this_thread::sleep_for(k_completion_delay);
+            if (state->stopped.load()) {
+                return;
+            }
+            on_complete(std::nullopt, std::string("progress-value"));
+        });
+
+        return std::make_shared<AsyncDecoratorTaskHandleImpl>(state, std::move(worker));
+    }
+};
+class NestedProcessorImpl final : public AsyncDecoratorFactory::NestedProcessor {
+public:
+    std::shared_ptr<AsyncDecoratorTaskHandle> process(
+        const std::string& input,
+        const DecoratedValueCallback& callback
+    ) override
+    {
+        auto state = std::make_shared<TaskState>();
+
+        std::thread worker([state, callback, input]() {
+            std::this_thread::sleep_for(k_completion_delay);
+            if (state->stopped.load()) {
+                return;
+            }
+            if (input == "fail") {
+                callback(AsyncDecoratorErrorCode::FAILED, std::nullopt);
+            } else {
+                callback(std::nullopt, "processed-" + input);
+            }
+        });
+
+        return std::make_shared<AsyncDecoratorTaskHandleImpl>(state, std::move(worker));
+    }
 };
 }  // namespace
+
+std::shared_ptr<AsyncDecoratorFactory::NestedProcessor>
+AsyncDecoratorFactory::NestedProcessor::create()
+{
+    return std::make_shared<NestedProcessorImpl>();
+}
 
 std::shared_ptr<AsyncDecoratorFactory>
 AsyncDecoratorFactory::create()

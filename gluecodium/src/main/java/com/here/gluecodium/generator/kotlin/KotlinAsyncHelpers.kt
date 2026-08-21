@@ -65,9 +65,8 @@ internal object KotlinAsyncHelpers {
      * file-class name this produces duplicate `.../KotlinCoroutinesKt` classes during Kotlin compilation.
      */
     private fun coroutineFileJvmSuffix(containers: List<LimeContainer>): String {
-        val signature = containers.map { it.path.toString() }.sorted().joinToString("|")
-        val hex = signature.hashCode().toUInt().toString(16)
-        return "_$hex"
+        val names = containers.map { it.path.container }.distinct().sorted()
+        return "_${names.joinToString("_")}"
     }
 
     /** Containers that contribute coroutine APIs, grouped by the package file they are emitted into. */
