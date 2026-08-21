@@ -93,6 +93,13 @@ object OptionReader {
                 true,
                 "Kotlin package name to append to 'kotlinpackage' for internal types.",
             )
+            addOption("kmppackage", true, "KMP package name")
+            addOption(
+                "kmpintpackage",
+                "kmp-internal-package",
+                true,
+                "KMP package name to append to 'kmppackage' for internal types.",
+            )
             addOption("help", false, "Shows this help and exits.")
             addOption("version", false, "Prints version info and exits.")
             addOption(
@@ -177,7 +184,8 @@ object OptionReader {
             addOption("tag", true, "Add a custom tag for @Skip attributes.")
             addOption("cppnamerules", true, "C++ name rules property file.")
             addOption("javanamerules", true, "Java name rules property file.")
-            addOption("swiftnamerules", true, "Swift name rules property file.")
+            addOption("kotlinnamerules", true, "Kotlin name rules property file.")
+            addOption("kmpnamerules", true, "KMP name rules property file.")
             addOption("dartnamerules", true, "Dart name rules property file.")
             addOption("kotlinnamerules", true, "Kotlin name rules property file.")
             addOption(
@@ -255,6 +263,8 @@ object OptionReader {
 
         generatorOptions.kotlinPackages = getStringValue("kotlinpackage")?.split(".") ?: emptyList()
         generatorOptions.kotlinInternalPackages = getStringValue("kotlinintpackage")?.split(".") ?: emptyList()
+        generatorOptions.kmpPackages = getStringValue("kmppackage")?.split(".") ?: emptyList()
+        generatorOptions.kmpInternalPackages = getStringValue("kmpintpackage")?.split(".") ?: emptyList()
         generatorOptions.androidOptInAnnotation = getStringValue("androidoptinannotation")?.split(".")
         generatorOptions.androidRequiresOptInAnnotation = getStringValue("androidrequiresoptinannotation")?.split(".")
         generatorOptions.androidInternalApiAnnotationName = getStringValue("androidinternalapiannotationname") ?: "GluecodiumInternalApi"
@@ -281,6 +291,8 @@ object OptionReader {
             readConfigFile(getStringValue("dartnamerules"), generatorOptions.dartNameRules)
         generatorOptions.kotlinNameRules =
             readConfigFile(getStringValue("kotlinnamerules"), generatorOptions.kotlinNameRules)
+        generatorOptions.kmpNameRules =
+            readConfigFile(getStringValue("kmpnamerules"), generatorOptions.kmpNameRules)
 
         generatorOptions.copyrightHeaderContents = getStringValue("copyright")?.let { File(it).readText() }
         getStringListValue("tag")?.let { generatorOptions.tags = CaseInsensitiveSet(it) }

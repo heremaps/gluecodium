@@ -34,13 +34,18 @@ task javadocJar(type: Jar) {
     archiveClassifier = 'javadoc'
 }
 
+
 publishing.publications {
     mavenJava(MavenPublication) {
         groupId
         artifactId project.name
         version this.version
 
-        from components.java
+        if (project.plugins.hasPlugin('com.github.johnrengelman.shadow')) {
+            artifact tasks.shadowJar
+        } else {
+            from components.java
+        }
         artifact sourcesJar
         artifact javadocJar
 

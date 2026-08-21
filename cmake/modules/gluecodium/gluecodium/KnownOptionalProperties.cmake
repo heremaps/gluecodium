@@ -128,6 +128,16 @@ _gluecodium_define_target_property(
     "This property is initialized by the value of the GLUECODIUM_KOTLIN_NAMERULES_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
 )
 
+
+_gluecodium_define_target_property(
+  GLUECODIUM_KMP_NAMERULES
+  BRIEF_DOCS "The path to a file with name rules for KMP"
+  FULL_DOCS
+    "The path to a file with name rules for KMP (Kotlin Multiplatform)."
+    ${_gluecodium_namerules_doc}
+    "This property is initialized by the value of the GLUECODIUM_KMP_NAMERULES_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
+)
+
 _gluecodium_define_target_property(
   GLUECODIUM_ANDROID_OPT_IN_ANNOTATION
   BRIEF_DOCS "The full path to use 'OptInAnnotation' for Android (Kotlin)"

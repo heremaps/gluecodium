@@ -47,7 +47,7 @@ class LimeDocRulesValidatorTest {
     private val limeModel = LimeModel(allElements, emptyList())
     private val outerTypePath = LimePath(emptyList(), listOf("SomeOuterType"))
     private val innerTypePath = outerTypePath.child("SomeInnerType")
-    private val allGenerators = setOf("android", "android-kotlin", "cpp", "dart", "swift")
+    private val allGenerators = setOf("android", "android-kotlin", "cpp", "dart", "kmp", "swift")
 
     @Test
     fun creationFailsForTwoRulesWithTheSameName() {
