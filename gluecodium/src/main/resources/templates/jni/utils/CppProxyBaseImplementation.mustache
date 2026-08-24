@@ -26,6 +26,7 @@
 
 #include <mutex>
 #include <unordered_map>
+#include <tuple>
 #include <utility>
 
 {{#internalNamespace}}
@@ -155,7 +156,9 @@ CppProxyBase::createProxyImpl( JNIEnv* const jenv,
         }
     }
 
-    auto [newProxy, reverseCacheKey] = factory(std::move(globalRef), jHashCode);
+    auto tuple = factory(std::move(globalRef), jHashCode);
+    auto newProxy = std::get<0>(tuple);
+    auto reverseCacheKey = std::get<1>(tuple);
 
     if (newProxy == nullptr) {
         throw_new_runtime_exception(jenv, "Cannot allocate native memory.");
