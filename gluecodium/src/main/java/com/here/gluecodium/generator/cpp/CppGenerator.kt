@@ -317,6 +317,8 @@ internal class CppGenerator : Generator {
                 "DurationHash",
                 "Hash",
                 "Locale",
+                "Optional",
+                "OptionalImpl",
                 "Return",
                 "TimePointHash",
                 "TypeRepository",
