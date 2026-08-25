@@ -75,13 +75,13 @@ box_uint_in_object( JNIEnv* const env, const uint16_t param ) noexcept
 
 template<typename T>
 {{>common/InternalNamespace}}jni::JniReference<jobject>
-convert_optional_to_jni( JNIEnv* const env, const std::optional<T>& nvalue ) noexcept
+convert_optional_to_jni( JNIEnv* const env, const {{>common/InternalNamespace}}optional<T>& nvalue ) noexcept
 {
     return nvalue ? {{>common/InternalNamespace}}jni::convert_to_jni( env, *nvalue ) : {{>common/InternalNamespace}}jni::JniReference<jobject>{};
 }
 
 template<typename Result, typename JResult>
-std::optional<Result>
+{{>common/InternalNamespace}}optional<Result>
 convert_optional_from_jni(JNIEnv* const env,
                           const {{>common/InternalNamespace}}jni::JniReference<jobject>& jvalue,
                           const char* const method_name,
@@ -92,7 +92,7 @@ convert_optional_from_jni(JNIEnv* const env,
         return {};
     }
     const auto unboxed_value = {{>common/InternalNamespace}}jni::call_java_method<JResult>(env, jvalue, method_name, method_signature );
-    return std::optional<Result>(unboxed_value);
+    return {{>common/InternalNamespace}}optional<Result>(unboxed_value);
 }
 } // namespace
 
@@ -235,144 +235,144 @@ convert_from_jni( JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* const env, std::optional<bool> nvalue ) noexcept
+convert_to_jni( JNIEnv* const env, {{>common/InternalNamespace}}optional<bool> nvalue ) noexcept
 {
     return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* const env, std::optional<float> nvalue ) noexcept
+convert_to_jni( JNIEnv* const env, {{>common/InternalNamespace}}optional<float> nvalue ) noexcept
 {
     return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* const env, std::optional<double> nvalue ) noexcept
+convert_to_jni( JNIEnv* const env, {{>common/InternalNamespace}}optional<double> nvalue ) noexcept
 {
     return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* const env, std::optional<int8_t> nvalue ) noexcept
+convert_to_jni( JNIEnv* const env, {{>common/InternalNamespace}}optional<int8_t> nvalue ) noexcept
 {
     return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* const env, std::optional<int16_t> nvalue ) noexcept
+convert_to_jni( JNIEnv* const env, {{>common/InternalNamespace}}optional<int16_t> nvalue ) noexcept
 {
     return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* const env, std::optional<int32_t> nvalue ) noexcept
+convert_to_jni( JNIEnv* const env, {{>common/InternalNamespace}}optional<int32_t> nvalue ) noexcept
 {
     return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* const env, std::optional<int64_t> nvalue ) noexcept
+convert_to_jni( JNIEnv* const env, {{>common/InternalNamespace}}optional<int64_t> nvalue ) noexcept
 {
     return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* const env, std::optional<uint8_t> nvalue ) noexcept
+convert_to_jni( JNIEnv* const env, {{>common/InternalNamespace}}optional<uint8_t> nvalue ) noexcept
 {
     return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* const env, std::optional<uint16_t> nvalue ) noexcept
+convert_to_jni( JNIEnv* const env, {{>common/InternalNamespace}}optional<uint16_t> nvalue ) noexcept
 {
     return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* const env, std::optional<uint32_t> nvalue ) noexcept
+convert_to_jni( JNIEnv* const env, {{>common/InternalNamespace}}optional<uint32_t> nvalue ) noexcept
 {
     return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* const env, std::optional<uint64_t> nvalue ) noexcept
+convert_to_jni( JNIEnv* const env, {{>common/InternalNamespace}}optional<uint64_t> nvalue ) noexcept
 {
     return convert_optional_to_jni(env, nvalue);
 }
 
-std::optional<bool>
+{{>common/InternalNamespace}}optional<bool>
 convert_from_jni(
-    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<bool>> ) noexcept
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<{{>common/InternalNamespace}}optional<bool>> ) noexcept
 {
     return convert_optional_from_jni<bool, jboolean>(env, jvalue, "booleanValue", "()Z");
 }
 
-std::optional<float>
+{{>common/InternalNamespace}}optional<float>
 convert_from_jni(
-    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<float>> ) noexcept
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<{{>common/InternalNamespace}}optional<float>> ) noexcept
 {
     return convert_optional_from_jni<float, jfloat>(env, jvalue, "floatValue", "()F");
 }
 
-std::optional<double>
+{{>common/InternalNamespace}}optional<double>
 convert_from_jni(
-    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<double>> ) noexcept
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<{{>common/InternalNamespace}}optional<double>> ) noexcept
 {
     return convert_optional_from_jni<double, jdouble>(env, jvalue, "doubleValue", "()D");
 }
 
-std::optional<int8_t>
+{{>common/InternalNamespace}}optional<int8_t>
 convert_from_jni(
-    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<int8_t>> ) noexcept
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<{{>common/InternalNamespace}}optional<int8_t>> ) noexcept
 {
     return convert_optional_from_jni<int8_t, int8_t>(env, jvalue, "byteValue", "()B");
 }
 
-std::optional<int16_t>
+{{>common/InternalNamespace}}optional<int16_t>
 convert_from_jni(
-    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<int16_t>> ) noexcept
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<{{>common/InternalNamespace}}optional<int16_t>> ) noexcept
 {
     return convert_optional_from_jni<int16_t, int16_t>(env, jvalue, "shortValue", "()S");
 }
 
-std::optional<int32_t>
+{{>common/InternalNamespace}}optional<int32_t>
 convert_from_jni(
-    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<int32_t>> ) noexcept
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<{{>common/InternalNamespace}}optional<int32_t>> ) noexcept
 {
     return convert_optional_from_jni<int32_t, int32_t>(env, jvalue, "intValue", "()I");
 }
 
-std::optional<int64_t>
+{{>common/InternalNamespace}}optional<int64_t>
 convert_from_jni(
-    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<int64_t>> ) noexcept
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<{{>common/InternalNamespace}}optional<int64_t>> ) noexcept
 {
     return convert_optional_from_jni<int64_t, int64_t>(env, jvalue, "longValue", "()J");
 }
 
-std::optional<uint8_t>
+{{>common/InternalNamespace}}optional<uint8_t>
 convert_from_jni(
-    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<uint8_t>> ) noexcept
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<{{>common/InternalNamespace}}optional<uint8_t>> ) noexcept
 {
     return convert_optional_from_jni<uint8_t, int16_t>(env, jvalue, "shortValue", "()S");
 }
 
-std::optional<uint16_t>
+{{>common/InternalNamespace}}optional<uint16_t>
 convert_from_jni(
-    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<uint16_t>> ) noexcept
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<{{>common/InternalNamespace}}optional<uint16_t>> ) noexcept
 {
     return convert_optional_from_jni<uint16_t, int32_t>(env, jvalue, "intValue", "()I");
 }
 
-std::optional<uint32_t>
+{{>common/InternalNamespace}}optional<uint32_t>
 convert_from_jni(
-    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<uint32_t>> ) noexcept
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<{{>common/InternalNamespace}}optional<uint32_t>> ) noexcept
 {
     return convert_optional_from_jni<uint32_t, int64_t>(env, jvalue, "longValue", "()J");
 }
 
-std::optional<uint64_t>
+{{>common/InternalNamespace}}optional<uint64_t>
 convert_from_jni(
-    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<uint64_t>> ) noexcept
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<{{>common/InternalNamespace}}optional<uint64_t>> ) noexcept
 {
     return convert_optional_from_jni<uint64_t, int64_t>(env, jvalue, "longValue", "()J");
 }

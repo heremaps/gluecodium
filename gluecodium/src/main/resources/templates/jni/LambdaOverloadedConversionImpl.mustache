@@ -18,15 +18,15 @@
   ! License-Filename: LICENSE
   !
   !}}
-std::optional<{{resolveName "C++ FQN"}}>
-{{resolveName "mangled"}}_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<std::optional<{{resolveName "C++ FQN"}}>>) {
+{{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}>
+{{resolveName "mangled"}}_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<{{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}>>) {
     return _jobj
-        ? std::optional<{{resolveName "C++ FQN"}}>({{resolveName "mangled"}}_convert_from_jni(_env, _jobj, TypeId<{{resolveName "C++ FQN"}}>{}))
-        : std::optional<{{resolveName "C++ FQN"}}>{};
+        ? {{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}>({{resolveName "mangled"}}_convert_from_jni(_env, _jobj, TypeId<{{resolveName "C++ FQN"}}>{}))
+        : {{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}>{};
 }
 
 JniReference<jobject>
-{{resolveName "mangled"}}_convert_to_jni(JNIEnv* _env, const std::optional<{{resolveName "C++ FQN"}}>& _ninput) {
+{{resolveName "mangled"}}_convert_to_jni(JNIEnv* _env, const {{>common/InternalNamespace}}optional<{{resolveName "C++ FQN"}}>& _ninput) {
     return _ninput ? {{resolveName "mangled"}}_convert_to_jni(_env, *_ninput) : JniReference<jobject>{};
 }
 
@@ -44,7 +44,7 @@ JniReference<jobject>
 }
 
 JniReference<jobject>
-{{resolveName "mangled"}}_convert_to_jni(JNIEnv* _env, const std::optional<std::vector<{{resolveName "C++ FQN"}}>>& _ninput) {
+{{resolveName "mangled"}}_convert_to_jni(JNIEnv* _env, const {{>common/InternalNamespace}}optional<std::vector<{{resolveName "C++ FQN"}}>>& _ninput) {
     return _ninput ? {{resolveName "mangled"}}_convert_to_jni(_env, *_ninput) : JniReference<jobject>{};
 }
 
@@ -71,9 +71,9 @@ std::vector<{{resolveName "C++ FQN"}}>
     return result;
 }
 
-std::optional<std::vector<{{resolveName "C++ FQN"}}>>
-{{resolveName "mangled"}}_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, TypeId<std::optional<std::vector<{{resolveName "C++ FQN"}}>>>) {
+{{>common/InternalNamespace}}optional<std::vector<{{resolveName "C++ FQN"}}>>
+{{resolveName "mangled"}}_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, TypeId<{{>common/InternalNamespace}}optional<std::vector<{{resolveName "C++ FQN"}}>>>) {
     return _arrayList
-        ? std::optional<std::vector<{{resolveName "C++ FQN"}}>>({{resolveName "mangled"}}_convert_from_jni(_env, _arrayList, TypeId<std::vector<{{resolveName "C++ FQN"}}>>{}))
-        : std::optional<std::vector<{{resolveName "C++ FQN"}}>>{};
+        ? {{>common/InternalNamespace}}optional<std::vector<{{resolveName "C++ FQN"}}>>({{resolveName "mangled"}}_convert_from_jni(_env, _arrayList, TypeId<std::vector<{{resolveName "C++ FQN"}}>>{}))
+        : {{>common/InternalNamespace}}optional<std::vector<{{resolveName "C++ FQN"}}>>{};
 }

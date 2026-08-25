@@ -29,8 +29,9 @@
 #include "JniReference.h"
 #include "JniTypeId.h"
 
+#include "{{>common/InternalInclude}}Optional.h"
+
 #include <memory>
-#include <optional>
 #include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
@@ -49,10 +50,10 @@ std::unordered_map< K, V, Hash >
 convert_from_jni(JNIEnv* const env, const JniReference<jobject>& java_map, TypeId<std::unordered_map< K, V, Hash>>);
 
 template<typename K, typename V, typename Hash>
-std::optional<std::unordered_map<K, V, Hash>>
+{{>common/InternalNamespace}}optional<std::unordered_map<K, V, Hash>>
 convert_from_jni(JNIEnv* const env,
                  const JniReference<jobject>& _jMap,
-                 TypeId<std::optional<std::unordered_map<K, V, Hash>>>);
+                 TypeId<{{>common/InternalNamespace}}optional<std::unordered_map<K, V, Hash>>>);
 
 template < typename K, typename V, typename Hash >
 JniReference<jobject>
@@ -60,7 +61,7 @@ convert_to_jni(JNIEnv* const env, const std::unordered_map< K, V, Hash >& input)
 
 template<typename K, typename V, typename Hash>
 JniReference<jobject>
-convert_to_jni(JNIEnv* const env, const std::optional<std::unordered_map<K, V, Hash>>& input);
+convert_to_jni(JNIEnv* const env, const {{>common/InternalNamespace}}optional<std::unordered_map<K, V, Hash>>& input);
 
 // Forward declare set conversion routines
 
@@ -74,27 +75,27 @@ convert_to_jni(JNIEnv* const env, const std::unordered_set<T, Hash>& input);
 
 template<typename T, typename Hash>
 JniReference<jobject>
-convert_to_jni(JNIEnv* const env, const std::optional<std::unordered_set<T, Hash>>& input);
+convert_to_jni(JNIEnv* const env, const {{>common/InternalNamespace}}optional<std::unordered_set<T, Hash>>& input);
 
 template <typename T, typename Hash>
 std::unordered_set<T, Hash>
 convert_from_jni(JNIEnv* const env, const JniReference<jobject>& java_set, TypeId<std::unordered_set<T, Hash>>);
 
 template<typename T, typename Hash>
-std::optional<std::unordered_set<T, Hash>>
+{{>common/InternalNamespace}}optional<std::unordered_set<T, Hash>>
 convert_from_jni(JNIEnv* const env,
                  const JniReference<jobject>& java_set,
-                 TypeId<std::optional<std::unordered_set<T, Hash>>>);
+                 TypeId<{{>common/InternalNamespace}}optional<std::unordered_set<T, Hash>>>);
 
 template<typename Container>
-std::optional<Container>
+{{>common/InternalNamespace}}optional<Container>
 convert_optional_container_from_jni(JNIEnv* const env,
                                     const JniReference<jobject>& java_container,
-                                    TypeId<std::optional<Container>>);
+                                    TypeId<{{>common/InternalNamespace}}optional<Container>>);
 
 template<typename Container>
 JniReference<jobject>
-convert_optional_container_to_jni(JNIEnv* const env, const std::optional<Container>& optional_container);
+convert_optional_container_to_jni(JNIEnv* const env, const {{>common/InternalNamespace}}optional<Container>& optional_container);
 
 // Templated functions to create ArrayLists from C++ vectors and vice versa
 
@@ -239,65 +240,65 @@ convert_from_jni(JNIEnv* const env, const JniReference<jobject>& java_set, TypeI
 // Optionals
 
 template<typename K, typename V, typename Hash>
-std::optional<std::unordered_map<K, V, Hash>>
+{{>common/InternalNamespace}}optional<std::unordered_map<K, V, Hash>>
 convert_from_jni(JNIEnv* const env,
                  const JniReference<jobject>& java_map,
-                 TypeId<std::optional<std::unordered_map<K, V, Hash>>>)
+                 TypeId<{{>common/InternalNamespace}}optional<std::unordered_map<K, V, Hash>>>)
 {
-    return convert_optional_container_from_jni(env, java_map, TypeId<std::optional<std::unordered_map<K, V, Hash>>>{});
+    return convert_optional_container_from_jni(env, java_map, TypeId<{{>common/InternalNamespace}}optional<std::unordered_map<K, V, Hash>>>{});
 }
 
 template<typename T>
-std::optional<std::vector<T>>
+{{>common/InternalNamespace}}optional<std::vector<T>>
 convert_from_jni(JNIEnv* const env,
                  const JniReference<jobject>& array_list,
-                 TypeId<std::optional<std::vector<T>>>)
+                 TypeId<{{>common/InternalNamespace}}optional<std::vector<T>>>)
 {
-    return convert_optional_container_from_jni(env, array_list, TypeId<std::optional<std::vector<T>>>{});
+    return convert_optional_container_from_jni(env, array_list, TypeId<{{>common/InternalNamespace}}optional<std::vector<T>>>{});
 }
 
 template<typename K, typename V, typename Hash>
 JniReference<jobject>
-convert_to_jni(JNIEnv* const env, const std::optional<std::unordered_map<K, V, Hash>>& input)
+convert_to_jni(JNIEnv* const env, const {{>common/InternalNamespace}}optional<std::unordered_map<K, V, Hash>>& input)
 {
     return convert_optional_container_to_jni(env, input);
 }
 
 template<typename T>
 JniReference<jobject>
-convert_to_jni(JNIEnv* const env, const std::optional<std::vector<T>>& input)
+convert_to_jni(JNIEnv* const env, const {{>common/InternalNamespace}}optional<std::vector<T>>& input)
 {
     return convert_optional_container_to_jni(env, input);
 }
 
 template<typename T, typename Hash >
 JniReference<jobject>
-convert_to_jni(JNIEnv* const env, const std::optional<std::unordered_set<T, Hash>>& input)
+convert_to_jni(JNIEnv* const env, const {{>common/InternalNamespace}}optional<std::unordered_set<T, Hash>>& input)
 {
     return convert_optional_container_to_jni(env, input);
 }
 
 template<typename T, typename Hash>
-std::optional<std::unordered_set<T, Hash>>
+{{>common/InternalNamespace}}optional<std::unordered_set<T, Hash>>
 convert_from_jni(JNIEnv* const env,
                  const JniReference<jobject>& java_set,
-                 TypeId<std::optional<std::unordered_set<T, Hash>>>)
+                 TypeId<{{>common/InternalNamespace}}optional<std::unordered_set<T, Hash>>>)
 {
-    return convert_optional_container_from_jni(env, java_set, TypeId<std::optional<std::unordered_set<T, Hash>>>{});
+    return convert_optional_container_from_jni(env, java_set, TypeId<{{>common/InternalNamespace}}optional<std::unordered_set<T, Hash>>>{});
 }
 
 template<typename Container>
-std::optional<Container>
+{{>common/InternalNamespace}}optional<Container>
 convert_optional_container_from_jni(JNIEnv* const env,
                                     const JniReference<jobject>& java_container,
-                                    TypeId<std::optional<Container>>)
+                                    TypeId<{{>common/InternalNamespace}}optional<Container>>)
 {
-    return java_container ? convert_from_jni(env, java_container, TypeId<Container>{}) : std::optional<Container>{};
+    return java_container ? convert_from_jni(env, java_container, TypeId<Container>{}) : {{>common/InternalNamespace}}optional<Container>{};
 }
 
 template<typename Container>
 JniReference<jobject>
-convert_optional_container_to_jni(JNIEnv* const env, const std::optional<Container>& optional_container)
+convert_optional_container_to_jni(JNIEnv* const env, const {{>common/InternalNamespace}}optional<Container>& optional_container)
 {
     return optional_container ? convert_to_jni(env, *optional_container) : JniReference<jobject>{};
 }

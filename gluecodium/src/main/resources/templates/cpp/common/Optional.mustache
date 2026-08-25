@@ -66,7 +66,6 @@
 
 #if !defined(GLUECODIUM_OPTIONAL_HEADER) && !defined(GLUECODIUM_OPTIONAL_TYPE)
 #  if (defined(_MSC_VER) && _MSC_VER >= 1911 && _MSVC_LANG >= 201703L) || __cplusplus >= 201703L
-#    define GLUECODIUM_USES_STD_OPTIONAL true
 #    define GLUECODIUM_OPTIONAL_HEADER <optional>
 #    define GLUECODIUM_OPTIONAL_TYPE std::optional
 #    define GLUECODIUM_OPTIONAL_HELPER_TYPES using std::nullopt; \
@@ -89,9 +88,6 @@ using optional = GLUECODIUM_OPTIONAL_TYPE<T>;
 GLUECODIUM_OPTIONAL_HELPER_TYPES
 #endif
 
-{{!! TODO: it will be removed in the next commit. When hash definition is removed for optional from `hash.h`
-!}}
-#if !defined(GLUECODIUM_USES_STD_OPTIONAL)
 template <class ValueType>
 struct hash<{{>common/InternalNamespace}}optional<ValueType>>
 {
@@ -101,7 +97,6 @@ struct hash<{{>common/InternalNamespace}}optional<ValueType>>
         return static_cast<bool>( optional_value ) ? {{>common/InternalNamespace}}hash<ValueType>( )( *optional_value ) : 0;
     }
 };
-#endif
 
 {{#internalNamespace}}
 }

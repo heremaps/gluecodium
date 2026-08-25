@@ -28,11 +28,11 @@
 #include "JniReference.h"
 #include "JniTypeId.h"
 #include "{{>common/InternalInclude}}Locale.h"
+#include "{{>common/InternalInclude}}Optional.h"
 
 #include <chrono>
 #include <cstdint>
 #include <memory>
-#include <optional>
 #include <vector>
 
 {{#internalNamespace}}
@@ -85,65 +85,65 @@ JNIEXPORT double get_field_value(
 JNIEXPORT ::std::string get_field_value(
     JNIEnv* const env, const JniReference<jobject>& object, const char* field_name, TypeId<::std::string> );
 
-JNIEXPORT std::optional< bool > get_field_value( JNIEnv* const env,
+JNIEXPORT {{>common/InternalNamespace}}optional< bool > get_field_value( JNIEnv* const env,
                                            const JniReference< jobject >& object,
                                            const char* field_name,
-                                           TypeId<std::optional< bool >> ) noexcept;
-JNIEXPORT std::optional< int8_t > get_field_value( JNIEnv* const env,
+                                           TypeId<{{>common/InternalNamespace}}optional< bool >> ) noexcept;
+JNIEXPORT {{>common/InternalNamespace}}optional< int8_t > get_field_value( JNIEnv* const env,
                                              const JniReference< jobject >& object,
                                              const char* field_name,
-                                             TypeId<std::optional< int8_t >> ) noexcept;
-JNIEXPORT std::optional< int16_t > get_field_value( JNIEnv* const env,
+                                             TypeId<{{>common/InternalNamespace}}optional< int8_t >> ) noexcept;
+JNIEXPORT {{>common/InternalNamespace}}optional< int16_t > get_field_value( JNIEnv* const env,
                                               const JniReference< jobject >& object,
                                               const char* field_name,
-                                              TypeId<std::optional< int16_t >> ) noexcept;
-JNIEXPORT std::optional< int32_t > get_field_value( JNIEnv* const env,
+                                              TypeId<{{>common/InternalNamespace}}optional< int16_t >> ) noexcept;
+JNIEXPORT {{>common/InternalNamespace}}optional< int32_t > get_field_value( JNIEnv* const env,
                                               const JniReference< jobject >& object,
                                               const char* field_name,
-                                              TypeId<std::optional< int32_t >> ) noexcept;
-JNIEXPORT std::optional< int64_t > get_field_value( JNIEnv* const env,
+                                              TypeId<{{>common/InternalNamespace}}optional< int32_t >> ) noexcept;
+JNIEXPORT {{>common/InternalNamespace}}optional< int64_t > get_field_value( JNIEnv* const env,
                                               const JniReference< jobject >& object,
                                               const char* field_name,
-                                              TypeId<std::optional< int64_t >> ) noexcept;
-JNIEXPORT std::optional< uint8_t > get_field_value( JNIEnv* const env,
+                                              TypeId<{{>common/InternalNamespace}}optional< int64_t >> ) noexcept;
+JNIEXPORT {{>common/InternalNamespace}}optional< uint8_t > get_field_value( JNIEnv* const env,
                                               const JniReference< jobject >& object,
                                               const char* field_name,
-                                              TypeId<std::optional< uint8_t >> ) noexcept;
-JNIEXPORT std::optional< uint16_t > get_field_value( JNIEnv* const env,
+                                              TypeId<{{>common/InternalNamespace}}optional< uint8_t >> ) noexcept;
+JNIEXPORT {{>common/InternalNamespace}}optional< uint16_t > get_field_value( JNIEnv* const env,
                                                const JniReference< jobject >& object,
                                                const char* field_name,
-                                               TypeId<std::optional< uint16_t >> ) noexcept;
-JNIEXPORT std::optional< uint32_t > get_field_value( JNIEnv* const env,
+                                               TypeId<{{>common/InternalNamespace}}optional< uint16_t >> ) noexcept;
+JNIEXPORT {{>common/InternalNamespace}}optional< uint32_t > get_field_value( JNIEnv* const env,
                                                const JniReference< jobject >& object,
                                                const char* field_name,
-                                               TypeId<std::optional< uint32_t >> ) noexcept;
-JNIEXPORT std::optional< uint64_t > get_field_value( JNIEnv* const env,
+                                               TypeId<{{>common/InternalNamespace}}optional< uint32_t >> ) noexcept;
+JNIEXPORT {{>common/InternalNamespace}}optional< uint64_t > get_field_value( JNIEnv* const env,
                                                const JniReference< jobject >& object,
                                                const char* field_name,
-                                               TypeId<std::optional< uint64_t >> ) noexcept;
-JNIEXPORT std::optional< float > get_field_value( JNIEnv* const env,
+                                               TypeId<{{>common/InternalNamespace}}optional< uint64_t >> ) noexcept;
+JNIEXPORT {{>common/InternalNamespace}}optional< float > get_field_value( JNIEnv* const env,
                                             const JniReference< jobject >& object,
                                             const char* field_name,
-                                            TypeId<std::optional< float >> ) noexcept;
-JNIEXPORT std::optional< double > get_field_value( JNIEnv* const env,
+                                            TypeId<{{>common/InternalNamespace}}optional< float >> ) noexcept;
+JNIEXPORT {{>common/InternalNamespace}}optional< double > get_field_value( JNIEnv* const env,
                                              const JniReference< jobject >& object,
                                              const char* field_name,
-                                             TypeId<std::optional< double >> ) noexcept;
-JNIEXPORT std::optional< ::std::string > get_field_value( JNIEnv* const env,
+                                             TypeId<{{>common/InternalNamespace}}optional< double >> ) noexcept;
+JNIEXPORT {{>common/InternalNamespace}}optional< ::std::string > get_field_value( JNIEnv* const env,
                                                     const JniReference< jobject >& object,
                                                     const char* field_name,
-                                                    TypeId<std::optional< ::std::string >> );
+                                                    TypeId<{{>common/InternalNamespace}}optional< ::std::string >> );
 
 JNIEXPORT ::std::shared_ptr<::std::vector<uint8_t>> get_field_value(
     JNIEnv* const env,
     const JniReference< jobject >& object,
     const char* field_name,
     TypeId<::std::shared_ptr<::std::vector<uint8_t>>> );
-JNIEXPORT std::optional<::std::shared_ptr<::std::vector<uint8_t>>> get_field_value(
+JNIEXPORT {{>common/InternalNamespace}}optional<::std::shared_ptr<::std::vector<uint8_t>>> get_field_value(
     JNIEnv* const env,
     const JniReference< jobject >& object,
     const char* field_name,
-    TypeId<std::optional<::std::shared_ptr<::std::vector<uint8_t>>>> );
+    TypeId<{{>common/InternalNamespace}}optional<::std::shared_ptr<::std::vector<uint8_t>>>> );
 
 template<class Clock, class Duration>
 std::chrono::time_point<Clock, Duration>
@@ -155,12 +155,12 @@ get_field_value(
 }
 
 template<class Clock, class Duration>
-std::optional<std::chrono::time_point<Clock, Duration>>
+{{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>
 get_field_value(
     JNIEnv* const env, const JniReference<jobject >& object, const char* field_name,
-    TypeId<std::optional<std::chrono::time_point<Clock, Duration>>>)
+    TypeId<{{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>>)
 {    
-    return get_converted_object_field_value<std::optional<std::chrono::time_point<Clock, Duration>>>(
+    return get_converted_object_field_value<{{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>>(
         env, object, field_name, "Ljava/util/Date;");
 }
 
@@ -169,11 +169,11 @@ JNIEXPORT {{>common/InternalNamespace}}Locale get_field_value(
     const JniReference< jobject >& object,
     const char* field_name,
     TypeId<{{>common/InternalNamespace}}Locale> ) noexcept;
-JNIEXPORT std::optional< {{>common/InternalNamespace}}Locale > get_field_value(
+JNIEXPORT {{>common/InternalNamespace}}optional< {{>common/InternalNamespace}}Locale > get_field_value(
     JNIEnv* const env,
     const JniReference< jobject >& object,
     const char* field_name,
-    TypeId<std::optional< {{>common/InternalNamespace}}Locale >> ) noexcept;
+    TypeId<{{>common/InternalNamespace}}optional< {{>common/InternalNamespace}}Locale >> ) noexcept;
 
 // -------------------- JNI object field setters --------------------------------------------------
 
@@ -225,51 +225,51 @@ JNIEXPORT void set_field_value( JNIEnv* const env,
 JNIEXPORT void set_field_value( JNIEnv* const env,
                       const JniReference< jobject >& object,
                       const char* field_name,
-                      std::optional< bool > value ) noexcept;
+                      {{>common/InternalNamespace}}optional< bool > value ) noexcept;
 JNIEXPORT void set_field_value( JNIEnv* const env,
                       const JniReference< jobject >& object,
                       const char* field_name,
-                      std::optional< int8_t > value ) noexcept;
+                      {{>common/InternalNamespace}}optional< int8_t > value ) noexcept;
 JNIEXPORT void set_field_value( JNIEnv* const env,
                       const JniReference< jobject >& object,
                       const char* field_name,
-                      std::optional< int16_t > value ) noexcept;
+                      {{>common/InternalNamespace}}optional< int16_t > value ) noexcept;
 JNIEXPORT void set_field_value( JNIEnv* const env,
                       const JniReference< jobject >& object,
                       const char* field_name,
-                      std::optional< int32_t > value ) noexcept;
+                      {{>common/InternalNamespace}}optional< int32_t > value ) noexcept;
 JNIEXPORT void set_field_value( JNIEnv* const env,
                       const JniReference< jobject >& object,
                       const char* field_name,
-                      std::optional< int64_t > value ) noexcept;
+                      {{>common/InternalNamespace}}optional< int64_t > value ) noexcept;
 JNIEXPORT void set_field_value( JNIEnv* const env,
                       const JniReference< jobject >& object,
                       const char* field_name,
-                      std::optional< uint8_t > value ) noexcept;
+                      {{>common/InternalNamespace}}optional< uint8_t > value ) noexcept;
 JNIEXPORT void set_field_value( JNIEnv* const env,
                       const JniReference< jobject >& object,
                       const char* field_name,
-                      std::optional< uint16_t > value ) noexcept;
+                      {{>common/InternalNamespace}}optional< uint16_t > value ) noexcept;
 JNIEXPORT void set_field_value( JNIEnv* const env,
                       const JniReference< jobject >& object,
                       const char* field_name,
-                      std::optional< uint32_t > value ) noexcept;
+                      {{>common/InternalNamespace}}optional< uint32_t > value ) noexcept;
 JNIEXPORT void set_field_value( JNIEnv* const env,
                       const JniReference< jobject >& object,
                       const char* field_name,
-                      std::optional< uint64_t > value ) noexcept;
+                      {{>common/InternalNamespace}}optional< uint64_t > value ) noexcept;
 JNIEXPORT void set_field_value( JNIEnv* const env,
                       const JniReference< jobject >& object,
                       const char* field_name,
-                      std::optional< float > value ) noexcept;
+                      {{>common/InternalNamespace}}optional< float > value ) noexcept;
 JNIEXPORT void set_field_value( JNIEnv* const env,
                       const JniReference< jobject >& object,
                       const char* field_name,
-                      std::optional< double > value ) noexcept;
+                      {{>common/InternalNamespace}}optional< double > value ) noexcept;
 JNIEXPORT void set_field_value( JNIEnv* const env,
                       const JniReference< jobject >& object,
                       const char* field_name,
-                      std::optional< ::std::string > value ) noexcept;
+                      {{>common/InternalNamespace}}optional< ::std::string > value ) noexcept;
 
 JNIEXPORT void set_field_value( JNIEnv* const env,
                       const JniReference<jobject>& object,
@@ -278,7 +278,7 @@ JNIEXPORT void set_field_value( JNIEnv* const env,
 JNIEXPORT void set_field_value( JNIEnv* const env,
                       const JniReference<jobject>& object,
                       const char* field_name,
-                      std::optional<std::shared_ptr<::std::vector<uint8_t>>> field_value ) noexcept;
+                      {{>common/InternalNamespace}}optional<std::shared_ptr<::std::vector<uint8_t>>> field_value ) noexcept;
 
 template<class Clock, class Duration>
 void
@@ -293,7 +293,7 @@ template<class Clock, class Duration>
 void
 set_field_value(
     JNIEnv* const env, const JniReference<jobject>& object, const char* field_name,
-    const std::optional<std::chrono::time_point<Clock, Duration>>& field_value) noexcept
+    const {{>common/InternalNamespace}}optional<std::chrono::time_point<Clock, Duration>>& field_value) noexcept
 {
     set_converted_object_field_value(env, object, field_name, "Ljava/util/Date;", field_value);
 }
@@ -305,7 +305,7 @@ JNIEXPORT void set_field_value( JNIEnv* const env,
 JNIEXPORT void set_field_value( JNIEnv* const env,
                       const JniReference<jobject>& object,
                       const char* field_name,
-                      std::optional< {{>common/InternalNamespace}}Locale > fieldValue ) noexcept;
+                      {{>common/InternalNamespace}}optional< {{>common/InternalNamespace}}Locale > fieldValue ) noexcept;
 
 // -------------------- Templated JNI field accessors for Duration types --------------------------
 
@@ -321,13 +321,13 @@ JNIEXPORT ::std::chrono::duration<Rep, Period> get_field_value(
 }
 
 template<class Rep, class Period>
-JNIEXPORT std::optional<::std::chrono::duration<Rep, Period>> get_field_value(
+JNIEXPORT {{>common/InternalNamespace}}optional<::std::chrono::duration<Rep, Period>> get_field_value(
     JNIEnv* const env,
     const JniReference<jobject>& object,
     const char* field_name,
-    TypeId<std::optional<::std::chrono::duration<Rep, Period>>> ) noexcept
+    TypeId<{{>common/InternalNamespace}}optional<::std::chrono::duration<Rep, Period>>> ) noexcept
 {
-    return get_converted_object_field_value<std::optional<::std::chrono::duration<Rep, Period>>>(
+    return get_converted_object_field_value<{{>common/InternalNamespace}}optional<::std::chrono::duration<Rep, Period>>>(
         env, object, field_name, "L{{durationPackage}}/Duration;");
 }
 
@@ -346,7 +346,7 @@ JNIEXPORT void set_field_value(
     JNIEnv* const env,
     const JniReference<jobject>& object,
     const char* field_name,
-    std::optional<::std::chrono::duration<Rep, Period>> field_value ) noexcept
+    {{>common/InternalNamespace}}optional<::std::chrono::duration<Rep, Period>> field_value ) noexcept
 {
     set_converted_object_field_value(env, object, field_name, "L{{durationPackage}}/Duration;", field_value);
 }

@@ -71,6 +71,7 @@ internal class CppNameResolver(
 ) : ReferenceMapBasedResolver(limeReferenceMap), NameResolver {
     private val hashTypeName = (listOf("") + internalNamespace + "hash").joinToString("::")
     private val localeTypeName = (listOf("") + internalNamespace + "Locale").joinToString("::")
+    private val optionalTypeName = (listOf("") + internalNamespace + "optional").joinToString("::")
 
     private val signatureResolver = CppSignatureResolver(limeReferenceMap, nameCache.nameRules)
     private val limeToCppNames = buildPathMap()
@@ -121,7 +122,7 @@ internal class CppNameResolver(
         val typeName = resolveTypeName(limeTypeRef.type, isFullName = true, limeTypeRef.attributes)
         return when {
             limeTypeRef.isNullable && limeTypeRef.type.actualType !is LimeContainerWithInheritance ->
-                "std::optional< $typeName >"
+                "$optionalTypeName< $typeName >"
             else -> typeName
         }
     }

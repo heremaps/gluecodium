@@ -44,12 +44,12 @@ _baseRef
 }}{{#filter fields predicate="shouldRetain"}}{{#this}}{{resolveName typeRef}} {{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/this}}{{/filter}})
 {
 {{#unlessPredicate "hasImmutableFields"}}{{!!
-}}    auto _struct = new ( ::std::nothrow ) std::optional<{{resolveName "C++"}}>( {{resolveName "C++"}}( ) );{{/unlessPredicate}}
+}}    auto _struct = new ( ::std::nothrow ) {{>common/InternalNamespace}}optional<{{resolveName "C++"}}>( {{resolveName "C++"}}( ) );{{/unlessPredicate}}
 {{#set cppStruct="(*_struct)" structElement=this}}{{#fields}}{{#ifPredicate "shouldRetain"}}
 {{>setCppFieldValue}}
 {{/ifPredicate}}{{/fields}}{{/set}}
 {{#ifPredicate "hasImmutableFields"}}{{!!
-}}    auto _struct = new ( ::std::nothrow ) std::optional<{{resolveName "C++"}}>( {{!!
+}}    auto _struct = new ( ::std::nothrow ) {{>common/InternalNamespace}}optional<{{resolveName "C++"}}>( {{!!
 }}{{resolveName "C++"}}( {{>immutableFieldsInit}} ) );{{/ifPredicate}}
     return reinterpret_cast<_baseRef>( _struct );
 }
@@ -57,11 +57,11 @@ _baseRef
 _baseRef
 {{resolveName}}_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<{{resolveName "C++"}}>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<{{>common/InternalNamespace}}optional<{{resolveName "C++"}}>*>( handle ) );
 }
 
 void {{resolveName}}_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<{{resolveName "C++"}}>*>( handle );
+    delete reinterpret_cast<{{>common/InternalNamespace}}optional<{{resolveName "C++"}}>*>( handle );
 }
 
 {{#set structElement=this}}
