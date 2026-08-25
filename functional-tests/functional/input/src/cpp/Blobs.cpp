@@ -90,7 +90,7 @@ BlobNulls::get_breaking_null() {
     return {};
 }
 
-std::optional<std::shared_ptr<std::vector<uint8_t>>>
+lorem_ipsum::test::optional<std::shared_ptr<std::vector<uint8_t>>>
 BlobNulls::get_valid_null() {
     return {};
 }

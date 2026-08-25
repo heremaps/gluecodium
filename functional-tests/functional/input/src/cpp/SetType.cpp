@@ -86,8 +86,8 @@ SetType::enum_set_round_trip( const SetType::EnumSet& input )
     return input;
 }
 
-std::optional< SetType::IntSet >
-SetType::nullable_int_set_round_trip( const std::optional< SetType::IntSet >& input )
+lorem_ipsum::test::optional< SetType::IntSet >
+SetType::nullable_int_set_round_trip( const lorem_ipsum::test::optional< SetType::IntSet >& input )
 {
     return input;
 }

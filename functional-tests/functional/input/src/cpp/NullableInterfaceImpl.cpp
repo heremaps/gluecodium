@@ -43,150 +43,150 @@ NullableInterfaceImpl::method_with_nullable_ints_struct( const NullableIntsStruc
     return input;
 }
 
-std::optional< ::std::string >
-NullableInterfaceImpl::method_with_string( const std::optional< ::std::string >& input )
+lorem_ipsum::test::optional< ::std::string >
+NullableInterfaceImpl::method_with_string( const lorem_ipsum::test::optional< ::std::string >& input )
 {
     return input;
 }
 
-std::optional< bool >
-NullableInterfaceImpl::method_with_boolean( const std::optional< bool >& input )
+lorem_ipsum::test::optional< bool >
+NullableInterfaceImpl::method_with_boolean( const lorem_ipsum::test::optional< bool >& input )
 {
     return input;
 }
 
-std::optional< double >
-NullableInterfaceImpl::method_with_double( const std::optional< double >& input )
+lorem_ipsum::test::optional< double >
+NullableInterfaceImpl::method_with_double( const lorem_ipsum::test::optional< double >& input )
 {
     return input;
 }
 
-std::optional< int64_t >
-NullableInterfaceImpl::method_with_int( const std::optional< int64_t >& input )
+lorem_ipsum::test::optional< int64_t >
+NullableInterfaceImpl::method_with_int( const lorem_ipsum::test::optional< int64_t >& input )
 {
     return input;
 }
 
-std::optional<uint32_t>
-NullableInterfaceImpl::method_with_uint(const std::optional<uint32_t>& input) { return input; }
+lorem_ipsum::test::optional<uint32_t>
+NullableInterfaceImpl::method_with_uint(const lorem_ipsum::test::optional<uint32_t>& input) { return input; }
 
-std::optional< NullableInterface::SomeStruct >
-NullableInterfaceImpl::method_with_some_struct( const std::optional< NullableInterface::SomeStruct >& input )
+lorem_ipsum::test::optional< NullableInterface::SomeStruct >
+NullableInterfaceImpl::method_with_some_struct( const lorem_ipsum::test::optional< NullableInterface::SomeStruct >& input )
 {
     return input;
 }
 
-std::optional< NullableInterface::SomeEnum >
-NullableInterfaceImpl::method_with_some_enum( const std::optional< NullableInterface::SomeEnum >& input )
+lorem_ipsum::test::optional< NullableInterface::SomeEnum >
+NullableInterfaceImpl::method_with_some_enum( const lorem_ipsum::test::optional< NullableInterface::SomeEnum >& input )
 {
     return input;
 }
 
-std::optional< NullableInterface::SomeArray >
+lorem_ipsum::test::optional< NullableInterface::SomeArray >
 NullableInterfaceImpl::method_with_some_array(
-  const std::optional< NullableInterface::SomeArray >& input )
+  const lorem_ipsum::test::optional< NullableInterface::SomeArray >& input )
 {
     return input;
 }
 
-std::optional< ::std::vector< ::std::string > >
+lorem_ipsum::test::optional< ::std::vector< ::std::string > >
 NullableInterfaceImpl::method_with_inline_array(
-    const std::optional< ::std::vector< ::std::string > >& input )
+    const lorem_ipsum::test::optional< ::std::vector< ::std::string > >& input )
 {
     return input;
 }
 
-std::optional< NullableInterface::SomeMap >
-NullableInterfaceImpl::method_with_some_map( const std::optional< NullableInterface::SomeMap >& input )
+lorem_ipsum::test::optional< NullableInterface::SomeMap >
+NullableInterfaceImpl::method_with_some_map( const lorem_ipsum::test::optional< NullableInterface::SomeMap >& input )
 {
     return input;
 }
 
-std::optional< ::std::string >
+lorem_ipsum::test::optional< ::std::string >
 NullableInterfaceImpl::get_string_attribute(  ) const
 {
     return m_string_value;
 }
 
 void
-NullableInterfaceImpl::set_string_attribute( const std::optional< ::std::string >& value )
+NullableInterfaceImpl::set_string_attribute( const lorem_ipsum::test::optional< ::std::string >& value )
 {
     m_string_value = value;
 }
 
-std::optional< bool >
+lorem_ipsum::test::optional< bool >
 NullableInterfaceImpl::is_bool_attribute(  ) const
 {
     return m_bool_value;
 }
 
 void
-NullableInterfaceImpl::set_bool_attribute( const std::optional< bool >& value )
+NullableInterfaceImpl::set_bool_attribute( const lorem_ipsum::test::optional< bool >& value )
 {
     m_bool_value = value;
 }
 
-std::optional< double >
+lorem_ipsum::test::optional< double >
 NullableInterfaceImpl::get_double_attribute(  ) const
 {
     return m_double_value;
 }
 
 void
-NullableInterfaceImpl::set_double_attribute( const std::optional< double >& value )
+NullableInterfaceImpl::set_double_attribute( const lorem_ipsum::test::optional< double >& value )
 {
     m_double_value = value;
 }
 
-std::optional< int64_t >
+lorem_ipsum::test::optional< int64_t >
 NullableInterfaceImpl::get_int_attribute(  ) const
 {
     return m_int_value;
 }
 
 void
-NullableInterfaceImpl::set_int_attribute( const std::optional< int64_t >& value )
+NullableInterfaceImpl::set_int_attribute( const lorem_ipsum::test::optional< int64_t >& value )
 {
     m_int_value = value;
 }
 
-std::optional< NullableInterface::SomeStruct >
+lorem_ipsum::test::optional< NullableInterface::SomeStruct >
 NullableInterfaceImpl::get_struct_attribute(  ) const
 {
     return m_struct_value;
 }
 
 void
-NullableInterfaceImpl::set_struct_attribute( const std::optional< NullableInterface::SomeStruct >& value )
+NullableInterfaceImpl::set_struct_attribute( const lorem_ipsum::test::optional< NullableInterface::SomeStruct >& value )
 {
     m_struct_value = value;
 }
 
-std::optional< NullableInterface::SomeEnum >
+lorem_ipsum::test::optional< NullableInterface::SomeEnum >
 NullableInterfaceImpl::get_enum_attribute(  ) const
 {
     return m_enum_value;
 }
 
 void
-NullableInterfaceImpl::set_enum_attribute( const std::optional< NullableInterface::SomeEnum >& value )
+NullableInterfaceImpl::set_enum_attribute( const lorem_ipsum::test::optional< NullableInterface::SomeEnum >& value )
 {
     m_enum_value = value;
 }
 
-std::optional< NullableInterface::SomeArray >
+lorem_ipsum::test::optional< NullableInterface::SomeArray >
 NullableInterfaceImpl::get_array_attribute(  ) const
 {
     return m_array_value;
 }
 
 void
-NullableInterfaceImpl::set_array_attribute( const std::optional< NullableInterface::SomeArray >& value )
+NullableInterfaceImpl::set_array_attribute( const lorem_ipsum::test::optional< NullableInterface::SomeArray >& value )
 {
     m_array_value = value;
 }
 
-std::optional< ::std::vector< ::std::string > >
+lorem_ipsum::test::optional< ::std::vector< ::std::string > >
 NullableInterfaceImpl::get_inline_array_attribute(  ) const
 {
     return m_array_value;
@@ -194,35 +194,35 @@ NullableInterfaceImpl::get_inline_array_attribute(  ) const
 
 void
 NullableInterfaceImpl::set_inline_array_attribute(
-    const std::optional< ::std::vector< ::std::string > >& value )
+    const lorem_ipsum::test::optional< ::std::vector< ::std::string > >& value )
 {
     m_array_value = value;
 }
 
-std::optional< NullableInterface::SomeMap >
+lorem_ipsum::test::optional< NullableInterface::SomeMap >
 NullableInterfaceImpl::get_map_attribute(  ) const
 {
     return m_map_value;
 }
 
 void
-NullableInterfaceImpl::set_map_attribute( const std::optional< NullableInterface::SomeMap >& value )
+NullableInterfaceImpl::set_map_attribute( const lorem_ipsum::test::optional< NullableInterface::SomeMap >& value )
 {
     m_map_value = value;
 }
 
-std::optional< double >
+lorem_ipsum::test::optional< double >
 NullableInterface::nullable_listener_method_round_trip(
     const std::shared_ptr< ::test::NullableListener >& listener,
-    const std::optional< double >& input )
+    const lorem_ipsum::test::optional< double >& input )
 {
     return listener->method_with_double( input );
 }
 
-std::optional< std::vector< ::std::string > >
+lorem_ipsum::test::optional< std::vector< ::std::string > >
 NullableInterface::nullable_listener_attribute_round_trip(
     const std::shared_ptr< ::test::NullableListener >& listener,
-    const std::optional< ::std::vector< ::std::string > >& input )
+    const lorem_ipsum::test::optional< ::std::vector< ::std::string > >& input )
 {
     listener->set_array_attribute( input );
     return listener->get_array_attribute( );
