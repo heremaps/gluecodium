@@ -11,8 +11,8 @@
 #include "foo/AlienEnum3.h"
 #include "foo/AlienEnum4.h"
 #include "gluecodium/ExportGluecodiumCpp.h"
+#include "gluecodium/Optional.h"
 #include "smoke/EnumWrapper.h"
-#include <optional>
 
 namespace smoke {
 class _GLUECODIUM_CPP_EXPORT EnumDefaultsExternal {
@@ -33,11 +33,11 @@ public:
     };
 
     struct _GLUECODIUM_CPP_EXPORT NullableEnum {
-        std::optional< foo::AlienEnum2 > enum_field1 = std::optional< foo::AlienEnum2 >();
-        std::optional< foo::AlienEnum2 > enum_field2 = foo::AlienEnum2::DISABLED;
+        ::gluecodium::optional< foo::AlienEnum2 > enum_field1 = ::gluecodium::optional< foo::AlienEnum2 >();
+        ::gluecodium::optional< foo::AlienEnum2 > enum_field2 = foo::AlienEnum2::DISABLED;
 
         NullableEnum( );
-        NullableEnum( std::optional< foo::AlienEnum2 > enum_field1, std::optional< foo::AlienEnum2 > enum_field2 );
+        NullableEnum( ::gluecodium::optional< foo::AlienEnum2 > enum_field1, ::gluecodium::optional< foo::AlienEnum2 > enum_field2 );
 
     };
 

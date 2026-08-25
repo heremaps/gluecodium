@@ -44,12 +44,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput_ext, TypeId
     return _nout;
 }
 
-std::optional<::smoke::JavaExternalCtor>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<::smoke::JavaExternalCtor>>)
+::gluecodium::optional<::smoke::JavaExternalCtor>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::gluecodium::optional<::smoke::JavaExternalCtor>>)
 {
     return _jinput
-        ? std::optional<::smoke::JavaExternalCtor>(convert_from_jni(_jenv, _jinput, TypeId<::smoke::JavaExternalCtor>{}))
-        : std::optional<::smoke::JavaExternalCtor>{};
+        ? ::gluecodium::optional<::smoke::JavaExternalCtor>(convert_from_jni(_jenv, _jinput, TypeId<::smoke::JavaExternalCtor>{}))
+        : ::gluecodium::optional<::smoke::JavaExternalCtor>{};
 }
 
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/JavaExternalCtor", com_example_smoke_JavaExternalCtor, ::smoke::JavaExternalCtor)
@@ -85,7 +85,7 @@ convert_to_jni_internal(JNIEnv* _jenv, const ::smoke::JavaExternalCtor& _ninput)
 }
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::optional<::smoke::JavaExternalCtor> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::JavaExternalCtor> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

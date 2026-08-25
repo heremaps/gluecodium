@@ -17,8 +17,8 @@ com_example_smoke_ListenerWithNullable_CppProxy::com_example_smoke_ListenerWithN
     : CppProxyBase(std::move(globalRef), _jHashCode, "com_example_smoke_ListenerWithNullable") {
 }
 
-std::optional< int8_t >
-com_example_smoke_ListenerWithNullable_CppProxy::method_with_byte( const std::optional< int8_t >& ninput ) {
+::gluecodium::optional< int8_t >
+com_example_smoke_ListenerWithNullable_CppProxy::method_with_byte( const ::gluecodium::optional< int8_t >& ninput ) {
 
     JNIEnv* jniEnv = getJniEnvironment( );
     auto jinput = convert_to_jni( jniEnv, ninput );
@@ -26,14 +26,14 @@ com_example_smoke_ListenerWithNullable_CppProxy::method_with_byte( const std::op
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, TypeId<std::optional< int8_t >>{});
+    return convert_from_jni( jniEnv, _result, TypeId<::gluecodium::optional< int8_t >>{});
 
 
 
 }
 
-std::optional< uint8_t >
-com_example_smoke_ListenerWithNullable_CppProxy::method_with_u_byte( const std::optional< uint8_t >& ninput ) {
+::gluecodium::optional< uint8_t >
+com_example_smoke_ListenerWithNullable_CppProxy::method_with_u_byte( const ::gluecodium::optional< uint8_t >& ninput ) {
 
     JNIEnv* jniEnv = getJniEnvironment( );
     auto jinput = convert_to_jni( jniEnv, ninput );
@@ -41,14 +41,14 @@ com_example_smoke_ListenerWithNullable_CppProxy::method_with_u_byte( const std::
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, TypeId<std::optional< uint8_t >>{});
+    return convert_from_jni( jniEnv, _result, TypeId<::gluecodium::optional< uint8_t >>{});
 
 
 
 }
 
-std::optional< int16_t >
-com_example_smoke_ListenerWithNullable_CppProxy::method_with_short( const std::optional< int16_t >& ninput ) {
+::gluecodium::optional< int16_t >
+com_example_smoke_ListenerWithNullable_CppProxy::method_with_short( const ::gluecodium::optional< int16_t >& ninput ) {
 
     JNIEnv* jniEnv = getJniEnvironment( );
     auto jinput = convert_to_jni( jniEnv, ninput );
@@ -56,14 +56,14 @@ com_example_smoke_ListenerWithNullable_CppProxy::method_with_short( const std::o
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, TypeId<std::optional< int16_t >>{});
+    return convert_from_jni( jniEnv, _result, TypeId<::gluecodium::optional< int16_t >>{});
 
 
 
 }
 
-std::optional< uint16_t >
-com_example_smoke_ListenerWithNullable_CppProxy::method_with_u_short( const std::optional< uint16_t >& ninput ) {
+::gluecodium::optional< uint16_t >
+com_example_smoke_ListenerWithNullable_CppProxy::method_with_u_short( const ::gluecodium::optional< uint16_t >& ninput ) {
 
     JNIEnv* jniEnv = getJniEnvironment( );
     auto jinput = convert_to_jni( jniEnv, ninput );
@@ -71,14 +71,14 @@ com_example_smoke_ListenerWithNullable_CppProxy::method_with_u_short( const std:
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, TypeId<std::optional< uint16_t >>{});
+    return convert_from_jni( jniEnv, _result, TypeId<::gluecodium::optional< uint16_t >>{});
 
 
 
 }
 
-std::optional< int32_t >
-com_example_smoke_ListenerWithNullable_CppProxy::method_with_int( const std::optional< int32_t >& ninput ) {
+::gluecodium::optional< int32_t >
+com_example_smoke_ListenerWithNullable_CppProxy::method_with_int( const ::gluecodium::optional< int32_t >& ninput ) {
 
     JNIEnv* jniEnv = getJniEnvironment( );
     auto jinput = convert_to_jni( jniEnv, ninput );
@@ -86,14 +86,14 @@ com_example_smoke_ListenerWithNullable_CppProxy::method_with_int( const std::opt
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, TypeId<std::optional< int32_t >>{});
+    return convert_from_jni( jniEnv, _result, TypeId<::gluecodium::optional< int32_t >>{});
 
 
 
 }
 
-std::optional< uint32_t >
-com_example_smoke_ListenerWithNullable_CppProxy::method_with_u_int( const std::optional< uint32_t >& ninput ) {
+::gluecodium::optional< uint32_t >
+com_example_smoke_ListenerWithNullable_CppProxy::method_with_u_int( const ::gluecodium::optional< uint32_t >& ninput ) {
 
     JNIEnv* jniEnv = getJniEnvironment( );
     auto jinput = convert_to_jni( jniEnv, ninput );
@@ -101,14 +101,14 @@ com_example_smoke_ListenerWithNullable_CppProxy::method_with_u_int( const std::o
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, TypeId<std::optional< uint32_t >>{});
+    return convert_from_jni( jniEnv, _result, TypeId<::gluecodium::optional< uint32_t >>{});
 
 
 
 }
 
-std::optional< int64_t >
-com_example_smoke_ListenerWithNullable_CppProxy::method_with_long( const std::optional< int64_t >& ninput ) {
+::gluecodium::optional< int64_t >
+com_example_smoke_ListenerWithNullable_CppProxy::method_with_long( const ::gluecodium::optional< int64_t >& ninput ) {
 
     JNIEnv* jniEnv = getJniEnvironment( );
     auto jinput = convert_to_jni( jniEnv, ninput );
@@ -116,14 +116,14 @@ com_example_smoke_ListenerWithNullable_CppProxy::method_with_long( const std::op
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, TypeId<std::optional< int64_t >>{});
+    return convert_from_jni( jniEnv, _result, TypeId<::gluecodium::optional< int64_t >>{});
 
 
 
 }
 
-std::optional< uint64_t >
-com_example_smoke_ListenerWithNullable_CppProxy::method_with_u_long( const std::optional< uint64_t >& ninput ) {
+::gluecodium::optional< uint64_t >
+com_example_smoke_ListenerWithNullable_CppProxy::method_with_u_long( const ::gluecodium::optional< uint64_t >& ninput ) {
 
     JNIEnv* jniEnv = getJniEnvironment( );
     auto jinput = convert_to_jni( jniEnv, ninput );
@@ -131,14 +131,14 @@ com_example_smoke_ListenerWithNullable_CppProxy::method_with_u_long( const std::
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, TypeId<std::optional< uint64_t >>{});
+    return convert_from_jni( jniEnv, _result, TypeId<::gluecodium::optional< uint64_t >>{});
 
 
 
 }
 
-std::optional< bool >
-com_example_smoke_ListenerWithNullable_CppProxy::method_with_double( const std::optional< bool >& ninput ) {
+::gluecodium::optional< bool >
+com_example_smoke_ListenerWithNullable_CppProxy::method_with_double( const ::gluecodium::optional< bool >& ninput ) {
 
     JNIEnv* jniEnv = getJniEnvironment( );
     auto jinput = convert_to_jni( jniEnv, ninput );
@@ -146,14 +146,14 @@ com_example_smoke_ListenerWithNullable_CppProxy::method_with_double( const std::
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, TypeId<std::optional< bool >>{});
+    return convert_from_jni( jniEnv, _result, TypeId<::gluecodium::optional< bool >>{});
 
 
 
 }
 
-std::optional< float >
-com_example_smoke_ListenerWithNullable_CppProxy::method_with_float( const std::optional< float >& ninput ) {
+::gluecodium::optional< float >
+com_example_smoke_ListenerWithNullable_CppProxy::method_with_float( const ::gluecodium::optional< float >& ninput ) {
 
     JNIEnv* jniEnv = getJniEnvironment( );
     auto jinput = convert_to_jni( jniEnv, ninput );
@@ -161,14 +161,14 @@ com_example_smoke_ListenerWithNullable_CppProxy::method_with_float( const std::o
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, TypeId<std::optional< float >>{});
+    return convert_from_jni( jniEnv, _result, TypeId<::gluecodium::optional< float >>{});
 
 
 
 }
 
-std::optional< double >
-com_example_smoke_ListenerWithNullable_CppProxy::method_with_double( const std::optional< double >& ninput ) {
+::gluecodium::optional< double >
+com_example_smoke_ListenerWithNullable_CppProxy::method_with_double( const ::gluecodium::optional< double >& ninput ) {
 
     JNIEnv* jniEnv = getJniEnvironment( );
     auto jinput = convert_to_jni( jniEnv, ninput );
@@ -176,7 +176,7 @@ com_example_smoke_ListenerWithNullable_CppProxy::method_with_double( const std::
 
     checkExceptionAndReportIfAny(jniEnv);
 
-    return convert_from_jni( jniEnv, _result, TypeId<std::optional< double >>{});
+    return convert_from_jni( jniEnv, _result, TypeId<::gluecodium::optional< double >>{});
 
 
 

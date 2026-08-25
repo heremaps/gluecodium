@@ -69,15 +69,15 @@ com_example_smoke_StandaloneProducer_convert_to_jni(JNIEnv* _jenv, const ::smoke
     return jResult;
 }
 
-std::optional<::smoke::StandaloneProducer>
-com_example_smoke_StandaloneProducer_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<std::optional<::smoke::StandaloneProducer>>) {
+::gluecodium::optional<::smoke::StandaloneProducer>
+com_example_smoke_StandaloneProducer_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<::gluecodium::optional<::smoke::StandaloneProducer>>) {
     return _jobj
-        ? std::optional<::smoke::StandaloneProducer>(com_example_smoke_StandaloneProducer_convert_from_jni(_env, _jobj, TypeId<::smoke::StandaloneProducer>{}))
-        : std::optional<::smoke::StandaloneProducer>{};
+        ? ::gluecodium::optional<::smoke::StandaloneProducer>(com_example_smoke_StandaloneProducer_convert_from_jni(_env, _jobj, TypeId<::smoke::StandaloneProducer>{}))
+        : ::gluecodium::optional<::smoke::StandaloneProducer>{};
 }
 
 JniReference<jobject>
-com_example_smoke_StandaloneProducer_convert_to_jni(JNIEnv* _env, const std::optional<::smoke::StandaloneProducer>& _ninput) {
+com_example_smoke_StandaloneProducer_convert_to_jni(JNIEnv* _env, const ::gluecodium::optional<::smoke::StandaloneProducer>& _ninput) {
     return _ninput ? com_example_smoke_StandaloneProducer_convert_to_jni(_env, *_ninput) : JniReference<jobject>{};
 }
 
@@ -95,7 +95,7 @@ com_example_smoke_StandaloneProducer_convert_to_jni(JNIEnv* const env, const std
 }
 
 JniReference<jobject>
-com_example_smoke_StandaloneProducer_convert_to_jni(JNIEnv* _env, const std::optional<std::vector<::smoke::StandaloneProducer>>& _ninput) {
+com_example_smoke_StandaloneProducer_convert_to_jni(JNIEnv* _env, const ::gluecodium::optional<std::vector<::smoke::StandaloneProducer>>& _ninput) {
     return _ninput ? com_example_smoke_StandaloneProducer_convert_to_jni(_env, *_ninput) : JniReference<jobject>{};
 }
 
@@ -122,11 +122,11 @@ com_example_smoke_StandaloneProducer_convert_from_jni(JNIEnv* const env, const J
     return result;
 }
 
-std::optional<std::vector<::smoke::StandaloneProducer>>
-com_example_smoke_StandaloneProducer_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, TypeId<std::optional<std::vector<::smoke::StandaloneProducer>>>) {
+::gluecodium::optional<std::vector<::smoke::StandaloneProducer>>
+com_example_smoke_StandaloneProducer_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, TypeId<::gluecodium::optional<std::vector<::smoke::StandaloneProducer>>>) {
     return _arrayList
-        ? std::optional<std::vector<::smoke::StandaloneProducer>>(com_example_smoke_StandaloneProducer_convert_from_jni(_env, _arrayList, TypeId<std::vector<::smoke::StandaloneProducer>>{}))
-        : std::optional<std::vector<::smoke::StandaloneProducer>>{};
+        ? ::gluecodium::optional<std::vector<::smoke::StandaloneProducer>>(com_example_smoke_StandaloneProducer_convert_from_jni(_env, _arrayList, TypeId<std::vector<::smoke::StandaloneProducer>>{}))
+        : ::gluecodium::optional<std::vector<::smoke::StandaloneProducer>>{};
 }
 }
 }

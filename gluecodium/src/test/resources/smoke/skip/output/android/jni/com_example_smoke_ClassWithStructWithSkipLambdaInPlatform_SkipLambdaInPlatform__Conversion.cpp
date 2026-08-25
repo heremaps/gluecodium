@@ -27,12 +27,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::s
     return _nout;
 }
 
-std::optional<::smoke::ClassWithStructWithSkipLambdaInPlatform::SkipLambdaInPlatform>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<::smoke::ClassWithStructWithSkipLambdaInPlatform::SkipLambdaInPlatform>>)
+::gluecodium::optional<::smoke::ClassWithStructWithSkipLambdaInPlatform::SkipLambdaInPlatform>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::gluecodium::optional<::smoke::ClassWithStructWithSkipLambdaInPlatform::SkipLambdaInPlatform>>)
 {
     return _jinput
-        ? std::optional<::smoke::ClassWithStructWithSkipLambdaInPlatform::SkipLambdaInPlatform>(convert_from_jni(_jenv, _jinput, TypeId<::smoke::ClassWithStructWithSkipLambdaInPlatform::SkipLambdaInPlatform>{}))
-        : std::optional<::smoke::ClassWithStructWithSkipLambdaInPlatform::SkipLambdaInPlatform>{};
+        ? ::gluecodium::optional<::smoke::ClassWithStructWithSkipLambdaInPlatform::SkipLambdaInPlatform>(convert_from_jni(_jenv, _jinput, TypeId<::smoke::ClassWithStructWithSkipLambdaInPlatform::SkipLambdaInPlatform>{}))
+        : ::gluecodium::optional<::smoke::ClassWithStructWithSkipLambdaInPlatform::SkipLambdaInPlatform>{};
 }
 
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/ClassWithStructWithSkipLambdaInPlatform$SkipLambdaInPlatform", com_example_smoke_ClassWithStructWithSkipLambdaInPlatform_00024SkipLambdaInPlatform, ::smoke::ClassWithStructWithSkipLambdaInPlatform::SkipLambdaInPlatform)
@@ -48,7 +48,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::ClassWithStructWithSkipLambdaInPlat
 }
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::optional<::smoke::ClassWithStructWithSkipLambdaInPlatform::SkipLambdaInPlatform> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::ClassWithStructWithSkipLambdaInPlatform::SkipLambdaInPlatform> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

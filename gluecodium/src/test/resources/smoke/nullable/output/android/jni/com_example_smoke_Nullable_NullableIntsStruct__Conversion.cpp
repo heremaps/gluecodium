@@ -18,63 +18,63 @@ namespace jni
 convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::smoke::Nullable::NullableIntsStruct>)
 {
     ::smoke::Nullable::NullableIntsStruct _nout{};
-    std::optional< int8_t > n_int8_field = ::gluecodium::jni::get_field_value(
+    ::gluecodium::optional< int8_t > n_int8_field = ::gluecodium::jni::get_field_value(
         _jenv,
         _jinput,
         "int8Field",
-        TypeId<std::optional< int8_t >>{} );
+        TypeId<::gluecodium::optional< int8_t >>{} );
     _nout.int8_field = n_int8_field;
-    std::optional< int16_t > n_int16_field = ::gluecodium::jni::get_field_value(
+    ::gluecodium::optional< int16_t > n_int16_field = ::gluecodium::jni::get_field_value(
         _jenv,
         _jinput,
         "int16Field",
-        TypeId<std::optional< int16_t >>{} );
+        TypeId<::gluecodium::optional< int16_t >>{} );
     _nout.int16_field = n_int16_field;
-    std::optional< int32_t > n_int32_field = ::gluecodium::jni::get_field_value(
+    ::gluecodium::optional< int32_t > n_int32_field = ::gluecodium::jni::get_field_value(
         _jenv,
         _jinput,
         "int32Field",
-        TypeId<std::optional< int32_t >>{} );
+        TypeId<::gluecodium::optional< int32_t >>{} );
     _nout.int32_field = n_int32_field;
-    std::optional< int64_t > n_int64_field = ::gluecodium::jni::get_field_value(
+    ::gluecodium::optional< int64_t > n_int64_field = ::gluecodium::jni::get_field_value(
         _jenv,
         _jinput,
         "int64Field",
-        TypeId<std::optional< int64_t >>{} );
+        TypeId<::gluecodium::optional< int64_t >>{} );
     _nout.int64_field = n_int64_field;
-    std::optional< uint8_t > n_uint8_field = ::gluecodium::jni::get_field_value(
+    ::gluecodium::optional< uint8_t > n_uint8_field = ::gluecodium::jni::get_field_value(
         _jenv,
         _jinput,
         "uint8Field",
-        TypeId<std::optional< uint8_t >>{} );
+        TypeId<::gluecodium::optional< uint8_t >>{} );
     _nout.uint8_field = n_uint8_field;
-    std::optional< uint16_t > n_uint16_field = ::gluecodium::jni::get_field_value(
+    ::gluecodium::optional< uint16_t > n_uint16_field = ::gluecodium::jni::get_field_value(
         _jenv,
         _jinput,
         "uint16Field",
-        TypeId<std::optional< uint16_t >>{} );
+        TypeId<::gluecodium::optional< uint16_t >>{} );
     _nout.uint16_field = n_uint16_field;
-    std::optional< uint32_t > n_uint32_field = ::gluecodium::jni::get_field_value(
+    ::gluecodium::optional< uint32_t > n_uint32_field = ::gluecodium::jni::get_field_value(
         _jenv,
         _jinput,
         "uint32Field",
-        TypeId<std::optional< uint32_t >>{} );
+        TypeId<::gluecodium::optional< uint32_t >>{} );
     _nout.uint32_field = n_uint32_field;
-    std::optional< uint64_t > n_uint64_field = ::gluecodium::jni::get_field_value(
+    ::gluecodium::optional< uint64_t > n_uint64_field = ::gluecodium::jni::get_field_value(
         _jenv,
         _jinput,
         "uint64Field",
-        TypeId<std::optional< uint64_t >>{} );
+        TypeId<::gluecodium::optional< uint64_t >>{} );
     _nout.uint64_field = n_uint64_field;
     return _nout;
 }
 
-std::optional<::smoke::Nullable::NullableIntsStruct>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<::smoke::Nullable::NullableIntsStruct>>)
+::gluecodium::optional<::smoke::Nullable::NullableIntsStruct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::gluecodium::optional<::smoke::Nullable::NullableIntsStruct>>)
 {
     return _jinput
-        ? std::optional<::smoke::Nullable::NullableIntsStruct>(convert_from_jni(_jenv, _jinput, TypeId<::smoke::Nullable::NullableIntsStruct>{}))
-        : std::optional<::smoke::Nullable::NullableIntsStruct>{};
+        ? ::gluecodium::optional<::smoke::Nullable::NullableIntsStruct>(convert_from_jni(_jenv, _jinput, TypeId<::smoke::Nullable::NullableIntsStruct>{}))
+        : ::gluecodium::optional<::smoke::Nullable::NullableIntsStruct>{};
 }
 
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/Nullable$NullableIntsStruct", com_example_smoke_Nullable_00024NullableIntsStruct, ::smoke::Nullable::NullableIntsStruct)
@@ -104,7 +104,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Nullable::NullableIntsStruct& _ninp
 }
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::optional<::smoke::Nullable::NullableIntsStruct> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::Nullable::NullableIntsStruct> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

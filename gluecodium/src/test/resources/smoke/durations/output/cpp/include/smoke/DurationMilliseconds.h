@@ -8,11 +8,11 @@
 
 #include "gluecodium/DurationHash.h"
 #include "gluecodium/ExportGluecodiumCpp.h"
+#include "gluecodium/Optional.h"
 #include "gluecodium/UnorderedMapHash.h"
 #include "gluecodium/UnorderedSetHash.h"
 #include "gluecodium/VectorHash.h"
 #include <chrono>
-#include <optional>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -46,7 +46,7 @@ public:
 
 public:
     virtual std::chrono::milliseconds duration_function( const std::chrono::milliseconds input ) = 0;
-    virtual std::optional< std::chrono::milliseconds > nullable_duration_function( const std::optional< std::chrono::milliseconds >& input ) = 0;
+    virtual ::gluecodium::optional< std::chrono::milliseconds > nullable_duration_function( const ::gluecodium::optional< std::chrono::milliseconds >& input ) = 0;
     virtual std::chrono::milliseconds get_duration_property(  ) const = 0;
     virtual void set_duration_property( const std::chrono::milliseconds value ) = 0;
 

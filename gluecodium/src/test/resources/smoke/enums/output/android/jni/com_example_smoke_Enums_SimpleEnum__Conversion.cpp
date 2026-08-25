@@ -20,12 +20,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::s
         ::gluecodium::jni::get_field_value(_jenv, _jinput, "value", TypeId<int32_t>{}));
 }
 
-std::optional<::smoke::Enums::SimpleEnum>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<::smoke::Enums::SimpleEnum>>)
+::gluecodium::optional<::smoke::Enums::SimpleEnum>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::gluecodium::optional<::smoke::Enums::SimpleEnum>>)
 {
     return _jinput
-        ? std::optional<::smoke::Enums::SimpleEnum>(convert_from_jni(_jenv, _jinput, TypeId<::smoke::Enums::SimpleEnum>{}))
-        : std::optional<::smoke::Enums::SimpleEnum>{};
+        ? ::gluecodium::optional<::smoke::Enums::SimpleEnum>(convert_from_jni(_jenv, _jinput, TypeId<::smoke::Enums::SimpleEnum>{}))
+        : ::gluecodium::optional<::smoke::Enums::SimpleEnum>{};
 }
 
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/Enums$SimpleEnum", com_example_smoke_Enums_00024SimpleEnum, ::smoke::Enums::SimpleEnum)
@@ -48,7 +48,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Enums::SimpleEnum _ninput)
 }
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::optional<::smoke::Enums::SimpleEnum> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::Enums::SimpleEnum> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

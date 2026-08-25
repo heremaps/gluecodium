@@ -41,20 +41,20 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::s
         ::gluecodium::jni::get_object_field_value(_jenv, _jinput, "nontrivialPointField", "Lcom/example/smoke/Structs$Point;"),
         TypeId<::smoke::Structs::Point>{} );
     _nout.set_nontrivial_point_field(n_nontrivial_point_field);
-    std::optional< ::smoke::Structs::Point > n_nontrivial_optional_point = convert_from_jni(
+    ::gluecodium::optional< ::smoke::Structs::Point > n_nontrivial_optional_point = convert_from_jni(
         _jenv,
         ::gluecodium::jni::get_object_field_value(_jenv, _jinput, "nontrivialOptionalPoint", "Lcom/example/smoke/Structs$Point;"),
-        TypeId<std::optional< ::smoke::Structs::Point >>{} );
+        TypeId<::gluecodium::optional< ::smoke::Structs::Point >>{} );
     _nout.set_nontrivial_optional_point(n_nontrivial_optional_point);
     return _nout;
 }
 
-std::optional<::smoke::Structs::MutableStructWithCppAccessors>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<::smoke::Structs::MutableStructWithCppAccessors>>)
+::gluecodium::optional<::smoke::Structs::MutableStructWithCppAccessors>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::gluecodium::optional<::smoke::Structs::MutableStructWithCppAccessors>>)
 {
     return _jinput
-        ? std::optional<::smoke::Structs::MutableStructWithCppAccessors>(convert_from_jni(_jenv, _jinput, TypeId<::smoke::Structs::MutableStructWithCppAccessors>{}))
-        : std::optional<::smoke::Structs::MutableStructWithCppAccessors>{};
+        ? ::gluecodium::optional<::smoke::Structs::MutableStructWithCppAccessors>(convert_from_jni(_jenv, _jinput, TypeId<::smoke::Structs::MutableStructWithCppAccessors>{}))
+        : ::gluecodium::optional<::smoke::Structs::MutableStructWithCppAccessors>{};
 }
 
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$MutableStructWithCppAccessors", com_example_smoke_Structs_00024MutableStructWithCppAccessors, ::smoke::Structs::MutableStructWithCppAccessors)
@@ -80,7 +80,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::MutableStructWithCppAccess
 }
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::optional<::smoke::Structs::MutableStructWithCppAccessors> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::Structs::MutableStructWithCppAccessors> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

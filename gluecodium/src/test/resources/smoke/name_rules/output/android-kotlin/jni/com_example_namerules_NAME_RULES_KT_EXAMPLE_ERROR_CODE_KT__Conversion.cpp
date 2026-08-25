@@ -18,12 +18,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::n
         ::jni::get_field_value(_jenv, _jinput, "value", TypeId<int32_t>{}));
 }
 
-std::optional<::namerules::NameRules::ExampleErrorCode>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<::namerules::NameRules::ExampleErrorCode>>)
+::optional<::namerules::NameRules::ExampleErrorCode>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::optional<::namerules::NameRules::ExampleErrorCode>>)
 {
     return _jinput
-        ? std::optional<::namerules::NameRules::ExampleErrorCode>(convert_from_jni(_jenv, _jinput, TypeId<::namerules::NameRules::ExampleErrorCode>{}))
-        : std::optional<::namerules::NameRules::ExampleErrorCode>{};
+        ? ::optional<::namerules::NameRules::ExampleErrorCode>(convert_from_jni(_jenv, _jinput, TypeId<::namerules::NameRules::ExampleErrorCode>{}))
+        : ::optional<::namerules::NameRules::ExampleErrorCode>{};
 }
 
 REGISTER_JNI_CLASS_CACHE("com/example/namerules/NAME_RULES_KT$EXAMPLE_ERROR_CODE_KT", com_example_namerules_NAME_1RULES_1KT_00024EXAMPLE_1ERROR_1CODE_1KT, ::namerules::NameRules::ExampleErrorCode)
@@ -46,7 +46,7 @@ convert_to_jni(JNIEnv* _jenv, const ::namerules::NameRules::ExampleErrorCode _ni
 }
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::optional<::namerules::NameRules::ExampleErrorCode> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::optional<::namerules::NameRules::ExampleErrorCode> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

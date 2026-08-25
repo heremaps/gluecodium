@@ -62,12 +62,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput_ext, TypeId
     return _nout;
 }
 
-std::optional<::kotlin_smoke::SystemColor>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<::kotlin_smoke::SystemColor>>)
+::gluecodium::optional<::kotlin_smoke::SystemColor>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::gluecodium::optional<::kotlin_smoke::SystemColor>>)
 {
     return _jinput
-        ? std::optional<::kotlin_smoke::SystemColor>(convert_from_jni(_jenv, _jinput, TypeId<::kotlin_smoke::SystemColor>{}))
-        : std::optional<::kotlin_smoke::SystemColor>{};
+        ? ::gluecodium::optional<::kotlin_smoke::SystemColor>(convert_from_jni(_jenv, _jinput, TypeId<::kotlin_smoke::SystemColor>{}))
+        : ::gluecodium::optional<::kotlin_smoke::SystemColor>{};
 }
 
 REGISTER_JNI_CLASS_CACHE("com/example/kotlinsmoke/SystemColor", com_example_kotlinsmoke_SystemColor, ::kotlin_smoke::SystemColor)
@@ -99,7 +99,7 @@ convert_to_jni(JNIEnv* _jenv, const ::kotlin_smoke::SystemColor& _ninput)
 }
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::optional<::kotlin_smoke::SystemColor> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::kotlin_smoke::SystemColor> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

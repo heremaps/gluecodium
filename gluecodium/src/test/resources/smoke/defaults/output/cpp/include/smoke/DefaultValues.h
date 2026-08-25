@@ -7,12 +7,12 @@
 #pragma once
 
 #include "gluecodium/ExportGluecodiumCpp.h"
+#include "gluecodium/Optional.h"
 #include "gluecodium/UnorderedMapHash.h"
 #include "gluecodium/UnorderedSetHash.h"
 #include "gluecodium/VectorHash.h"
 #include <cstdint>
 #include <limits>
-#include <optional>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -52,14 +52,14 @@ public:
     };
 
     struct _GLUECODIUM_CPP_EXPORT NullableStructWithDefaults {
-        std::optional< int32_t > int_field = std::optional< int32_t >();
-        std::optional< uint32_t > uint_field = std::optional< uint32_t >();
-        std::optional< float > float_field = std::optional< float >();
-        std::optional< bool > bool_field = std::optional< bool >();
-        std::optional< ::std::string > string_field = std::optional< ::std::string >();
+        ::gluecodium::optional< int32_t > int_field = ::gluecodium::optional< int32_t >();
+        ::gluecodium::optional< uint32_t > uint_field = ::gluecodium::optional< uint32_t >();
+        ::gluecodium::optional< float > float_field = ::gluecodium::optional< float >();
+        ::gluecodium::optional< bool > bool_field = ::gluecodium::optional< bool >();
+        ::gluecodium::optional< ::std::string > string_field = ::gluecodium::optional< ::std::string >();
 
         NullableStructWithDefaults( );
-        NullableStructWithDefaults( std::optional< int32_t > int_field, std::optional< uint32_t > uint_field, std::optional< float > float_field, std::optional< bool > bool_field, std::optional< ::std::string > string_field );
+        NullableStructWithDefaults( ::gluecodium::optional< int32_t > int_field, ::gluecodium::optional< uint32_t > uint_field, ::gluecodium::optional< float > float_field, ::gluecodium::optional< bool > bool_field, ::gluecodium::optional< ::std::string > string_field );
 
     };
 

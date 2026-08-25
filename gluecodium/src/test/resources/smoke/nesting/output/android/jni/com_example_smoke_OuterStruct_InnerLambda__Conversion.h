@@ -10,7 +10,7 @@
 #include "JniReference.h"
 #include "JniTypeId.h"
 #include <memory>
-#include <optional>
+#include "gluecodium/Optional.h"
 
 namespace gluecodium
 {

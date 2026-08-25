@@ -46,12 +46,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::k
     return ::kotlin_smoke::KotlinExternalTypesStruct(std::move(n_currency), std::move(n_time_zone), std::move(n_month), std::move(n_color), std::move(n_season));
 }
 
-std::optional<::kotlin_smoke::KotlinExternalTypesStruct>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<::kotlin_smoke::KotlinExternalTypesStruct>>)
+::gluecodium::optional<::kotlin_smoke::KotlinExternalTypesStruct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::gluecodium::optional<::kotlin_smoke::KotlinExternalTypesStruct>>)
 {
     return _jinput
-        ? std::optional<::kotlin_smoke::KotlinExternalTypesStruct>(convert_from_jni(_jenv, _jinput, TypeId<::kotlin_smoke::KotlinExternalTypesStruct>{}))
-        : std::optional<::kotlin_smoke::KotlinExternalTypesStruct>{};
+        ? ::gluecodium::optional<::kotlin_smoke::KotlinExternalTypesStruct>(convert_from_jni(_jenv, _jinput, TypeId<::kotlin_smoke::KotlinExternalTypesStruct>{}))
+        : ::gluecodium::optional<::kotlin_smoke::KotlinExternalTypesStruct>{};
 }
 
 REGISTER_JNI_CLASS_CACHE("com/example/kotlinsmoke/KotlinExternalTypesStruct", com_example_kotlinsmoke_KotlinExternalTypesStruct, ::kotlin_smoke::KotlinExternalTypesStruct)
@@ -80,7 +80,7 @@ convert_to_jni(JNIEnv* _jenv, const ::kotlin_smoke::KotlinExternalTypesStruct& _
 }
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::optional<::kotlin_smoke::KotlinExternalTypesStruct> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::kotlin_smoke::KotlinExternalTypesStruct> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

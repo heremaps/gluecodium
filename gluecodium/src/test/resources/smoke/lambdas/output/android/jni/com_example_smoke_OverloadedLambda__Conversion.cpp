@@ -69,15 +69,15 @@ com_example_smoke_OverloadedLambda_convert_to_jni(JNIEnv* _jenv, const ::smoke::
     return jResult;
 }
 
-std::optional<::smoke::OverloadedLambda>
-com_example_smoke_OverloadedLambda_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<std::optional<::smoke::OverloadedLambda>>) {
+::gluecodium::optional<::smoke::OverloadedLambda>
+com_example_smoke_OverloadedLambda_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<::gluecodium::optional<::smoke::OverloadedLambda>>) {
     return _jobj
-        ? std::optional<::smoke::OverloadedLambda>(com_example_smoke_OverloadedLambda_convert_from_jni(_env, _jobj, TypeId<::smoke::OverloadedLambda>{}))
-        : std::optional<::smoke::OverloadedLambda>{};
+        ? ::gluecodium::optional<::smoke::OverloadedLambda>(com_example_smoke_OverloadedLambda_convert_from_jni(_env, _jobj, TypeId<::smoke::OverloadedLambda>{}))
+        : ::gluecodium::optional<::smoke::OverloadedLambda>{};
 }
 
 JniReference<jobject>
-com_example_smoke_OverloadedLambda_convert_to_jni(JNIEnv* _env, const std::optional<::smoke::OverloadedLambda>& _ninput) {
+com_example_smoke_OverloadedLambda_convert_to_jni(JNIEnv* _env, const ::gluecodium::optional<::smoke::OverloadedLambda>& _ninput) {
     return _ninput ? com_example_smoke_OverloadedLambda_convert_to_jni(_env, *_ninput) : JniReference<jobject>{};
 }
 
@@ -95,7 +95,7 @@ com_example_smoke_OverloadedLambda_convert_to_jni(JNIEnv* const env, const std::
 }
 
 JniReference<jobject>
-com_example_smoke_OverloadedLambda_convert_to_jni(JNIEnv* _env, const std::optional<std::vector<::smoke::OverloadedLambda>>& _ninput) {
+com_example_smoke_OverloadedLambda_convert_to_jni(JNIEnv* _env, const ::gluecodium::optional<std::vector<::smoke::OverloadedLambda>>& _ninput) {
     return _ninput ? com_example_smoke_OverloadedLambda_convert_to_jni(_env, *_ninput) : JniReference<jobject>{};
 }
 
@@ -122,11 +122,11 @@ com_example_smoke_OverloadedLambda_convert_from_jni(JNIEnv* const env, const Jni
     return result;
 }
 
-std::optional<std::vector<::smoke::OverloadedLambda>>
-com_example_smoke_OverloadedLambda_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, TypeId<std::optional<std::vector<::smoke::OverloadedLambda>>>) {
+::gluecodium::optional<std::vector<::smoke::OverloadedLambda>>
+com_example_smoke_OverloadedLambda_convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _arrayList, TypeId<::gluecodium::optional<std::vector<::smoke::OverloadedLambda>>>) {
     return _arrayList
-        ? std::optional<std::vector<::smoke::OverloadedLambda>>(com_example_smoke_OverloadedLambda_convert_from_jni(_env, _arrayList, TypeId<std::vector<::smoke::OverloadedLambda>>{}))
-        : std::optional<std::vector<::smoke::OverloadedLambda>>{};
+        ? ::gluecodium::optional<std::vector<::smoke::OverloadedLambda>>(com_example_smoke_OverloadedLambda_convert_from_jni(_env, _arrayList, TypeId<std::vector<::smoke::OverloadedLambda>>{}))
+        : ::gluecodium::optional<std::vector<::smoke::OverloadedLambda>>{};
 }
 }
 }

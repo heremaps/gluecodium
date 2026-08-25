@@ -36,12 +36,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::s
     return _nout;
 }
 
-std::optional<::smoke::GenericTypesWithBasicTypes::StructWithGenerics>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<::smoke::GenericTypesWithBasicTypes::StructWithGenerics>>)
+::gluecodium::optional<::smoke::GenericTypesWithBasicTypes::StructWithGenerics>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::gluecodium::optional<::smoke::GenericTypesWithBasicTypes::StructWithGenerics>>)
 {
     return _jinput
-        ? std::optional<::smoke::GenericTypesWithBasicTypes::StructWithGenerics>(convert_from_jni(_jenv, _jinput, TypeId<::smoke::GenericTypesWithBasicTypes::StructWithGenerics>{}))
-        : std::optional<::smoke::GenericTypesWithBasicTypes::StructWithGenerics>{};
+        ? ::gluecodium::optional<::smoke::GenericTypesWithBasicTypes::StructWithGenerics>(convert_from_jni(_jenv, _jinput, TypeId<::smoke::GenericTypesWithBasicTypes::StructWithGenerics>{}))
+        : ::gluecodium::optional<::smoke::GenericTypesWithBasicTypes::StructWithGenerics>{};
 }
 
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/GenericTypesWithBasicTypes$StructWithGenerics", com_example_smoke_GenericTypesWithBasicTypes_00024StructWithGenerics, ::smoke::GenericTypesWithBasicTypes::StructWithGenerics)
@@ -64,7 +64,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::GenericTypesWithBasicTypes::StructW
 }
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::optional<::smoke::GenericTypesWithBasicTypes::StructWithGenerics> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::GenericTypesWithBasicTypes::StructWithGenerics> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

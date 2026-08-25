@@ -7,11 +7,11 @@
 #pragma once
 
 #include "gluecodium/ExportGluecodiumCpp.h"
+#include "gluecodium/Optional.h"
 #include "gluecodium/VectorHash.h"
 #include "smoke/TypeCollection.h"
 #include <cstdint>
 #include <memory>
-#include <optional>
 #include <string>
 #include <vector>
 
@@ -27,6 +27,7 @@ public:
         FOO,
         BAR
     };
+
 
 
     struct _GLUECODIUM_CPP_EXPORT Point {
@@ -108,12 +109,12 @@ public:
         double trivial_double_field;
         ::std::string nontrivial_string_field;
         ::smoke::Structs::Point nontrivial_point_field;
-        std::optional< ::smoke::Structs::Point > nontrivial_optional_point = std::optional< ::smoke::Structs::Point >();
+        ::gluecodium::optional< ::smoke::Structs::Point > nontrivial_optional_point = ::gluecodium::optional< ::smoke::Structs::Point >();
     public:
 
 
         ImmutableStructWithCppAccessors( int32_t trivial_int_field, double trivial_double_field, ::std::string nontrivial_string_field, ::smoke::Structs::Point nontrivial_point_field );
-        ImmutableStructWithCppAccessors( int32_t trivial_int_field, double trivial_double_field, ::std::string nontrivial_string_field, ::smoke::Structs::Point nontrivial_point_field, std::optional< ::smoke::Structs::Point > nontrivial_optional_point );
+        ImmutableStructWithCppAccessors( int32_t trivial_int_field, double trivial_double_field, ::std::string nontrivial_string_field, ::smoke::Structs::Point nontrivial_point_field, ::gluecodium::optional< ::smoke::Structs::Point > nontrivial_optional_point );
 
 
         int32_t get_trivial_int_field( ) const { return trivial_int_field; }
@@ -128,9 +129,9 @@ public:
         ::smoke::Structs::Point&& get_nontrivial_point_field( ) && { return std::move(nontrivial_point_field); }
         const ::smoke::Structs::Point&& get_nontrivial_point_field( ) const && { return std::move(nontrivial_point_field); }
 
-        const std::optional< ::smoke::Structs::Point >& get_nontrivial_optional_point( ) const & { return nontrivial_optional_point; }
-        std::optional< ::smoke::Structs::Point >&& get_nontrivial_optional_point( ) && { return std::move(nontrivial_optional_point); }
-        const std::optional< ::smoke::Structs::Point >&& get_nontrivial_optional_point( ) const && { return std::move(nontrivial_optional_point); }
+        const ::gluecodium::optional< ::smoke::Structs::Point >& get_nontrivial_optional_point( ) const & { return nontrivial_optional_point; }
+        ::gluecodium::optional< ::smoke::Structs::Point >&& get_nontrivial_optional_point( ) && { return std::move(nontrivial_optional_point); }
+        const ::gluecodium::optional< ::smoke::Structs::Point >&& get_nontrivial_optional_point( ) const && { return std::move(nontrivial_optional_point); }
 
     };
 
@@ -140,12 +141,12 @@ public:
         double trivial_double_field;
         ::std::string nontrivial_string_field;
         ::smoke::Structs::Point nontrivial_point_field;
-        std::optional< ::smoke::Structs::Point > nontrivial_optional_point = std::optional< ::smoke::Structs::Point >();
+        ::gluecodium::optional< ::smoke::Structs::Point > nontrivial_optional_point = ::gluecodium::optional< ::smoke::Structs::Point >();
     public:
 
         MutableStructWithCppAccessors( );
         MutableStructWithCppAccessors( int32_t trivial_int_field, double trivial_double_field, ::std::string nontrivial_string_field, ::smoke::Structs::Point nontrivial_point_field );
-        MutableStructWithCppAccessors( int32_t trivial_int_field, double trivial_double_field, ::std::string nontrivial_string_field, ::smoke::Structs::Point nontrivial_point_field, std::optional< ::smoke::Structs::Point > nontrivial_optional_point );
+        MutableStructWithCppAccessors( int32_t trivial_int_field, double trivial_double_field, ::std::string nontrivial_string_field, ::smoke::Structs::Point nontrivial_point_field, ::gluecodium::optional< ::smoke::Structs::Point > nontrivial_optional_point );
 
 
         int32_t get_trivial_int_field( ) const { return trivial_int_field; }
@@ -170,12 +171,12 @@ public:
         void set_nontrivial_point_field( const ::smoke::Structs::Point& value_ ) { nontrivial_point_field = value_; }
         void set_nontrivial_point_field( ::smoke::Structs::Point&& value_ ) { nontrivial_point_field = std::move(value_); }
 
-        const std::optional< ::smoke::Structs::Point >& get_nontrivial_optional_point( ) const & { return nontrivial_optional_point; }
-        std::optional< ::smoke::Structs::Point >&& get_nontrivial_optional_point( ) && { return std::move(nontrivial_optional_point); }
-        const std::optional< ::smoke::Structs::Point >&& get_nontrivial_optional_point( ) const && { return std::move(nontrivial_optional_point); }
+        const ::gluecodium::optional< ::smoke::Structs::Point >& get_nontrivial_optional_point( ) const & { return nontrivial_optional_point; }
+        ::gluecodium::optional< ::smoke::Structs::Point >&& get_nontrivial_optional_point( ) && { return std::move(nontrivial_optional_point); }
+        const ::gluecodium::optional< ::smoke::Structs::Point >&& get_nontrivial_optional_point( ) const && { return std::move(nontrivial_optional_point); }
 
-        void set_nontrivial_optional_point( const std::optional< ::smoke::Structs::Point >& value_ ) { nontrivial_optional_point = value_; }
-        void set_nontrivial_optional_point( std::optional< ::smoke::Structs::Point >&& value_ ) { nontrivial_optional_point = std::move(value_); }
+        void set_nontrivial_optional_point( const ::gluecodium::optional< ::smoke::Structs::Point >& value_ ) { nontrivial_optional_point = value_; }
+        void set_nontrivial_optional_point( ::gluecodium::optional< ::smoke::Structs::Point >&& value_ ) { nontrivial_optional_point = std::move(value_); }
 
     };
 

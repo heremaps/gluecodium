@@ -1,37 +1,51 @@
 //
+
 //
+
 #include "cbridge/include/smoke/cbridge_StructsWithMethodsInterface.h"
 #include "cbridge/include/StringHandle.h"
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
+#include "gluecodium/Optional.h"
 #include "smoke/StructsWithMethodsInterface.h"
 #include "smoke/ValidationUtils.h"
 #include <memory>
 #include <new>
-#include <optional>
 #include <string>
+
 void smoke_StructsWithMethodsInterface_release_handle(_baseRef handle) {
     delete get_pointer<::std::shared_ptr< ::smoke::StructsWithMethodsInterface >>(handle);
 }
+
 _baseRef smoke_StructsWithMethodsInterface_copy_handle(_baseRef handle) {
     return handle
         ? reinterpret_cast<_baseRef>(checked_pointer_copy(*get_pointer<::std::shared_ptr< ::smoke::StructsWithMethodsInterface >>(handle)))
         : 0;
 }
+
 const void* smoke_StructsWithMethodsInterface_get_swift_object_from_wrapper_cache(_baseRef handle) {
     return handle
         ? ::gluecodium::get_wrapper_cache().get_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::StructsWithMethodsInterface >>(handle)->get())
         : nullptr;
 }
+
 void smoke_StructsWithMethodsInterface_cache_swift_object_wrapper(_baseRef handle, const void* swift_pointer) {
     if (!handle) return;
     ::gluecodium::get_wrapper_cache().cache_wrapper(get_pointer<::std::shared_ptr< ::smoke::StructsWithMethodsInterface >>(handle)->get(), swift_pointer);
 }
+
 void smoke_StructsWithMethodsInterface_remove_swift_object_from_wrapper_cache(_baseRef handle) {
     if (!::gluecodium::WrapperCache::is_alive) return;
     ::gluecodium::get_wrapper_cache().remove_cached_wrapper(get_pointer<::std::shared_ptr< ::smoke::StructsWithMethodsInterface >>(handle)->get());
 }
+
+
+
+
+
+
+
 _baseRef
 smoke_StructsWithMethodsInterface_Vector3_create_handle( double x, double y, double z )
 {
@@ -39,30 +53,37 @@ smoke_StructsWithMethodsInterface_Vector3_create_handle( double x, double y, dou
     _struct->x = x;
     _struct->y = y;
     _struct->z = z;
+
     return reinterpret_cast<_baseRef>( _struct );
 }
+
 void
 smoke_StructsWithMethodsInterface_Vector3_release_handle( _baseRef handle )
 {
     delete get_pointer<::smoke::StructsWithMethodsInterface::Vector3>( handle );
 }
+
 _baseRef
 smoke_StructsWithMethodsInterface_Vector3_create_optional_handle(double x, double y, double z)
 {
-    auto _struct = new ( ::std::nothrow ) std::optional<::smoke::StructsWithMethodsInterface::Vector3>( ::smoke::StructsWithMethodsInterface::Vector3( ) );
+    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::StructsWithMethodsInterface::Vector3>( ::smoke::StructsWithMethodsInterface::Vector3( ) );
     (*_struct)->x = x;
     (*_struct)->y = y;
     (*_struct)->z = z;
+
     return reinterpret_cast<_baseRef>( _struct );
 }
+
 _baseRef
 smoke_StructsWithMethodsInterface_Vector3_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::smoke::StructsWithMethodsInterface::Vector3>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::StructsWithMethodsInterface::Vector3>*>( handle ) );
 }
+
 void smoke_StructsWithMethodsInterface_Vector3_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::smoke::StructsWithMethodsInterface::Vector3>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::smoke::StructsWithMethodsInterface::Vector3>*>( handle );
 }
+
 double smoke_StructsWithMethodsInterface_Vector3_x_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::StructsWithMethodsInterface::Vector3>(handle);
     return struct_pointer->x;
@@ -75,6 +96,9 @@ double smoke_StructsWithMethodsInterface_Vector3_z_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::StructsWithMethodsInterface::Vector3>(handle);
     return struct_pointer->z;
 }
+
+
+
 double smoke_StructsWithMethodsInterface_Vector3_distanceTo(_baseRef _instance, _baseRef other) {
     return get_pointer<::smoke::StructsWithMethodsInterface::Vector3>(_instance)->distance_to(Conversion<::smoke::StructsWithMethodsInterface::Vector3>::toCpp(other));
 }
@@ -94,7 +118,12 @@ smoke_StructsWithMethodsInterface_Vector3_create_Vector3_result smoke_StructsWit
     } else {
         return {.has_value = false, .error_value = static_cast< uint32_t >(RESULT.error().value())};
     }
+
 }
+
+
 void smoke_StructsWithMethodsInterface_StructWithStaticMethodsOnly_doStuff() {
     return ::smoke::StructsWithMethodsInterface::StructWithStaticMethodsOnly::do_stuff();
 }
+
+

@@ -9,7 +9,7 @@
 #include "JniTypeId.h"
 
 #include <jni.h>
-#include <optional>
+#include "gluecodium/Optional.h"
 
 namespace gluecodium
 {
@@ -45,40 +45,40 @@ JNIEXPORT uint64_t convert_from_jni( JNIEnv* env, const JniReference<jobject>& j
 
 // Boxing/unboxing conversion functions for nullable types
 
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<bool> nvalue ) noexcept;
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<float> nvalue ) noexcept;
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<double> nvalue ) noexcept;
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<int8_t> nvalue ) noexcept;
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<int16_t> nvalue ) noexcept;
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<int32_t> nvalue ) noexcept;
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<int64_t> nvalue ) noexcept;
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<uint8_t> nvalue ) noexcept;
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<uint16_t> nvalue ) noexcept;
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<uint32_t> nvalue ) noexcept;
-JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, std::optional<uint64_t> nvalue ) noexcept;
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, ::gluecodium::optional<bool> nvalue ) noexcept;
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, ::gluecodium::optional<float> nvalue ) noexcept;
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, ::gluecodium::optional<double> nvalue ) noexcept;
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, ::gluecodium::optional<int8_t> nvalue ) noexcept;
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, ::gluecodium::optional<int16_t> nvalue ) noexcept;
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, ::gluecodium::optional<int32_t> nvalue ) noexcept;
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, ::gluecodium::optional<int64_t> nvalue ) noexcept;
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, ::gluecodium::optional<uint8_t> nvalue ) noexcept;
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, ::gluecodium::optional<uint16_t> nvalue ) noexcept;
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, ::gluecodium::optional<uint32_t> nvalue ) noexcept;
+JNIEXPORT JniReference<jobject> convert_to_jni( JNIEnv* env, ::gluecodium::optional<uint64_t> nvalue ) noexcept;
 
-JNIEXPORT std::optional<bool> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<bool>> ) noexcept;
-JNIEXPORT std::optional<float> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<float>> ) noexcept;
-JNIEXPORT std::optional<double> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<double>> ) noexcept;
-JNIEXPORT std::optional<int8_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<int8_t>> ) noexcept;
-JNIEXPORT std::optional<int16_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<int16_t>> ) noexcept;
-JNIEXPORT std::optional<int32_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<int32_t>> ) noexcept;
-JNIEXPORT std::optional<int64_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<int64_t>> ) noexcept;
-JNIEXPORT std::optional<uint8_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<uint8_t>> ) noexcept;
-JNIEXPORT std::optional<uint16_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<uint16_t>> ) noexcept;
-JNIEXPORT std::optional<uint32_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<uint32_t>> ) noexcept;
-JNIEXPORT std::optional<uint64_t> convert_from_jni(
-    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<std::optional<uint64_t>> ) noexcept;
+JNIEXPORT ::gluecodium::optional<bool> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<::gluecodium::optional<bool>> ) noexcept;
+JNIEXPORT ::gluecodium::optional<float> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<::gluecodium::optional<float>> ) noexcept;
+JNIEXPORT ::gluecodium::optional<double> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<::gluecodium::optional<double>> ) noexcept;
+JNIEXPORT ::gluecodium::optional<int8_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<::gluecodium::optional<int8_t>> ) noexcept;
+JNIEXPORT ::gluecodium::optional<int16_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<::gluecodium::optional<int16_t>> ) noexcept;
+JNIEXPORT ::gluecodium::optional<int32_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<::gluecodium::optional<int32_t>> ) noexcept;
+JNIEXPORT ::gluecodium::optional<int64_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<::gluecodium::optional<int64_t>> ) noexcept;
+JNIEXPORT ::gluecodium::optional<uint8_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<::gluecodium::optional<uint8_t>> ) noexcept;
+JNIEXPORT ::gluecodium::optional<uint16_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<::gluecodium::optional<uint16_t>> ) noexcept;
+JNIEXPORT ::gluecodium::optional<uint32_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<::gluecodium::optional<uint32_t>> ) noexcept;
+JNIEXPORT ::gluecodium::optional<uint64_t> convert_from_jni(
+    JNIEnv* env, const JniReference<jobject>& jvalue, TypeId<::gluecodium::optional<uint64_t>> ) noexcept;
 
 }
 }

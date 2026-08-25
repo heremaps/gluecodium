@@ -29,12 +29,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::k
     }
 }
 
-std::optional<::kotlin_smoke::Month>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<::kotlin_smoke::Month>>)
+::gluecodium::optional<::kotlin_smoke::Month>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::gluecodium::optional<::kotlin_smoke::Month>>)
 {
     return _jinput
-        ? std::optional<::kotlin_smoke::Month>(convert_from_jni(_jenv, _jinput, TypeId<::kotlin_smoke::Month>{}))
-        : std::optional<::kotlin_smoke::Month>{};
+        ? ::gluecodium::optional<::kotlin_smoke::Month>(convert_from_jni(_jenv, _jinput, TypeId<::kotlin_smoke::Month>{}))
+        : ::gluecodium::optional<::kotlin_smoke::Month>{};
 }
 
 REGISTER_JNI_CLASS_CACHE("java/time/Month", java_time_Month, ::kotlin_smoke::Month)
@@ -60,7 +60,7 @@ convert_to_jni(JNIEnv* _jenv, const ::kotlin_smoke::Month _ninput)
 }
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::optional<::kotlin_smoke::Month> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::kotlin_smoke::Month> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

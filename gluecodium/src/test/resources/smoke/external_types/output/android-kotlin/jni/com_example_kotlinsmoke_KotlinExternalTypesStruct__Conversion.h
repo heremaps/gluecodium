@@ -13,15 +13,15 @@
 #include "kotlin_String__Conversion.h"
 #include "JniReference.h"
 #include "JniTypeId.h"
-#include <optional>
+#include "gluecodium/Optional.h"
 
 namespace gluecodium
 {
 namespace jni
 {
 JNIEXPORT ::kotlin_smoke::KotlinExternalTypesStruct convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::kotlin_smoke::KotlinExternalTypesStruct>);
-JNIEXPORT std::optional<::kotlin_smoke::KotlinExternalTypesStruct> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<::kotlin_smoke::KotlinExternalTypesStruct>>);
+JNIEXPORT ::gluecodium::optional<::kotlin_smoke::KotlinExternalTypesStruct> convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::gluecodium::optional<::kotlin_smoke::KotlinExternalTypesStruct>>);
 JNIEXPORT JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::kotlin_smoke::KotlinExternalTypesStruct& _ninput);
-JNIEXPORT JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const std::optional<::kotlin_smoke::KotlinExternalTypesStruct> _ninput);
+JNIEXPORT JniReference<jobject> convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::kotlin_smoke::KotlinExternalTypesStruct> _ninput);
 }
 }

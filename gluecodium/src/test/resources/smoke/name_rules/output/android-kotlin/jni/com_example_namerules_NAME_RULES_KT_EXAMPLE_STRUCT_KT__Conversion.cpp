@@ -30,12 +30,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::n
     return _nout;
 }
 
-std::optional<::namerules::NameRules::ExampleStruct>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<::namerules::NameRules::ExampleStruct>>)
+::optional<::namerules::NameRules::ExampleStruct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::optional<::namerules::NameRules::ExampleStruct>>)
 {
     return _jinput
-        ? std::optional<::namerules::NameRules::ExampleStruct>(convert_from_jni(_jenv, _jinput, TypeId<::namerules::NameRules::ExampleStruct>{}))
-        : std::optional<::namerules::NameRules::ExampleStruct>{};
+        ? ::optional<::namerules::NameRules::ExampleStruct>(convert_from_jni(_jenv, _jinput, TypeId<::namerules::NameRules::ExampleStruct>{}))
+        : ::optional<::namerules::NameRules::ExampleStruct>{};
 }
 
 REGISTER_JNI_CLASS_CACHE("com/example/namerules/NAME_RULES_KT$EXAMPLE_STRUCT_KT", com_example_namerules_NAME_1RULES_1KT_00024EXAMPLE_1STRUCT_1KT, ::namerules::NameRules::ExampleStruct)
@@ -54,7 +54,7 @@ convert_to_jni(JNIEnv* _jenv, const ::namerules::NameRules::ExampleStruct& _ninp
 }
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::optional<::namerules::NameRules::ExampleStruct> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::optional<::namerules::NameRules::ExampleStruct> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

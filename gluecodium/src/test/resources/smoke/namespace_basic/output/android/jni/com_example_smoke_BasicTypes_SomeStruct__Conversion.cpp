@@ -27,12 +27,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::r
     return _nout;
 }
 
-std::optional<::root::space::smoke::BasicTypes::SomeStruct>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<::root::space::smoke::BasicTypes::SomeStruct>>)
+::gluecodium::optional<::root::space::smoke::BasicTypes::SomeStruct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::gluecodium::optional<::root::space::smoke::BasicTypes::SomeStruct>>)
 {
     return _jinput
-        ? std::optional<::root::space::smoke::BasicTypes::SomeStruct>(convert_from_jni(_jenv, _jinput, TypeId<::root::space::smoke::BasicTypes::SomeStruct>{}))
-        : std::optional<::root::space::smoke::BasicTypes::SomeStruct>{};
+        ? ::gluecodium::optional<::root::space::smoke::BasicTypes::SomeStruct>(convert_from_jni(_jenv, _jinput, TypeId<::root::space::smoke::BasicTypes::SomeStruct>{}))
+        : ::gluecodium::optional<::root::space::smoke::BasicTypes::SomeStruct>{};
 }
 
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/BasicTypes$SomeStruct", com_example_smoke_BasicTypes_00024SomeStruct, ::root::space::smoke::BasicTypes::SomeStruct)
@@ -48,7 +48,7 @@ convert_to_jni(JNIEnv* _jenv, const ::root::space::smoke::BasicTypes::SomeStruct
 }
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::optional<::root::space::smoke::BasicTypes::SomeStruct> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::root::space::smoke::BasicTypes::SomeStruct> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

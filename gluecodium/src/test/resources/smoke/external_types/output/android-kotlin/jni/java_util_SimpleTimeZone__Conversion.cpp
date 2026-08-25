@@ -23,12 +23,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::k
     return _nout;
 }
 
-std::optional<::kotlin_smoke::TimeZone>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<::kotlin_smoke::TimeZone>>)
+::gluecodium::optional<::kotlin_smoke::TimeZone>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::gluecodium::optional<::kotlin_smoke::TimeZone>>)
 {
     return _jinput
-        ? std::optional<::kotlin_smoke::TimeZone>(convert_from_jni(_jenv, _jinput, TypeId<::kotlin_smoke::TimeZone>{}))
-        : std::optional<::kotlin_smoke::TimeZone>{};
+        ? ::gluecodium::optional<::kotlin_smoke::TimeZone>(convert_from_jni(_jenv, _jinput, TypeId<::kotlin_smoke::TimeZone>{}))
+        : ::gluecodium::optional<::kotlin_smoke::TimeZone>{};
 }
 
 REGISTER_JNI_CLASS_CACHE("java/util/SimpleTimeZone", java_util_SimpleTimeZone, ::kotlin_smoke::TimeZone)
@@ -44,7 +44,7 @@ convert_to_jni(JNIEnv* _jenv, const ::kotlin_smoke::TimeZone& _ninput)
 }
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::optional<::kotlin_smoke::TimeZone> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::kotlin_smoke::TimeZone> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

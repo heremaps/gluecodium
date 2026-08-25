@@ -361,7 +361,7 @@ FfiOpaqueHandle
 library_smoke_OuterStruct_InnerLambda_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::OuterStruct::InnerLambda>(
+        new (std::nothrow) ::gluecodium::optional<smoke::OuterStruct::InnerLambda>(
             gluecodium::ffi::Conversion<smoke::OuterStruct::InnerLambda>::toCpp(value)
         )
     );
@@ -370,14 +370,14 @@ library_smoke_OuterStruct_InnerLambda_create_handle_nullable(FfiOpaqueHandle val
 void
 library_smoke_OuterStruct_InnerLambda_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::OuterStruct::InnerLambda>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<smoke::OuterStruct::InnerLambda>*>(handle);
 }
 
 FfiOpaqueHandle
 library_smoke_OuterStruct_InnerLambda_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::OuterStruct::InnerLambda>::toFfi(
-        **reinterpret_cast<std::optional<smoke::OuterStruct::InnerLambda>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<smoke::OuterStruct::InnerLambda>*>(handle)
     );
 }
 
@@ -451,7 +451,7 @@ FfiOpaqueHandle
 library_smoke_OuterStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::OuterStruct>(
+        new (std::nothrow) ::gluecodium::optional<smoke::OuterStruct>(
             gluecodium::ffi::Conversion<smoke::OuterStruct>::toCpp(value)
         )
     );
@@ -460,14 +460,14 @@ library_smoke_OuterStruct_create_handle_nullable(FfiOpaqueHandle value)
 void
 library_smoke_OuterStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::OuterStruct>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<smoke::OuterStruct>*>(handle);
 }
 
 FfiOpaqueHandle
 library_smoke_OuterStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::OuterStruct>::toFfi(
-        **reinterpret_cast<std::optional<smoke::OuterStruct>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<smoke::OuterStruct>*>(handle)
     );
 }
 
@@ -502,7 +502,7 @@ FfiOpaqueHandle
 library_smoke_OuterStruct_InnerStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::OuterStruct::InnerStruct>(
+        new (std::nothrow) ::gluecodium::optional<smoke::OuterStruct::InnerStruct>(
             gluecodium::ffi::Conversion<smoke::OuterStruct::InnerStruct>::toCpp(value)
         )
     );
@@ -511,14 +511,14 @@ library_smoke_OuterStruct_InnerStruct_create_handle_nullable(FfiOpaqueHandle val
 void
 library_smoke_OuterStruct_InnerStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::OuterStruct::InnerStruct>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<smoke::OuterStruct::InnerStruct>*>(handle);
 }
 
 FfiOpaqueHandle
 library_smoke_OuterStruct_InnerStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::OuterStruct::InnerStruct>::toFfi(
-        **reinterpret_cast<std::optional<smoke::OuterStruct::InnerStruct>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<smoke::OuterStruct::InnerStruct>*>(handle)
     );
 }
 
@@ -528,7 +528,7 @@ FfiOpaqueHandle
 library_smoke_OuterStruct_InnerEnum_create_handle_nullable(uint32_t value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::OuterStruct::InnerEnum>(
+        new (std::nothrow) ::gluecodium::optional<smoke::OuterStruct::InnerEnum>(
             gluecodium::ffi::Conversion<smoke::OuterStruct::InnerEnum>::toCpp(value)
         )
     );
@@ -537,14 +537,14 @@ library_smoke_OuterStruct_InnerEnum_create_handle_nullable(uint32_t value)
 void
 library_smoke_OuterStruct_InnerEnum_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::OuterStruct::InnerEnum>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<smoke::OuterStruct::InnerEnum>*>(handle);
 }
 
 uint32_t
 library_smoke_OuterStruct_InnerEnum_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::OuterStruct::InnerEnum>::toFfi(
-        **reinterpret_cast<std::optional<smoke::OuterStruct::InnerEnum>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<smoke::OuterStruct::InnerEnum>*>(handle)
     );
 }
 

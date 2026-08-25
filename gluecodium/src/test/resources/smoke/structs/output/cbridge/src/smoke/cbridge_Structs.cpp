@@ -8,13 +8,13 @@
 #include "cbridge_internal/include/BaseHandleImpl.h"
 #include "cbridge_internal/include/TypeInitRepository.h"
 #include "cbridge_internal/include/WrapperCache.h"
+#include "gluecodium/Optional.h"
 #include "gluecodium/VectorHash.h"
 #include "smoke/Structs.h"
 #include "smoke/TypeCollection.h"
 #include <cstdint>
 #include <memory>
 #include <new>
-#include <optional>
 #include <string>
 #include <vector>
 
@@ -89,7 +89,7 @@ smoke_Structs_Point_release_handle( _baseRef handle )
 _baseRef
 smoke_Structs_Point_create_optional_handle(double x, double y)
 {
-    auto _struct = new ( ::std::nothrow ) std::optional<::smoke::Structs::Point>( ::smoke::Structs::Point( ) );
+    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::Structs::Point>( ::smoke::Structs::Point( ) );
     (*_struct)->x = x;
     (*_struct)->y = y;
 
@@ -99,11 +99,11 @@ smoke_Structs_Point_create_optional_handle(double x, double y)
 _baseRef
 smoke_Structs_Point_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::smoke::Structs::Point>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::Structs::Point>*>( handle ) );
 }
 
 void smoke_Structs_Point_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::smoke::Structs::Point>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::smoke::Structs::Point>*>( handle );
 }
 
 double smoke_Structs_Point_x_get(_baseRef handle) {
@@ -139,7 +139,7 @@ smoke_Structs_Line_release_handle( _baseRef handle )
 _baseRef
 smoke_Structs_Line_create_optional_handle(_baseRef a, _baseRef b)
 {
-    auto _struct = new ( ::std::nothrow ) std::optional<::smoke::Structs::Line>( ::smoke::Structs::Line( ) );
+    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::Structs::Line>( ::smoke::Structs::Line( ) );
     (*_struct)->a = Conversion<::smoke::Structs::Point>::toCpp( a );
     (*_struct)->b = Conversion<::smoke::Structs::Point>::toCpp( b );
 
@@ -149,11 +149,11 @@ smoke_Structs_Line_create_optional_handle(_baseRef a, _baseRef b)
 _baseRef
 smoke_Structs_Line_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::smoke::Structs::Line>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::Structs::Line>*>( handle ) );
 }
 
 void smoke_Structs_Line_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::smoke::Structs::Line>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::smoke::Structs::Line>*>( handle );
 }
 
 _baseRef smoke_Structs_Line_a_get(_baseRef handle) {
@@ -213,18 +213,18 @@ smoke_Structs_AllTypesStruct_create_optional_handle(int8_t int8Field, uint8_t ui
     auto _booleanField = booleanField;
     auto _bytesField = Conversion<::std::shared_ptr< ::std::vector< uint8_t > >>::toCpp( bytesField );
     auto _pointField = Conversion<::smoke::Structs::Point>::toCpp( pointField );
-    auto _struct = new ( ::std::nothrow ) std::optional<::smoke::Structs::AllTypesStruct>( ::smoke::Structs::AllTypesStruct( _int8Field, _uint8Field, _int16Field, _uint16Field, _int32Field, _uint32Field, _int64Field, _uint64Field, _floatField, _doubleField, _stringField, _booleanField, _bytesField, _pointField ) );
+    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::Structs::AllTypesStruct>( ::smoke::Structs::AllTypesStruct( _int8Field, _uint8Field, _int16Field, _uint16Field, _int32Field, _uint32Field, _int64Field, _uint64Field, _floatField, _doubleField, _stringField, _booleanField, _bytesField, _pointField ) );
     return reinterpret_cast<_baseRef>( _struct );
 }
 
 _baseRef
 smoke_Structs_AllTypesStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::smoke::Structs::AllTypesStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::Structs::AllTypesStruct>*>( handle ) );
 }
 
 void smoke_Structs_AllTypesStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::smoke::Structs::AllTypesStruct>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::smoke::Structs::AllTypesStruct>*>( handle );
 }
 
 int8_t smoke_Structs_AllTypesStruct_int8Field_get(_baseRef handle) {
@@ -306,18 +306,18 @@ smoke_Structs_NestingImmutableStruct_create_optional_handle(_baseRef structField
 {
 
     auto _structField = Conversion<::smoke::Structs::AllTypesStruct>::toCpp( structField );
-    auto _struct = new ( ::std::nothrow ) std::optional<::smoke::Structs::NestingImmutableStruct>( ::smoke::Structs::NestingImmutableStruct( _structField ) );
+    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::Structs::NestingImmutableStruct>( ::smoke::Structs::NestingImmutableStruct( _structField ) );
     return reinterpret_cast<_baseRef>( _struct );
 }
 
 _baseRef
 smoke_Structs_NestingImmutableStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::smoke::Structs::NestingImmutableStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::Structs::NestingImmutableStruct>*>( handle ) );
 }
 
 void smoke_Structs_NestingImmutableStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::smoke::Structs::NestingImmutableStruct>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::smoke::Structs::NestingImmutableStruct>*>( handle );
 }
 
 _baseRef smoke_Structs_NestingImmutableStruct_structField_get(_baseRef handle) {
@@ -347,18 +347,18 @@ smoke_Structs_DoubleNestingImmutableStruct_create_optional_handle(_baseRef nesti
 {
 
     auto _nestingStructField = Conversion<::smoke::Structs::NestingImmutableStruct>::toCpp( nestingStructField );
-    auto _struct = new ( ::std::nothrow ) std::optional<::smoke::Structs::DoubleNestingImmutableStruct>( ::smoke::Structs::DoubleNestingImmutableStruct( _nestingStructField ) );
+    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::Structs::DoubleNestingImmutableStruct>( ::smoke::Structs::DoubleNestingImmutableStruct( _nestingStructField ) );
     return reinterpret_cast<_baseRef>( _struct );
 }
 
 _baseRef
 smoke_Structs_DoubleNestingImmutableStruct_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::smoke::Structs::DoubleNestingImmutableStruct>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::Structs::DoubleNestingImmutableStruct>*>( handle ) );
 }
 
 void smoke_Structs_DoubleNestingImmutableStruct_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::smoke::Structs::DoubleNestingImmutableStruct>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::smoke::Structs::DoubleNestingImmutableStruct>*>( handle );
 }
 
 _baseRef smoke_Structs_DoubleNestingImmutableStruct_nestingStructField_get(_baseRef handle) {
@@ -388,18 +388,18 @@ smoke_Structs_StructWithArrayOfImmutable_create_optional_handle(_baseRef arrayFi
 {
 
     auto _arrayField = Conversion<::std::vector< ::smoke::Structs::AllTypesStruct >>::toCpp( arrayField );
-    auto _struct = new ( ::std::nothrow ) std::optional<::smoke::Structs::StructWithArrayOfImmutable>( ::smoke::Structs::StructWithArrayOfImmutable( _arrayField ) );
+    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::Structs::StructWithArrayOfImmutable>( ::smoke::Structs::StructWithArrayOfImmutable( _arrayField ) );
     return reinterpret_cast<_baseRef>( _struct );
 }
 
 _baseRef
 smoke_Structs_StructWithArrayOfImmutable_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::smoke::Structs::StructWithArrayOfImmutable>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::Structs::StructWithArrayOfImmutable>*>( handle ) );
 }
 
 void smoke_Structs_StructWithArrayOfImmutable_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::smoke::Structs::StructWithArrayOfImmutable>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::smoke::Structs::StructWithArrayOfImmutable>*>( handle );
 }
 
 _baseRef smoke_Structs_StructWithArrayOfImmutable_arrayField_get(_baseRef handle) {
@@ -417,7 +417,7 @@ smoke_Structs_ImmutableStructWithCppAccessors_create_handle( int32_t trivialIntF
     auto _trivialDoubleField = trivialDoubleField;
     auto _nontrivialStringField = Conversion<::std::string>::toCpp( nontrivialStringField );
     auto _nontrivialPointField = Conversion<::smoke::Structs::Point>::toCpp( nontrivialPointField );
-    auto _nontrivialOptionalPoint = Conversion<std::optional< ::smoke::Structs::Point >>::toCpp( nontrivialOptionalPoint );
+    auto _nontrivialOptionalPoint = Conversion<::gluecodium::optional< ::smoke::Structs::Point >>::toCpp( nontrivialOptionalPoint );
     ::smoke::Structs::ImmutableStructWithCppAccessors* _struct = new ( ::std::nothrow ) ::smoke::Structs::ImmutableStructWithCppAccessors( _trivialIntField, _trivialDoubleField, _nontrivialStringField, _nontrivialPointField, _nontrivialOptionalPoint );
     return reinterpret_cast<_baseRef>( _struct );
 }
@@ -436,19 +436,19 @@ smoke_Structs_ImmutableStructWithCppAccessors_create_optional_handle(int32_t tri
     auto _trivialDoubleField = trivialDoubleField;
     auto _nontrivialStringField = Conversion<::std::string>::toCpp( nontrivialStringField );
     auto _nontrivialPointField = Conversion<::smoke::Structs::Point>::toCpp( nontrivialPointField );
-    auto _nontrivialOptionalPoint = Conversion<std::optional< ::smoke::Structs::Point >>::toCpp( nontrivialOptionalPoint );
-    auto _struct = new ( ::std::nothrow ) std::optional<::smoke::Structs::ImmutableStructWithCppAccessors>( ::smoke::Structs::ImmutableStructWithCppAccessors( _trivialIntField, _trivialDoubleField, _nontrivialStringField, _nontrivialPointField, _nontrivialOptionalPoint ) );
+    auto _nontrivialOptionalPoint = Conversion<::gluecodium::optional< ::smoke::Structs::Point >>::toCpp( nontrivialOptionalPoint );
+    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::Structs::ImmutableStructWithCppAccessors>( ::smoke::Structs::ImmutableStructWithCppAccessors( _trivialIntField, _trivialDoubleField, _nontrivialStringField, _nontrivialPointField, _nontrivialOptionalPoint ) );
     return reinterpret_cast<_baseRef>( _struct );
 }
 
 _baseRef
 smoke_Structs_ImmutableStructWithCppAccessors_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::smoke::Structs::ImmutableStructWithCppAccessors>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::Structs::ImmutableStructWithCppAccessors>*>( handle ) );
 }
 
 void smoke_Structs_ImmutableStructWithCppAccessors_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::smoke::Structs::ImmutableStructWithCppAccessors>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::smoke::Structs::ImmutableStructWithCppAccessors>*>( handle );
 }
 
 int32_t smoke_Structs_ImmutableStructWithCppAccessors_trivialIntField_get(_baseRef handle) {
@@ -469,7 +469,7 @@ _baseRef smoke_Structs_ImmutableStructWithCppAccessors_nontrivialPointField_get(
 }
 _baseRef smoke_Structs_ImmutableStructWithCppAccessors_nontrivialOptionalPoint_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::Structs::ImmutableStructWithCppAccessors>(handle);
-    return Conversion<std::optional< ::smoke::Structs::Point >>::toBaseRef(struct_pointer->get_nontrivial_optional_point());
+    return Conversion<::gluecodium::optional< ::smoke::Structs::Point >>::toBaseRef(struct_pointer->get_nontrivial_optional_point());
 }
 
 
@@ -482,7 +482,7 @@ smoke_Structs_MutableStructWithCppAccessors_create_handle( int32_t trivialIntFie
     _struct->set_trivial_double_field( trivialDoubleField );
     _struct->set_nontrivial_string_field( Conversion<::std::string>::toCpp( nontrivialStringField ) );
     _struct->set_nontrivial_point_field( Conversion<::smoke::Structs::Point>::toCpp( nontrivialPointField ) );
-    _struct->set_nontrivial_optional_point( Conversion<std::optional< ::smoke::Structs::Point >>::toCpp( nontrivialOptionalPoint ) );
+    _struct->set_nontrivial_optional_point( Conversion<::gluecodium::optional< ::smoke::Structs::Point >>::toCpp( nontrivialOptionalPoint ) );
 
     return reinterpret_cast<_baseRef>( _struct );
 }
@@ -496,12 +496,12 @@ smoke_Structs_MutableStructWithCppAccessors_release_handle( _baseRef handle )
 _baseRef
 smoke_Structs_MutableStructWithCppAccessors_create_optional_handle(int32_t trivialIntField, double trivialDoubleField, _baseRef nontrivialStringField, _baseRef nontrivialPointField, _baseRef nontrivialOptionalPoint)
 {
-    auto _struct = new ( ::std::nothrow ) std::optional<::smoke::Structs::MutableStructWithCppAccessors>( ::smoke::Structs::MutableStructWithCppAccessors( ) );
+    auto _struct = new ( ::std::nothrow ) ::gluecodium::optional<::smoke::Structs::MutableStructWithCppAccessors>( ::smoke::Structs::MutableStructWithCppAccessors( ) );
     (*_struct)->set_trivial_int_field( trivialIntField );
     (*_struct)->set_trivial_double_field( trivialDoubleField );
     (*_struct)->set_nontrivial_string_field( Conversion<::std::string>::toCpp( nontrivialStringField ) );
     (*_struct)->set_nontrivial_point_field( Conversion<::smoke::Structs::Point>::toCpp( nontrivialPointField ) );
-    (*_struct)->set_nontrivial_optional_point( Conversion<std::optional< ::smoke::Structs::Point >>::toCpp( nontrivialOptionalPoint ) );
+    (*_struct)->set_nontrivial_optional_point( Conversion<::gluecodium::optional< ::smoke::Structs::Point >>::toCpp( nontrivialOptionalPoint ) );
 
     return reinterpret_cast<_baseRef>( _struct );
 }
@@ -509,11 +509,11 @@ smoke_Structs_MutableStructWithCppAccessors_create_optional_handle(int32_t trivi
 _baseRef
 smoke_Structs_MutableStructWithCppAccessors_unwrap_optional_handle( _baseRef handle )
 {
-    return reinterpret_cast<_baseRef>( &**reinterpret_cast<std::optional<::smoke::Structs::MutableStructWithCppAccessors>*>( handle ) );
+    return reinterpret_cast<_baseRef>( &**reinterpret_cast<::gluecodium::optional<::smoke::Structs::MutableStructWithCppAccessors>*>( handle ) );
 }
 
 void smoke_Structs_MutableStructWithCppAccessors_release_optional_handle(_baseRef handle) {
-    delete reinterpret_cast<std::optional<::smoke::Structs::MutableStructWithCppAccessors>*>( handle );
+    delete reinterpret_cast<::gluecodium::optional<::smoke::Structs::MutableStructWithCppAccessors>*>( handle );
 }
 
 int32_t smoke_Structs_MutableStructWithCppAccessors_trivialIntField_get(_baseRef handle) {
@@ -534,7 +534,7 @@ _baseRef smoke_Structs_MutableStructWithCppAccessors_nontrivialPointField_get(_b
 }
 _baseRef smoke_Structs_MutableStructWithCppAccessors_nontrivialOptionalPoint_get(_baseRef handle) {
     auto struct_pointer = get_pointer<const ::smoke::Structs::MutableStructWithCppAccessors>(handle);
-    return Conversion<std::optional< ::smoke::Structs::Point >>::toBaseRef(struct_pointer->get_nontrivial_optional_point());
+    return Conversion<::gluecodium::optional< ::smoke::Structs::Point >>::toBaseRef(struct_pointer->get_nontrivial_optional_point());
 }
 
 

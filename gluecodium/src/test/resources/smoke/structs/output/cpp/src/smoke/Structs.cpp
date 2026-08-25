@@ -15,6 +15,7 @@ Structs::~Structs() {
 
 
 
+
 Structs::Point::Point( )
     : x{ }, y{ }
 {
@@ -74,7 +75,7 @@ Structs::ImmutableStructWithCppAccessors::ImmutableStructWithCppAccessors( int32
     : trivial_int_field( std::move( trivial_int_field ) ), trivial_double_field( std::move( trivial_double_field ) ), nontrivial_string_field( std::move( nontrivial_string_field ) ), nontrivial_point_field( std::move( nontrivial_point_field ) )
 {
 }
-Structs::ImmutableStructWithCppAccessors::ImmutableStructWithCppAccessors( int32_t trivial_int_field, double trivial_double_field, ::std::string nontrivial_string_field, ::smoke::Structs::Point nontrivial_point_field, std::optional< ::smoke::Structs::Point > nontrivial_optional_point )
+Structs::ImmutableStructWithCppAccessors::ImmutableStructWithCppAccessors( int32_t trivial_int_field, double trivial_double_field, ::std::string nontrivial_string_field, ::smoke::Structs::Point nontrivial_point_field, ::gluecodium::optional< ::smoke::Structs::Point > nontrivial_optional_point )
     : trivial_int_field( std::move( trivial_int_field ) ), trivial_double_field( std::move( trivial_double_field ) ), nontrivial_string_field( std::move( nontrivial_string_field ) ), nontrivial_point_field( std::move( nontrivial_point_field ) ), nontrivial_optional_point( std::move( nontrivial_optional_point ) )
 {
 }
@@ -89,7 +90,7 @@ Structs::MutableStructWithCppAccessors::MutableStructWithCppAccessors( int32_t t
     : trivial_int_field( std::move( trivial_int_field ) ), trivial_double_field( std::move( trivial_double_field ) ), nontrivial_string_field( std::move( nontrivial_string_field ) ), nontrivial_point_field( std::move( nontrivial_point_field ) )
 {
 }
-Structs::MutableStructWithCppAccessors::MutableStructWithCppAccessors( int32_t trivial_int_field, double trivial_double_field, ::std::string nontrivial_string_field, ::smoke::Structs::Point nontrivial_point_field, std::optional< ::smoke::Structs::Point > nontrivial_optional_point )
+Structs::MutableStructWithCppAccessors::MutableStructWithCppAccessors( int32_t trivial_int_field, double trivial_double_field, ::std::string nontrivial_string_field, ::smoke::Structs::Point nontrivial_point_field, ::gluecodium::optional< ::smoke::Structs::Point > nontrivial_optional_point )
     : trivial_int_field( std::move( trivial_int_field ) ), trivial_double_field( std::move( trivial_double_field ) ), nontrivial_string_field( std::move( nontrivial_string_field ) ), nontrivial_point_field( std::move( nontrivial_point_field ) ), nontrivial_optional_point( std::move( nontrivial_optional_point ) )
 {
 }

@@ -24,9 +24,9 @@ Java_com_example_smoke_Nullable_methodWithString(JNIEnv* _jenv, jobject _jinstan
 
 
 
-    std::optional< ::std::string > input = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::gluecodium::optional< ::std::string > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            ::gluecodium::jni::TypeId<std::optional< ::std::string >>{});
+            ::gluecodium::jni::TypeId<::gluecodium::optional< ::std::string >>{});
 
 
 
@@ -49,9 +49,9 @@ Java_com_example_smoke_Nullable_methodWithBoolean(JNIEnv* _jenv, jobject _jinsta
 
 
 
-    std::optional< bool > input = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::gluecodium::optional< bool > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            ::gluecodium::jni::TypeId<std::optional< bool >>{});
+            ::gluecodium::jni::TypeId<::gluecodium::optional< bool >>{});
 
 
 
@@ -74,9 +74,9 @@ Java_com_example_smoke_Nullable_methodWithDouble(JNIEnv* _jenv, jobject _jinstan
 
 
 
-    std::optional< double > input = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::gluecodium::optional< double > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            ::gluecodium::jni::TypeId<std::optional< double >>{});
+            ::gluecodium::jni::TypeId<::gluecodium::optional< double >>{});
 
 
 
@@ -99,9 +99,9 @@ Java_com_example_smoke_Nullable_methodWithInt(JNIEnv* _jenv, jobject _jinstance,
 
 
 
-    std::optional< int64_t > input = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::gluecodium::optional< int64_t > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            ::gluecodium::jni::TypeId<std::optional< int64_t >>{});
+            ::gluecodium::jni::TypeId<::gluecodium::optional< int64_t >>{});
 
 
 
@@ -124,9 +124,9 @@ Java_com_example_smoke_Nullable_methodWithSomeStruct(JNIEnv* _jenv, jobject _jin
 
 
 
-    std::optional< ::smoke::Nullable::SomeStruct > input = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::gluecodium::optional< ::smoke::Nullable::SomeStruct > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            ::gluecodium::jni::TypeId<std::optional< ::smoke::Nullable::SomeStruct >>{});
+            ::gluecodium::jni::TypeId<::gluecodium::optional< ::smoke::Nullable::SomeStruct >>{});
 
 
 
@@ -149,9 +149,9 @@ Java_com_example_smoke_Nullable_methodWithSomeEnum(JNIEnv* _jenv, jobject _jinst
 
 
 
-    std::optional< ::smoke::Nullable::SomeEnum > input = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::gluecodium::optional< ::smoke::Nullable::SomeEnum > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            ::gluecodium::jni::TypeId<std::optional< ::smoke::Nullable::SomeEnum >>{});
+            ::gluecodium::jni::TypeId<::gluecodium::optional< ::smoke::Nullable::SomeEnum >>{});
 
 
 
@@ -174,9 +174,9 @@ Java_com_example_smoke_Nullable_methodWithSomeArray(JNIEnv* _jenv, jobject _jins
 
 
 
-    std::optional< ::smoke::Nullable::SomeArray > input = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::gluecodium::optional< ::smoke::Nullable::SomeArray > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            ::gluecodium::jni::TypeId<std::optional< ::smoke::Nullable::SomeArray >>{});
+            ::gluecodium::jni::TypeId<::gluecodium::optional< ::smoke::Nullable::SomeArray >>{});
 
 
 
@@ -199,9 +199,9 @@ Java_com_example_smoke_Nullable_methodWithInlineArray(JNIEnv* _jenv, jobject _ji
 
 
 
-    std::optional< ::std::vector< ::std::string > > input = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::gluecodium::optional< ::std::vector< ::std::string > > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            ::gluecodium::jni::TypeId<std::optional< ::std::vector< ::std::string > >>{});
+            ::gluecodium::jni::TypeId<::gluecodium::optional< ::std::vector< ::std::string > >>{});
 
 
 
@@ -224,9 +224,9 @@ Java_com_example_smoke_Nullable_methodWithSomeMap(JNIEnv* _jenv, jobject _jinsta
 
 
 
-    std::optional< ::smoke::Nullable::SomeMap > input = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::gluecodium::optional< ::smoke::Nullable::SomeMap > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
-            ::gluecodium::jni::TypeId<std::optional< ::smoke::Nullable::SomeMap >>{});
+            ::gluecodium::jni::TypeId<::gluecodium::optional< ::smoke::Nullable::SomeMap >>{});
 
 
 
@@ -296,9 +296,9 @@ Java_com_example_smoke_Nullable_setStringProperty(JNIEnv* _jenv, jobject _jinsta
 
 
 
-    std::optional< ::std::string > value = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::gluecodium::optional< ::std::string > value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            ::gluecodium::jni::TypeId<std::optional< ::std::string >>{});
+            ::gluecodium::jni::TypeId<::gluecodium::optional< ::std::string >>{});
 
 
 
@@ -343,9 +343,9 @@ Java_com_example_smoke_Nullable_setBoolProperty(JNIEnv* _jenv, jobject _jinstanc
 
 
 
-    std::optional< bool > value = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::gluecodium::optional< bool > value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            ::gluecodium::jni::TypeId<std::optional< bool >>{});
+            ::gluecodium::jni::TypeId<::gluecodium::optional< bool >>{});
 
 
 
@@ -390,9 +390,9 @@ Java_com_example_smoke_Nullable_setDoubleProperty(JNIEnv* _jenv, jobject _jinsta
 
 
 
-    std::optional< double > value = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::gluecodium::optional< double > value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            ::gluecodium::jni::TypeId<std::optional< double >>{});
+            ::gluecodium::jni::TypeId<::gluecodium::optional< double >>{});
 
 
 
@@ -437,9 +437,9 @@ Java_com_example_smoke_Nullable_setIntProperty(JNIEnv* _jenv, jobject _jinstance
 
 
 
-    std::optional< int64_t > value = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::gluecodium::optional< int64_t > value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            ::gluecodium::jni::TypeId<std::optional< int64_t >>{});
+            ::gluecodium::jni::TypeId<::gluecodium::optional< int64_t >>{});
 
 
 
@@ -484,9 +484,9 @@ Java_com_example_smoke_Nullable_setStructProperty(JNIEnv* _jenv, jobject _jinsta
 
 
 
-    std::optional< ::smoke::Nullable::SomeStruct > value = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::gluecodium::optional< ::smoke::Nullable::SomeStruct > value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            ::gluecodium::jni::TypeId<std::optional< ::smoke::Nullable::SomeStruct >>{});
+            ::gluecodium::jni::TypeId<::gluecodium::optional< ::smoke::Nullable::SomeStruct >>{});
 
 
 
@@ -531,9 +531,9 @@ Java_com_example_smoke_Nullable_setEnumProperty(JNIEnv* _jenv, jobject _jinstanc
 
 
 
-    std::optional< ::smoke::Nullable::SomeEnum > value = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::gluecodium::optional< ::smoke::Nullable::SomeEnum > value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            ::gluecodium::jni::TypeId<std::optional< ::smoke::Nullable::SomeEnum >>{});
+            ::gluecodium::jni::TypeId<::gluecodium::optional< ::smoke::Nullable::SomeEnum >>{});
 
 
 
@@ -578,9 +578,9 @@ Java_com_example_smoke_Nullable_setArrayProperty(JNIEnv* _jenv, jobject _jinstan
 
 
 
-    std::optional< ::smoke::Nullable::SomeArray > value = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::gluecodium::optional< ::smoke::Nullable::SomeArray > value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            ::gluecodium::jni::TypeId<std::optional< ::smoke::Nullable::SomeArray >>{});
+            ::gluecodium::jni::TypeId<::gluecodium::optional< ::smoke::Nullable::SomeArray >>{});
 
 
 
@@ -625,9 +625,9 @@ Java_com_example_smoke_Nullable_setInlineArrayProperty(JNIEnv* _jenv, jobject _j
 
 
 
-    std::optional< ::std::vector< ::std::string > > value = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::gluecodium::optional< ::std::vector< ::std::string > > value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            ::gluecodium::jni::TypeId<std::optional< ::std::vector< ::std::string > >>{});
+            ::gluecodium::jni::TypeId<::gluecodium::optional< ::std::vector< ::std::string > >>{});
 
 
 
@@ -672,9 +672,9 @@ Java_com_example_smoke_Nullable_setMapProperty(JNIEnv* _jenv, jobject _jinstance
 
 
 
-    std::optional< ::smoke::Nullable::SomeMap > value = ::gluecodium::jni::convert_from_jni(_jenv,
+    ::gluecodium::optional< ::smoke::Nullable::SomeMap > value = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jvalue),
-            ::gluecodium::jni::TypeId<std::optional< ::smoke::Nullable::SomeMap >>{});
+            ::gluecodium::jni::TypeId<::gluecodium::optional< ::smoke::Nullable::SomeMap >>{});
 
 
 

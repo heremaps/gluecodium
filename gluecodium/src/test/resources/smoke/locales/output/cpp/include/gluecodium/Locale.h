@@ -22,7 +22,9 @@
 
 #include "ExportCommonGluecodiumCpp.h"
 #include "Hash.h"
-#include <optional>
+
+#include "Optional.h"
+
 #include <string>
 
 namespace gluecodium {
@@ -32,15 +34,15 @@ namespace gluecodium {
  */
 struct _GLUECODIUM_CPP_EXPORT Locale final {
     Locale() noexcept;
-    explicit Locale(std::optional<std::string> language_tag) noexcept;
-    Locale(std::optional<std::string> language_code, std::optional<std::string> country_code) noexcept;
-    Locale(std::optional<std::string> language_code,
-           std::optional<std::string> country_code,
-           std::optional<std::string> script_code) noexcept;
-    Locale(std::optional<std::string> language_code,
-           std::optional<std::string> country_code,
-           std::optional<std::string> script_code,
-           std::optional<std::string> language_tag) noexcept;
+    explicit Locale(optional<std::string> language_tag) noexcept;
+    Locale(optional<std::string> language_code, optional<std::string> country_code) noexcept;
+    Locale(optional<std::string> language_code,
+           optional<std::string> country_code,
+           optional<std::string> script_code) noexcept;
+    Locale(optional<std::string> language_code,
+           optional<std::string> country_code,
+           optional<std::string> script_code,
+           optional<std::string> language_tag) noexcept;
     explicit Locale(std::string language_tag) noexcept;
     Locale(std::string language_code, std::string country_code) noexcept;
     Locale(std::string language_code,
@@ -52,13 +54,13 @@ struct _GLUECODIUM_CPP_EXPORT Locale final {
            std::string language_tag) noexcept;
 
     /// ISO 639-1 language code (2-letter)
-    std::optional<std::string> language_code;
+    optional<std::string> language_code;
     /// ISO 3166-1 alpha-2 country code (2-letter)
-    std::optional<std::string> country_code;
+    optional<std::string> country_code;
     /// ISO 15924 script code (4-letter)
-    std::optional<std::string> script_code;
+    optional<std::string> script_code;
     /// BCP 47 language tag
-    std::optional<std::string> language_tag;
+    optional<std::string> language_tag;
 
     bool operator==(const Locale& rhs) const;
     bool operator!=(const Locale& rhs) const;

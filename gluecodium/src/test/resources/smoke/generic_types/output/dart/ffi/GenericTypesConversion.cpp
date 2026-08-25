@@ -1,4 +1,6 @@
+
 #include "GenericTypesConversion.h"
+
 #include "ConversionBase.h"
 #include "alien/FooEnum.h"
 #include "alien/FooStruct.h"
@@ -21,1037 +23,1228 @@
 #include <vector>
 #include <memory>
 #include <new>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 FfiOpaqueHandle
 library_foobar_ListOf_Float_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<float>());
 }
+
 void
 library_foobar_ListOf_Float_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::vector<float>*>(handle);
 }
+
 void
 library_foobar_ListOf_Float_insert(FfiOpaqueHandle handle, float value) {
     reinterpret_cast<std::vector<float>*>(handle)->push_back(
         gluecodium::ffi::Conversion<float>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_Float_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<float>::iterator(
         reinterpret_cast<std::vector<float>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_ListOf_Float_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::vector<float>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_ListOf_Float_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::vector<float>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::vector<float>*>(handle)->end();
 }
+
 void
 library_foobar_ListOf_Float_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::vector<float>::iterator*>(iterator_handle);
 }
+
 float
 library_foobar_ListOf_Float_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<float>::toFfi(
         **reinterpret_cast<std::vector<float>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_Float_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::vector<float>>(
+        new (std::nothrow) ::gluecodium::optional<std::vector<float>>(
             gluecodium::ffi::Conversion<std::vector<float>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_ListOf_Float_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::vector<float>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::vector<float>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_Float_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::vector<float>>::toFfi(
-        **reinterpret_cast<std::optional<std::vector<float>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::vector<float>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_Int_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<int32_t>());
 }
+
 void
 library_foobar_ListOf_Int_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::vector<int32_t>*>(handle);
 }
+
 void
 library_foobar_ListOf_Int_insert(FfiOpaqueHandle handle, int32_t value) {
     reinterpret_cast<std::vector<int32_t>*>(handle)->push_back(
         gluecodium::ffi::Conversion<int32_t>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_Int_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<int32_t>::iterator(
         reinterpret_cast<std::vector<int32_t>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_ListOf_Int_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::vector<int32_t>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_ListOf_Int_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::vector<int32_t>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::vector<int32_t>*>(handle)->end();
 }
+
 void
 library_foobar_ListOf_Int_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::vector<int32_t>::iterator*>(iterator_handle);
 }
+
 int32_t
 library_foobar_ListOf_Int_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<int32_t>::toFfi(
         **reinterpret_cast<std::vector<int32_t>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_Int_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::vector<int32_t>>(
+        new (std::nothrow) ::gluecodium::optional<std::vector<int32_t>>(
             gluecodium::ffi::Conversion<std::vector<int32_t>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_ListOf_Int_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::vector<int32_t>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::vector<int32_t>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_Int_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::vector<int32_t>>::toFfi(
-        **reinterpret_cast<std::optional<std::vector<int32_t>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::vector<int32_t>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_String_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::string>());
 }
+
 void
 library_foobar_ListOf_String_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::vector<std::string>*>(handle);
 }
+
 void
 library_foobar_ListOf_String_insert(FfiOpaqueHandle handle, FfiOpaqueHandle value) {
     reinterpret_cast<std::vector<std::string>*>(handle)->push_back(
         gluecodium::ffi::Conversion<std::string>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_String_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::string>::iterator(
         reinterpret_cast<std::vector<std::string>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_ListOf_String_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::vector<std::string>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_ListOf_String_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::vector<std::string>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::vector<std::string>*>(handle)->end();
 }
+
 void
 library_foobar_ListOf_String_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::vector<std::string>::iterator*>(iterator_handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_String_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::string>::toFfi(
         **reinterpret_cast<std::vector<std::string>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_String_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::vector<std::string>>(
+        new (std::nothrow) ::gluecodium::optional<std::vector<std::string>>(
             gluecodium::ffi::Conversion<std::vector<std::string>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_ListOf_String_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::vector<std::string>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::vector<std::string>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_String_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::vector<std::string>>::toFfi(
-        **reinterpret_cast<std::optional<std::vector<std::string>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::vector<std::string>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_UByte_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<uint8_t>());
 }
+
 void
 library_foobar_ListOf_UByte_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::vector<uint8_t>*>(handle);
 }
+
 void
 library_foobar_ListOf_UByte_insert(FfiOpaqueHandle handle, uint8_t value) {
     reinterpret_cast<std::vector<uint8_t>*>(handle)->push_back(
         gluecodium::ffi::Conversion<uint8_t>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_UByte_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<uint8_t>::iterator(
         reinterpret_cast<std::vector<uint8_t>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_ListOf_UByte_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::vector<uint8_t>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_ListOf_UByte_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::vector<uint8_t>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::vector<uint8_t>*>(handle)->end();
 }
+
 void
 library_foobar_ListOf_UByte_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::vector<uint8_t>::iterator*>(iterator_handle);
 }
+
 uint8_t
 library_foobar_ListOf_UByte_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<uint8_t>::toFfi(
         **reinterpret_cast<std::vector<uint8_t>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_UByte_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::vector<uint8_t>>(
+        new (std::nothrow) ::gluecodium::optional<std::vector<uint8_t>>(
             gluecodium::ffi::Conversion<std::vector<uint8_t>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_ListOf_UByte_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::vector<uint8_t>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::vector<uint8_t>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_UByte_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::vector<uint8_t>>::toFfi(
-        **reinterpret_cast<std::optional<std::vector<uint8_t>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::vector<uint8_t>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_foobar_ListOf_Int_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::vector<int32_t>>());
 }
+
 void
 library_foobar_ListOf_foobar_ListOf_Int_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::vector<std::vector<int32_t>>*>(handle);
 }
+
 void
 library_foobar_ListOf_foobar_ListOf_Int_insert(FfiOpaqueHandle handle, FfiOpaqueHandle value) {
     reinterpret_cast<std::vector<std::vector<int32_t>>*>(handle)->push_back(
         gluecodium::ffi::Conversion<std::vector<int32_t>>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_foobar_ListOf_Int_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::vector<int32_t>>::iterator(
         reinterpret_cast<std::vector<std::vector<int32_t>>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_ListOf_foobar_ListOf_Int_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::vector<std::vector<int32_t>>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_ListOf_foobar_ListOf_Int_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::vector<std::vector<int32_t>>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::vector<std::vector<int32_t>>*>(handle)->end();
 }
+
 void
 library_foobar_ListOf_foobar_ListOf_Int_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::vector<std::vector<int32_t>>::iterator*>(iterator_handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_foobar_ListOf_Int_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::vector<int32_t>>::toFfi(
         **reinterpret_cast<std::vector<std::vector<int32_t>>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_foobar_ListOf_Int_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::vector<std::vector<int32_t>>>(
+        new (std::nothrow) ::gluecodium::optional<std::vector<std::vector<int32_t>>>(
             gluecodium::ffi::Conversion<std::vector<std::vector<int32_t>>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_ListOf_foobar_ListOf_Int_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::vector<std::vector<int32_t>>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::vector<std::vector<int32_t>>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_foobar_ListOf_Int_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::vector<std::vector<int32_t>>>::toFfi(
-        **reinterpret_cast<std::optional<std::vector<std::vector<int32_t>>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::vector<std::vector<int32_t>>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::unordered_map<int32_t, bool>>());
 }
+
 void
 library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::vector<std::unordered_map<int32_t, bool>>*>(handle);
 }
+
 void
 library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_insert(FfiOpaqueHandle handle, FfiOpaqueHandle value) {
     reinterpret_cast<std::vector<std::unordered_map<int32_t, bool>>*>(handle)->push_back(
         gluecodium::ffi::Conversion<std::unordered_map<int32_t, bool>>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::unordered_map<int32_t, bool>>::iterator(
         reinterpret_cast<std::vector<std::unordered_map<int32_t, bool>>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::vector<std::unordered_map<int32_t, bool>>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::vector<std::unordered_map<int32_t, bool>>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::vector<std::unordered_map<int32_t, bool>>*>(handle)->end();
 }
+
 void
 library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::vector<std::unordered_map<int32_t, bool>>::iterator*>(iterator_handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::unordered_map<int32_t, bool>>::toFfi(
         **reinterpret_cast<std::vector<std::unordered_map<int32_t, bool>>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::vector<std::unordered_map<int32_t, bool>>>(
+        new (std::nothrow) ::gluecodium::optional<std::vector<std::unordered_map<int32_t, bool>>>(
             gluecodium::ffi::Conversion<std::vector<std::unordered_map<int32_t, bool>>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::vector<std::unordered_map<int32_t, bool>>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::vector<std::unordered_map<int32_t, bool>>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_foobar_MapOf_Int_to_Boolean_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::vector<std::unordered_map<int32_t, bool>>>::toFfi(
-        **reinterpret_cast<std::optional<std::vector<std::unordered_map<int32_t, bool>>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::vector<std::unordered_map<int32_t, bool>>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_foobar_SetOf_Int_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::unordered_set<int32_t>>());
 }
+
 void
 library_foobar_ListOf_foobar_SetOf_Int_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::vector<std::unordered_set<int32_t>>*>(handle);
 }
+
 void
 library_foobar_ListOf_foobar_SetOf_Int_insert(FfiOpaqueHandle handle, FfiOpaqueHandle value) {
     reinterpret_cast<std::vector<std::unordered_set<int32_t>>*>(handle)->push_back(
         gluecodium::ffi::Conversion<std::unordered_set<int32_t>>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_foobar_SetOf_Int_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::unordered_set<int32_t>>::iterator(
         reinterpret_cast<std::vector<std::unordered_set<int32_t>>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_ListOf_foobar_SetOf_Int_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::vector<std::unordered_set<int32_t>>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_ListOf_foobar_SetOf_Int_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::vector<std::unordered_set<int32_t>>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::vector<std::unordered_set<int32_t>>*>(handle)->end();
 }
+
 void
 library_foobar_ListOf_foobar_SetOf_Int_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::vector<std::unordered_set<int32_t>>::iterator*>(iterator_handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_foobar_SetOf_Int_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::unordered_set<int32_t>>::toFfi(
         **reinterpret_cast<std::vector<std::unordered_set<int32_t>>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_foobar_SetOf_Int_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::vector<std::unordered_set<int32_t>>>(
+        new (std::nothrow) ::gluecodium::optional<std::vector<std::unordered_set<int32_t>>>(
             gluecodium::ffi::Conversion<std::vector<std::unordered_set<int32_t>>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_ListOf_foobar_SetOf_Int_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::vector<std::unordered_set<int32_t>>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::vector<std::unordered_set<int32_t>>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_foobar_SetOf_Int_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::vector<std::unordered_set<int32_t>>>::toFfi(
-        **reinterpret_cast<std::optional<std::vector<std::unordered_set<int32_t>>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::vector<std::unordered_set<int32_t>>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_AnotherDummyClass_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::shared_ptr<smoke::AnotherDummyClass>>());
 }
+
 void
 library_foobar_ListOf_smoke_AnotherDummyClass_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::vector<std::shared_ptr<smoke::AnotherDummyClass>>*>(handle);
 }
+
 void
 library_foobar_ListOf_smoke_AnotherDummyClass_insert(FfiOpaqueHandle handle, FfiOpaqueHandle value) {
     reinterpret_cast<std::vector<std::shared_ptr<smoke::AnotherDummyClass>>*>(handle)->push_back(
         gluecodium::ffi::Conversion<std::shared_ptr<smoke::AnotherDummyClass>>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_AnotherDummyClass_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::shared_ptr<smoke::AnotherDummyClass>>::iterator(
         reinterpret_cast<std::vector<std::shared_ptr<smoke::AnotherDummyClass>>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_ListOf_smoke_AnotherDummyClass_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::vector<std::shared_ptr<smoke::AnotherDummyClass>>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_ListOf_smoke_AnotherDummyClass_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::vector<std::shared_ptr<smoke::AnotherDummyClass>>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::vector<std::shared_ptr<smoke::AnotherDummyClass>>*>(handle)->end();
 }
+
 void
 library_foobar_ListOf_smoke_AnotherDummyClass_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::vector<std::shared_ptr<smoke::AnotherDummyClass>>::iterator*>(iterator_handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_AnotherDummyClass_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::shared_ptr<smoke::AnotherDummyClass>>::toFfi(
         **reinterpret_cast<std::vector<std::shared_ptr<smoke::AnotherDummyClass>>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_AnotherDummyClass_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::vector<std::shared_ptr<smoke::AnotherDummyClass>>>(
+        new (std::nothrow) ::gluecodium::optional<std::vector<std::shared_ptr<smoke::AnotherDummyClass>>>(
             gluecodium::ffi::Conversion<std::vector<std::shared_ptr<smoke::AnotherDummyClass>>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_ListOf_smoke_AnotherDummyClass_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::vector<std::shared_ptr<smoke::AnotherDummyClass>>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::vector<std::shared_ptr<smoke::AnotherDummyClass>>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_AnotherDummyClass_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::vector<std::shared_ptr<smoke::AnotherDummyClass>>>::toFfi(
-        **reinterpret_cast<std::optional<std::vector<std::shared_ptr<smoke::AnotherDummyClass>>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::vector<std::shared_ptr<smoke::AnotherDummyClass>>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_DummyClass_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::shared_ptr<smoke::DummyClass>>());
 }
+
 void
 library_foobar_ListOf_smoke_DummyClass_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyClass>>*>(handle);
 }
+
 void
 library_foobar_ListOf_smoke_DummyClass_insert(FfiOpaqueHandle handle, FfiOpaqueHandle value) {
     reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyClass>>*>(handle)->push_back(
         gluecodium::ffi::Conversion<std::shared_ptr<smoke::DummyClass>>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_DummyClass_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::shared_ptr<smoke::DummyClass>>::iterator(
         reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyClass>>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_ListOf_smoke_DummyClass_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyClass>>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_ListOf_smoke_DummyClass_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyClass>>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyClass>>*>(handle)->end();
 }
+
 void
 library_foobar_ListOf_smoke_DummyClass_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyClass>>::iterator*>(iterator_handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_DummyClass_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::shared_ptr<smoke::DummyClass>>::toFfi(
         **reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyClass>>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_DummyClass_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::vector<std::shared_ptr<smoke::DummyClass>>>(
+        new (std::nothrow) ::gluecodium::optional<std::vector<std::shared_ptr<smoke::DummyClass>>>(
             gluecodium::ffi::Conversion<std::vector<std::shared_ptr<smoke::DummyClass>>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_ListOf_smoke_DummyClass_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::vector<std::shared_ptr<smoke::DummyClass>>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::vector<std::shared_ptr<smoke::DummyClass>>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_DummyClass_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::vector<std::shared_ptr<smoke::DummyClass>>>::toFfi(
-        **reinterpret_cast<std::optional<std::vector<std::shared_ptr<smoke::DummyClass>>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::vector<std::shared_ptr<smoke::DummyClass>>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_DummyInterface_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::shared_ptr<smoke::DummyInterface>>());
 }
+
 void
 library_foobar_ListOf_smoke_DummyInterface_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyInterface>>*>(handle);
 }
+
 void
 library_foobar_ListOf_smoke_DummyInterface_insert(FfiOpaqueHandle handle, FfiOpaqueHandle value) {
     reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyInterface>>*>(handle)->push_back(
         gluecodium::ffi::Conversion<std::shared_ptr<smoke::DummyInterface>>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_DummyInterface_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::shared_ptr<smoke::DummyInterface>>::iterator(
         reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyInterface>>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_ListOf_smoke_DummyInterface_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyInterface>>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_ListOf_smoke_DummyInterface_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyInterface>>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyInterface>>*>(handle)->end();
 }
+
 void
 library_foobar_ListOf_smoke_DummyInterface_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyInterface>>::iterator*>(iterator_handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_DummyInterface_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::shared_ptr<smoke::DummyInterface>>::toFfi(
         **reinterpret_cast<std::vector<std::shared_ptr<smoke::DummyInterface>>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_DummyInterface_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::vector<std::shared_ptr<smoke::DummyInterface>>>(
+        new (std::nothrow) ::gluecodium::optional<std::vector<std::shared_ptr<smoke::DummyInterface>>>(
             gluecodium::ffi::Conversion<std::vector<std::shared_ptr<smoke::DummyInterface>>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_ListOf_smoke_DummyInterface_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::vector<std::shared_ptr<smoke::DummyInterface>>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::vector<std::shared_ptr<smoke::DummyInterface>>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_DummyInterface_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::vector<std::shared_ptr<smoke::DummyInterface>>>::toFfi(
-        **reinterpret_cast<std::optional<std::vector<std::shared_ptr<smoke::DummyInterface>>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::vector<std::shared_ptr<smoke::DummyInterface>>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>());
 }
+
 void
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle);
 }
+
 void
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_insert(FfiOpaqueHandle handle, FfiOpaqueHandle value) {
     reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle)->push_back(
         gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::BasicStruct>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator(
         reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle)->end();
 }
+
 void
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::BasicStruct>::toFfi(
         **reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>>(
+        new (std::nothrow) ::gluecodium::optional<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>>(
             gluecodium::ffi::Conversion<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_BasicStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>>::toFfi(
-        **reinterpret_cast<std::optional<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::vector<smoke::GenericTypesWithCompoundTypes::BasicStruct>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<alien::FooEnum>());
 }
+
 void
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::vector<alien::FooEnum>*>(handle);
 }
+
 void
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_insert(FfiOpaqueHandle handle, uint32_t value) {
     reinterpret_cast<std::vector<alien::FooEnum>*>(handle)->push_back(
         gluecodium::ffi::Conversion<alien::FooEnum>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<alien::FooEnum>::iterator(
         reinterpret_cast<std::vector<alien::FooEnum>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::vector<alien::FooEnum>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::vector<alien::FooEnum>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::vector<alien::FooEnum>*>(handle)->end();
 }
+
 void
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::vector<alien::FooEnum>::iterator*>(iterator_handle);
 }
+
 uint32_t
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<alien::FooEnum>::toFfi(
         **reinterpret_cast<std::vector<alien::FooEnum>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::vector<alien::FooEnum>>(
+        new (std::nothrow) ::gluecodium::optional<std::vector<alien::FooEnum>>(
             gluecodium::ffi::Conversion<std::vector<alien::FooEnum>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::vector<alien::FooEnum>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::vector<alien::FooEnum>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::vector<alien::FooEnum>>::toFfi(
-        **reinterpret_cast<std::optional<std::vector<alien::FooEnum>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::vector<alien::FooEnum>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<alien::FooStruct>());
 }
+
 void
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::vector<alien::FooStruct>*>(handle);
 }
+
 void
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_insert(FfiOpaqueHandle handle, FfiOpaqueHandle value) {
     reinterpret_cast<std::vector<alien::FooStruct>*>(handle)->push_back(
         gluecodium::ffi::Conversion<alien::FooStruct>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<alien::FooStruct>::iterator(
         reinterpret_cast<std::vector<alien::FooStruct>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::vector<alien::FooStruct>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::vector<alien::FooStruct>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::vector<alien::FooStruct>*>(handle)->end();
 }
+
 void
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::vector<alien::FooStruct>::iterator*>(iterator_handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<alien::FooStruct>::toFfi(
         **reinterpret_cast<std::vector<alien::FooStruct>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::vector<alien::FooStruct>>(
+        new (std::nothrow) ::gluecodium::optional<std::vector<alien::FooStruct>>(
             gluecodium::ffi::Conversion<std::vector<alien::FooStruct>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::vector<alien::FooStruct>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::vector<alien::FooStruct>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_ExternalStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::vector<alien::FooStruct>>::toFfi(
-        **reinterpret_cast<std::optional<std::vector<alien::FooStruct>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::vector<alien::FooStruct>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>());
 }
+
 void
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle);
 }
+
 void
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_insert(FfiOpaqueHandle handle, uint32_t value) {
     reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle)->push_back(
         gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::SomeEnum>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator(
         reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle)->end();
 }
+
 void
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle);
 }
+
 uint32_t
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::SomeEnum>::toFfi(
         **reinterpret_cast<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>>(
+        new (std::nothrow) ::gluecodium::optional<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>>(
             gluecodium::ffi::Conversion<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::toFfi(
-        **reinterpret_cast<std::optional<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::vector<smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_UnreasonablyLazyClass_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::shared_ptr<smoke::UnreasonablyLazyClass>>());
 }
+
 void
 library_foobar_ListOf_smoke_UnreasonablyLazyClass_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::vector<std::shared_ptr<smoke::UnreasonablyLazyClass>>*>(handle);
 }
+
 void
 library_foobar_ListOf_smoke_UnreasonablyLazyClass_insert(FfiOpaqueHandle handle, FfiOpaqueHandle value) {
     reinterpret_cast<std::vector<std::shared_ptr<smoke::UnreasonablyLazyClass>>*>(handle)->push_back(
         gluecodium::ffi::Conversion<std::shared_ptr<smoke::UnreasonablyLazyClass>>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_UnreasonablyLazyClass_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::shared_ptr<smoke::UnreasonablyLazyClass>>::iterator(
         reinterpret_cast<std::vector<std::shared_ptr<smoke::UnreasonablyLazyClass>>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_ListOf_smoke_UnreasonablyLazyClass_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::vector<std::shared_ptr<smoke::UnreasonablyLazyClass>>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_ListOf_smoke_UnreasonablyLazyClass_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::vector<std::shared_ptr<smoke::UnreasonablyLazyClass>>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::vector<std::shared_ptr<smoke::UnreasonablyLazyClass>>*>(handle)->end();
 }
+
 void
 library_foobar_ListOf_smoke_UnreasonablyLazyClass_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::vector<std::shared_ptr<smoke::UnreasonablyLazyClass>>::iterator*>(iterator_handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_UnreasonablyLazyClass_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::shared_ptr<smoke::UnreasonablyLazyClass>>::toFfi(
         **reinterpret_cast<std::vector<std::shared_ptr<smoke::UnreasonablyLazyClass>>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_UnreasonablyLazyClass_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::vector<std::shared_ptr<smoke::UnreasonablyLazyClass>>>(
+        new (std::nothrow) ::gluecodium::optional<std::vector<std::shared_ptr<smoke::UnreasonablyLazyClass>>>(
             gluecodium::ffi::Conversion<std::vector<std::shared_ptr<smoke::UnreasonablyLazyClass>>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_ListOf_smoke_UnreasonablyLazyClass_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::vector<std::shared_ptr<smoke::UnreasonablyLazyClass>>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::vector<std::shared_ptr<smoke::UnreasonablyLazyClass>>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_UnreasonablyLazyClass_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::vector<std::shared_ptr<smoke::UnreasonablyLazyClass>>>::toFfi(
-        **reinterpret_cast<std::optional<std::vector<std::shared_ptr<smoke::UnreasonablyLazyClass>>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::vector<std::shared_ptr<smoke::UnreasonablyLazyClass>>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_VeryBigStruct_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<smoke::VeryBigStruct>());
 }
+
 void
 library_foobar_ListOf_smoke_VeryBigStruct_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::vector<smoke::VeryBigStruct>*>(handle);
 }
+
 void
 library_foobar_ListOf_smoke_VeryBigStruct_insert(FfiOpaqueHandle handle, FfiOpaqueHandle value) {
     reinterpret_cast<std::vector<smoke::VeryBigStruct>*>(handle)->push_back(
         gluecodium::ffi::Conversion<smoke::VeryBigStruct>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_VeryBigStruct_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<smoke::VeryBigStruct>::iterator(
         reinterpret_cast<std::vector<smoke::VeryBigStruct>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_ListOf_smoke_VeryBigStruct_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::vector<smoke::VeryBigStruct>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_ListOf_smoke_VeryBigStruct_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::vector<smoke::VeryBigStruct>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::vector<smoke::VeryBigStruct>*>(handle)->end();
 }
+
 void
 library_foobar_ListOf_smoke_VeryBigStruct_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::vector<smoke::VeryBigStruct>::iterator*>(iterator_handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_VeryBigStruct_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<smoke::VeryBigStruct>::toFfi(
         **reinterpret_cast<std::vector<smoke::VeryBigStruct>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_VeryBigStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::vector<smoke::VeryBigStruct>>(
+        new (std::nothrow) ::gluecodium::optional<std::vector<smoke::VeryBigStruct>>(
             gluecodium::ffi::Conversion<std::vector<smoke::VeryBigStruct>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_ListOf_smoke_VeryBigStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::vector<smoke::VeryBigStruct>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::vector<smoke::VeryBigStruct>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_VeryBigStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::vector<smoke::VeryBigStruct>>::toFfi(
-        **reinterpret_cast<std::optional<std::vector<smoke::VeryBigStruct>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::vector<smoke::VeryBigStruct>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_YetAnotherDummyClass_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::shared_ptr<smoke::YetAnotherDummyClass>>());
 }
+
 void
 library_foobar_ListOf_smoke_YetAnotherDummyClass_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::vector<std::shared_ptr<smoke::YetAnotherDummyClass>>*>(handle);
 }
+
 void
 library_foobar_ListOf_smoke_YetAnotherDummyClass_insert(FfiOpaqueHandle handle, FfiOpaqueHandle value) {
     reinterpret_cast<std::vector<std::shared_ptr<smoke::YetAnotherDummyClass>>*>(handle)->push_back(
         gluecodium::ffi::Conversion<std::shared_ptr<smoke::YetAnotherDummyClass>>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::vector<std::shared_ptr<smoke::YetAnotherDummyClass>>::iterator(
         reinterpret_cast<std::vector<std::shared_ptr<smoke::YetAnotherDummyClass>>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::vector<std::shared_ptr<smoke::YetAnotherDummyClass>>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::vector<std::shared_ptr<smoke::YetAnotherDummyClass>>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::vector<std::shared_ptr<smoke::YetAnotherDummyClass>>*>(handle)->end();
 }
+
 void
 library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::vector<std::shared_ptr<smoke::YetAnotherDummyClass>>::iterator*>(iterator_handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_YetAnotherDummyClass_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::shared_ptr<smoke::YetAnotherDummyClass>>::toFfi(
         **reinterpret_cast<std::vector<std::shared_ptr<smoke::YetAnotherDummyClass>>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_YetAnotherDummyClass_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::vector<std::shared_ptr<smoke::YetAnotherDummyClass>>>(
+        new (std::nothrow) ::gluecodium::optional<std::vector<std::shared_ptr<smoke::YetAnotherDummyClass>>>(
             gluecodium::ffi::Conversion<std::vector<std::shared_ptr<smoke::YetAnotherDummyClass>>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_ListOf_smoke_YetAnotherDummyClass_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::vector<std::shared_ptr<smoke::YetAnotherDummyClass>>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::vector<std::shared_ptr<smoke::YetAnotherDummyClass>>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_ListOf_smoke_YetAnotherDummyClass_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::vector<std::shared_ptr<smoke::YetAnotherDummyClass>>>::toFfi(
-        **reinterpret_cast<std::optional<std::vector<std::shared_ptr<smoke::YetAnotherDummyClass>>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::vector<std::shared_ptr<smoke::YetAnotherDummyClass>>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Float_to_Double_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<float, double>());
 }
+
 void
 library_foobar_MapOf_Float_to_Double_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_map<float, double>*>(handle);
 }
+
 void
 library_foobar_MapOf_Float_to_Double_put(FfiOpaqueHandle handle, float key, double value) {
     reinterpret_cast<std::unordered_map<float, double>*>(handle)->emplace(
@@ -1059,66 +1252,78 @@ library_foobar_MapOf_Float_to_Double_put(FfiOpaqueHandle handle, float key, doub
         gluecodium::ffi::Conversion<double>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Float_to_Double_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<float, double>::iterator(
         reinterpret_cast<std::unordered_map<float, double>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_MapOf_Float_to_Double_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_map<float, double>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_MapOf_Float_to_Double_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_map<float, double>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_map<float, double>*>(handle)->end();
 }
+
 void
 library_foobar_MapOf_Float_to_Double_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_map<float, double>::iterator*>(iterator_handle);
 }
+
 float
 library_foobar_MapOf_Float_to_Double_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<float>::toFfi(
         (*reinterpret_cast<std::unordered_map<float, double>::iterator*>(iterator_handle))->first
     );
 }
+
 double
 library_foobar_MapOf_Float_to_Double_iterator_get_value(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<double>::toFfi(
         (*reinterpret_cast<std::unordered_map<float, double>::iterator*>(iterator_handle))->second
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Float_to_Double_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_map<float, double>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_map<float, double>>(
             gluecodium::ffi::Conversion<std::unordered_map<float, double>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_MapOf_Float_to_Double_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_map<float, double>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_map<float, double>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Float_to_Double_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_map<float, double>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_map<float, double>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_map<float, double>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_Boolean_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, bool>());
 }
+
 void
 library_foobar_MapOf_Int_to_Boolean_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_map<int32_t, bool>*>(handle);
 }
+
 void
 library_foobar_MapOf_Int_to_Boolean_put(FfiOpaqueHandle handle, int32_t key, bool value) {
     reinterpret_cast<std::unordered_map<int32_t, bool>*>(handle)->emplace(
@@ -1126,66 +1331,78 @@ library_foobar_MapOf_Int_to_Boolean_put(FfiOpaqueHandle handle, int32_t key, boo
         gluecodium::ffi::Conversion<bool>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_Boolean_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, bool>::iterator(
         reinterpret_cast<std::unordered_map<int32_t, bool>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_MapOf_Int_to_Boolean_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_map<int32_t, bool>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_MapOf_Int_to_Boolean_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_map<int32_t, bool>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_map<int32_t, bool>*>(handle)->end();
 }
+
 void
 library_foobar_MapOf_Int_to_Boolean_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_map<int32_t, bool>::iterator*>(iterator_handle);
 }
+
 int32_t
 library_foobar_MapOf_Int_to_Boolean_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<int32_t>::toFfi(
         (*reinterpret_cast<std::unordered_map<int32_t, bool>::iterator*>(iterator_handle))->first
     );
 }
+
 bool
 library_foobar_MapOf_Int_to_Boolean_iterator_get_value(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<bool>::toFfi(
         (*reinterpret_cast<std::unordered_map<int32_t, bool>::iterator*>(iterator_handle))->second
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_Boolean_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_map<int32_t, bool>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_map<int32_t, bool>>(
             gluecodium::ffi::Conversion<std::unordered_map<int32_t, bool>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_MapOf_Int_to_Boolean_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_map<int32_t, bool>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_map<int32_t, bool>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_Boolean_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_map<int32_t, bool>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_map<int32_t, bool>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_map<int32_t, bool>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_foobar_ListOf_Int_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, std::vector<int32_t>>());
 }
+
 void
 library_foobar_MapOf_Int_to_foobar_ListOf_Int_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_map<int32_t, std::vector<int32_t>>*>(handle);
 }
+
 void
 library_foobar_MapOf_Int_to_foobar_ListOf_Int_put(FfiOpaqueHandle handle, int32_t key, FfiOpaqueHandle value) {
     reinterpret_cast<std::unordered_map<int32_t, std::vector<int32_t>>*>(handle)->emplace(
@@ -1193,66 +1410,78 @@ library_foobar_MapOf_Int_to_foobar_ListOf_Int_put(FfiOpaqueHandle handle, int32_
         gluecodium::ffi::Conversion<std::vector<int32_t>>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_foobar_ListOf_Int_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, std::vector<int32_t>>::iterator(
         reinterpret_cast<std::unordered_map<int32_t, std::vector<int32_t>>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_map<int32_t, std::vector<int32_t>>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_map<int32_t, std::vector<int32_t>>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_map<int32_t, std::vector<int32_t>>*>(handle)->end();
 }
+
 void
 library_foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_map<int32_t, std::vector<int32_t>>::iterator*>(iterator_handle);
 }
+
 int32_t
 library_foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<int32_t>::toFfi(
         (*reinterpret_cast<std::unordered_map<int32_t, std::vector<int32_t>>::iterator*>(iterator_handle))->first
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_foobar_ListOf_Int_iterator_get_value(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::vector<int32_t>>::toFfi(
         (*reinterpret_cast<std::unordered_map<int32_t, std::vector<int32_t>>::iterator*>(iterator_handle))->second
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_foobar_ListOf_Int_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_map<int32_t, std::vector<int32_t>>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_map<int32_t, std::vector<int32_t>>>(
             gluecodium::ffi::Conversion<std::unordered_map<int32_t, std::vector<int32_t>>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_MapOf_Int_to_foobar_ListOf_Int_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_map<int32_t, std::vector<int32_t>>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_map<int32_t, std::vector<int32_t>>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_foobar_ListOf_Int_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_map<int32_t, std::vector<int32_t>>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_map<int32_t, std::vector<int32_t>>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_map<int32_t, std::vector<int32_t>>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, std::unordered_map<int32_t, bool>>());
 }
+
 void
 library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_map<int32_t, std::unordered_map<int32_t, bool>>*>(handle);
 }
+
 void
 library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_put(FfiOpaqueHandle handle, int32_t key, FfiOpaqueHandle value) {
     reinterpret_cast<std::unordered_map<int32_t, std::unordered_map<int32_t, bool>>*>(handle)->emplace(
@@ -1260,66 +1489,78 @@ library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_put(FfiOpaqueHandle hand
         gluecodium::ffi::Conversion<std::unordered_map<int32_t, bool>>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, std::unordered_map<int32_t, bool>>::iterator(
         reinterpret_cast<std::unordered_map<int32_t, std::unordered_map<int32_t, bool>>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_map<int32_t, std::unordered_map<int32_t, bool>>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_map<int32_t, std::unordered_map<int32_t, bool>>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_map<int32_t, std::unordered_map<int32_t, bool>>*>(handle)->end();
 }
+
 void
 library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_map<int32_t, std::unordered_map<int32_t, bool>>::iterator*>(iterator_handle);
 }
+
 int32_t
 library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<int32_t>::toFfi(
         (*reinterpret_cast<std::unordered_map<int32_t, std::unordered_map<int32_t, bool>>::iterator*>(iterator_handle))->first
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_iterator_get_value(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::unordered_map<int32_t, bool>>::toFfi(
         (*reinterpret_cast<std::unordered_map<int32_t, std::unordered_map<int32_t, bool>>::iterator*>(iterator_handle))->second
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_map<int32_t, std::unordered_map<int32_t, bool>>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_map<int32_t, std::unordered_map<int32_t, bool>>>(
             gluecodium::ffi::Conversion<std::unordered_map<int32_t, std::unordered_map<int32_t, bool>>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_map<int32_t, std::unordered_map<int32_t, bool>>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_map<int32_t, std::unordered_map<int32_t, bool>>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_foobar_MapOf_Int_to_Boolean_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_map<int32_t, std::unordered_map<int32_t, bool>>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_map<int32_t, std::unordered_map<int32_t, bool>>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_map<int32_t, std::unordered_map<int32_t, bool>>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_foobar_SetOf_Int_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, std::unordered_set<int32_t>>());
 }
+
 void
 library_foobar_MapOf_Int_to_foobar_SetOf_Int_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_map<int32_t, std::unordered_set<int32_t>>*>(handle);
 }
+
 void
 library_foobar_MapOf_Int_to_foobar_SetOf_Int_put(FfiOpaqueHandle handle, int32_t key, FfiOpaqueHandle value) {
     reinterpret_cast<std::unordered_map<int32_t, std::unordered_set<int32_t>>*>(handle)->emplace(
@@ -1327,66 +1568,78 @@ library_foobar_MapOf_Int_to_foobar_SetOf_Int_put(FfiOpaqueHandle handle, int32_t
         gluecodium::ffi::Conversion<std::unordered_set<int32_t>>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_foobar_SetOf_Int_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, std::unordered_set<int32_t>>::iterator(
         reinterpret_cast<std::unordered_map<int32_t, std::unordered_set<int32_t>>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_map<int32_t, std::unordered_set<int32_t>>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_map<int32_t, std::unordered_set<int32_t>>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_map<int32_t, std::unordered_set<int32_t>>*>(handle)->end();
 }
+
 void
 library_foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_map<int32_t, std::unordered_set<int32_t>>::iterator*>(iterator_handle);
 }
+
 int32_t
 library_foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<int32_t>::toFfi(
         (*reinterpret_cast<std::unordered_map<int32_t, std::unordered_set<int32_t>>::iterator*>(iterator_handle))->first
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_foobar_SetOf_Int_iterator_get_value(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::unordered_set<int32_t>>::toFfi(
         (*reinterpret_cast<std::unordered_map<int32_t, std::unordered_set<int32_t>>::iterator*>(iterator_handle))->second
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_foobar_SetOf_Int_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_map<int32_t, std::unordered_set<int32_t>>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_map<int32_t, std::unordered_set<int32_t>>>(
             gluecodium::ffi::Conversion<std::unordered_map<int32_t, std::unordered_set<int32_t>>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_MapOf_Int_to_foobar_SetOf_Int_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_map<int32_t, std::unordered_set<int32_t>>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_map<int32_t, std::unordered_set<int32_t>>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_foobar_SetOf_Int_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_map<int32_t, std::unordered_set<int32_t>>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_map<int32_t, std::unordered_set<int32_t>>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_map<int32_t, std::unordered_set<int32_t>>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_smoke_DummyClass_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>());
 }
+
 void
 library_foobar_MapOf_Int_to_smoke_DummyClass_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>*>(handle);
 }
+
 void
 library_foobar_MapOf_Int_to_smoke_DummyClass_put(FfiOpaqueHandle handle, int32_t key, FfiOpaqueHandle value) {
     reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>*>(handle)->emplace(
@@ -1394,66 +1647,78 @@ library_foobar_MapOf_Int_to_smoke_DummyClass_put(FfiOpaqueHandle handle, int32_t
         gluecodium::ffi::Conversion<std::shared_ptr<smoke::DummyClass>>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_smoke_DummyClass_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>::iterator(
         reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_MapOf_Int_to_smoke_DummyClass_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_MapOf_Int_to_smoke_DummyClass_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>*>(handle)->end();
 }
+
 void
 library_foobar_MapOf_Int_to_smoke_DummyClass_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>::iterator*>(iterator_handle);
 }
+
 int32_t
 library_foobar_MapOf_Int_to_smoke_DummyClass_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<int32_t>::toFfi(
         (*reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>::iterator*>(iterator_handle))->first
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_smoke_DummyClass_iterator_get_value(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::shared_ptr<smoke::DummyClass>>::toFfi(
         (*reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>::iterator*>(iterator_handle))->second
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_smoke_DummyClass_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>>(
             gluecodium::ffi::Conversion<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_MapOf_Int_to_smoke_DummyClass_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_smoke_DummyClass_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyClass>>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_smoke_DummyInterface_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>());
 }
+
 void
 library_foobar_MapOf_Int_to_smoke_DummyInterface_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>*>(handle);
 }
+
 void
 library_foobar_MapOf_Int_to_smoke_DummyInterface_put(FfiOpaqueHandle handle, int32_t key, FfiOpaqueHandle value) {
     reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>*>(handle)->emplace(
@@ -1461,66 +1726,78 @@ library_foobar_MapOf_Int_to_smoke_DummyInterface_put(FfiOpaqueHandle handle, int
         gluecodium::ffi::Conversion<std::shared_ptr<smoke::DummyInterface>>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_smoke_DummyInterface_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>::iterator(
         reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_MapOf_Int_to_smoke_DummyInterface_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_MapOf_Int_to_smoke_DummyInterface_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>*>(handle)->end();
 }
+
 void
 library_foobar_MapOf_Int_to_smoke_DummyInterface_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>::iterator*>(iterator_handle);
 }
+
 int32_t
 library_foobar_MapOf_Int_to_smoke_DummyInterface_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<int32_t>::toFfi(
         (*reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>::iterator*>(iterator_handle))->first
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_smoke_DummyInterface_iterator_get_value(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::shared_ptr<smoke::DummyInterface>>::toFfi(
         (*reinterpret_cast<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>::iterator*>(iterator_handle))->second
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_smoke_DummyInterface_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>>(
             gluecodium::ffi::Conversion<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_MapOf_Int_to_smoke_DummyInterface_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_smoke_DummyInterface_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_map<int32_t, std::shared_ptr<smoke::DummyInterface>>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, alien::FooEnum>());
 }
+
 void
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_map<int32_t, alien::FooEnum>*>(handle);
 }
+
 void
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_put(FfiOpaqueHandle handle, int32_t key, uint32_t value) {
     reinterpret_cast<std::unordered_map<int32_t, alien::FooEnum>*>(handle)->emplace(
@@ -1528,66 +1805,78 @@ library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_put
         gluecodium::ffi::Conversion<alien::FooEnum>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, alien::FooEnum>::iterator(
         reinterpret_cast<std::unordered_map<int32_t, alien::FooEnum>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_map<int32_t, alien::FooEnum>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_map<int32_t, alien::FooEnum>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_map<int32_t, alien::FooEnum>*>(handle)->end();
 }
+
 void
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_map<int32_t, alien::FooEnum>::iterator*>(iterator_handle);
 }
+
 int32_t
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<int32_t>::toFfi(
         (*reinterpret_cast<std::unordered_map<int32_t, alien::FooEnum>::iterator*>(iterator_handle))->first
     );
 }
+
 uint32_t
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get_value(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<alien::FooEnum>::toFfi(
         (*reinterpret_cast<std::unordered_map<int32_t, alien::FooEnum>::iterator*>(iterator_handle))->second
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_map<int32_t, alien::FooEnum>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_map<int32_t, alien::FooEnum>>(
             gluecodium::ffi::Conversion<std::unordered_map<int32_t, alien::FooEnum>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_map<int32_t, alien::FooEnum>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_map<int32_t, alien::FooEnum>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_map<int32_t, alien::FooEnum>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_map<int32_t, alien::FooEnum>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_map<int32_t, alien::FooEnum>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>());
 }
+
 void
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle);
 }
+
 void
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_put(FfiOpaqueHandle handle, int32_t key, uint32_t value) {
     reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle)->emplace(
@@ -1595,66 +1884,78 @@ library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_put(Ffi
         gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::SomeEnum>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator(
         reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>*>(handle)->end();
 }
+
 void
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle);
 }
+
 int32_t
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<int32_t>::toFfi(
         (*reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle))->first
     );
 }
+
 uint32_t
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get_value(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::SomeEnum>::toFfi(
         (*reinterpret_cast<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>::iterator*>(iterator_handle))->second
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>>(
             gluecodium::ffi::Conversion<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_Int_to_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_map<int32_t, smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_String_to_String_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<std::string, std::string>());
 }
+
 void
 library_foobar_MapOf_String_to_String_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_map<std::string, std::string>*>(handle);
 }
+
 void
 library_foobar_MapOf_String_to_String_put(FfiOpaqueHandle handle, FfiOpaqueHandle key, FfiOpaqueHandle value) {
     reinterpret_cast<std::unordered_map<std::string, std::string>*>(handle)->emplace(
@@ -1662,66 +1963,78 @@ library_foobar_MapOf_String_to_String_put(FfiOpaqueHandle handle, FfiOpaqueHandl
         gluecodium::ffi::Conversion<std::string>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_String_to_String_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<std::string, std::string>::iterator(
         reinterpret_cast<std::unordered_map<std::string, std::string>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_MapOf_String_to_String_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_map<std::string, std::string>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_MapOf_String_to_String_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_map<std::string, std::string>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_map<std::string, std::string>*>(handle)->end();
 }
+
 void
 library_foobar_MapOf_String_to_String_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_map<std::string, std::string>::iterator*>(iterator_handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_String_to_String_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::string>::toFfi(
         (*reinterpret_cast<std::unordered_map<std::string, std::string>::iterator*>(iterator_handle))->first
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_String_to_String_iterator_get_value(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::string>::toFfi(
         (*reinterpret_cast<std::unordered_map<std::string, std::string>::iterator*>(iterator_handle))->second
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_String_to_String_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_map<std::string, std::string>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_map<std::string, std::string>>(
             gluecodium::ffi::Conversion<std::unordered_map<std::string, std::string>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_MapOf_String_to_String_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_map<std::string, std::string>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_map<std::string, std::string>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_String_to_String_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_map<std::string, std::string>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_map<std::string, std::string>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_map<std::string, std::string>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>());
 }
+
 void
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle);
 }
+
 void
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_put(FfiOpaqueHandle handle, FfiOpaqueHandle key, FfiOpaqueHandle value) {
     reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle)->emplace(
@@ -1729,66 +2042,78 @@ library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_p
         gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::BasicStruct>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator(
         reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>*>(handle)->end();
 }
+
 void
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::string>::toFfi(
         (*reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle))->first
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_iterator_get_value(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::BasicStruct>::toFfi(
         (*reinterpret_cast<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>::iterator*>(iterator_handle))->second
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>>(
             gluecodium::ffi::Conversion<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_BasicStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_map<std::string, smoke::GenericTypesWithCompoundTypes::BasicStruct>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<std::string, alien::FooStruct>());
 }
+
 void
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_map<std::string, alien::FooStruct>*>(handle);
 }
+
 void
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_put(FfiOpaqueHandle handle, FfiOpaqueHandle key, FfiOpaqueHandle value) {
     reinterpret_cast<std::unordered_map<std::string, alien::FooStruct>*>(handle)->emplace(
@@ -1796,66 +2121,78 @@ library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruc
         gluecodium::ffi::Conversion<alien::FooStruct>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<std::string, alien::FooStruct>::iterator(
         reinterpret_cast<std::unordered_map<std::string, alien::FooStruct>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_map<std::string, alien::FooStruct>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_map<std::string, alien::FooStruct>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_map<std::string, alien::FooStruct>*>(handle)->end();
 }
+
 void
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_map<std::string, alien::FooStruct>::iterator*>(iterator_handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::string>::toFfi(
         (*reinterpret_cast<std::unordered_map<std::string, alien::FooStruct>::iterator*>(iterator_handle))->first
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_iterator_get_value(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<alien::FooStruct>::toFfi(
         (*reinterpret_cast<std::unordered_map<std::string, alien::FooStruct>::iterator*>(iterator_handle))->second
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_map<std::string, alien::FooStruct>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_map<std::string, alien::FooStruct>>(
             gluecodium::ffi::Conversion<std::unordered_map<std::string, alien::FooStruct>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_map<std::string, alien::FooStruct>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_map<std::string, alien::FooStruct>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_String_to_smoke_GenericTypesWithCompoundTypes_ExternalStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_map<std::string, alien::FooStruct>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_map<std::string, alien::FooStruct>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_map<std::string, alien::FooStruct>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_UByte_to_String_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<uint8_t, std::string>());
 }
+
 void
 library_foobar_MapOf_UByte_to_String_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_map<uint8_t, std::string>*>(handle);
 }
+
 void
 library_foobar_MapOf_UByte_to_String_put(FfiOpaqueHandle handle, uint8_t key, FfiOpaqueHandle value) {
     reinterpret_cast<std::unordered_map<uint8_t, std::string>*>(handle)->emplace(
@@ -1863,66 +2200,78 @@ library_foobar_MapOf_UByte_to_String_put(FfiOpaqueHandle handle, uint8_t key, Ff
         gluecodium::ffi::Conversion<std::string>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_UByte_to_String_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<uint8_t, std::string>::iterator(
         reinterpret_cast<std::unordered_map<uint8_t, std::string>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_MapOf_UByte_to_String_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_map<uint8_t, std::string>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_MapOf_UByte_to_String_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_map<uint8_t, std::string>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_map<uint8_t, std::string>*>(handle)->end();
 }
+
 void
 library_foobar_MapOf_UByte_to_String_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_map<uint8_t, std::string>::iterator*>(iterator_handle);
 }
+
 uint8_t
 library_foobar_MapOf_UByte_to_String_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<uint8_t>::toFfi(
         (*reinterpret_cast<std::unordered_map<uint8_t, std::string>::iterator*>(iterator_handle))->first
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_UByte_to_String_iterator_get_value(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::string>::toFfi(
         (*reinterpret_cast<std::unordered_map<uint8_t, std::string>::iterator*>(iterator_handle))->second
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_UByte_to_String_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_map<uint8_t, std::string>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_map<uint8_t, std::string>>(
             gluecodium::ffi::Conversion<std::unordered_map<uint8_t, std::string>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_MapOf_UByte_to_String_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_map<uint8_t, std::string>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_map<uint8_t, std::string>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_UByte_to_String_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_map<uint8_t, std::string>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_map<uint8_t, std::string>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_map<uint8_t, std::string>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<std::vector<int32_t>, bool, gluecodium::hash<std::vector<int32_t>>>());
 }
+
 void
 library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_map<std::vector<int32_t>, bool, gluecodium::hash<std::vector<int32_t>>>*>(handle);
 }
+
 void
 library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_put(FfiOpaqueHandle handle, FfiOpaqueHandle key, bool value) {
     reinterpret_cast<std::unordered_map<std::vector<int32_t>, bool, gluecodium::hash<std::vector<int32_t>>>*>(handle)->emplace(
@@ -1930,66 +2279,78 @@ library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_put(FfiOpaqueHandle handle, Ff
         gluecodium::ffi::Conversion<bool>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<std::vector<int32_t>, bool, gluecodium::hash<std::vector<int32_t>>>::iterator(
         reinterpret_cast<std::unordered_map<std::vector<int32_t>, bool, gluecodium::hash<std::vector<int32_t>>>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_map<std::vector<int32_t>, bool, gluecodium::hash<std::vector<int32_t>>>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_map<std::vector<int32_t>, bool, gluecodium::hash<std::vector<int32_t>>>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_map<std::vector<int32_t>, bool, gluecodium::hash<std::vector<int32_t>>>*>(handle)->end();
 }
+
 void
 library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_map<std::vector<int32_t>, bool, gluecodium::hash<std::vector<int32_t>>>::iterator*>(iterator_handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::vector<int32_t>>::toFfi(
         (*reinterpret_cast<std::unordered_map<std::vector<int32_t>, bool, gluecodium::hash<std::vector<int32_t>>>::iterator*>(iterator_handle))->first
     );
 }
+
 bool
 library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_iterator_get_value(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<bool>::toFfi(
         (*reinterpret_cast<std::unordered_map<std::vector<int32_t>, bool, gluecodium::hash<std::vector<int32_t>>>::iterator*>(iterator_handle))->second
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_map<std::vector<int32_t>, bool, gluecodium::hash<std::vector<int32_t>>>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_map<std::vector<int32_t>, bool, gluecodium::hash<std::vector<int32_t>>>>(
             gluecodium::ffi::Conversion<std::unordered_map<std::vector<int32_t>, bool, gluecodium::hash<std::vector<int32_t>>>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_map<std::vector<int32_t>, bool, gluecodium::hash<std::vector<int32_t>>>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_map<std::vector<int32_t>, bool, gluecodium::hash<std::vector<int32_t>>>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_foobar_ListOf_Int_to_Boolean_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_map<std::vector<int32_t>, bool, gluecodium::hash<std::vector<int32_t>>>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_map<std::vector<int32_t>, bool, gluecodium::hash<std::vector<int32_t>>>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_map<std::vector<int32_t>, bool, gluecodium::hash<std::vector<int32_t>>>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<std::unordered_map<int32_t, bool>, bool, gluecodium::hash<std::unordered_map<int32_t, bool>>>());
 }
+
 void
 library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_map<std::unordered_map<int32_t, bool>, bool, gluecodium::hash<std::unordered_map<int32_t, bool>>>*>(handle);
 }
+
 void
 library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_put(FfiOpaqueHandle handle, FfiOpaqueHandle key, bool value) {
     reinterpret_cast<std::unordered_map<std::unordered_map<int32_t, bool>, bool, gluecodium::hash<std::unordered_map<int32_t, bool>>>*>(handle)->emplace(
@@ -1997,66 +2358,78 @@ library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_put(FfiOpaqueHandle 
         gluecodium::ffi::Conversion<bool>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<std::unordered_map<int32_t, bool>, bool, gluecodium::hash<std::unordered_map<int32_t, bool>>>::iterator(
         reinterpret_cast<std::unordered_map<std::unordered_map<int32_t, bool>, bool, gluecodium::hash<std::unordered_map<int32_t, bool>>>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_map<std::unordered_map<int32_t, bool>, bool, gluecodium::hash<std::unordered_map<int32_t, bool>>>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_map<std::unordered_map<int32_t, bool>, bool, gluecodium::hash<std::unordered_map<int32_t, bool>>>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_map<std::unordered_map<int32_t, bool>, bool, gluecodium::hash<std::unordered_map<int32_t, bool>>>*>(handle)->end();
 }
+
 void
 library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_map<std::unordered_map<int32_t, bool>, bool, gluecodium::hash<std::unordered_map<int32_t, bool>>>::iterator*>(iterator_handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::unordered_map<int32_t, bool>>::toFfi(
         (*reinterpret_cast<std::unordered_map<std::unordered_map<int32_t, bool>, bool, gluecodium::hash<std::unordered_map<int32_t, bool>>>::iterator*>(iterator_handle))->first
     );
 }
+
 bool
 library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_iterator_get_value(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<bool>::toFfi(
         (*reinterpret_cast<std::unordered_map<std::unordered_map<int32_t, bool>, bool, gluecodium::hash<std::unordered_map<int32_t, bool>>>::iterator*>(iterator_handle))->second
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_map<std::unordered_map<int32_t, bool>, bool, gluecodium::hash<std::unordered_map<int32_t, bool>>>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_map<std::unordered_map<int32_t, bool>, bool, gluecodium::hash<std::unordered_map<int32_t, bool>>>>(
             gluecodium::ffi::Conversion<std::unordered_map<std::unordered_map<int32_t, bool>, bool, gluecodium::hash<std::unordered_map<int32_t, bool>>>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_map<std::unordered_map<int32_t, bool>, bool, gluecodium::hash<std::unordered_map<int32_t, bool>>>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_map<std::unordered_map<int32_t, bool>, bool, gluecodium::hash<std::unordered_map<int32_t, bool>>>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_foobar_MapOf_Int_to_Boolean_to_Boolean_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_map<std::unordered_map<int32_t, bool>, bool, gluecodium::hash<std::unordered_map<int32_t, bool>>>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_map<std::unordered_map<int32_t, bool>, bool, gluecodium::hash<std::unordered_map<int32_t, bool>>>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_map<std::unordered_map<int32_t, bool>, bool, gluecodium::hash<std::unordered_map<int32_t, bool>>>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<std::unordered_set<int32_t>, bool, gluecodium::hash<std::unordered_set<int32_t>>>());
 }
+
 void
 library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_map<std::unordered_set<int32_t>, bool, gluecodium::hash<std::unordered_set<int32_t>>>*>(handle);
 }
+
 void
 library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_put(FfiOpaqueHandle handle, FfiOpaqueHandle key, bool value) {
     reinterpret_cast<std::unordered_map<std::unordered_set<int32_t>, bool, gluecodium::hash<std::unordered_set<int32_t>>>*>(handle)->emplace(
@@ -2064,66 +2437,78 @@ library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_put(FfiOpaqueHandle handle, Ffi
         gluecodium::ffi::Conversion<bool>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<std::unordered_set<int32_t>, bool, gluecodium::hash<std::unordered_set<int32_t>>>::iterator(
         reinterpret_cast<std::unordered_map<std::unordered_set<int32_t>, bool, gluecodium::hash<std::unordered_set<int32_t>>>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_map<std::unordered_set<int32_t>, bool, gluecodium::hash<std::unordered_set<int32_t>>>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_map<std::unordered_set<int32_t>, bool, gluecodium::hash<std::unordered_set<int32_t>>>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_map<std::unordered_set<int32_t>, bool, gluecodium::hash<std::unordered_set<int32_t>>>*>(handle)->end();
 }
+
 void
 library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_map<std::unordered_set<int32_t>, bool, gluecodium::hash<std::unordered_set<int32_t>>>::iterator*>(iterator_handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::unordered_set<int32_t>>::toFfi(
         (*reinterpret_cast<std::unordered_map<std::unordered_set<int32_t>, bool, gluecodium::hash<std::unordered_set<int32_t>>>::iterator*>(iterator_handle))->first
     );
 }
+
 bool
 library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_iterator_get_value(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<bool>::toFfi(
         (*reinterpret_cast<std::unordered_map<std::unordered_set<int32_t>, bool, gluecodium::hash<std::unordered_set<int32_t>>>::iterator*>(iterator_handle))->second
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_map<std::unordered_set<int32_t>, bool, gluecodium::hash<std::unordered_set<int32_t>>>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_map<std::unordered_set<int32_t>, bool, gluecodium::hash<std::unordered_set<int32_t>>>>(
             gluecodium::ffi::Conversion<std::unordered_map<std::unordered_set<int32_t>, bool, gluecodium::hash<std::unordered_set<int32_t>>>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_map<std::unordered_set<int32_t>, bool, gluecodium::hash<std::unordered_set<int32_t>>>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_map<std::unordered_set<int32_t>, bool, gluecodium::hash<std::unordered_set<int32_t>>>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_foobar_SetOf_Int_to_Boolean_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_map<std::unordered_set<int32_t>, bool, gluecodium::hash<std::unordered_set<int32_t>>>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_map<std::unordered_set<int32_t>, bool, gluecodium::hash<std::unordered_set<int32_t>>>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_map<std::unordered_set<int32_t>, bool, gluecodium::hash<std::unordered_set<int32_t>>>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<alien::FooEnum, bool, gluecodium::hash<alien::FooEnum>>());
 }
+
 void
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_map<alien::FooEnum, bool, gluecodium::hash<alien::FooEnum>>*>(handle);
 }
+
 void
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_put(FfiOpaqueHandle handle, uint32_t key, bool value) {
     reinterpret_cast<std::unordered_map<alien::FooEnum, bool, gluecodium::hash<alien::FooEnum>>*>(handle)->emplace(
@@ -2131,66 +2516,78 @@ library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean
         gluecodium::ffi::Conversion<bool>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<alien::FooEnum, bool, gluecodium::hash<alien::FooEnum>>::iterator(
         reinterpret_cast<std::unordered_map<alien::FooEnum, bool, gluecodium::hash<alien::FooEnum>>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_map<alien::FooEnum, bool, gluecodium::hash<alien::FooEnum>>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_map<alien::FooEnum, bool, gluecodium::hash<alien::FooEnum>>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_map<alien::FooEnum, bool, gluecodium::hash<alien::FooEnum>>*>(handle)->end();
 }
+
 void
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_map<alien::FooEnum, bool, gluecodium::hash<alien::FooEnum>>::iterator*>(iterator_handle);
 }
+
 uint32_t
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<alien::FooEnum>::toFfi(
         (*reinterpret_cast<std::unordered_map<alien::FooEnum, bool, gluecodium::hash<alien::FooEnum>>::iterator*>(iterator_handle))->first
     );
 }
+
 bool
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_iterator_get_value(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<bool>::toFfi(
         (*reinterpret_cast<std::unordered_map<alien::FooEnum, bool, gluecodium::hash<alien::FooEnum>>::iterator*>(iterator_handle))->second
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_map<alien::FooEnum, bool, gluecodium::hash<alien::FooEnum>>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_map<alien::FooEnum, bool, gluecodium::hash<alien::FooEnum>>>(
             gluecodium::ffi::Conversion<std::unordered_map<alien::FooEnum, bool, gluecodium::hash<alien::FooEnum>>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_map<alien::FooEnum, bool, gluecodium::hash<alien::FooEnum>>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_map<alien::FooEnum, bool, gluecodium::hash<alien::FooEnum>>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_to_Boolean_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_map<alien::FooEnum, bool, gluecodium::hash<alien::FooEnum>>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_map<alien::FooEnum, bool, gluecodium::hash<alien::FooEnum>>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_map<alien::FooEnum, bool, gluecodium::hash<alien::FooEnum>>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>());
 }
+
 void
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle);
 }
+
 void
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_put(FfiOpaqueHandle handle, uint32_t key, bool value) {
     reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)->emplace(
@@ -2198,598 +2595,708 @@ library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_put
         gluecodium::ffi::Conversion<bool>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator(
         reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)->end();
 }
+
 void
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle);
 }
+
 uint32_t
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_get_key(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::SomeEnum>::toFfi(
         (*reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle))->first
     );
 }
+
 bool
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_iterator_get_value(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<bool>::toFfi(
         (*reinterpret_cast<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle))->second
     );
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>>(
             gluecodium::ffi::Conversion<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_MapOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_to_Boolean_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_map<smoke::GenericTypesWithCompoundTypes::SomeEnum, bool, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_Float_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<float>());
 }
+
 void
 library_foobar_SetOf_Float_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_set<float>*>(handle);
 }
+
 void
 library_foobar_SetOf_Float_insert(FfiOpaqueHandle handle, float value) {
     reinterpret_cast<std::unordered_set<float>*>(handle)->insert(
         gluecodium::ffi::Conversion<float>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_Float_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<float>::iterator(
         reinterpret_cast<std::unordered_set<float>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_SetOf_Float_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_set<float>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_SetOf_Float_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_set<float>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_set<float>*>(handle)->end();
 }
+
 void
 library_foobar_SetOf_Float_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_set<float>::iterator*>(iterator_handle);
 }
+
 float
 library_foobar_SetOf_Float_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<float>::toFfi(
         **reinterpret_cast<std::unordered_set<float>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_Float_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_set<float>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_set<float>>(
             gluecodium::ffi::Conversion<std::unordered_set<float>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_SetOf_Float_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_set<float>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_set<float>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_Float_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_set<float>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_set<float>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_set<float>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_Int_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<int32_t>());
 }
+
 void
 library_foobar_SetOf_Int_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_set<int32_t>*>(handle);
 }
+
 void
 library_foobar_SetOf_Int_insert(FfiOpaqueHandle handle, int32_t value) {
     reinterpret_cast<std::unordered_set<int32_t>*>(handle)->insert(
         gluecodium::ffi::Conversion<int32_t>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_Int_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<int32_t>::iterator(
         reinterpret_cast<std::unordered_set<int32_t>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_SetOf_Int_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_set<int32_t>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_SetOf_Int_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_set<int32_t>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_set<int32_t>*>(handle)->end();
 }
+
 void
 library_foobar_SetOf_Int_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_set<int32_t>::iterator*>(iterator_handle);
 }
+
 int32_t
 library_foobar_SetOf_Int_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<int32_t>::toFfi(
         **reinterpret_cast<std::unordered_set<int32_t>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_Int_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_set<int32_t>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_set<int32_t>>(
             gluecodium::ffi::Conversion<std::unordered_set<int32_t>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_SetOf_Int_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_set<int32_t>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_set<int32_t>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_Int_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_set<int32_t>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_set<int32_t>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_set<int32_t>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_String_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<std::string>());
 }
+
 void
 library_foobar_SetOf_String_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_set<std::string>*>(handle);
 }
+
 void
 library_foobar_SetOf_String_insert(FfiOpaqueHandle handle, FfiOpaqueHandle value) {
     reinterpret_cast<std::unordered_set<std::string>*>(handle)->insert(
         gluecodium::ffi::Conversion<std::string>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_String_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<std::string>::iterator(
         reinterpret_cast<std::unordered_set<std::string>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_SetOf_String_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_set<std::string>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_SetOf_String_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_set<std::string>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_set<std::string>*>(handle)->end();
 }
+
 void
 library_foobar_SetOf_String_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_set<std::string>::iterator*>(iterator_handle);
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_String_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::string>::toFfi(
         **reinterpret_cast<std::unordered_set<std::string>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_String_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_set<std::string>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_set<std::string>>(
             gluecodium::ffi::Conversion<std::unordered_set<std::string>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_SetOf_String_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_set<std::string>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_set<std::string>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_String_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_set<std::string>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_set<std::string>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_set<std::string>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_UByte_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<uint8_t>());
 }
+
 void
 library_foobar_SetOf_UByte_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_set<uint8_t>*>(handle);
 }
+
 void
 library_foobar_SetOf_UByte_insert(FfiOpaqueHandle handle, uint8_t value) {
     reinterpret_cast<std::unordered_set<uint8_t>*>(handle)->insert(
         gluecodium::ffi::Conversion<uint8_t>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_UByte_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<uint8_t>::iterator(
         reinterpret_cast<std::unordered_set<uint8_t>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_SetOf_UByte_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_set<uint8_t>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_SetOf_UByte_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_set<uint8_t>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_set<uint8_t>*>(handle)->end();
 }
+
 void
 library_foobar_SetOf_UByte_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_set<uint8_t>::iterator*>(iterator_handle);
 }
+
 uint8_t
 library_foobar_SetOf_UByte_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<uint8_t>::toFfi(
         **reinterpret_cast<std::unordered_set<uint8_t>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_UByte_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_set<uint8_t>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_set<uint8_t>>(
             gluecodium::ffi::Conversion<std::unordered_set<uint8_t>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_SetOf_UByte_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_set<uint8_t>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_set<uint8_t>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_UByte_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_set<uint8_t>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_set<uint8_t>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_set<uint8_t>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_foobar_ListOf_Int_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<std::vector<int32_t>, gluecodium::hash<std::vector<int32_t>>>());
 }
+
 void
 library_foobar_SetOf_foobar_ListOf_Int_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_set<std::vector<int32_t>, gluecodium::hash<std::vector<int32_t>>>*>(handle);
 }
+
 void
 library_foobar_SetOf_foobar_ListOf_Int_insert(FfiOpaqueHandle handle, FfiOpaqueHandle value) {
     reinterpret_cast<std::unordered_set<std::vector<int32_t>, gluecodium::hash<std::vector<int32_t>>>*>(handle)->insert(
         gluecodium::ffi::Conversion<std::vector<int32_t>>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_foobar_ListOf_Int_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<std::vector<int32_t>, gluecodium::hash<std::vector<int32_t>>>::iterator(
         reinterpret_cast<std::unordered_set<std::vector<int32_t>, gluecodium::hash<std::vector<int32_t>>>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_SetOf_foobar_ListOf_Int_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_set<std::vector<int32_t>, gluecodium::hash<std::vector<int32_t>>>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_SetOf_foobar_ListOf_Int_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_set<std::vector<int32_t>, gluecodium::hash<std::vector<int32_t>>>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_set<std::vector<int32_t>, gluecodium::hash<std::vector<int32_t>>>*>(handle)->end();
 }
+
 void
 library_foobar_SetOf_foobar_ListOf_Int_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_set<std::vector<int32_t>, gluecodium::hash<std::vector<int32_t>>>::iterator*>(iterator_handle);
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_foobar_ListOf_Int_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::vector<int32_t>>::toFfi(
         **reinterpret_cast<std::unordered_set<std::vector<int32_t>, gluecodium::hash<std::vector<int32_t>>>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_foobar_ListOf_Int_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_set<std::vector<int32_t>, gluecodium::hash<std::vector<int32_t>>>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_set<std::vector<int32_t>, gluecodium::hash<std::vector<int32_t>>>>(
             gluecodium::ffi::Conversion<std::unordered_set<std::vector<int32_t>, gluecodium::hash<std::vector<int32_t>>>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_SetOf_foobar_ListOf_Int_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_set<std::vector<int32_t>, gluecodium::hash<std::vector<int32_t>>>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_set<std::vector<int32_t>, gluecodium::hash<std::vector<int32_t>>>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_foobar_ListOf_Int_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_set<std::vector<int32_t>, gluecodium::hash<std::vector<int32_t>>>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_set<std::vector<int32_t>, gluecodium::hash<std::vector<int32_t>>>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_set<std::vector<int32_t>, gluecodium::hash<std::vector<int32_t>>>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<std::unordered_map<int32_t, bool>, gluecodium::hash<std::unordered_map<int32_t, bool>>>());
 }
+
 void
 library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_set<std::unordered_map<int32_t, bool>, gluecodium::hash<std::unordered_map<int32_t, bool>>>*>(handle);
 }
+
 void
 library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_insert(FfiOpaqueHandle handle, FfiOpaqueHandle value) {
     reinterpret_cast<std::unordered_set<std::unordered_map<int32_t, bool>, gluecodium::hash<std::unordered_map<int32_t, bool>>>*>(handle)->insert(
         gluecodium::ffi::Conversion<std::unordered_map<int32_t, bool>>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<std::unordered_map<int32_t, bool>, gluecodium::hash<std::unordered_map<int32_t, bool>>>::iterator(
         reinterpret_cast<std::unordered_set<std::unordered_map<int32_t, bool>, gluecodium::hash<std::unordered_map<int32_t, bool>>>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_set<std::unordered_map<int32_t, bool>, gluecodium::hash<std::unordered_map<int32_t, bool>>>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_set<std::unordered_map<int32_t, bool>, gluecodium::hash<std::unordered_map<int32_t, bool>>>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_set<std::unordered_map<int32_t, bool>, gluecodium::hash<std::unordered_map<int32_t, bool>>>*>(handle)->end();
 }
+
 void
 library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_set<std::unordered_map<int32_t, bool>, gluecodium::hash<std::unordered_map<int32_t, bool>>>::iterator*>(iterator_handle);
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::unordered_map<int32_t, bool>>::toFfi(
         **reinterpret_cast<std::unordered_set<std::unordered_map<int32_t, bool>, gluecodium::hash<std::unordered_map<int32_t, bool>>>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_set<std::unordered_map<int32_t, bool>, gluecodium::hash<std::unordered_map<int32_t, bool>>>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_set<std::unordered_map<int32_t, bool>, gluecodium::hash<std::unordered_map<int32_t, bool>>>>(
             gluecodium::ffi::Conversion<std::unordered_set<std::unordered_map<int32_t, bool>, gluecodium::hash<std::unordered_map<int32_t, bool>>>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_set<std::unordered_map<int32_t, bool>, gluecodium::hash<std::unordered_map<int32_t, bool>>>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_set<std::unordered_map<int32_t, bool>, gluecodium::hash<std::unordered_map<int32_t, bool>>>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_foobar_MapOf_Int_to_Boolean_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_set<std::unordered_map<int32_t, bool>, gluecodium::hash<std::unordered_map<int32_t, bool>>>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_set<std::unordered_map<int32_t, bool>, gluecodium::hash<std::unordered_map<int32_t, bool>>>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_set<std::unordered_map<int32_t, bool>, gluecodium::hash<std::unordered_map<int32_t, bool>>>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_foobar_SetOf_Int_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<std::unordered_set<int32_t>, gluecodium::hash<std::unordered_set<int32_t>>>());
 }
+
 void
 library_foobar_SetOf_foobar_SetOf_Int_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_set<std::unordered_set<int32_t>, gluecodium::hash<std::unordered_set<int32_t>>>*>(handle);
 }
+
 void
 library_foobar_SetOf_foobar_SetOf_Int_insert(FfiOpaqueHandle handle, FfiOpaqueHandle value) {
     reinterpret_cast<std::unordered_set<std::unordered_set<int32_t>, gluecodium::hash<std::unordered_set<int32_t>>>*>(handle)->insert(
         gluecodium::ffi::Conversion<std::unordered_set<int32_t>>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_foobar_SetOf_Int_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<std::unordered_set<int32_t>, gluecodium::hash<std::unordered_set<int32_t>>>::iterator(
         reinterpret_cast<std::unordered_set<std::unordered_set<int32_t>, gluecodium::hash<std::unordered_set<int32_t>>>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_SetOf_foobar_SetOf_Int_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_set<std::unordered_set<int32_t>, gluecodium::hash<std::unordered_set<int32_t>>>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_SetOf_foobar_SetOf_Int_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_set<std::unordered_set<int32_t>, gluecodium::hash<std::unordered_set<int32_t>>>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_set<std::unordered_set<int32_t>, gluecodium::hash<std::unordered_set<int32_t>>>*>(handle)->end();
 }
+
 void
 library_foobar_SetOf_foobar_SetOf_Int_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_set<std::unordered_set<int32_t>, gluecodium::hash<std::unordered_set<int32_t>>>::iterator*>(iterator_handle);
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_foobar_SetOf_Int_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<std::unordered_set<int32_t>>::toFfi(
         **reinterpret_cast<std::unordered_set<std::unordered_set<int32_t>, gluecodium::hash<std::unordered_set<int32_t>>>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_foobar_SetOf_Int_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_set<std::unordered_set<int32_t>, gluecodium::hash<std::unordered_set<int32_t>>>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_set<std::unordered_set<int32_t>, gluecodium::hash<std::unordered_set<int32_t>>>>(
             gluecodium::ffi::Conversion<std::unordered_set<std::unordered_set<int32_t>, gluecodium::hash<std::unordered_set<int32_t>>>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_SetOf_foobar_SetOf_Int_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_set<std::unordered_set<int32_t>, gluecodium::hash<std::unordered_set<int32_t>>>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_set<std::unordered_set<int32_t>, gluecodium::hash<std::unordered_set<int32_t>>>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_foobar_SetOf_Int_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_set<std::unordered_set<int32_t>, gluecodium::hash<std::unordered_set<int32_t>>>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_set<std::unordered_set<int32_t>, gluecodium::hash<std::unordered_set<int32_t>>>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_set<std::unordered_set<int32_t>, gluecodium::hash<std::unordered_set<int32_t>>>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<alien::FooEnum, gluecodium::hash<alien::FooEnum>>());
 }
+
 void
 library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_set<alien::FooEnum, gluecodium::hash<alien::FooEnum>>*>(handle);
 }
+
 void
 library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_insert(FfiOpaqueHandle handle, uint32_t value) {
     reinterpret_cast<std::unordered_set<alien::FooEnum, gluecodium::hash<alien::FooEnum>>*>(handle)->insert(
         gluecodium::ffi::Conversion<alien::FooEnum>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<alien::FooEnum, gluecodium::hash<alien::FooEnum>>::iterator(
         reinterpret_cast<std::unordered_set<alien::FooEnum, gluecodium::hash<alien::FooEnum>>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_set<alien::FooEnum, gluecodium::hash<alien::FooEnum>>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_set<alien::FooEnum, gluecodium::hash<alien::FooEnum>>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_set<alien::FooEnum, gluecodium::hash<alien::FooEnum>>*>(handle)->end();
 }
+
 void
 library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_set<alien::FooEnum, gluecodium::hash<alien::FooEnum>>::iterator*>(iterator_handle);
 }
+
 uint32_t
 library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<alien::FooEnum>::toFfi(
         **reinterpret_cast<std::unordered_set<alien::FooEnum, gluecodium::hash<alien::FooEnum>>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_set<alien::FooEnum, gluecodium::hash<alien::FooEnum>>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_set<alien::FooEnum, gluecodium::hash<alien::FooEnum>>>(
             gluecodium::ffi::Conversion<std::unordered_set<alien::FooEnum, gluecodium::hash<alien::FooEnum>>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_set<alien::FooEnum, gluecodium::hash<alien::FooEnum>>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_set<alien::FooEnum, gluecodium::hash<alien::FooEnum>>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_ExternalEnum_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_set<alien::FooEnum, gluecodium::hash<alien::FooEnum>>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_set<alien::FooEnum, gluecodium::hash<alien::FooEnum>>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_set<alien::FooEnum, gluecodium::hash<alien::FooEnum>>>*>(handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle() {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>());
 }
+
 void
 library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle(FfiOpaqueHandle handle) {
     delete reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle);
 }
+
 void
 library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_insert(FfiOpaqueHandle handle, uint32_t value) {
     reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)->insert(
         gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::SomeEnum>::toCpp(value)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator(FfiOpaqueHandle handle) {
     return reinterpret_cast<FfiOpaqueHandle>(new (std::nothrow) std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator(
         reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)->begin()
     ));
 }
+
 void
 library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_release_handle(FfiOpaqueHandle iterator_handle) {
     delete reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle);
 }
+
 bool
 library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_is_valid(FfiOpaqueHandle handle, FfiOpaqueHandle iterator_handle) {
     return *reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle) !=
         reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>*>(handle)->end();
 }
+
 void
 library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_increment(FfiOpaqueHandle iterator_handle) {
     ++*reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle);
 }
+
 uint32_t
 library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_iterator_get(FfiOpaqueHandle iterator_handle) {
     return gluecodium::ffi::Conversion<smoke::GenericTypesWithCompoundTypes::SomeEnum>::toFfi(
         **reinterpret_cast<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>::iterator*>(iterator_handle)
     );
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>>(
+        new (std::nothrow) ::gluecodium::optional<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>>(
             gluecodium::ffi::Conversion<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>>::toCpp(value)
         )
     );
 }
+
 void
 library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>>*>(handle);
 }
+
 FfiOpaqueHandle
 library_foobar_SetOf_smoke_GenericTypesWithCompoundTypes_SomeEnum_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>>::toFfi(
-        **reinterpret_cast<std::optional<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<std::unordered_set<smoke::GenericTypesWithCompoundTypes::SomeEnum, gluecodium::hash<smoke::GenericTypesWithCompoundTypes::SomeEnum>>>*>(handle)
     );
 }
+
+
 #ifdef __cplusplus
 }
 #endif

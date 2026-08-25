@@ -5,12 +5,12 @@
 #include "InstanceCache.h"
 #include "FinalizerData.h"
 #include "IsolateContext.h"
+#include "gluecodium/Optional.h"
 #include "gluecodium/VectorHash.h"
 #include "smoke/Structs.h"
 #include "smoke/TypeCollection.h"
 #include <cstdint>
 #include <memory>
-#include <optional>
 #include <stdbool.h>
 #include <string>
 #include <vector>
@@ -188,7 +188,7 @@ FfiOpaqueHandle
 library_smoke_Structs_Point_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::Structs::Point>(
+        new (std::nothrow) ::gluecodium::optional<smoke::Structs::Point>(
             gluecodium::ffi::Conversion<smoke::Structs::Point>::toCpp(value)
         )
     );
@@ -197,14 +197,14 @@ library_smoke_Structs_Point_create_handle_nullable(FfiOpaqueHandle value)
 void
 library_smoke_Structs_Point_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::Structs::Point>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<smoke::Structs::Point>*>(handle);
 }
 
 FfiOpaqueHandle
 library_smoke_Structs_Point_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Structs::Point>::toFfi(
-        **reinterpret_cast<std::optional<smoke::Structs::Point>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<smoke::Structs::Point>*>(handle)
     );
 }
 
@@ -251,7 +251,7 @@ FfiOpaqueHandle
 library_smoke_Structs_Line_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::Structs::Line>(
+        new (std::nothrow) ::gluecodium::optional<smoke::Structs::Line>(
             gluecodium::ffi::Conversion<smoke::Structs::Line>::toCpp(value)
         )
     );
@@ -260,14 +260,14 @@ library_smoke_Structs_Line_create_handle_nullable(FfiOpaqueHandle value)
 void
 library_smoke_Structs_Line_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::Structs::Line>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<smoke::Structs::Line>*>(handle);
 }
 
 FfiOpaqueHandle
 library_smoke_Structs_Line_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Structs::Line>::toFfi(
-        **reinterpret_cast<std::optional<smoke::Structs::Line>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<smoke::Structs::Line>*>(handle)
     );
 }
 
@@ -402,7 +402,7 @@ FfiOpaqueHandle
 library_smoke_Structs_AllTypesStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::Structs::AllTypesStruct>(
+        new (std::nothrow) ::gluecodium::optional<smoke::Structs::AllTypesStruct>(
             gluecodium::ffi::Conversion<smoke::Structs::AllTypesStruct>::toCpp(value)
         )
     );
@@ -411,14 +411,14 @@ library_smoke_Structs_AllTypesStruct_create_handle_nullable(FfiOpaqueHandle valu
 void
 library_smoke_Structs_AllTypesStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::Structs::AllTypesStruct>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<smoke::Structs::AllTypesStruct>*>(handle);
 }
 
 FfiOpaqueHandle
 library_smoke_Structs_AllTypesStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Structs::AllTypesStruct>::toFfi(
-        **reinterpret_cast<std::optional<smoke::Structs::AllTypesStruct>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<smoke::Structs::AllTypesStruct>*>(handle)
     );
 }
 
@@ -449,7 +449,7 @@ FfiOpaqueHandle
 library_smoke_Structs_NestingImmutableStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::Structs::NestingImmutableStruct>(
+        new (std::nothrow) ::gluecodium::optional<smoke::Structs::NestingImmutableStruct>(
             gluecodium::ffi::Conversion<smoke::Structs::NestingImmutableStruct>::toCpp(value)
         )
     );
@@ -458,14 +458,14 @@ library_smoke_Structs_NestingImmutableStruct_create_handle_nullable(FfiOpaqueHan
 void
 library_smoke_Structs_NestingImmutableStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::Structs::NestingImmutableStruct>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<smoke::Structs::NestingImmutableStruct>*>(handle);
 }
 
 FfiOpaqueHandle
 library_smoke_Structs_NestingImmutableStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Structs::NestingImmutableStruct>::toFfi(
-        **reinterpret_cast<std::optional<smoke::Structs::NestingImmutableStruct>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<smoke::Structs::NestingImmutableStruct>*>(handle)
     );
 }
 
@@ -496,7 +496,7 @@ FfiOpaqueHandle
 library_smoke_Structs_DoubleNestingImmutableStruct_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::Structs::DoubleNestingImmutableStruct>(
+        new (std::nothrow) ::gluecodium::optional<smoke::Structs::DoubleNestingImmutableStruct>(
             gluecodium::ffi::Conversion<smoke::Structs::DoubleNestingImmutableStruct>::toCpp(value)
         )
     );
@@ -505,14 +505,14 @@ library_smoke_Structs_DoubleNestingImmutableStruct_create_handle_nullable(FfiOpa
 void
 library_smoke_Structs_DoubleNestingImmutableStruct_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::Structs::DoubleNestingImmutableStruct>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<smoke::Structs::DoubleNestingImmutableStruct>*>(handle);
 }
 
 FfiOpaqueHandle
 library_smoke_Structs_DoubleNestingImmutableStruct_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Structs::DoubleNestingImmutableStruct>::toFfi(
-        **reinterpret_cast<std::optional<smoke::Structs::DoubleNestingImmutableStruct>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<smoke::Structs::DoubleNestingImmutableStruct>*>(handle)
     );
 }
 
@@ -543,7 +543,7 @@ FfiOpaqueHandle
 library_smoke_Structs_StructWithArrayOfImmutable_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::Structs::StructWithArrayOfImmutable>(
+        new (std::nothrow) ::gluecodium::optional<smoke::Structs::StructWithArrayOfImmutable>(
             gluecodium::ffi::Conversion<smoke::Structs::StructWithArrayOfImmutable>::toCpp(value)
         )
     );
@@ -552,21 +552,21 @@ library_smoke_Structs_StructWithArrayOfImmutable_create_handle_nullable(FfiOpaqu
 void
 library_smoke_Structs_StructWithArrayOfImmutable_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::Structs::StructWithArrayOfImmutable>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<smoke::Structs::StructWithArrayOfImmutable>*>(handle);
 }
 
 FfiOpaqueHandle
 library_smoke_Structs_StructWithArrayOfImmutable_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Structs::StructWithArrayOfImmutable>::toFfi(
-        **reinterpret_cast<std::optional<smoke::Structs::StructWithArrayOfImmutable>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<smoke::Structs::StructWithArrayOfImmutable>*>(handle)
     );
 }
 
 
 FfiOpaqueHandle
 library_smoke_Structs_ImmutableStructWithCppAccessors_create_handle(int32_t trivialIntField, double trivialDoubleField, FfiOpaqueHandle nontrivialStringField, FfiOpaqueHandle nontrivialPointField, FfiOpaqueHandle nontrivialOptionalPoint) {
-    auto _result = new (std::nothrow) smoke::Structs::ImmutableStructWithCppAccessors(gluecodium::ffi::Conversion<int32_t>::toCpp(trivialIntField), gluecodium::ffi::Conversion<double>::toCpp(trivialDoubleField), gluecodium::ffi::Conversion<std::string>::toCpp(nontrivialStringField), gluecodium::ffi::Conversion<smoke::Structs::Point>::toCpp(nontrivialPointField), gluecodium::ffi::Conversion<std::optional<smoke::Structs::Point>>::toCpp(nontrivialOptionalPoint));
+    auto _result = new (std::nothrow) smoke::Structs::ImmutableStructWithCppAccessors(gluecodium::ffi::Conversion<int32_t>::toCpp(trivialIntField), gluecodium::ffi::Conversion<double>::toCpp(trivialDoubleField), gluecodium::ffi::Conversion<std::string>::toCpp(nontrivialStringField), gluecodium::ffi::Conversion<smoke::Structs::Point>::toCpp(nontrivialPointField), gluecodium::ffi::Conversion<gluecodium::optional<smoke::Structs::Point>>::toCpp(nontrivialOptionalPoint));
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
 
@@ -611,7 +611,7 @@ library_smoke_Structs_ImmutableStructWithCppAccessors_get_field_nontrivialPointF
 
 FfiOpaqueHandle
 library_smoke_Structs_ImmutableStructWithCppAccessors_get_field_nontrivialOptionalPoint(FfiOpaqueHandle handle) {
-    return gluecodium::ffi::Conversion<std::optional<smoke::Structs::Point>>::toFfi(
+    return gluecodium::ffi::Conversion<gluecodium::optional<smoke::Structs::Point>>::toFfi(
         reinterpret_cast<smoke::Structs::ImmutableStructWithCppAccessors*>(handle)->get_nontrivial_optional_point()
     );
 }
@@ -622,7 +622,7 @@ FfiOpaqueHandle
 library_smoke_Structs_ImmutableStructWithCppAccessors_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::Structs::ImmutableStructWithCppAccessors>(
+        new (std::nothrow) ::gluecodium::optional<smoke::Structs::ImmutableStructWithCppAccessors>(
             gluecodium::ffi::Conversion<smoke::Structs::ImmutableStructWithCppAccessors>::toCpp(value)
         )
     );
@@ -631,14 +631,14 @@ library_smoke_Structs_ImmutableStructWithCppAccessors_create_handle_nullable(Ffi
 void
 library_smoke_Structs_ImmutableStructWithCppAccessors_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::Structs::ImmutableStructWithCppAccessors>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<smoke::Structs::ImmutableStructWithCppAccessors>*>(handle);
 }
 
 FfiOpaqueHandle
 library_smoke_Structs_ImmutableStructWithCppAccessors_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Structs::ImmutableStructWithCppAccessors>::toFfi(
-        **reinterpret_cast<std::optional<smoke::Structs::ImmutableStructWithCppAccessors>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<smoke::Structs::ImmutableStructWithCppAccessors>*>(handle)
     );
 }
 
@@ -664,7 +664,7 @@ library_smoke_Structs_MutableStructWithCppAccessors_create_handle(int32_t trivia
 
 
 
-    _result->set_nontrivial_optional_point(gluecodium::ffi::Conversion<std::optional<smoke::Structs::Point>>::toCpp(nontrivialOptionalPoint));
+    _result->set_nontrivial_optional_point(gluecodium::ffi::Conversion<gluecodium::optional<smoke::Structs::Point>>::toCpp(nontrivialOptionalPoint));
 
     return reinterpret_cast<FfiOpaqueHandle>(_result);
 }
@@ -710,7 +710,7 @@ library_smoke_Structs_MutableStructWithCppAccessors_get_field_nontrivialPointFie
 
 FfiOpaqueHandle
 library_smoke_Structs_MutableStructWithCppAccessors_get_field_nontrivialOptionalPoint(FfiOpaqueHandle handle) {
-    return gluecodium::ffi::Conversion<std::optional<smoke::Structs::Point>>::toFfi(
+    return gluecodium::ffi::Conversion<gluecodium::optional<smoke::Structs::Point>>::toFfi(
         reinterpret_cast<smoke::Structs::MutableStructWithCppAccessors*>(handle)->get_nontrivial_optional_point()
     );
 }
@@ -721,7 +721,7 @@ FfiOpaqueHandle
 library_smoke_Structs_MutableStructWithCppAccessors_create_handle_nullable(FfiOpaqueHandle value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::Structs::MutableStructWithCppAccessors>(
+        new (std::nothrow) ::gluecodium::optional<smoke::Structs::MutableStructWithCppAccessors>(
             gluecodium::ffi::Conversion<smoke::Structs::MutableStructWithCppAccessors>::toCpp(value)
         )
     );
@@ -730,14 +730,14 @@ library_smoke_Structs_MutableStructWithCppAccessors_create_handle_nullable(FfiOp
 void
 library_smoke_Structs_MutableStructWithCppAccessors_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::Structs::MutableStructWithCppAccessors>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<smoke::Structs::MutableStructWithCppAccessors>*>(handle);
 }
 
 FfiOpaqueHandle
 library_smoke_Structs_MutableStructWithCppAccessors_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Structs::MutableStructWithCppAccessors>::toFfi(
-        **reinterpret_cast<std::optional<smoke::Structs::MutableStructWithCppAccessors>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<smoke::Structs::MutableStructWithCppAccessors>*>(handle)
     );
 }
 
@@ -747,7 +747,7 @@ FfiOpaqueHandle
 library_smoke_Structs_FooBar_create_handle_nullable(uint32_t value)
 {
     return reinterpret_cast<FfiOpaqueHandle>(
-        new (std::nothrow) std::optional<smoke::Structs::FooBar>(
+        new (std::nothrow) ::gluecodium::optional<smoke::Structs::FooBar>(
             gluecodium::ffi::Conversion<smoke::Structs::FooBar>::toCpp(value)
         )
     );
@@ -756,14 +756,14 @@ library_smoke_Structs_FooBar_create_handle_nullable(uint32_t value)
 void
 library_smoke_Structs_FooBar_release_handle_nullable(FfiOpaqueHandle handle)
 {
-    delete reinterpret_cast<std::optional<smoke::Structs::FooBar>*>(handle);
+    delete reinterpret_cast<::gluecodium::optional<smoke::Structs::FooBar>*>(handle);
 }
 
 uint32_t
 library_smoke_Structs_FooBar_get_value_nullable(FfiOpaqueHandle handle)
 {
     return gluecodium::ffi::Conversion<smoke::Structs::FooBar>::toFfi(
-        **reinterpret_cast<std::optional<smoke::Structs::FooBar>*>(handle)
+        **reinterpret_cast<::gluecodium::optional<smoke::Structs::FooBar>*>(handle)
     );
 }
 

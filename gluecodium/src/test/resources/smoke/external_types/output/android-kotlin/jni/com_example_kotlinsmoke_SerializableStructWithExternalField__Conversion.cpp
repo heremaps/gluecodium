@@ -26,12 +26,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::k
     return _nout;
 }
 
-std::optional<::kotlin_smoke::SerializableStructWithExternalField>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<::kotlin_smoke::SerializableStructWithExternalField>>)
+::gluecodium::optional<::kotlin_smoke::SerializableStructWithExternalField>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::gluecodium::optional<::kotlin_smoke::SerializableStructWithExternalField>>)
 {
     return _jinput
-        ? std::optional<::kotlin_smoke::SerializableStructWithExternalField>(convert_from_jni(_jenv, _jinput, TypeId<::kotlin_smoke::SerializableStructWithExternalField>{}))
-        : std::optional<::kotlin_smoke::SerializableStructWithExternalField>{};
+        ? ::gluecodium::optional<::kotlin_smoke::SerializableStructWithExternalField>(convert_from_jni(_jenv, _jinput, TypeId<::kotlin_smoke::SerializableStructWithExternalField>{}))
+        : ::gluecodium::optional<::kotlin_smoke::SerializableStructWithExternalField>{};
 }
 
 REGISTER_JNI_CLASS_CACHE("com/example/kotlinsmoke/SerializableStructWithExternalField", com_example_kotlinsmoke_SerializableStructWithExternalField, ::kotlin_smoke::SerializableStructWithExternalField)
@@ -48,7 +48,7 @@ convert_to_jni(JNIEnv* _jenv, const ::kotlin_smoke::SerializableStructWithExtern
 }
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::optional<::kotlin_smoke::SerializableStructWithExternalField> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::kotlin_smoke::SerializableStructWithExternalField> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

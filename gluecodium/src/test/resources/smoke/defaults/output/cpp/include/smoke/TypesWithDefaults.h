@@ -7,11 +7,11 @@
 #pragma once
 
 #include "gluecodium/ExportGluecodiumCpp.h"
+#include "gluecodium/Optional.h"
 #include "gluecodium/UnorderedMapHash.h"
 #include "gluecodium/UnorderedSetHash.h"
 #include "gluecodium/VectorHash.h"
 #include <cstdint>
-#include <optional>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -47,29 +47,29 @@ struct _GLUECODIUM_CPP_EXPORT TypesWithDefaults {
     };
 
     struct _GLUECODIUM_CPP_EXPORT ImmutableStructWithCollections {
-        const std::optional< ::std::vector< int32_t > > nullable_list_field = std::optional< ::std::vector< int32_t > >();
+        const ::gluecodium::optional< ::std::vector< int32_t > > nullable_list_field = ::gluecodium::optional< ::std::vector< int32_t > >();
         const ::std::vector< int32_t > empty_list_field = {};
         const ::std::vector< int32_t > values_list_field = {1, 2, 3};
-        const std::optional< ::std::unordered_map< int32_t, ::std::string > > nullable_map_field = std::optional< ::std::unordered_map< int32_t, ::std::string > >();
+        const ::gluecodium::optional< ::std::unordered_map< int32_t, ::std::string > > nullable_map_field = ::gluecodium::optional< ::std::unordered_map< int32_t, ::std::string > >();
         const ::std::unordered_map< int32_t, ::std::string > empty_map_field = {};
         const ::std::unordered_map< int32_t, ::std::string > values_map_field = {{9, "baz"}, {27, "bar"}};
-        const std::optional< ::std::unordered_set< ::std::string > > nullable_set_field = std::optional< ::std::unordered_set< ::std::string > >();
+        const ::gluecodium::optional< ::std::unordered_set< ::std::string > > nullable_set_field = ::gluecodium::optional< ::std::unordered_set< ::std::string > >();
         const ::std::unordered_set< ::std::string > empty_set_field = {};
         const ::std::unordered_set< ::std::string > values_set_field = {"bar", "baz"};
 
         ImmutableStructWithCollections( );
-        ImmutableStructWithCollections( std::optional< ::std::vector< int32_t > > nullable_list_field, ::std::vector< int32_t > empty_list_field, ::std::vector< int32_t > values_list_field, std::optional< ::std::unordered_map< int32_t, ::std::string > > nullable_map_field, ::std::unordered_map< int32_t, ::std::string > empty_map_field, ::std::unordered_map< int32_t, ::std::string > values_map_field, std::optional< ::std::unordered_set< ::std::string > > nullable_set_field, ::std::unordered_set< ::std::string > empty_set_field, ::std::unordered_set< ::std::string > values_set_field );
+        ImmutableStructWithCollections( ::gluecodium::optional< ::std::vector< int32_t > > nullable_list_field, ::std::vector< int32_t > empty_list_field, ::std::vector< int32_t > values_list_field, ::gluecodium::optional< ::std::unordered_map< int32_t, ::std::string > > nullable_map_field, ::std::unordered_map< int32_t, ::std::string > empty_map_field, ::std::unordered_map< int32_t, ::std::string > values_map_field, ::gluecodium::optional< ::std::unordered_set< ::std::string > > nullable_set_field, ::std::unordered_set< ::std::string > empty_set_field, ::std::unordered_set< ::std::string > values_set_field );
 
     };
 
     struct _GLUECODIUM_CPP_EXPORT ImmutableStructWithFieldConstructorAndCollections {
-        const std::optional< ::std::vector< int32_t > > nullable_list_field = std::optional< ::std::vector< int32_t > >();
+        const ::gluecodium::optional< ::std::vector< int32_t > > nullable_list_field = ::gluecodium::optional< ::std::vector< int32_t > >();
         const ::std::vector< int32_t > empty_list_field = {};
         const ::std::vector< int32_t > values_list_field = {1, 2, 3};
-        const std::optional< ::std::unordered_map< int32_t, ::std::string > > nullable_map_field = std::optional< ::std::unordered_map< int32_t, ::std::string > >();
+        const ::gluecodium::optional< ::std::unordered_map< int32_t, ::std::string > > nullable_map_field = ::gluecodium::optional< ::std::unordered_map< int32_t, ::std::string > >();
         const ::std::unordered_map< int32_t, ::std::string > empty_map_field = {};
         const ::std::unordered_map< int32_t, ::std::string > values_map_field = {{9, "baz"}, {27, "bar"}};
-        const std::optional< ::std::unordered_set< ::std::string > > nullable_set_field = std::optional< ::std::unordered_set< ::std::string > >();
+        const ::gluecodium::optional< ::std::unordered_set< ::std::string > > nullable_set_field = ::gluecodium::optional< ::std::unordered_set< ::std::string > >();
         const ::std::unordered_set< ::std::string > empty_set_field = {};
         const ::std::unordered_set< ::std::string > values_set_field = {"bar", "baz"};
         const int32_t some_field = 5;
@@ -79,7 +79,7 @@ struct _GLUECODIUM_CPP_EXPORT TypesWithDefaults {
 
         ImmutableStructWithFieldConstructorAndCollections( int32_t some_field, int32_t another_field );
 
-        ImmutableStructWithFieldConstructorAndCollections( std::optional< ::std::vector< int32_t > > nullable_list_field, ::std::vector< int32_t > empty_list_field, ::std::vector< int32_t > values_list_field, std::optional< ::std::unordered_map< int32_t, ::std::string > > nullable_map_field, ::std::unordered_map< int32_t, ::std::string > empty_map_field, ::std::unordered_map< int32_t, ::std::string > values_map_field, std::optional< ::std::unordered_set< ::std::string > > nullable_set_field, ::std::unordered_set< ::std::string > empty_set_field, ::std::unordered_set< ::std::string > values_set_field, int32_t some_field, int32_t another_field );
+        ImmutableStructWithFieldConstructorAndCollections( ::gluecodium::optional< ::std::vector< int32_t > > nullable_list_field, ::std::vector< int32_t > empty_list_field, ::std::vector< int32_t > values_list_field, ::gluecodium::optional< ::std::unordered_map< int32_t, ::std::string > > nullable_map_field, ::std::unordered_map< int32_t, ::std::string > empty_map_field, ::std::unordered_map< int32_t, ::std::string > values_map_field, ::gluecodium::optional< ::std::unordered_set< ::std::string > > nullable_set_field, ::std::unordered_set< ::std::string > empty_set_field, ::std::unordered_set< ::std::string > values_set_field, int32_t some_field, int32_t another_field );
 
     };
 
@@ -115,17 +115,17 @@ struct _GLUECODIUM_CPP_EXPORT TypesWithDefaults {
     };
 
     struct _GLUECODIUM_CPP_EXPORT ImmutableStructWithNullableFieldUsingImmutableStruct {
-        const std::optional< ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults > some_field1 = ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults{};
-        const std::optional< ::smoke::TypesWithDefaults::ImmutableStructWithCollections > some_field2 = ::smoke::TypesWithDefaults::ImmutableStructWithCollections{};
+        const ::gluecodium::optional< ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults > some_field1 = ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults{};
+        const ::gluecodium::optional< ::smoke::TypesWithDefaults::ImmutableStructWithCollections > some_field2 = ::smoke::TypesWithDefaults::ImmutableStructWithCollections{};
 
         ImmutableStructWithNullableFieldUsingImmutableStruct( );
-        ImmutableStructWithNullableFieldUsingImmutableStruct( std::optional< ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults > some_field1, std::optional< ::smoke::TypesWithDefaults::ImmutableStructWithCollections > some_field2 );
+        ImmutableStructWithNullableFieldUsingImmutableStruct( ::gluecodium::optional< ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults > some_field1, ::gluecodium::optional< ::smoke::TypesWithDefaults::ImmutableStructWithCollections > some_field2 );
 
     };
 
     struct _GLUECODIUM_CPP_EXPORT ImmutableStructWithFieldConstructorAndNullableFieldUsingImmutableStruct {
-        const std::optional< ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults > some_field1 = ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults{};
-        const std::optional< ::smoke::TypesWithDefaults::ImmutableStructWithCollections > some_field2 = ::smoke::TypesWithDefaults::ImmutableStructWithCollections{};
+        const ::gluecodium::optional< ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults > some_field1 = ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults{};
+        const ::gluecodium::optional< ::smoke::TypesWithDefaults::ImmutableStructWithCollections > some_field2 = ::smoke::TypesWithDefaults::ImmutableStructWithCollections{};
         const int32_t some_field = 5;
         const int32_t another_field = 7;
 
@@ -133,7 +133,7 @@ struct _GLUECODIUM_CPP_EXPORT TypesWithDefaults {
 
         ImmutableStructWithFieldConstructorAndNullableFieldUsingImmutableStruct( int32_t some_field, int32_t another_field );
 
-        ImmutableStructWithFieldConstructorAndNullableFieldUsingImmutableStruct( std::optional< ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults > some_field1, std::optional< ::smoke::TypesWithDefaults::ImmutableStructWithCollections > some_field2, int32_t some_field, int32_t another_field );
+        ImmutableStructWithFieldConstructorAndNullableFieldUsingImmutableStruct( ::gluecodium::optional< ::smoke::TypesWithDefaults::SomeImmutableStructWithDefaults > some_field1, ::gluecodium::optional< ::smoke::TypesWithDefaults::ImmutableStructWithCollections > some_field2, int32_t some_field, int32_t another_field );
 
     };
 

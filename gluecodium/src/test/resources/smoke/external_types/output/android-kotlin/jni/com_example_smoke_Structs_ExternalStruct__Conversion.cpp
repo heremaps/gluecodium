@@ -43,12 +43,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::s
     return _nout;
 }
 
-std::optional<::smoke::Structs::ExternalStruct>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<::smoke::Structs::ExternalStruct>>)
+::gluecodium::optional<::smoke::Structs::ExternalStruct>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::gluecodium::optional<::smoke::Structs::ExternalStruct>>)
 {
     return _jinput
-        ? std::optional<::smoke::Structs::ExternalStruct>(convert_from_jni(_jenv, _jinput, TypeId<::smoke::Structs::ExternalStruct>{}))
-        : std::optional<::smoke::Structs::ExternalStruct>{};
+        ? ::gluecodium::optional<::smoke::Structs::ExternalStruct>(convert_from_jni(_jenv, _jinput, TypeId<::smoke::Structs::ExternalStruct>{}))
+        : ::gluecodium::optional<::smoke::Structs::ExternalStruct>{};
 }
 
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/Structs$ExternalStruct", com_example_smoke_Structs_00024ExternalStruct, ::smoke::Structs::ExternalStruct)
@@ -72,7 +72,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::Structs::ExternalStruct& _ninput)
 }
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::optional<::smoke::Structs::ExternalStruct> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::Structs::ExternalStruct> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

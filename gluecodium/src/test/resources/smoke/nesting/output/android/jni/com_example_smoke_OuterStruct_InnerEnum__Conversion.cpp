@@ -20,12 +20,12 @@ convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::s
         ::gluecodium::jni::get_field_value(_jenv, _jinput, "value", TypeId<int32_t>{}));
 }
 
-std::optional<::smoke::OuterStruct::InnerEnum>
-convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<std::optional<::smoke::OuterStruct::InnerEnum>>)
+::gluecodium::optional<::smoke::OuterStruct::InnerEnum>
+convert_from_jni(JNIEnv* _jenv, const JniReference<jobject>& _jinput, TypeId<::gluecodium::optional<::smoke::OuterStruct::InnerEnum>>)
 {
     return _jinput
-        ? std::optional<::smoke::OuterStruct::InnerEnum>(convert_from_jni(_jenv, _jinput, TypeId<::smoke::OuterStruct::InnerEnum>{}))
-        : std::optional<::smoke::OuterStruct::InnerEnum>{};
+        ? ::gluecodium::optional<::smoke::OuterStruct::InnerEnum>(convert_from_jni(_jenv, _jinput, TypeId<::smoke::OuterStruct::InnerEnum>{}))
+        : ::gluecodium::optional<::smoke::OuterStruct::InnerEnum>{};
 }
 
 REGISTER_JNI_CLASS_CACHE("com/example/smoke/OuterStruct$InnerEnum", com_example_smoke_OuterStruct_00024InnerEnum, ::smoke::OuterStruct::InnerEnum)
@@ -48,7 +48,7 @@ convert_to_jni(JNIEnv* _jenv, const ::smoke::OuterStruct::InnerEnum _ninput)
 }
 
 JniReference<jobject>
-convert_to_jni(JNIEnv* _jenv, const std::optional<::smoke::OuterStruct::InnerEnum> _ninput)
+convert_to_jni(JNIEnv* _jenv, const ::gluecodium::optional<::smoke::OuterStruct::InnerEnum> _ninput)
 {
     return _ninput ? convert_to_jni(_jenv, *_ninput) : JniReference<jobject>{};
 }

@@ -58,13 +58,13 @@ box_uint_in_object( JNIEnv* const env, const uint16_t param ) noexcept
 
 template<typename T>
 ::gluecodium::jni::JniReference<jobject>
-convert_optional_to_jni( JNIEnv* const env, const std::optional<T>& nvalue ) noexcept
+convert_optional_to_jni( JNIEnv* const env, const ::gluecodium::optional<T>& nvalue ) noexcept
 {
     return nvalue ? ::gluecodium::jni::convert_to_jni( env, *nvalue ) : ::gluecodium::jni::JniReference<jobject>{};
 }
 
 template<typename Result, typename JResult>
-std::optional<Result>
+::gluecodium::optional<Result>
 convert_optional_from_jni(JNIEnv* const env,
                           const ::gluecodium::jni::JniReference<jobject>& jvalue,
                           const char* const method_name,
@@ -75,7 +75,7 @@ convert_optional_from_jni(JNIEnv* const env,
         return {};
     }
     const auto unboxed_value = ::gluecodium::jni::call_java_method<JResult>(env, jvalue, method_name, method_signature );
-    return std::optional<Result>(unboxed_value);
+    return ::gluecodium::optional<Result>(unboxed_value);
 }
 } // namespace
 
@@ -216,144 +216,144 @@ convert_from_jni( JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* const env, std::optional<bool> nvalue ) noexcept
+convert_to_jni( JNIEnv* const env, ::gluecodium::optional<bool> nvalue ) noexcept
 {
     return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* const env, std::optional<float> nvalue ) noexcept
+convert_to_jni( JNIEnv* const env, ::gluecodium::optional<float> nvalue ) noexcept
 {
     return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* const env, std::optional<double> nvalue ) noexcept
+convert_to_jni( JNIEnv* const env, ::gluecodium::optional<double> nvalue ) noexcept
 {
     return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* const env, std::optional<int8_t> nvalue ) noexcept
+convert_to_jni( JNIEnv* const env, ::gluecodium::optional<int8_t> nvalue ) noexcept
 {
     return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* const env, std::optional<int16_t> nvalue ) noexcept
+convert_to_jni( JNIEnv* const env, ::gluecodium::optional<int16_t> nvalue ) noexcept
 {
     return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* const env, std::optional<int32_t> nvalue ) noexcept
+convert_to_jni( JNIEnv* const env, ::gluecodium::optional<int32_t> nvalue ) noexcept
 {
     return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* const env, std::optional<int64_t> nvalue ) noexcept
+convert_to_jni( JNIEnv* const env, ::gluecodium::optional<int64_t> nvalue ) noexcept
 {
     return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* const env, std::optional<uint8_t> nvalue ) noexcept
+convert_to_jni( JNIEnv* const env, ::gluecodium::optional<uint8_t> nvalue ) noexcept
 {
     return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* const env, std::optional<uint16_t> nvalue ) noexcept
+convert_to_jni( JNIEnv* const env, ::gluecodium::optional<uint16_t> nvalue ) noexcept
 {
     return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* const env, std::optional<uint32_t> nvalue ) noexcept
+convert_to_jni( JNIEnv* const env, ::gluecodium::optional<uint32_t> nvalue ) noexcept
 {
     return convert_optional_to_jni(env, nvalue);
 }
 
 JniReference<jobject>
-convert_to_jni( JNIEnv* const env, std::optional<uint64_t> nvalue ) noexcept
+convert_to_jni( JNIEnv* const env, ::gluecodium::optional<uint64_t> nvalue ) noexcept
 {
     return convert_optional_to_jni(env, nvalue);
 }
 
-std::optional<bool>
+::gluecodium::optional<bool>
 convert_from_jni(
-    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<bool>> ) noexcept
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<::gluecodium::optional<bool>> ) noexcept
 {
     return convert_optional_from_jni<bool, jboolean>(env, jvalue, "booleanValue", "()Z");
 }
 
-std::optional<float>
+::gluecodium::optional<float>
 convert_from_jni(
-    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<float>> ) noexcept
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<::gluecodium::optional<float>> ) noexcept
 {
     return convert_optional_from_jni<float, jfloat>(env, jvalue, "floatValue", "()F");
 }
 
-std::optional<double>
+::gluecodium::optional<double>
 convert_from_jni(
-    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<double>> ) noexcept
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<::gluecodium::optional<double>> ) noexcept
 {
     return convert_optional_from_jni<double, jdouble>(env, jvalue, "doubleValue", "()D");
 }
 
-std::optional<int8_t>
+::gluecodium::optional<int8_t>
 convert_from_jni(
-    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<int8_t>> ) noexcept
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<::gluecodium::optional<int8_t>> ) noexcept
 {
     return convert_optional_from_jni<int8_t, int8_t>(env, jvalue, "byteValue", "()B");
 }
 
-std::optional<int16_t>
+::gluecodium::optional<int16_t>
 convert_from_jni(
-    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<int16_t>> ) noexcept
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<::gluecodium::optional<int16_t>> ) noexcept
 {
     return convert_optional_from_jni<int16_t, int16_t>(env, jvalue, "shortValue", "()S");
 }
 
-std::optional<int32_t>
+::gluecodium::optional<int32_t>
 convert_from_jni(
-    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<int32_t>> ) noexcept
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<::gluecodium::optional<int32_t>> ) noexcept
 {
     return convert_optional_from_jni<int32_t, int32_t>(env, jvalue, "intValue", "()I");
 }
 
-std::optional<int64_t>
+::gluecodium::optional<int64_t>
 convert_from_jni(
-    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<int64_t>> ) noexcept
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<::gluecodium::optional<int64_t>> ) noexcept
 {
     return convert_optional_from_jni<int64_t, int64_t>(env, jvalue, "longValue", "()J");
 }
 
-std::optional<uint8_t>
+::gluecodium::optional<uint8_t>
 convert_from_jni(
-    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<uint8_t>> ) noexcept
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<::gluecodium::optional<uint8_t>> ) noexcept
 {
     return convert_optional_from_jni<uint8_t, int16_t>(env, jvalue, "shortValue", "()S");
 }
 
-std::optional<uint16_t>
+::gluecodium::optional<uint16_t>
 convert_from_jni(
-    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<uint16_t>> ) noexcept
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<::gluecodium::optional<uint16_t>> ) noexcept
 {
     return convert_optional_from_jni<uint16_t, int32_t>(env, jvalue, "intValue", "()I");
 }
 
-std::optional<uint32_t>
+::gluecodium::optional<uint32_t>
 convert_from_jni(
-    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<uint32_t>> ) noexcept
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<::gluecodium::optional<uint32_t>> ) noexcept
 {
     return convert_optional_from_jni<uint32_t, int64_t>(env, jvalue, "longValue", "()J");
 }
 
-std::optional<uint64_t>
+::gluecodium::optional<uint64_t>
 convert_from_jni(
-    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<std::optional<uint64_t>> ) noexcept
+    JNIEnv* const env, const JniReference<jobject>& jvalue, TypeId<::gluecodium::optional<uint64_t>> ) noexcept
 {
     return convert_optional_from_jni<uint64_t, int64_t>(env, jvalue, "longValue", "()J");
 }
