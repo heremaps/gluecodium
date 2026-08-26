@@ -2,6 +2,7 @@
 
 ## Unreleased
  * C++: introduced the new 'EnumValues' attribute, which allows uses to instruct the C++ generator to create helper function for the given enumeration. The mentioned function returns an array of unique enumerator values.
+ * C++: restored the usage of typealias for `optional` type and fallback to custom optional type instead of `std::optional` in the case when C++17 is not available. This is part of the work to restore C++ code compatibility with C++14.
  * Kotlin: added `@AsyncDecorator` attribute for generating Kotlin coroutine `suspend` extension functions from callback-based asynchronous functions. This allows Kotlin consumers to call async APIs using idiomatic coroutines instead of raw callbacks. Supports result/error mapping, cancellation via `@AsyncTaskHandle`, and custom wrapper naming via `@AsyncDecorator(Name = "...")`.
 
 ## 14.1.1
