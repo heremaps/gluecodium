@@ -22,7 +22,7 @@
 
 namespace unit::test {
 ::custom::common::Return< std::shared_ptr<Foo>, std::error_code >
-Foo::make_foo(const std::optional< double >& parameter)
+Foo::make_foo(const ::custom::common::optional< double >& parameter)
 {
     return {std::shared_ptr<Foo>{}};
 }
