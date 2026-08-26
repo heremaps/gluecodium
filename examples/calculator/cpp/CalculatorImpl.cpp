@@ -88,8 +88,8 @@ class CalculatorImpl : public gluecodium::calculator::Calculator {
         return std::make_shared<MinResultRetrieverImpl>(std::min(first, second));
     }
 
-    std::optional< int32_t >
-    max( const std::optional< int32_t >& first, const std::optional< int32_t >& second ) override {
+    ::gluecodium::optional< int32_t >
+    max( const ::gluecodium::optional< int32_t >& first, const ::gluecodium::optional< int32_t >& second ) override {
         if (first && second) {
             return std::max(first.value(), second.value());
         }
