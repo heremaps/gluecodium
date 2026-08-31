@@ -53,6 +53,10 @@ internal class CppImplIncludesCollector(
             result += CppLibraryIncludes.STRING
         }
 
+        if (limeElement is LimeStruct && limeElement.fields.any { it.typeRef.isNullable && it.external?.cpp != null }) {
+            result += includesResolver.optionalInclude
+        }
+
         return result
     }
 }
