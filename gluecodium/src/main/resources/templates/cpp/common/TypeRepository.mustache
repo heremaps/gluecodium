@@ -40,13 +40,13 @@
 
 #pragma once
 #include "{{exportFileName}}.h"
-#include <string_view>
+#include "{{>common/InternalInclude}}StringView.h"
 
 {{#internalNamespace}}
 namespace {{.}} {
 {{/internalNamespace}}
 
-using TypeId = std::string_view;
+using TypeId = {{>common/InternalNamespace}}string_view;
 
 class {{>cpp/CppExportMacro}}TypeRepository final
 {
