@@ -593,11 +593,39 @@ operator==(const Optional<ValueType>& lhs, const Optional<ValueType>& rhs)
 }
 
 template <class ValueType>
+inline constexpr bool
+operator==(const Optional<ValueType>& o, nullopt_t) noexcept
+{
+    return !o.has_value();
+}
+
+template <class ValueType>
+inline constexpr bool
+operator==(nullopt_t, const Optional<ValueType>& o) noexcept
+{
+    return !o.has_value();
+}
+
+template <class ValueType>
 inline bool
 operator!=(const Optional<ValueType>& lhs, const Optional<ValueType>& rhs)
     noexcept(noexcept(lhs == rhs))
 {
     return !(lhs == rhs);
+}
+
+template <class ValueType>
+inline constexpr bool
+operator!=(const Optional<ValueType>& o, nullopt_t) noexcept
+{
+    return o.has_value();
+}
+
+template <class ValueType>
+inline constexpr bool
+operator!=(nullopt_t, const Optional<ValueType>& o) noexcept
+{
+    return o.has_value();
 }
 
 template <class ValueType>
@@ -615,11 +643,41 @@ operator<(const Optional<ValueType>& lhs, const Optional<ValueType>& rhs)
 }
 
 template <class ValueType>
+inline constexpr bool
+operator<(const Optional<ValueType>& o, nullopt_t) noexcept
+{
+    (void) o;
+    return false;
+}
+
+template <class ValueType>
+inline constexpr bool
+operator<(nullopt_t, const Optional<ValueType>& o) noexcept
+{
+    return o.has_value();
+}
+
+template <class ValueType>
 inline bool
 operator<=(const Optional<ValueType>& lhs, const Optional<ValueType>& rhs)
     noexcept(noexcept(rhs < lhs))
 {
     return !(rhs < lhs);
+}
+
+template <class ValueType>
+inline constexpr bool
+operator<=(const Optional<ValueType>& o, nullopt_t) noexcept
+{
+    return !o.has_value();
+}
+
+template <class ValueType>
+inline constexpr bool
+operator<=(nullopt_t, const Optional<ValueType>& o) noexcept
+{
+    (void) o;
+    return true;
 }
 
 template <class ValueType>
@@ -637,11 +695,41 @@ operator>(const Optional<ValueType>& lhs, const Optional<ValueType>& rhs)
 }
 
 template <class ValueType>
+inline constexpr bool
+operator>(const Optional<ValueType>& o, nullopt_t) noexcept
+{
+    return o.has_value();
+}
+
+template <class ValueType>
+inline constexpr bool
+operator>(nullopt_t, const Optional<ValueType>& o) noexcept
+{
+    (void) o;
+    return false;
+}
+
+template <class ValueType>
 inline bool
 operator>=(const Optional<ValueType>& lhs, const Optional<ValueType>& rhs)
     noexcept(noexcept(lhs < rhs))
 {
     return !(lhs < rhs);
+}
+
+template <class ValueType>
+inline constexpr bool
+operator>=(const Optional<ValueType>& o, nullopt_t) noexcept
+{
+    (void) o;
+    return true;
+}
+
+template <class ValueType>
+inline constexpr bool
+operator>=(nullopt_t, const Optional<ValueType>& o) noexcept
+{
+    return !o.has_value();
 }
 
 template <class ValueType>

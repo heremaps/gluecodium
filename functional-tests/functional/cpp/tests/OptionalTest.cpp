@@ -1183,4 +1183,50 @@ TEST( TEST_NAME, comparison_operators_one_empty_optional )
     EXPECT_TRUE(second <= first);
 }
 
+TEST( TEST_NAME, comparison_operators_nullopt_vs_value_opt )
+{
+    optional< int > first{123};
+
+    EXPECT_TRUE(first != nullopt);
+    EXPECT_TRUE(nullopt != first);
+
+    EXPECT_FALSE(first < nullopt);
+    EXPECT_FALSE(nullopt > first);
+
+    EXPECT_TRUE(first > nullopt);
+    EXPECT_TRUE(nullopt < first);
+
+    EXPECT_FALSE(first == nullopt);
+    EXPECT_FALSE(nullopt == first);
+
+    EXPECT_FALSE(first <= nullopt);
+    EXPECT_FALSE(nullopt >= first);
+
+    EXPECT_TRUE(first >= nullopt);
+    EXPECT_TRUE(nullopt <= first);
+}
+
+TEST( TEST_NAME, comparison_operators_empty_optional_vs_nullopt )
+{
+    optional< int > first{};
+
+    EXPECT_FALSE(first != nullopt);
+    EXPECT_FALSE(nullopt != first);
+
+    EXPECT_FALSE(first < nullopt);
+    EXPECT_FALSE(nullopt > first);
+
+    EXPECT_FALSE(first > nullopt);
+    EXPECT_FALSE(nullopt < first);
+
+    EXPECT_TRUE(first == nullopt);
+    EXPECT_TRUE(nullopt == first);
+
+    EXPECT_TRUE(first <= nullopt);
+    EXPECT_TRUE(nullopt >= first);
+
+    EXPECT_TRUE(first >= nullopt);
+    EXPECT_TRUE(nullopt <= first);
+}
+
 }  // test
