@@ -1089,4 +1089,98 @@ TEST( TEST_NAME, hash )
     EXPECT_NE( string_hash( "" ), optional_hash( optional< std::string >( nullopt ) ) );
 }
 
+TEST( TEST_NAME, comparison_operators_non_empty_optionals )
+{
+    // Case 1: unequal values.
+    optional< int > first{77};
+    optional< int > second{123};
+
+    EXPECT_TRUE(first < second);
+    EXPECT_TRUE(second > first);
+
+    EXPECT_TRUE(first <= second);
+    EXPECT_TRUE(second >= first);
+
+    EXPECT_TRUE(first != second);
+    EXPECT_TRUE(second != first);
+
+    EXPECT_FALSE(first == second);
+    EXPECT_FALSE(second == first);
+
+    EXPECT_FALSE(first > second);
+    EXPECT_FALSE(second < first);
+
+    EXPECT_FALSE(first >= second);
+    EXPECT_FALSE(second <= first);
+
+    // Case 2: equal values.
+    optional< int > third{123};
+
+    EXPECT_TRUE(second == third);
+    EXPECT_TRUE(third == second);
+
+    EXPECT_TRUE(second <= third);
+    EXPECT_TRUE(third >= second);
+
+    EXPECT_TRUE(third <= second);
+    EXPECT_TRUE(second >= third);
+
+    EXPECT_FALSE(second != third);
+    EXPECT_FALSE(third != second);
+
+    EXPECT_FALSE(second < third);
+    EXPECT_FALSE(third > second);
+
+    EXPECT_FALSE(second > third);
+    EXPECT_FALSE(third < second);
+}
+
+TEST( TEST_NAME, comparison_operators_both_empty_optionals )
+{
+    optional< int > first{};
+    optional< int > second{};
+
+    EXPECT_FALSE(first != second);
+    EXPECT_FALSE(second != first);
+
+    EXPECT_FALSE(first < second);
+    EXPECT_FALSE(second > first);
+
+    EXPECT_FALSE(first > second);
+    EXPECT_FALSE(second < first);
+
+    EXPECT_TRUE(first == second);
+    EXPECT_TRUE(second == first);
+
+    EXPECT_TRUE(first <= second);
+    EXPECT_TRUE(second >= first);
+
+    EXPECT_TRUE(first >= second);
+    EXPECT_TRUE(second <= first);
+}
+
+TEST( TEST_NAME, comparison_operators_one_empty_optional )
+{
+    optional< int > first{123};
+    optional< int > second{};
+
+    EXPECT_TRUE(first != second);
+    EXPECT_TRUE(second != first);
+
+    EXPECT_FALSE(first < second);
+    EXPECT_FALSE(second > first);
+
+    EXPECT_TRUE(first > second);
+    EXPECT_TRUE(second < first);
+
+    EXPECT_FALSE(first == second);
+    EXPECT_FALSE(second == first);
+
+    EXPECT_FALSE(first <= second);
+    EXPECT_FALSE(second >= first);
+
+    EXPECT_TRUE(first >= second);
+    EXPECT_TRUE(second <= first);
+}
+
 }  // test
