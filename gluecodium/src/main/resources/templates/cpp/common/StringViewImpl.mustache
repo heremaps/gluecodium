@@ -1,0 +1,731 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2026 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+// -------------------------------------------------------------------------------------------------
+// Copyright (C) 2016-2026 HERE Europe B.V.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+// SPDX-License-Identifier: Apache-2.0
+// License-Filename: LICENSE
+//
+// -------------------------------------------------------------------------------------------------
+
+#pragma once
+
+#include <algorithm>
+#include <cstddef>
+#include <iterator>
+#include <limits>
+#include <ostream>
+#include <string>
+#include <stdexcept>
+#include <utility>
+
+{{#internalNamespace}}
+namespace {{.}} {
+{{/internalNamespace}}
+
+/**
+ *  The internal implementation of string-view like class used in the case when C++17 is not available.
+ *
+ *  It provides the interface of `std::basic_string_view<char>` from the C++ standard library.
+ *  This type can be used when the user wants to work with older standard (C++14).
+ *  The functions have identical names and in most case behavior to functions offered by std::string_view from C++17.
+ *
+ *  Note:
+ *   - some functions are constexpr in C++17, but are not constexpr in this implementation
+ *   - it is because the internal tools used to implement such functions are not constexpr in C++14
+ *   - the non-constexpr functions are related to:
+ *     a) searching: `find()`, `rfind()`
+ *     b) iterating in reverse order: `rbegin() / crbegin()`, `rend() / crend()`
+ *     c) comparison: `compare()` and non-member comparison operators
+ *
+ *  Moreover the printing of StringView to std::ostream does not respect formatting rules.
+ *  The bytes are just written to the output.
+ */
+class StringView {
+public:
+    using traits_type = std::char_traits<char>;
+    using value_type = char;
+    using pointer = char*;
+    using const_pointer = const char*;
+    using reference = char&;
+    using const_reference = const char&;
+    using const_iterator = const_pointer;
+    using iterator = const_iterator;
+    using const_reverse_iterator = std::reverse_iterator<const_iterator>;
+    using reverse_iterator = const_reverse_iterator;
+    using size_type = std::size_t;
+    using difference_type = std::ptrdiff_t;
+
+    static constexpr
+    size_type npos{static_cast<size_type>(-1)};
+
+    constexpr
+    StringView() noexcept
+     : m_data{nullptr}
+     , m_size{0u}
+    {}
+
+    constexpr
+    StringView(const StringView& other) noexcept = default;
+
+    constexpr
+    StringView(const char* cstr, size_type count)
+     : m_data{cstr}
+     , m_size{count}
+    {}
+
+    constexpr
+    StringView(const char* cstr)
+     : m_data{cstr}
+     , m_size{cstr_length(cstr)}
+    {}
+
+    StringView&
+    operator=(const StringView& view) noexcept = default;
+
+    constexpr const_iterator
+    begin() const noexcept
+    {
+        return cbegin();
+    }
+
+    constexpr const_iterator
+    end() const noexcept
+    {
+        return cend();
+    }
+
+    constexpr const_iterator
+    cbegin() const noexcept
+    {
+        return m_data;
+    }
+
+    constexpr const_iterator
+    cend() const noexcept
+    {
+        // Avoid pointer arithmetic on nullptr -- default constructed view is (nullptr, 0).
+        if (m_size > 0u)
+        {
+            return m_data + m_size;
+        }
+
+        return m_data;
+    }
+
+    const_reverse_iterator
+    rbegin() const noexcept
+    {
+        return crbegin();
+    }
+
+    const_reverse_iterator
+    rend() const noexcept
+    {
+        return crend();
+    }
+
+    const_reverse_iterator
+    crbegin() const noexcept
+    {
+        return const_reverse_iterator{cend()};
+    }
+
+    const_reverse_iterator
+    crend() const noexcept
+    {
+        return const_reverse_iterator{cbegin()};
+    }
+
+    constexpr const_reference
+    operator[](size_type idx) const
+    {
+        return m_data[idx];
+    }
+
+    constexpr const_reference
+    at(size_type idx) const
+    {
+        if (idx >= m_size)
+        {
+            throw std::out_of_range{"Invalid idx passed to StringView::at()"};
+        }
+        return m_data[idx];
+    }
+
+    constexpr const_reference
+    front() const
+    {
+        return m_data[0];
+    }
+
+    constexpr const_reference
+    back() const
+    {
+        return m_data[size() - 1u];
+    }
+
+    constexpr const_pointer
+    data() const noexcept
+    {
+        return m_data;
+    }
+
+    constexpr size_type
+    size() const noexcept
+    {
+        return m_size;
+    }
+
+    constexpr size_type
+    length() const noexcept
+    {
+        return size();
+    }
+
+    constexpr size_type
+    max_size() const noexcept
+    {
+        // The maximum number of elements observed by this string_view cannot be simply equal to
+        // std::numeric_limits<size_type>::max() (given that we care only about char with size == 1).
+        //
+        // That's the case, because diff_t is signed and this would allow us to construct a view for
+        // which we would get undefined behavior when calculating the distance between two indices.
+        //
+        // Therefore, simply return maximum possible distance between two iterators to ensure
+        // that this works correctly. No additional division is done, because the byte size of char
+        // is always 1.
+        return std::numeric_limits<difference_type>::max();
+    }
+
+    constexpr bool
+    empty() const noexcept
+    {
+        return size() == 0u;
+    }
+
+    constexpr void
+    remove_prefix(size_type n)
+    {
+        // Avoid pointer arithmetic on nullptr. Default constructed view is (nullptr, 0).
+        // Remove prefix with n == 0 must be a valid no-op (even for default-constructed view).
+        if (n == 0u)
+        {
+            return;
+        }
+
+        m_data = (m_data + n);
+        m_size = (m_size - n);
+    }
+
+    constexpr void
+    remove_suffix(size_type n)
+    {
+        m_size = (m_size - n);
+    }
+
+    constexpr void
+    swap(StringView& other) noexcept
+    {
+        // Do not call std::swap(). It is not constexpr in C++14.
+        auto old_data = m_data;
+        m_data = other.m_data;
+        other.m_data = old_data;
+
+        auto old_size = m_size;
+        m_size = other.m_size;
+        other.m_size = old_size;
+    }
+
+    size_type
+    copy(char* dest, size_type count, size_type start_index = 0) const
+    {
+        if (start_index > size())
+        {
+            throw std::out_of_range{"Invalid start_index passed to StringView::copy()"};
+        }
+
+        // When somebody calls `copy()` on empty view then return 0.
+        // Avoid pointer arithmetic on default constructed view (nullptr, 0).
+        if (size() == 0)
+        {
+            return 0;
+        }
+
+        const auto new_count = std::min(count, m_size - start_index);
+        traits_type::copy(dest, m_data + start_index, new_count);
+
+        return new_count;
+    }
+
+    constexpr StringView
+    substr(size_type start_index = 0, size_type count = npos) const
+    {
+        if (start_index > size())
+        {
+            throw std::out_of_range{"Invalid start_index passed to StringView::substr()"};
+        }
+
+        // When somebody calls `substr()` on empty view then return copy of our view.
+        // Avoid pointer arithmetic on default constructed view (nullptr, 0).
+        if (size() == 0)
+        {
+            return *this;
+        }
+
+        auto new_size = std::min(count, size() - start_index);
+        return StringView{m_data + start_index, new_size};
+    }
+
+    int
+    compare(StringView v) const noexcept
+    {
+        const auto len_to_compare = std::min(m_size, v.m_size);
+        const auto compare_result = (len_to_compare > 0)
+            ? traits_type::compare(m_data, v.m_data, len_to_compare)
+            : 0;
+
+        // The c-strings are not equal.
+        if (compare_result != 0)
+        {
+            return compare_result;
+        }
+
+        // traits_type::compare() returns 0 when examined parts of c-strings are equal or size is 0.
+        // We need to compare the size to be sure whether we encountered equality or some characters were not compared
+        // because of different length.
+        if (m_size == v.m_size)
+        {
+            return 0;
+        }
+
+        // The size of one of strings is smaller. Shorter c-string is smaller.
+        return m_size < v.m_size ? -1 : 1;
+    }
+
+    int
+    compare(size_type pos1, size_type count1, StringView v) const
+    {
+        return substr(pos1, count1).compare(v);
+    }
+
+    int
+    compare(size_type pos1, size_type count1, StringView v, size_type pos2, size_type count2) const
+    {
+        return substr(pos1, count1).compare(v.substr(pos2, count2));
+    }
+
+    int
+    compare(const char* s) const
+    {
+        return compare(StringView(s));
+    }
+
+    int
+    compare(size_type pos1, size_type count1, const char* s) const
+    {
+        return substr(pos1, count1).compare(StringView(s));
+    }
+
+    int
+    compare(size_type pos1, size_type count1, const char* s, size_type count2) const
+    {
+        return substr(pos1, count1).compare(StringView(s, count2));
+    }
+
+    size_type
+    find(StringView v, size_type pos = 0) const noexcept
+    {
+        if (pos > m_size)
+        {
+            return npos;
+        }
+
+        if (v.empty())
+        {
+            return pos;
+        }
+
+        if (m_size == 0u)
+        {
+            return npos;
+        }
+
+        auto to_search_first = std::next(this->begin(), pos);
+        auto to_search_last = this->end();
+
+        auto it = std::search(to_search_first, to_search_last, v.begin(), v.end());
+        if (it == to_search_last)
+        {
+            return npos;
+        }
+
+        return std::distance(this->begin(), it);
+    }
+
+    size_type
+    find(char ch, size_type pos = 0) const noexcept
+    {
+        return find(StringView{&ch, 1}, pos);
+    }
+
+    size_type
+    find(const char* s, size_type pos, size_type count) const
+    {
+        return find(StringView{s, count}, pos);
+    }
+
+    size_type
+    find(const char* s, size_type pos = 0) const
+    {
+        return find(StringView{s}, pos);
+    }
+
+    size_type
+    rfind(StringView v, size_type pos = npos) const noexcept
+    {
+        pos = std::min(pos, m_size);
+        if (v.empty())
+        {
+            return pos;
+        }
+
+        if (m_size == 0u)
+        {
+            return npos;
+        }
+
+        // In reality we want to search the range containing (pos + v.size()).
+        //
+        // Ensure that we clamp the range correctly and do not go above end.
+        // Do not calculate `pos + v.size()` directly to avoid overflow in corner cases.
+        // Calculate it only when we know, that it is smaller than m_size.
+        //
+        // (m_size - pos) does not underflow because of the overwrite of `pos` value at the
+        // beginning of the function.
+        auto range_end_idx = (v.size() > m_size - pos) ? m_size : pos + v.size();
+
+        auto to_search_first = this->begin();
+        auto to_search_last = std::next(this->begin(), range_end_idx);
+
+        auto it = std::find_end(to_search_first, to_search_last, v.begin(), v.end());
+        if (it == to_search_last)
+        {
+            return npos;
+        }
+
+        return std::distance(this->begin(), it);
+    }
+
+    size_type
+    rfind(char ch, size_type pos = npos) const noexcept
+    {
+        return rfind(StringView{&ch, 1}, pos);
+    }
+
+    size_type
+    rfind(const char* s, size_type pos, size_type count) const
+    {
+        return rfind(StringView{s, count}, pos);
+    }
+
+    size_type
+    rfind(const char* s, size_type pos = npos) const
+    {
+        return rfind(StringView{s}, pos);
+    }
+
+    constexpr size_type
+    find_first_of(StringView v, size_type pos = 0) const noexcept
+    {
+        if (pos >= m_size || v.empty())
+        {
+            return npos;
+        }
+
+        for (size_type i = pos; i < m_size; ++i)
+        {
+            for (const auto c : v)
+            {
+                if (c == (*this)[i])
+                {
+                    return i;
+                }
+            }
+        }
+
+        return npos;
+    }
+
+    constexpr size_type
+    find_first_of(char ch, size_type pos = 0) const noexcept
+    {
+        return find_first_of(StringView{&ch, 1}, pos);
+    }
+
+    constexpr size_type
+    find_first_of(const char* s, size_type pos, size_type count) const
+    {
+        return find_first_of(StringView{s, count}, pos);
+    }
+
+    constexpr size_type
+    find_first_of(const char* s, size_type pos = 0) const
+    {
+        return find_first_of(StringView{s}, pos);
+    }
+
+    constexpr size_type
+    find_last_of(StringView v, size_type pos = npos) const noexcept
+    {
+        if (this->empty() || v.empty())
+        {
+            return npos;
+        }
+
+        pos = std::min(pos, m_size - 1u);
+        for (difference_type i = static_cast<difference_type>(pos); i >= 0; --i)
+        {
+            for (auto needle : v)
+            {
+                if ((*this)[i] == needle)
+                {
+                    return i;
+                }
+            }
+        }
+
+        return npos;
+    }
+
+    constexpr size_type
+    find_last_of(char ch, size_type pos = npos) const noexcept
+    {
+        return find_last_of(StringView{&ch, 1}, pos);
+    }
+
+    constexpr size_type
+    find_last_of(const char* s, size_type pos, size_type count) const
+    {
+        return find_last_of(StringView{s, count}, pos);
+    }
+
+    constexpr size_type
+    find_last_of(const char* s, size_type pos = npos) const
+    {
+        return find_last_of(StringView{s}, pos);
+    }
+
+    constexpr size_type
+    find_first_not_of(StringView v, size_type pos = 0) const noexcept
+    {
+        if (pos >= m_size)
+        {
+            return npos;
+        }
+
+        if (v.empty())
+        {
+            return pos;
+        }
+
+        for (size_type i = pos; i < m_size; ++i)
+        {
+            bool is_in_set = false;
+            for (auto needle : v)
+            {
+                if ((*this)[i] == needle)
+                {
+                    is_in_set = true;
+                    break;
+                }
+            }
+
+            if (!is_in_set)
+            {
+                return i;
+            }
+        }
+
+        return npos;
+    }
+
+    constexpr size_type
+    find_first_not_of(char ch, size_type pos = 0) const noexcept
+    {
+        return find_first_not_of(StringView{&ch, 1}, pos);
+    }
+
+    constexpr size_type
+    find_first_not_of(const char* s, size_type pos, size_type count) const
+    {
+        return find_first_not_of(StringView{s, count}, pos);
+    }
+
+    constexpr size_type
+    find_first_not_of(const char* s, size_type pos = 0) const
+    {
+        return find_first_not_of(StringView{s}, pos);
+    }
+
+    constexpr size_type
+    find_last_not_of(StringView v, size_type pos = npos) const noexcept
+    {
+        if (this->empty())
+        {
+            return npos;
+        }
+
+        if (v.empty())
+        {
+            return std::min(pos, m_size - 1u);
+        }
+
+        pos = std::min(pos, m_size - 1u);
+        for (difference_type i = static_cast<difference_type>(pos); i >= 0; --i)
+        {
+            bool is_in_set = false;
+            for (auto needle : v)
+            {
+                if ((*this)[i] == needle)
+                {
+                    is_in_set = true;
+                    break;
+                }
+            }
+
+            if (!is_in_set)
+            {
+                return i;
+            }
+        }
+
+        return npos;
+    }
+
+    constexpr size_type
+    find_last_not_of(char ch, size_type pos = npos) const noexcept
+    {
+        return find_last_not_of(StringView{&ch, 1}, pos);
+    }
+
+    constexpr size_type
+    find_last_not_of(const char* s, size_type pos, size_type count) const
+    {
+        return find_last_not_of(StringView{s, count}, pos);
+    }
+
+    constexpr size_type
+    find_last_not_of(const char* s, size_type pos = npos) const
+    {
+        return find_last_not_of(StringView{s}, pos);
+    }
+
+private:
+    static constexpr size_type
+    cstr_length(const char* cstr)
+    {
+        if (cstr == nullptr)
+        {
+            return 0u;
+        }
+
+        size_type i = 0u;
+        for (; cstr[i] != '\0'; ++i)
+        {
+            // Iterate.
+        }
+
+        return i;
+    }
+
+    const_pointer m_data{nullptr};
+    size_type m_size{0u};
+};
+
+inline bool
+operator==(StringView lhs, StringView rhs) noexcept
+{
+    return lhs.size() == rhs.size() && (0 == lhs.compare(rhs));
+}
+
+inline bool
+operator!=(StringView lhs, StringView rhs) noexcept
+{
+    return !(lhs == rhs);
+}
+
+inline bool
+operator<(StringView lhs, StringView rhs) noexcept
+{
+    return lhs.compare(rhs) <= -1;
+}
+
+inline bool
+operator<=(StringView lhs, StringView rhs) noexcept
+{
+    return lhs.compare(rhs) <= 0;
+}
+
+inline bool
+operator>(StringView lhs, StringView rhs) noexcept
+{
+    return lhs.compare(rhs) >= 1;
+}
+
+inline bool
+operator>=(StringView lhs, StringView rhs) noexcept
+{
+    return lhs.compare(rhs) >= 0;
+}
+
+constexpr void
+swap(StringView& lhs, StringView& rhs) noexcept
+{
+    lhs.swap(rhs);
+}
+
+inline std::ostream&
+operator<<(std::ostream& os, StringView v)
+{
+    if (v.empty())
+    {
+        return os;
+    }
+
+    return os.write(v.data(), static_cast<std::streamsize>(v.size()));
+}
+
+{{#internalNamespace}}
+}
+{{/internalNamespace}}

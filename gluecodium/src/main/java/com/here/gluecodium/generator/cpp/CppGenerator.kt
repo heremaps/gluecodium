@@ -320,13 +320,15 @@ internal class CppGenerator : Generator {
                 "Optional",
                 "OptionalImpl",
                 "Return",
+                "StringView",
+                "StringViewImpl",
                 "TimePointHash",
                 "TypeRepository",
                 "UnorderedMapHash",
                 "UnorderedSetHash",
                 "VectorHash",
             )
-        private val COMMON_IMPLS = listOf("LocaleImpl", "TypeRepositoryImpl")
+        private val COMMON_IMPLS = listOf("LocaleImpl", "StringViewImplDefs", "TypeRepositoryImpl")
 
         private val sorters =
             mapOf(
