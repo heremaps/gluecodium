@@ -30,7 +30,7 @@ static_assert(
 {{/if}}
 
 {{#if attributes.cpp.tostring}}
-  std::string_view
+  {{>common/InternalNamespace}}string_view
   to_string({{resolveName}} enumeration) {
     switch (enumeration) {
     {{#set enum=this}}{{#enumerators}}

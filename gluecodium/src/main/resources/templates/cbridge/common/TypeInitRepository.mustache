@@ -42,9 +42,10 @@
 
 #include "cbridge/include/BaseHandle.h"
 #include "cbridge/include/Export.h"
-#include <string_view>
 
-using TypeId = std::string_view;
+#include "{{>common/InternalInclude}}StringView.h"
+
+using TypeId = {{>common/InternalNamespace}}string_view;
 
 /**
  * Stores links to Swift init functions.

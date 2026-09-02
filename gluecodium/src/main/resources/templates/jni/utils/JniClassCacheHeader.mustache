@@ -23,7 +23,7 @@
 #pragma once
 
 #include "JniReference.h"
-#include <string_view>
+#include "{{>common/InternalInclude}}StringView.h"
 
 {{#internalNamespace}}
 namespace {{.}}
@@ -42,7 +42,7 @@ public:
     static void init(JNIEnv* env);
 
 protected:
-    static jni::JniReference<jclass>* get_java_class_for_instance(const std::string_view& id);
+    static jni::JniReference<jclass>* get_java_class_for_instance(const {{>common/InternalNamespace}}string_view& id);
 
 private:
     void do_init(JNIEnv* env);
@@ -57,7 +57,7 @@ class CachedJavaClass final : public CachedJavaClassBase
 {
 public:
     using CachedJavaClassBase::CachedJavaClassBase;
-    static const jni::JniReference<jclass>& get_java_class(const std::string_view& id)
+    static const jni::JniReference<jclass>& get_java_class(const {{>common/InternalNamespace}}string_view& id)
     {
         auto instance_java_class = get_java_class_for_instance(id);
         return instance_java_class != nullptr ? *instance_java_class : java_class;

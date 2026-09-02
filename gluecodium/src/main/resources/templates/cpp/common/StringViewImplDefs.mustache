@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2026 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
   !
   !}}
 // -------------------------------------------------------------------------------------------------
-// Copyright (C) 2016-2019 HERE Europe B.V.
+// Copyright (C) 2016-2026 HERE Europe B.V.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,32 +38,20 @@
 //
 // -------------------------------------------------------------------------------------------------
 
-#pragma once
-#include "{{exportFileName}}.h"
-#include "{{>common/InternalInclude}}StringView.h"
+#include "{{#internalNamespace}}{{.}}/{{/internalNamespace}}StringViewImpl.h"
 
 {{#internalNamespace}}
 namespace {{.}} {
 {{/internalNamespace}}
 
-using TypeId = {{>common/InternalNamespace}}string_view;
-
-class {{>cpp/CppExportMacro}}TypeRepository final
-{
-public:
-    TypeRepository();
-    ~TypeRepository();
-
-    void add_type(const void* instance, const TypeId& id);
-    TypeId get_id(const void* instance) const;
-    void remove_type(const void* instance);
-
-private:
-    struct Impl;
-    Impl* pimpl;
-};
-
-{{>cpp/CppExportMacro}}TypeRepository& get_type_repository();
+// In C++17 this is an inline variable due to constexpr.
+// C++14 does not have inline variables, so we need to provide the definition of npos to avoid ODR
+// problems.
+#if (defined(_MSC_VER) && _MSC_VER >= 1911 && _MSVC_LANG >= 201703L) || __cplusplus >= 201703L
+#else
+const StringView::size_type
+StringView::npos;
+#endif
 
 {{#internalNamespace}}
 }

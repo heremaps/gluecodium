@@ -20,11 +20,11 @@
 
 #pragma once
 #include "ExportCommonGluecodiumCpp.h"
-#include <string_view>
+#include "gluecodium/StringView.h"
 
 namespace gluecodium {
 
-using TypeId = std::string_view;
+using TypeId = ::gluecodium::string_view;
 
 class _GLUECODIUM_CPP_EXPORT TypeRepository final
 {

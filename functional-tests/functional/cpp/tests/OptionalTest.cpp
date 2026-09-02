@@ -37,7 +37,7 @@ using ::lorem_ipsum::test::bad_optional_access;
 
 #define APPEND( A, B ) APPEND_( A, B )
 #define APPEND_( A, B ) A##B
-#define TEST_NAME APPEND( OptionalTest, HELLO_TEST_CPP_VERSION )
+#define TEST_NAME APPEND( OptionalTest, TEST_CPP_VERSION )
 
 TEST( TEST_NAME, trivial_constructor_trivially_destructable_type )
 {
