@@ -158,7 +158,7 @@ CallOverloadedLambda::invoke_overloaded_lambda(const OverloadedLambda& lambda,
 lorem_ipsum::test::optional<std::string>
 StructWithLambda::invoke_callback(const lorem_ipsum::test::optional<LambdaCallback>& callback) {
     if (callback) {
-        return std::invoke(*callback, "some callback argument");
+        return (*callback)(std::string{"some callback argument"});
     }
 
     return {};

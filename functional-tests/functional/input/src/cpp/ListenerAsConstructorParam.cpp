@@ -108,9 +108,11 @@ void Thermometer::notify_observers(
 }
 
 ::lorem_ipsum::test::Return<::std::shared_ptr<::test::Thermometer>, std::string> Thermometer::throwing_make(
-    [[maybe_unused]] int id,
+    int id,
     const ::std::vector<::std::shared_ptr<::test::TemperatureObserver>>& observers
 ) {
+    (void) id; // Prevent unused warning (pre-C++17 way).
+
     auto self = std::make_shared<ThermometerImpl>(observers);
     self->force_update();
 
@@ -118,9 +120,11 @@ void Thermometer::notify_observers(
 }
 
 ::lorem_ipsum::test::Return<::std::shared_ptr<::test::Thermometer>, ::std::error_code> Thermometer::another_throwing_make(
-    [[maybe_unused]] bool dummy_flag,
+    bool dummy_flag,
     const ::std::vector<::std::shared_ptr<::test::TemperatureObserver>>& observers
 ) {
+    (void) dummy_flag; // Prevent unused warning (pre-C++17 way).
+
     auto self = std::make_shared<ThermometerImpl>(observers);
     self->force_update();
 
@@ -128,9 +132,11 @@ void Thermometer::notify_observers(
 }
 
 ::std::shared_ptr<::test::Thermometer> Thermometer::nothrow_make(
-    [[maybe_unused]] const std::string& label,
+    const std::string& label,
     const ::std::vector<::std::shared_ptr<::test::TemperatureObserver>>& observers
 ) {
+    (void) label; // Prevent unused warning (pre-C++17 way).
+
     auto self = std::make_shared<ThermometerImpl>(observers);
     self->force_update();
 

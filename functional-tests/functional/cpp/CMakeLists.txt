@@ -58,6 +58,7 @@ set(SOURCES
   tests/ImmutableStructsTest.cpp
   tests/OptionalTest.cpp
   tests/ReturnTest.cpp
+  tests/StringViewTest.cpp
   tests/RuntimeTypeInformationTest.cpp
   tests/StructConstructorTest.cpp)
 

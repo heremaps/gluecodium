@@ -45,9 +45,9 @@ std::list<{{>common/InternalNamespace}}jni::CachedJavaClassBase*>& get_registere
     return list;
 }
 
-std::unordered_map<std::string_view, jni::JniReference<jclass>*>& get_instance_class_map()
+std::unordered_map<{{>common/InternalNamespace}}string_view, jni::JniReference<jclass>*>& get_instance_class_map()
 {
-    static std::unordered_map<std::string_view, jni::JniReference<jclass>*> classes;
+    static std::unordered_map<{{>common/InternalNamespace}}string_view, jni::JniReference<jclass>*> classes;
     return classes;
 }
 
@@ -88,7 +88,7 @@ CachedJavaClassBase::CachedJavaClassBase(const char* name, const char* cpp_name)
 }
 
 jni::JniReference<jclass>*
-CachedJavaClassBase::get_java_class_for_instance(const std::string_view& id) {
+CachedJavaClassBase::get_java_class_for_instance(const {{>common/InternalNamespace}}string_view& id) {
     const auto& classes = get_instance_class_map();
 
 #ifdef GLUECODIUM_SYNCHRONIZE_ACCESS_CLASS_CACHE

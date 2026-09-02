@@ -1,6 +1,6 @@
 {{!!
   !
-  ! Copyright (C) 2016-2019 HERE Europe B.V.
+  ! Copyright (C) 2016-2026 HERE Europe B.V.
   !
   ! Licensed under the Apache License, Version 2.0 (the "License");
   ! you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
   !
   !}}
 // -------------------------------------------------------------------------------------------------
-// Copyright (C) 2016-2019 HERE Europe B.V.
+// Copyright (C) 2016-2026 HERE Europe B.V.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -39,31 +39,35 @@
 // -------------------------------------------------------------------------------------------------
 
 #pragma once
-#include "{{exportFileName}}.h"
-#include "{{>common/InternalInclude}}StringView.h"
+
+/*
+ * This header is used to define the string_view type used by Gluecodium. If nothing else is defined
+ * it will use std::string_view if available and fallback to a built-in StringView implementation
+ * otherwise. To use custom view implementation, GLUECODIUM_STRING_VIEW_HEADER and GLUECODIUM_STRING_VIEW_TYPE
+ * need to be defined. The string view will be used in the internal namespace.
+ */
+
+#if (defined(GLUECODIUM_STRING_VIEW_HEADER) && !defined(GLUECODIUM_STRING_VIEW_TYPE)) || \
+      (!defined(GLUECODIUM_STRING_VIEW_HEADER) && defined(GLUECODIUM_STRING_VIEW_TYPE))
+# error "Either both GLUECODIUM_STRING_VIEW_HEADER and GLUECODIUM_STRING_VIEW_TYPE or neither of them must be defined"
+#endif
+
+#if !defined(GLUECODIUM_STRING_VIEW_HEADER) && !defined(GLUECODIUM_STRING_VIEW_TYPE)
+#  if (defined(_MSC_VER) && _MSC_VER >= 1911 && _MSVC_LANG >= 201703L) || __cplusplus >= 201703L
+#    define GLUECODIUM_STRING_VIEW_HEADER <string_view>
+#    define GLUECODIUM_STRING_VIEW_TYPE std::string_view
+#  else
+#    define GLUECODIUM_STRING_VIEW_HEADER "StringViewImpl.h"
+#    define GLUECODIUM_STRING_VIEW_TYPE {{>common/InternalNamespace}}StringView
+#  endif
+#endif // !defined(GLUECODIUM_STRING_VIEW_HEADER) && !defined(GLUECODIUM_STRING_VIEW_TYPE)
+
+#include GLUECODIUM_STRING_VIEW_HEADER
 
 {{#internalNamespace}}
 namespace {{.}} {
 {{/internalNamespace}}
-
-using TypeId = {{>common/InternalNamespace}}string_view;
-
-class {{>cpp/CppExportMacro}}TypeRepository final
-{
-public:
-    TypeRepository();
-    ~TypeRepository();
-
-    void add_type(const void* instance, const TypeId& id);
-    TypeId get_id(const void* instance) const;
-    void remove_type(const void* instance);
-
-private:
-    struct Impl;
-    Impl* pimpl;
-};
-
-{{>cpp/CppExportMacro}}TypeRepository& get_type_repository();
+using string_view = GLUECODIUM_STRING_VIEW_TYPE;
 
 {{#internalNamespace}}
 }

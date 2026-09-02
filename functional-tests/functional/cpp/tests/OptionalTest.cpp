@@ -37,7 +37,7 @@ using ::lorem_ipsum::test::bad_optional_access;
 
 #define APPEND( A, B ) APPEND_( A, B )
 #define APPEND_( A, B ) A##B
-#define TEST_NAME APPEND( OptionalTest, HELLO_TEST_CPP_VERSION )
+#define TEST_NAME APPEND( OptionalTest, TEST_CPP_VERSION )
 
 TEST( TEST_NAME, trivial_constructor_trivially_destructable_type )
 {
@@ -1087,6 +1087,146 @@ TEST( TEST_NAME, hash )
     lorem_ipsum::test::hash< optional< std::string > > optional_hash;
     EXPECT_EQ( string_hash( "test" ), optional_hash( optional< std::string >( "test" ) ) );
     EXPECT_NE( string_hash( "" ), optional_hash( optional< std::string >( nullopt ) ) );
+}
+
+TEST( TEST_NAME, comparison_operators_non_empty_optionals )
+{
+    // Case 1: unequal values.
+    optional< int > first{77};
+    optional< int > second{123};
+
+    EXPECT_TRUE(first < second);
+    EXPECT_TRUE(second > first);
+
+    EXPECT_TRUE(first <= second);
+    EXPECT_TRUE(second >= first);
+
+    EXPECT_TRUE(first != second);
+    EXPECT_TRUE(second != first);
+
+    EXPECT_FALSE(first == second);
+    EXPECT_FALSE(second == first);
+
+    EXPECT_FALSE(first > second);
+    EXPECT_FALSE(second < first);
+
+    EXPECT_FALSE(first >= second);
+    EXPECT_FALSE(second <= first);
+
+    // Case 2: equal values.
+    optional< int > third{123};
+
+    EXPECT_TRUE(second == third);
+    EXPECT_TRUE(third == second);
+
+    EXPECT_TRUE(second <= third);
+    EXPECT_TRUE(third >= second);
+
+    EXPECT_TRUE(third <= second);
+    EXPECT_TRUE(second >= third);
+
+    EXPECT_FALSE(second != third);
+    EXPECT_FALSE(third != second);
+
+    EXPECT_FALSE(second < third);
+    EXPECT_FALSE(third > second);
+
+    EXPECT_FALSE(second > third);
+    EXPECT_FALSE(third < second);
+}
+
+TEST( TEST_NAME, comparison_operators_both_empty_optionals )
+{
+    optional< int > first{};
+    optional< int > second{};
+
+    EXPECT_FALSE(first != second);
+    EXPECT_FALSE(second != first);
+
+    EXPECT_FALSE(first < second);
+    EXPECT_FALSE(second > first);
+
+    EXPECT_FALSE(first > second);
+    EXPECT_FALSE(second < first);
+
+    EXPECT_TRUE(first == second);
+    EXPECT_TRUE(second == first);
+
+    EXPECT_TRUE(first <= second);
+    EXPECT_TRUE(second >= first);
+
+    EXPECT_TRUE(first >= second);
+    EXPECT_TRUE(second <= first);
+}
+
+TEST( TEST_NAME, comparison_operators_one_empty_optional )
+{
+    optional< int > first{123};
+    optional< int > second{};
+
+    EXPECT_TRUE(first != second);
+    EXPECT_TRUE(second != first);
+
+    EXPECT_FALSE(first < second);
+    EXPECT_FALSE(second > first);
+
+    EXPECT_TRUE(first > second);
+    EXPECT_TRUE(second < first);
+
+    EXPECT_FALSE(first == second);
+    EXPECT_FALSE(second == first);
+
+    EXPECT_FALSE(first <= second);
+    EXPECT_FALSE(second >= first);
+
+    EXPECT_TRUE(first >= second);
+    EXPECT_TRUE(second <= first);
+}
+
+TEST( TEST_NAME, comparison_operators_nullopt_vs_value_opt )
+{
+    optional< int > first{123};
+
+    EXPECT_TRUE(first != nullopt);
+    EXPECT_TRUE(nullopt != first);
+
+    EXPECT_FALSE(first < nullopt);
+    EXPECT_FALSE(nullopt > first);
+
+    EXPECT_TRUE(first > nullopt);
+    EXPECT_TRUE(nullopt < first);
+
+    EXPECT_FALSE(first == nullopt);
+    EXPECT_FALSE(nullopt == first);
+
+    EXPECT_FALSE(first <= nullopt);
+    EXPECT_FALSE(nullopt >= first);
+
+    EXPECT_TRUE(first >= nullopt);
+    EXPECT_TRUE(nullopt <= first);
+}
+
+TEST( TEST_NAME, comparison_operators_empty_optional_vs_nullopt )
+{
+    optional< int > first{};
+
+    EXPECT_FALSE(first != nullopt);
+    EXPECT_FALSE(nullopt != first);
+
+    EXPECT_FALSE(first < nullopt);
+    EXPECT_FALSE(nullopt > first);
+
+    EXPECT_FALSE(first > nullopt);
+    EXPECT_FALSE(nullopt < first);
+
+    EXPECT_TRUE(first == nullopt);
+    EXPECT_TRUE(nullopt == first);
+
+    EXPECT_TRUE(first <= nullopt);
+    EXPECT_TRUE(nullopt >= first);
+
+    EXPECT_TRUE(first >= nullopt);
+    EXPECT_TRUE(nullopt <= first);
 }
 
 }  // test
