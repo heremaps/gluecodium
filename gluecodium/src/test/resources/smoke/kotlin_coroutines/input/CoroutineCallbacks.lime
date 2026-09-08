@@ -61,7 +61,7 @@ lambda TrailingErrorCallback = (
 interface RemoteService {
     // Checks whether the remote service is currently reachable.
     @AsyncDecorator
-    fun check_connection(@AsyncDecorator(Callback) callback: ErrorOnlyCallback)
+    fun check_connection(callback: ErrorOnlyCallback)
 }
 
 # All fields have defaults and `PositionalDefaults` is set, so the generated Kotlin type can be built with no
@@ -76,10 +76,10 @@ struct UploadSession {
     label: String
 
     @AsyncDecorator
-    fun upload(@AsyncDecorator(Callback) callback: ErrorValueCallback)
+    fun upload(callback: ErrorValueCallback)
 
     @AsyncDecorator
-    static fun open_session(@AsyncDecorator(Callback) callback: ErrorOnlyCallback)
+    static fun open_session(callback: ErrorOnlyCallback)
 }
 
 class CoroutineClient {
@@ -91,39 +91,39 @@ class CoroutineClient {
     # A nested class gets its own extensions, resolved against its fully qualified name.
     class NestedClient {
         @AsyncDecorator
-        fun fetch_nested(@AsyncDecorator(Callback) callback: ErrorValueCallback): OperationHandle
+        fun fetch_nested(callback: ErrorValueCallback): OperationHandle
     }
 
     @AsyncDecorator(Name = "loadValueAsync")
-    fun load_value(@AsyncDecorator(Callback) callback: ErrorValueCallback): OperationHandle
+    fun load_value(callback: ErrorValueCallback): OperationHandle
 
     # `Default` gives the generated wrapper a default argument for a non-callback parameter.
     @AsyncDecorator
     fun load_with_options(
         @AsyncDecorator(Default) options: RequestOptions,
-        @AsyncDecorator(Callback) callback: ErrorValueCallback
+        callback: ErrorValueCallback
     )
 
     # Static functions belong in the companion object, not the class body.
     @AsyncDecorator
-    static fun preload(@AsyncDecorator(Callback) callback: ErrorOnlyCallback)
+    static fun preload(callback: ErrorOnlyCallback)
 
     # Cancellation resolved via `@AsyncTaskHandle`, not via the `cancel()` name convention.
     @AsyncDecorator
-    fun refresh(@AsyncDecorator(Callback) callback: ErrorOnlyCallback): AbortableHandle
+    fun refresh(callback: ErrorOnlyCallback): AbortableHandle
 
     @AsyncDecorator
-    fun clear_cache(@AsyncDecorator(Callback) callback: ErrorOnlyCallback)
+    fun clear_cache(callback: ErrorOnlyCallback)
 
     // Resolves the display name for the current account.
     @AsyncDecorator
-    fun resolve_name(@AsyncDecorator(Callback) callback: ValueOnlyCallback)
+    fun resolve_name(callback: ValueOnlyCallback)
 
     @AsyncDecorator
-    fun synchronize(@AsyncDecorator(Callback) callback: CompletionCallback)
+    fun synchronize(callback: CompletionCallback)
 
     @AsyncDecorator
-    fun load_metadata(@AsyncDecorator(Callback) callback: MultiValueCallback): OperationHandle
+    fun load_metadata(callback: MultiValueCallback): OperationHandle
 
     # The callback parameter is not marked, so it is resolved by convention as the sole callback-typed parameter.
     @AsyncDecorator
@@ -135,6 +135,6 @@ class CoroutineClient {
 class SecondaryClient {
     class NestedClient {
         @AsyncDecorator
-        fun load_metadata(@AsyncDecorator(Callback) callback: MultiValueCallback): OperationHandle
+        fun load_metadata(callback: MultiValueCallback): OperationHandle
     }
 }

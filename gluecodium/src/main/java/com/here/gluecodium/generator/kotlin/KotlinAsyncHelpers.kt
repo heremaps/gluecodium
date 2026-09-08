@@ -58,19 +58,7 @@ internal object KotlinAsyncHelpers {
     private const val TEMPLATE_NAME = "kotlin/KotlinCoroutines"
     private const val MEMBERS_TEMPLATE_NAME = "kotlin/KotlinCoroutineMembers"
 
-    /**
-     * Builds a deterministic per-file suffix from the set of containers emitted into one coroutine file.
-     *
-     * Several modules can generate `KotlinCoroutines.kt` into the same Kotlin package. Without a unique JVM
-     * file-class name this produces duplicate `.../KotlinCoroutinesKt` classes during Kotlin compilation.
-     */
-    private fun coroutineFileJvmSuffix(containers: List<LimeContainer>): String {
-        val signature = containers.map { it.path.toString() }.sorted().joinToString("|")
-        val hex = signature.hashCode().toUInt().toString(16)
-        return "_$hex"
-    }
-
-    /** Containers that contribute coroutine APIs, grouped by the package file they are emitted into. */
+    /** Containers that contribute coroutine APIs, grouped by the package they are emitted into. */
     internal fun groupCoroutineContainersByPackage(
         rootElements: List<LimeNamedElement>,
         basePackages: List<String>,
@@ -81,7 +69,15 @@ internal object KotlinAsyncHelpers {
             .filter { container -> declaredAsyncDecoratorFunctions(container).isNotEmpty() }
             .groupBy { (basePackages + it.path.head).map(KotlinNameResolver::normalizePackageName) }
 
-    /** Generates one bridge/exception support file per package containing coroutine APIs. */
+    /**
+     * Generates one coroutine support file per top-level container that declares `@AsyncDecorator` functions.
+     *
+     * Each file is named after the top-level container (e.g. `KotlinCoroutines_Route.kt`) and carries a stable
+     * `@file:JvmName` annotation so that adding or removing other containers in the same package never
+     * renames an existing file's JVM class — preserving binary compatibility.
+     *
+     * Nested containers (e.g. `Route.NestedClient`) are grouped into their parent's file.
+     */
     fun createCoroutineSupportFiles(
         rootElements: List<LimeNamedElement>,
         nameResolver: KotlinNameResolver,
@@ -90,33 +86,34 @@ internal object KotlinAsyncHelpers {
         generatorName: String,
     ): List<GeneratedFile> =
         groupCoroutineContainersByPackage(rootElements, basePackages)
-            .map { (packageNames, containers) ->
-                // The bridges are fully generic, so one shared pair serves every type in the package.
-                val supports =
-                    mapOf(
-                        "resultBridgeName" to nameResolver.resolveCoroutineResultBridgeName(),
-                        "valueBridgeName" to nameResolver.resolveCoroutineValueBridgeName(),
-                    )
-                // The generated exception and result types reference the callback's own member types, so the
-                // coroutine support file needs those imports even though the container's file does not.
-                val imports =
-                    containers
-                        .flatMap { importCollector.collectImports(it) + importCollector.collectAsyncDecoratorCallbackImports(it) }
-                        .filterNot { KotlinNameRules.getPackageFromImportString(it) == packageNames }
-                        .distinct()
-                        .sorted()
-                val templateData =
-                    mapOf(
-                        "packageName" to packageNames.joinToString("."),
-                        // Stable per generated package-file and unique across modules sharing one package.
-                        "fileJvmName" to "KotlinCoroutines${coroutineFileJvmSuffix(containers)}",
-                        "imports" to imports,
-                        "supports" to supports,
-                        "extensions" to containers.joinToString("\n") { buildCoroutineExtensions(it, nameResolver) },
-                    )
-                val content = TemplateEngine.render(TEMPLATE_NAME, templateData)
-                val fileName = (listOf(generatorName) + packageNames + "KotlinCoroutines.kt").joinToString(File.separator)
-                GeneratedFile(content, fileName)
+            .flatMap { (packageNames, containers) ->
+                containers.groupBy { it.path.container }.map { (containerName, group) ->
+                    val supports =
+                        mapOf(
+                            "resultBridgeName" to nameResolver.resolveCoroutineResultBridgeName(),
+                            "valueBridgeName" to nameResolver.resolveCoroutineValueBridgeName(),
+                        )
+                    val imports =
+                        group
+                            .flatMap { importCollector.collectImports(it) + importCollector.collectAsyncDecoratorCallbackImports(it) }
+                            .filterNot { KotlinNameRules.getPackageFromImportString(it) == packageNames }
+                            .distinct()
+                            .sorted()
+                    val templateData =
+                        mapOf(
+                            "packageName" to packageNames.joinToString("."),
+                            "fileJvmName" to "KotlinCoroutines_$containerName",
+                            "imports" to imports,
+                            "supports" to supports,
+                            "extensions" to group.joinToString("\n") { buildCoroutineExtensions(it, nameResolver) },
+                        )
+                    val content = TemplateEngine.render(TEMPLATE_NAME, templateData)
+                    val fileName =
+                        (listOf(generatorName) + packageNames + "KotlinCoroutines_$containerName.kt").joinToString(
+                            File.separator,
+                        )
+                    GeneratedFile(content, fileName)
+                }
             }
 
     /**
