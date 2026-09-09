@@ -41,7 +41,9 @@ only works in Dart. See [async.md](async.md) for details.
 * **@AsyncDecorator**: *EXPERIMENTAL* marks a callback-based function so that an idiomatic asynchronous variant can be
 generated for it, without changing C++ or bindings declarations. The attribute is platform-agnostic; currently only the
 Kotlin generator consumes it, emitting `suspend` extension functions for one-shot callbacks. Its roles are `Callback`,
-`Error`, `Result`, `Default`, and optional `Name`. See [async.md](async.md#async-decorator-usage) for
+`Error`, `Result`, `Default`, and optional `Name`. For one-shot wrappers, `Callback` is placed on the function as
+`@AsyncDecorator(Callback = "parameterName")` when multiple lambda-typed parameters exist; otherwise the sole
+lambda-typed parameter is inferred. Parameter-name matching is exact and case-sensitive. See [async.md](async.md#async-decorator-usage) for
 callback shapes and examples.
 * **@AsyncTaskHandle**: *EXPERIMENTAL* marks the handle class returned by an `@AsyncDecorator` function. The optional
 `Name` value names the parameterless function that cancels the in-flight task, e.g. `@AsyncTaskHandle(Name = "abort")`.

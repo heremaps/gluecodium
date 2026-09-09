@@ -40,6 +40,8 @@
 
 #pragma once
 
+#include "{{exportFileName}}.h"
+
 #include <algorithm>
 #include <cstddef>
 #include <iterator>
@@ -71,7 +73,7 @@ namespace {{.}} {
  *  Moreover the printing of StringView to std::ostream does not respect formatting rules.
  *  The bytes are just written to the output.
  */
-class StringView {
+class {{>cpp/CppExportMacro}}StringView {
 public:
     using traits_type = std::char_traits<char>;
     using value_type = char;
@@ -86,7 +88,7 @@ public:
     using size_type = std::size_t;
     using difference_type = std::ptrdiff_t;
 
-    static constexpr
+    static const
     size_type npos{static_cast<size_type>(-1)};
 
     constexpr

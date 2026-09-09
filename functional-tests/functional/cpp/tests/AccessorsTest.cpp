@@ -138,58 +138,58 @@ TEST( AccessorsOfMutableStruct, PreconditionsForNontrivialGetters )
 {
     // String getters.
     using LvalueStringGetterRetT = decltype(std::declval<SomeMutableStructWithCppAccessors&>().get_nontrivial_string_field());
-    static_assert(std::is_same_v<const std::string&, LvalueStringGetterRetT>, "String getter shall return const ref when called on L-value");
+    static_assert(std::is_same<const std::string&, LvalueStringGetterRetT>::value, "String getter shall return const ref when called on L-value");
 
     using ConstLvalueStringGetterRetT = decltype(std::declval<const SomeMutableStructWithCppAccessors&>().get_nontrivial_string_field());
-    static_assert(std::is_same_v<const std::string&, ConstLvalueStringGetterRetT>, "String getter shall return const ref when called on const L-value");
+    static_assert(std::is_same<const std::string&, ConstLvalueStringGetterRetT>::value, "String getter shall return const ref when called on const L-value");
 
     using RvalueStringGetterRetT = decltype(std::declval<SomeMutableStructWithCppAccessors&&>().get_nontrivial_string_field());
-    static_assert(std::is_same_v<std::string&&, RvalueStringGetterRetT>, "String getter shall return r-ref when called on R-value");
+    static_assert(std::is_same<std::string&&, RvalueStringGetterRetT>::value, "String getter shall return r-ref when called on R-value");
 
     using ConstRvalueStringGetterRetT = decltype(std::declval<const SomeMutableStructWithCppAccessors&&>().get_nontrivial_string_field());
-    static_assert(std::is_same_v<const std::string&&, ConstRvalueStringGetterRetT>, "String getter shall return const r-ref when called on const R-value");
+    static_assert(std::is_same<const std::string&&, ConstRvalueStringGetterRetT>::value, "String getter shall return const r-ref when called on const R-value");
 
     // List getters.
     using LvalueListGetterRetT = decltype(std::declval<SomeMutableStructWithCppAccessors&>().get_nontrivial_list_field());
-    static_assert(std::is_same_v<const std::vector<std::string>&, LvalueListGetterRetT>, "List getter shall return const l-ref when called on L-value");
+    static_assert(std::is_same<const std::vector<std::string>&, LvalueListGetterRetT>::value, "List getter shall return const l-ref when called on L-value");
 
     using ConstLvalueListGetterRetT = decltype(std::declval<const SomeMutableStructWithCppAccessors&>().get_nontrivial_list_field());
-    static_assert(std::is_same_v<const std::vector<std::string>&, ConstLvalueListGetterRetT>, "List getter shall return const l-ref when called on const L-value");
+    static_assert(std::is_same<const std::vector<std::string>&, ConstLvalueListGetterRetT>::value, "List getter shall return const l-ref when called on const L-value");
 
     using RvalueListGetterRetT = decltype(std::declval<SomeMutableStructWithCppAccessors&&>().get_nontrivial_list_field());
-    static_assert(std::is_same_v<std::vector<std::string>&&, RvalueListGetterRetT>, "List getter shall return r-ref when called on R-value");
+    static_assert(std::is_same<std::vector<std::string>&&, RvalueListGetterRetT>::value, "List getter shall return r-ref when called on R-value");
 
     using ConstRvalueListGetterRetT = decltype(std::declval<const SomeMutableStructWithCppAccessors&&>().get_nontrivial_list_field());
-    static_assert(std::is_same_v<const std::vector<std::string>&&, ConstRvalueListGetterRetT>, "List getter shall return const r-ref when called on const R-value");
+    static_assert(std::is_same<const std::vector<std::string>&&, ConstRvalueListGetterRetT>::value, "List getter shall return const r-ref when called on const R-value");
 }
 
 TEST( AccessorsOfMutableStruct, PreconditionsForTrivialGetters )
 {
     // Int getter.
     using LvalueIntGetterRetT = decltype(std::declval<SomeMutableStructWithCppAccessors&>().get_trivial_int_field());
-    static_assert(std::is_same_v<int, LvalueIntGetterRetT>, "int getter shall always return by-value");
+    static_assert(std::is_same<int, LvalueIntGetterRetT>::value, "int getter shall always return by-value");
 
     using ConstLvalueIntGetterRetT = decltype(std::declval<const SomeMutableStructWithCppAccessors&>().get_trivial_int_field());
-    static_assert(std::is_same_v<int, ConstLvalueIntGetterRetT>, "int getter shall always return by-value");
+    static_assert(std::is_same<int, ConstLvalueIntGetterRetT>::value, "int getter shall always return by-value");
 
     using RvalueIntGetterRetT = decltype(std::declval<SomeMutableStructWithCppAccessors&&>().get_trivial_int_field());
-    static_assert(std::is_same_v<int, RvalueIntGetterRetT>, "int getter shall always return by-value");
+    static_assert(std::is_same<int, RvalueIntGetterRetT>::value, "int getter shall always return by-value");
 
     using ConstRvalueIntGetterRetT = decltype(std::declval<const SomeMutableStructWithCppAccessors&&>().get_trivial_int_field());
-    static_assert(std::is_same_v<int, ConstRvalueIntGetterRetT>, "int getter shall always return by-value");
+    static_assert(std::is_same<int, ConstRvalueIntGetterRetT>::value, "int getter shall always return by-value");
 
     // Double getter.
     using LvalueDoubleGetterRetT = decltype(std::declval<SomeMutableStructWithCppAccessors&>().get_trivial_double_field());
-    static_assert(std::is_same_v<double, LvalueDoubleGetterRetT>, "double getter shall always return by-value");
+    static_assert(std::is_same<double, LvalueDoubleGetterRetT>::value, "double getter shall always return by-value");
 
     using ConstLvalueDoubleGetterRetT = decltype(std::declval<const SomeMutableStructWithCppAccessors&>().get_trivial_double_field());
-    static_assert(std::is_same_v<double, ConstLvalueDoubleGetterRetT>, "double getter shall always return by-value");
+    static_assert(std::is_same<double, ConstLvalueDoubleGetterRetT>::value, "double getter shall always return by-value");
 
     using RvalueDoubleGetterRetT = decltype(std::declval<SomeMutableStructWithCppAccessors&&>().get_trivial_double_field());
-    static_assert(std::is_same_v<double, RvalueDoubleGetterRetT>, "double getter shall always return by-value");
+    static_assert(std::is_same<double, RvalueDoubleGetterRetT>::value, "double getter shall always return by-value");
 
     using ConstRvalueDoubleGetterRetT = decltype(std::declval<const SomeMutableStructWithCppAccessors&&>().get_trivial_double_field());
-    static_assert(std::is_same_v<double, ConstRvalueDoubleGetterRetT>, "double getter shall always return by-value");
+    static_assert(std::is_same<double, ConstRvalueDoubleGetterRetT>::value, "double getter shall always return by-value");
 }
 
 }  // test

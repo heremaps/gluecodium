@@ -32,64 +32,64 @@ namespace
 class CppNoexceptClassImpl final : public CppNoexceptClass {
 public:
     std::string get_foo() noexcept override {
-      static_assert(noexcept(CppNoexceptClass::get_foo()));
+      static_assert(noexcept(CppNoexceptClass::get_foo()), "get_foo() must be noexcept");
       return "foo";
     }
 
     ::std::string get_string_property(  ) const noexcept override {
-      static_assert(noexcept(CppNoexceptClass::get_string_property()));
+      static_assert(noexcept(CppNoexceptClass::get_string_property()), "get_string_property() must be noexcept");
       return "foo";
     }
-    void set_string_property( const ::std::string& )noexcept override {}
+    void set_string_property( const ::std::string& ) noexcept override {}
 };
 
 class CppNoexceptClassInheritedImpl final : public CppNoexceptClassInherited {
 public:
     std::string get_foo() noexcept override {
-      static_assert(noexcept(CppNoexceptClassInherited::get_foo()));
+      static_assert(noexcept(CppNoexceptClassInherited::get_foo()), "get_foo() must be noexcept");
       return "foo";
     }
 
     std::string get_bar() noexcept override {
-      static_assert(noexcept(CppNoexceptClassInherited::get_bar()));
+      static_assert(noexcept(CppNoexceptClassInherited::get_bar()), "get_bar() must be noexcept");
       return "bar";
     }
 
     ::std::string get_string_property(  ) const noexcept override {
-      static_assert(noexcept(CppNoexceptClassInherited::get_string_property()));
+      static_assert(noexcept(CppNoexceptClassInherited::get_string_property()), "get_string_property() must be noexcept");
       return "foo";
     }
-    void set_string_property( const ::std::string& )noexcept override {}
+    void set_string_property( const ::std::string& ) noexcept override {}
 };
 
 class CppNoexceptInterfaceImpl final : public CppNoexceptInterface {
 public:
     std::string get_foo() noexcept override {
-      static_assert(noexcept(CppNoexceptInterface::get_foo()));
+      static_assert(noexcept(CppNoexceptInterface::get_foo()), "get_foo() must be noexcept");
       return "foo";
     }
 
     ::std::string get_string_property(  ) const noexcept override {
-      static_assert(noexcept(CppNoexceptInterface::get_string_property()));
+      static_assert(noexcept(CppNoexceptInterface::get_string_property()), "get_string_property() must be noexcept");
       return "foo";
     }
-    void set_string_property( const ::std::string& )noexcept override {}
+    void set_string_property( const ::std::string& ) noexcept override {}
 };
 
 class CppNoexceptInterfaceInheritedImpl final : public CppNoexceptInterfaceInherited {
 public:
     std::string get_foo() noexcept override {
-      static_assert(noexcept(CppNoexceptInterface::get_foo()));
+      static_assert(noexcept(CppNoexceptInterface::get_foo()), "get_foo() must be noexcept");
       return "foo";
     }
 
     std::string get_bar() const noexcept override {
-      static_assert(noexcept(CppNoexceptInterfaceInherited::get_bar()));
+      static_assert(noexcept(CppNoexceptInterfaceInherited::get_bar()), "get_bar() must be noexcept");
       return "bar";
     }
 
     ::std::string get_string_property(  ) const noexcept override {
-      static_assert(noexcept(CppNoexceptInterfaceInherited::get_string_property()));
+      static_assert(noexcept(CppNoexceptInterfaceInherited::get_string_property()), "get_string_property() must be noexcept");
       return "foo";
     }
     void set_string_property( const ::std::string& )noexcept override {}

@@ -120,9 +120,61 @@ class LimeAsyncDecoratorValidatorTest {
                         .addAttribute(ASYNC_DECORATOR)
                         .addAttribute(ASYNC_DECORATOR, NAME, "loadValue")
                         .build(),
-                parameters = listOf(parameter("callback", LimeDirectTypeRef(callback), CALLBACK)),
+                parameters = listOf(parameter("callback", LimeDirectTypeRef(callback))),
             )
         addElements(callback, LimeClass(path("Client"), functions = listOf(function)))
+
+        assertTrue(validate())
+    }
+
+    @Test
+    fun validateOneShotWithInferredCallbackParameter() {
+        val callback = LimeLambda(path("Callback"))
+        val function =
+            LimeFunction(
+                path("Client", "load"),
+                attributes = coroutineAttributes(),
+                parameters = listOf(parameter("completion", LimeDirectTypeRef(callback))),
+            )
+        addElements(callback, LimeClass(path("Client"), functions = listOf(function)))
+
+        assertTrue(validate())
+    }
+
+    @Test
+    fun validateOneShotWithExplicitNamedCallbackParameter() {
+        val callback = LimeLambda(path("Callback"))
+        val progress = LimeLambda(path("ProgressCallback"))
+        val function =
+            LimeFunction(
+                path("Client", "load"),
+                attributes = coroutineAttributesWithValues(CALLBACK to "completion"),
+                parameters =
+                    listOf(
+                        parameter("completion", LimeDirectTypeRef(callback)),
+                        parameter("progress", LimeDirectTypeRef(progress)),
+                    ),
+            )
+        addElements(callback, progress, LimeClass(path("Client"), functions = listOf(function)))
+
+        assertTrue(validate())
+    }
+
+    @Test
+    fun validateOneShotWithCustomNameAndExplicitNamedCallbackParameter() {
+        val callback = LimeLambda(path("Callback"))
+        val progress = LimeLambda(path("ProgressCallback"))
+        val function =
+            LimeFunction(
+                path("Client", "load"),
+                attributes = coroutineAttributesWithValues(NAME to "loadValue", CALLBACK to "completion"),
+                parameters =
+                    listOf(
+                        parameter("completion", LimeDirectTypeRef(callback)),
+                        parameter("progress", LimeDirectTypeRef(progress)),
+                    ),
+            )
+        addElements(callback, progress, LimeClass(path("Client"), functions = listOf(function)))
 
         assertTrue(validate())
     }
@@ -210,7 +262,7 @@ class LimeAsyncDecoratorValidatorTest {
                         LimeFunction(
                             path("Loader", "load"),
                             attributes = coroutineAttributes(),
-                            parameters = listOf(parameter("callback", LimeDirectTypeRef(intCallback), CALLBACK)),
+                            parameters = listOf(parameter("callback", LimeDirectTypeRef(intCallback))),
                         ),
                     ),
             )
@@ -288,7 +340,7 @@ class LimeAsyncDecoratorValidatorTest {
                 parameters =
                     listOf(
                         parameter("options", LimeDirectTypeRef(options), DEFAULT),
-                        parameter("callback", LimeDirectTypeRef(callback), CALLBACK),
+                        parameter("callback", LimeDirectTypeRef(callback)),
                     ),
             )
         addElements(callback, options, LimeClass(path("Client"), functions = listOf(function)))
@@ -310,7 +362,7 @@ class LimeAsyncDecoratorValidatorTest {
                 parameters =
                     listOf(
                         parameter("count", LimeBasicTypeRef.INT, DEFAULT),
-                        parameter("callback", LimeDirectTypeRef(callback), CALLBACK),
+                        parameter("callback", LimeDirectTypeRef(callback)),
                     ),
             )
         addElements(callback, LimeClass(path("Client"), functions = listOf(function)))
@@ -338,7 +390,7 @@ class LimeAsyncDecoratorValidatorTest {
                 parameters =
                     listOf(
                         parameter("options", LimeDirectTypeRef(options), DEFAULT),
-                        parameter("callback", LimeDirectTypeRef(callback), CALLBACK),
+                        parameter("callback", LimeDirectTypeRef(callback)),
                     ),
             )
         addElements(callback, options, LimeClass(path("Client"), functions = listOf(function)))
@@ -358,7 +410,7 @@ class LimeAsyncDecoratorValidatorTest {
             LimeFunction(
                 path("Client", "fetch"),
                 attributes = coroutineAttributes(),
-                parameters = listOf(parameter("callback", LimeDirectTypeRef(callback), CALLBACK, DEFAULT)),
+                parameters = listOf(parameter("callback", LimeDirectTypeRef(callback), DEFAULT)),
             )
         addElements(callback, LimeClass(path("Client"), functions = listOf(function)))
 
@@ -371,13 +423,77 @@ class LimeAsyncDecoratorValidatorTest {
         val function =
             LimeFunction(
                 path("Client", "fetch"),
-                attributes = coroutineAttributes(),
-                parameters = listOf(parameter("callback", LimeBasicTypeRef.INT, CALLBACK)),
+                attributes = coroutineAttributesWithValues(CALLBACK to "callback"),
+                parameters = listOf(parameter("callback", LimeBasicTypeRef.INT)),
             )
         addElements(LimeClass(path("Client"), functions = listOf(function)))
 
         assertFalse(validate())
         verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("must be lambda-typed") }) }
+    }
+
+    @Test
+    fun rejectNamedCallbackWhenParameterDoesNotExist() {
+        val callback = LimeLambda(path("Callback"))
+        val function =
+            LimeFunction(
+                path("Client", "fetch"),
+                attributes = coroutineAttributesWithValues(CALLBACK to "completion"),
+                parameters = listOf(parameter("callback", LimeDirectTypeRef(callback))),
+            )
+        addElements(callback, LimeClass(path("Client"), functions = listOf(function)))
+
+        assertFalse(validate())
+        verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("completion") }) }
+    }
+
+    @Test
+    fun rejectNamedCallbackWhenSelectedParameterIsNotLambdaTyped() {
+        val callback = LimeLambda(path("Callback"))
+        val function =
+            LimeFunction(
+                path("Client", "fetch"),
+                attributes = coroutineAttributesWithValues(CALLBACK to "count"),
+                parameters =
+                    listOf(
+                        parameter("count", LimeBasicTypeRef.INT),
+                        parameter("callback", LimeDirectTypeRef(callback)),
+                    ),
+            )
+        addElements(callback, LimeClass(path("Client"), functions = listOf(function)))
+
+        assertFalse(validate())
+        verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("must be lambda-typed") }) }
+    }
+
+    @Test
+    fun rejectNamedCallbackWhenValueIsBlank() {
+        val callback = LimeLambda(path("Callback"))
+        val function =
+            LimeFunction(
+                path("Client", "fetch"),
+                attributes = coroutineAttributesWithValues(CALLBACK to ""),
+                parameters = listOf(parameter("callback", LimeDirectTypeRef(callback))),
+            )
+        addElements(callback, LimeClass(path("Client"), functions = listOf(function)))
+
+        assertFalse(validate())
+        verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("Callback") }) }
+    }
+
+    @Test
+    fun rejectLegacyParameterLevelCallbackMarkerOnOneShotFunction() {
+        val callback = LimeLambda(path("Callback"))
+        val function =
+            LimeFunction(
+                path("Client", "fetch"),
+                attributes = coroutineAttributes(),
+                parameters = listOf(parameter("callback", LimeDirectTypeRef(callback), CALLBACK)),
+            )
+        addElements(callback, LimeClass(path("Client"), functions = listOf(function)))
+
+        assertFalse(validate())
+        verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("Callback") }) }
     }
 
     @Test
@@ -405,7 +521,7 @@ class LimeAsyncDecoratorValidatorTest {
                 parameters =
                     listOf(
                         parameter("key", LimeBasicTypeRef.INT),
-                        parameter("callback", LimeDirectTypeRef(callback), CALLBACK),
+                        parameter("callback", LimeDirectTypeRef(callback)),
                     ),
             )
         val second =
@@ -415,7 +531,7 @@ class LimeAsyncDecoratorValidatorTest {
                 parameters =
                     listOf(
                         parameter("key", nullableString()),
-                        parameter("callback", LimeDirectTypeRef(callback), CALLBACK),
+                        parameter("callback", LimeDirectTypeRef(callback)),
                     ),
             )
         addElements(callback, LimeClass(path("Client"), functions = listOf(first, second)))
@@ -528,7 +644,7 @@ class LimeAsyncDecoratorValidatorTest {
             LimeFunction(
                 path("Client", "create"),
                 attributes = coroutineAttributes(),
-                parameters = listOf(parameter("callback", LimeDirectTypeRef(callback), CALLBACK)),
+                parameters = listOf(parameter("callback", LimeDirectTypeRef(callback))),
                 isConstructor = true,
             )
         addElements(callback, LimeClass(path("Client"), functions = listOf(constructor)))
@@ -571,6 +687,21 @@ class LimeAsyncDecoratorValidatorTest {
         verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("exactly one callback parameter") }) }
     }
 
+    @Test
+    fun rejectDecoratorWithBooleanCallbackRoleOnFunction() {
+        val callback = LimeLambda(path("Callback"))
+        val function =
+            LimeFunction(
+                path("Client", "fetch"),
+                attributes = coroutineAttributes(CALLBACK),
+                parameters = listOf(parameter("callback", LimeDirectTypeRef(callback))),
+            )
+        addElements(callback, LimeClass(path("Client"), functions = listOf(function)))
+
+        assertFalse(validate())
+        verify { logger.error(any<LimeNamedElement>(), match<String> { it.contains("Callback") }) }
+    }
+
     private fun namedWrapperFunction(
         name: String,
         coroutineName: String,
@@ -583,7 +714,7 @@ class LimeAsyncDecoratorValidatorTest {
                 .addAttribute(ASYNC_DECORATOR)
                 .addAttribute(ASYNC_DECORATOR, NAME, coroutineName)
                 .build(),
-        parameters = extraParameters.toList() + parameter("callback", LimeDirectTypeRef(callbackType), CALLBACK),
+        parameters = extraParameters.toList() + parameter("callback", LimeDirectTypeRef(callbackType)),
     )
 
     private fun wrapperFunction(
@@ -594,7 +725,7 @@ class LimeAsyncDecoratorValidatorTest {
     ) = LimeFunction(
         path("Client", name),
         attributes = coroutineAttributes(*roles),
-        parameters = listOf(parameter("callback", LimeDirectTypeRef(callbackType), CALLBACK)),
+        parameters = listOf(parameter("callback", LimeDirectTypeRef(callbackType))),
         returnType = returnType,
     )
 
@@ -639,6 +770,12 @@ class LimeAsyncDecoratorValidatorTest {
     private fun coroutineAttributes(vararg roles: LimeAttributeValueType): LimeAttributes {
         val builder = LimeAttributes.Builder().addAttribute(ASYNC_DECORATOR)
         roles.forEach { builder.addAttribute(ASYNC_DECORATOR, it) }
+        return builder.build()
+    }
+
+    private fun coroutineAttributesWithValues(vararg entries: Pair<LimeAttributeValueType, String>): LimeAttributes {
+        val builder = LimeAttributes.Builder().addAttribute(ASYNC_DECORATOR)
+        entries.forEach { (role, value) -> builder.addAttribute(ASYNC_DECORATOR, role, value) }
         return builder.build()
     }
 

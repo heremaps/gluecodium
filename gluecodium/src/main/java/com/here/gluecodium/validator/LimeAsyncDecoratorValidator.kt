@@ -49,7 +49,10 @@ import com.here.gluecodium.model.lime.findAsyncCallbackCandidates
 import com.here.gluecodium.model.lime.findAsyncCallbackParameter
 import com.here.gluecodium.model.lime.findAsyncErrorMember
 import com.here.gluecodium.model.lime.findAsyncErrorMembers
+import com.here.gluecodium.model.lime.findAsyncNamedCallbackParameter
 import com.here.gluecodium.model.lime.findAsyncResultMembers
+import com.here.gluecodium.model.lime.getAsyncCallbackName
+import com.here.gluecodium.model.lime.isAsyncCallbackTyped
 
 /** Validates `@AsyncDecorator` annotation roles. Platform-agnostic: runs regardless of the selected generators. */
 internal class LimeAsyncDecoratorValidator(private val logger: LimeLogger) {
@@ -198,7 +201,7 @@ internal class LimeAsyncDecoratorValidator(private val logger: LimeLogger) {
     private fun validateWrapperFunction(function: LimeFunction): Boolean {
         var isValid = true
         val roles = function.attributes.getAllAttributeValueTypes(ASYNC_DECORATOR)
-        val unsupportedRoles = roles - setOf(NAME)
+        val unsupportedRoles = roles - setOf(NAME, CALLBACK)
         if (unsupportedRoles.isNotEmpty()) {
             logger.error(function, "unsupported `@AsyncDecorator` function roles: ${unsupportedRoles.joinToString()}")
             isValid = false
@@ -208,15 +211,58 @@ internal class LimeAsyncDecoratorValidator(private val logger: LimeLogger) {
             isValid = false
         }
 
-        val callbackCandidates = function.findAsyncCallbackCandidates()
-        val callbackParameter = callbackCandidates.singleOrNull()
-        if (callbackCandidates.size != 1) {
-            logger.error(function, "`@AsyncDecorator` requires exactly one callback parameter")
-            isValid = false
+        val callbackName = function.getAsyncCallbackName()
+        val callbackParameter =
+            when {
+                function.attributes.have(ASYNC_DECORATOR, CALLBACK) && callbackName == null -> {
+                    logger.error(function, "`@AsyncDecorator(Callback = \"...\")` on a function requires a string value")
+                    isValid = false
+                    null
+                }
+                callbackName != null && callbackName.isBlank() -> {
+                    logger.error(function, "`@AsyncDecorator(Callback = \"...\")` requires a non-empty callback parameter name")
+                    isValid = false
+                    null
+                }
+                callbackName != null -> {
+                    val namedParameter = function.findAsyncNamedCallbackParameter()
+                    when {
+                        namedParameter == null -> {
+                            logger.error(
+                                function,
+                                "`@AsyncDecorator(Callback = \"$callbackName\")` names no parameter on `${function.name}`",
+                            )
+                            isValid = false
+                            null
+                        }
+                        !namedParameter.isAsyncCallbackTyped() -> {
+                            logger.error(namedParameter, "`@AsyncDecorator` callback must be lambda-typed")
+                            isValid = false
+                            null
+                        }
+                        else -> namedParameter
+                    }
+                }
+                else -> {
+                    val callbackCandidates = function.findAsyncCallbackCandidates()
+                    callbackCandidates.singleOrNull().also {
+                        if (callbackCandidates.size != 1) {
+                            logger.error(function, "`@AsyncDecorator` requires exactly one callback parameter")
+                            isValid = false
+                        }
+                    }
+                }
+            }
+
+        if (callbackName == null) {
+            function.parameters.filter { it.attributes.have(ASYNC_DECORATOR, CALLBACK) }.forEach {
+                logger.error(it, "one-shot `@AsyncDecorator` callback selection must be declared on the function")
+                isValid = false
+            }
         }
 
         function.parameters.forEach { parameter ->
-            val allowedRoles = if (parameter === callbackParameter) setOf(CALLBACK) else setOf(DEFAULT)
+            val allowedRoles = if (parameter === callbackParameter) emptySet() else setOf(DEFAULT)
             isValid = validateParameterRoles(parameter, allowedRoles) && isValid
             if (parameter !== callbackParameter) {
                 isValid = validateDefaultParameter(parameter) && isValid
@@ -336,6 +382,10 @@ internal class LimeAsyncDecoratorValidator(private val logger: LimeLogger) {
         if (!parameter.attributes.have(ASYNC_DECORATOR)) return true
         val roles = parameter.attributes.getAllAttributeValueTypes(ASYNC_DECORATOR)
         if (roles.isEmpty()) {
+            if (allowedRoles.isEmpty()) {
+                logger.error(parameter, "`@AsyncDecorator` is not supported on the inferred callback parameter")
+                return false
+            }
             val roleNames = allowedRoles.joinToString { "`$it`" }
             logger.error(parameter, "`@AsyncDecorator` on a parameter requires a role: $roleNames")
             return false

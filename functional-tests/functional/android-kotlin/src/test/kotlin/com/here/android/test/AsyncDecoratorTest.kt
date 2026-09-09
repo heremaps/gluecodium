@@ -81,6 +81,39 @@ class AsyncDecoratorTest {
     }
 
     @Test
+    fun suspendExtension_withExplicitCallbackSelectorKeepsOtherLambdaParameters() = runBlocking {
+        val factory = AsyncDecoratorFactory()
+        val progressSteps = Collections.synchronizedList(mutableListOf<Int>())
+
+        val value = factory.fetchValueWithProgress { step -> progressSteps += step }
+
+        assertEquals("progress-value", value)
+        assertEquals(listOf(1), progressSteps)
+    }
+
+    @Test
+    fun suspendExtension_nestedClassReturnsValue() = runBlocking {
+        val processor = AsyncDecoratorFactory.NestedProcessor()
+
+        val value = processor.process("hello")
+
+        assertEquals("processed-hello", value)
+    }
+
+    @Test
+    fun suspendExtension_nestedClassThrowsOnError() {
+        val processor = AsyncDecoratorFactory.NestedProcessor()
+
+        val exception = assertThrows(AsyncDecoratorFactoryNestedProcessorProcessException::class.java) {
+            runBlocking {
+                processor.process("fail")
+            }
+        }
+
+        assertEquals(AsyncDecoratorErrorCode.FAILED, exception.error)
+    }
+
+    @Test
     fun multipleSuspendingFunctionsWithDifferentDurationsExecutedConcurrently() = runBlocking {
         val factory = AsyncDecoratorFactory()
         val completionOrder = Collections.synchronizedList(mutableListOf<String>())
