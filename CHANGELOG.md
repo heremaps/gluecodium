@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 14.2.0
+Release date 2026-09-09
  * C++: introduced the new 'EnumValues' attribute, which allows uses to instruct the C++ generator to create helper function for the given enumeration. The mentioned function returns an array of unique enumerator values.
  * C++: restored the usage of typealias for `optional` type and fallback to custom optional type instead of `std::optional` in the case when C++17 is not available. This is part of the work to restore C++ code compatibility with C++14.
  * C++: introduced the usage of typealias for 'string_view' type and fallback to custom 'StringView' type instead of 'std::string_view' in the case when C++17 is not available. This is part of the work to restore C++ code compatibility with C++14.
