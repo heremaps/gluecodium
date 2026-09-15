@@ -1,5 +1,14 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+### Added
+ * TypeScript declaration generator (`typescript`) — generates TypeScript interfaces, enums, structs, lambdas, and exceptions from LIME IDL.
+ * React Native Pure C++ TurboModule generator (`react-native`) — generates shared C++ native module files that extend RN codegen's CxxSpec base class.
+ * TurboModule spec generator — generates `specs/NativeXxxModule.ts` files for React Native codegen (activated via `-tag react-native`).
+ * TypeScript: nullable method parameters are surfaced as `<type> | undefined` in the idiomatic wrapper, so callers can pass `undefined` for optional arguments.
+ * Calculator example app for React Native (`examples/calculator/reactnative/`) with `reactnative-ops.sh` automation script supporting init, generate, build, and deploy for both Android and iOS.
+ * User documentation at `docs/reactnative.md`.
+
 ## 14.2.0
 Release date 2026-09-09
  * C++: introduced the new 'EnumValues' attribute, which allows uses to instruct the C++ generator to create helper function for the given enumeration. The mentioned function returns an array of unique enumerator values.
