@@ -24,7 +24,7 @@ import com.here.gluecodium.common.LimeModelSkipPredicates
 import com.here.gluecodium.generator.common.GeneratedFile
 import com.here.gluecodium.generator.common.Generator
 import com.here.gluecodium.generator.common.GeneratorOptions
-import com.here.gluecodium.generator.common.ReactNativeCallableNameResolver
+import com.here.gluecodium.generator.common.TurboModuleCallableNameResolver
 import com.here.gluecodium.generator.common.makeFullFields
 import com.here.gluecodium.generator.common.orderedByPrimaryThenArity
 import com.here.gluecodium.generator.common.templates.TemplateEngine
@@ -257,7 +257,7 @@ internal class TypeScriptGenerator : Generator {
         val constructors = limeClass.constructors
         val constructorNames =
             constructors.associateWith {
-                ReactNativeCallableNameResolver.resolveEffectiveName(it, seenNames)
+                TurboModuleCallableNameResolver.resolveEffectiveName(it, seenNames)
             }
         val data =
             mapOf(
@@ -266,7 +266,7 @@ internal class TypeScriptGenerator : Generator {
                 "methods" to
                     orderedMethods.mapNotNull { function ->
                         val effectiveName =
-                            ReactNativeCallableNameResolver.resolveEffectiveName(function, seenNames)
+                            TurboModuleCallableNameResolver.resolveEffectiveName(function, seenNames)
                                 ?: return@mapNotNull null
                         mapOf(
                             "name" to effectiveName,
@@ -403,7 +403,7 @@ internal class TypeScriptGenerator : Generator {
                     // constructor (e.g. make_from_path → makeFromPath) surfaces under its alternate
                     // name in every layer, so a named LIME factory is never silently dropped here.
                     val name =
-                        ReactNativeCallableNameResolver.resolveEffectiveName(function, seenNames)
+                        TurboModuleCallableNameResolver.resolveEffectiveName(function, seenNames)
                             ?: return@mapNotNull null
                     val params =
                         function.parameters.joinToString(", ") { param ->
@@ -475,7 +475,7 @@ internal class TypeScriptGenerator : Generator {
                 .sortedBy { it.parameters.size }
                 .mapNotNull { function ->
                     val name =
-                        ReactNativeCallableNameResolver.resolveEffectiveName(function, seenNames)
+                        TurboModuleCallableNameResolver.resolveEffectiveName(function, seenNames)
                             ?: return@mapNotNull null
                     val comment = function.comment.getFor("").ifEmpty { null }
                     val userParams =
