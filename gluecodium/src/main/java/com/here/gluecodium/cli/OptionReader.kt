@@ -136,6 +136,11 @@ object OptionReader {
             addOption("cppexportcommon", true, "C++ export macro name for exporting explicit symbols from `common` dir.")
             addOption("internalprefix", true, "Name prefix for internal conversion functions in Swift.")
             addOption("libraryname", true, "Name of the generated library for some generators (e.g. Dart).")
+            addOption(
+                "sharedenginetype",
+                true,
+                "LIME type path of the shared engine singleton (react-native: prefer make(engine) over make()).",
+            )
             addOption("dartlookuperrormessage", true, "Custom error message for when Dart FFI function lookup fails.")
             addOption(
                 "dartdisablefinalizablemarker",
@@ -265,6 +270,7 @@ object OptionReader {
         getStringValue("cppexportcommon")?.let { generatorOptions.cppExportCommon = it }
         getStringValue("internalprefix")?.let { generatorOptions.internalPrefix = it }
         getStringValue("libraryname")?.let { generatorOptions.libraryName = it }
+        getStringValue("sharedenginetype")?.let { generatorOptions.sharedEngineType = it }
         getStringValue("dartlookuperrormessage")?.let { generatorOptions.dartLookupErrorMessage = it }
         getStringListValue("werror")?.let { generatorOptions.werror = it.toSet() }
 
