@@ -256,7 +256,7 @@ private class LimeModelFilterImpl(private val limeModel: LimeModel, predicate: (
                 valueComment = valueComment,
                 additionalDescriptionComment = additionalDescriptionComment,
                 attributes = attributes,
-                typeRef = typeRef,
+                typeRef = typeRef.remap(referenceMap),
                 getter = getter,
                 setter = setter?.takeIf(predicate),
                 isStatic = isStatic,

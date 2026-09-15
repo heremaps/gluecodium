@@ -3,3 +3,5 @@ com.here.gluecodium.generator.java.JavaGenerator
 com.here.gluecodium.generator.swift.SwiftGenerator
 com.here.gluecodium.generator.dart.DartGenerator
 com.here.gluecodium.generator.kotlin.KotlinGenerator
+com.here.gluecodium.generator.typescript.TypeScriptGenerator
+com.here.gluecodium.generator.reactnative.ReactNativeGenerator

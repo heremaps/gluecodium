@@ -41,6 +41,7 @@ data class GeneratorOptions(
     var cppExportCommon: String? = null,
     var internalPrefix: String? = null,
     var libraryName: String = "library",
+    var sharedEngineType: String = "",
     var enableAndroidAttributesMismatchWarning: Boolean = false,
     var dartDisableFinalizableMarker: Boolean = false,
     var dartLookupErrorMessage: String =

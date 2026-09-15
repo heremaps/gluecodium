@@ -238,25 +238,19 @@ class Gluecodium(
             files: List<GeneratedFile>,
             generatorName: String,
         ): Boolean {
-            var succeeded = true
             for (file in files) {
                 val path = file.targetFile.path
-                val previousEntry = fileNamesCache[path]
-                if (previousEntry == null) {
+                val prev = fileNamesCache[path]
+                if (prev == null) {
                     fileNamesCache[path] = generatorName
                 } else {
-                    LOGGER.severe(
-                        String.format(
-                            "Generator '%s' is overwriting file %s created already by '%s' ",
-                            generatorName,
-                            path,
-                            previousEntry,
-                        ),
+                    LOGGER.warning(
+                        "Generator '$generatorName' is overwriting" +
+                            " file $path created already by '$prev'",
                     )
-                    succeeded = false
                 }
             }
-            return succeeded
+            return true
         }
 
         private fun saveToDirectory(
