@@ -456,3 +456,6 @@ fastlane/test_output
 iOSInjectionProject/
 
 
+prompts/
+copilot-instructions.md
+AmazonQ.md
