@@ -1,0 +1,6 @@
+package smoke
+
+class BasicModule {
+    fun greet(name: String): String
+    fun add(a: Double, b: Double): Double
+}

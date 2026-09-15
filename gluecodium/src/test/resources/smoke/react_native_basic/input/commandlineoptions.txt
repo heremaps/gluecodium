@@ -1,0 +1,6 @@
+-input $INPUT_FOLDER
+-intnamespace gluecodium
+-javanonnullannotation android.support.annotation.NonNull
+-javanullableannotation android.support.annotation.Nullable
+-internalprefix foobar_
+-tag react-native
