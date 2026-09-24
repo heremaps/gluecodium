@@ -375,6 +375,14 @@ _gluecodium_define_target_property(
     "This property is initialized by the value of the GLUECODIUM_DOCS_VALIDATION_RULES_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
 )
 
+_gluecodium_define_target_property(
+  GLUECODIUM_GRADLE_INIT_SCRIPT
+  BRIEF_DOCS "The path to a Gradle initialization script used by Gluecodium."
+  FULL_DOCS
+    "The path to a single Gradle initialization script passed to the nested Gluecodium Gradle invocation."
+    "This property is initialized by the value of the GLUECODIUM_GRADLE_INIT_SCRIPT_DEFAULT variable if it is set when the function gluecodium_add_generate_command is called."
+)
+
 # TODO: Add read-only properties
 
 function(_gluecodium_get_default_value_for_variable result _property)

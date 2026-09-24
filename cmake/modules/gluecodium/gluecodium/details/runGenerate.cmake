@@ -55,6 +55,7 @@ include(${GLUECODIUM_DETAILS_DIR}/GradleSync.cmake)
 include(${GLUECODIUM_DETAILS_DIR}/StringJoin.cmake)
 include(${GLUECODIUM_DETAILS_DIR}/InitVariablesWithUnitedFilePaths.cmake)
 include(${GLUECODIUM_DETAILS_DIR}/GetOutputDirs.cmake)
+include(${GLUECODIUM_DETAILS_DIR}/GetGradleInitScriptArguments.cmake)
 
 gluecodium_get_output_dirs(
   "${GLUECODIUM_OUTPUT_DIR}" "${GLUECODIUM_TARGET_BINARY_DIR}" GLUECODIUM_OUTPUT_MAIN
@@ -232,6 +233,9 @@ function(_generate)
   # All options are listed in file, gluecodium needs only path to this file
   set(_gluecodium_options "-options \"${GLUECODIUM_OPTIONS_FILE}\"")
 
+  gluecodium_get_gradle_init_script_arguments(
+    _gradle_init_script_arguments "${GLUECODIUM_GRADLE_INIT_SCRIPT}")
+
   if(WIN32)
     set(_no_daemon --no-daemon)
   endif()
@@ -242,6 +246,7 @@ function(_generate)
       ${_build_local_gluecodium}
       ${_no_daemon}
       -Pversion=${GLUECODIUM_VERSION}
+      ${_gradle_init_script_arguments}
       run
       --args=${_gluecodium_options})
 
