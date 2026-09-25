@@ -12,6 +12,9 @@ Release date 2026-09-09
  * Dart: fixed generation of invalid Dart code for struct constructors. Structs with internal fields now hide those fields from generated constructors and make the free-args/initialized-fields constructor private (`._withDefaults`) instead of exposing internal-only members publicly. Also fixed resolution of the constructor overload used for struct initializer expressions (positional-defaults, named field constructors) so it correctly matches by argument count and `@Default`/`@Name` attributes.
  * Kotlin: added `@AsyncDecorator` attribute for generating Kotlin coroutine `suspend` extension functions from callback-based asynchronous APIs. Supports result/error mapping, cancellation via `@AsyncTaskHandle`, custom naming via `@AsyncDecorator(Name = "...")`, function-level callback selection via `@AsyncDecorator(Callback = "paramName")`, and emits one stable coroutine file per top-level container (e.g. `KotlinCoroutines_Route.kt`).
 
+## Unreleased
+ * Kotlin: added `@Kotlin(DataClass)` attribute that makes Gluecodium emit a LimeIDL `struct` as an immutable Kotlin `data class` (val members, public constructor, copy/equals/hashCode/component-N), while keeping struct methods as external functions and statics in a companion object. Only valid on `struct` elements that also carry `@Immutable` and do not declare an explicit constructor or field constructor; any other usage is rejected at build time.
+
 ## 14.1.1
 Release date 2026-03-03
  * C++: fixed a bug related to redundant 'using' statements generation for derived classes. We generate using statment to avoid warning/error related to method shadowing, when base and derived classes have method overload with the same name.

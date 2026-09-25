@@ -1,0 +1,78 @@
+# Copyright (C) 2016-2025 HERE Europe B.V.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# License-Filename: LICENSE
+
+package smoke
+
+// The kind of a place.
+enum PlaceType {
+    POI,
+    AREA,
+    STREET
+}
+
+// An immutable representation of a searchable place.
+@Immutable
+@Equatable
+@Kotlin(DataClass)
+struct Place {
+    // The human-readable name of the place.
+    title: String
+    // The unique identifier of the place.
+    id: String
+    // The kind of the place.
+    place_type: PlaceType
+    // The latitude of the place, in degrees.
+    latitude: Double
+    // The longitude of the place, in degrees.
+    longitude: Double
+    // The distance from the search origin to the place, in meters, if known.
+    distance_in_meters: Int? = null
+    // The political view under which this place was resolved, if any.
+    political_view: String? = null
+
+    // Serializes this place into a compact string representation.
+    fun serialize_compact(): String
+
+    // Deserializes a place from its compact string representation.
+    static fun deserialize(serialized_place: String): Place
+}
+
+// The kind of a search suggestion.
+enum SuggestionType {
+    CATEGORY,
+    CHAIN,
+    PLACE
+}
+
+// An immutable representation of a single search suggestion.
+@Immutable
+@Kotlin(DataClass)
+struct Suggestion {
+    // The human-readable title of the suggestion.
+    title: String
+    // The kind of the suggestion.
+    type: SuggestionType
+    // The place this suggestion resolves to, if already known.
+    place: Place? = null
+    // The unique identifier of the suggestion, if any.
+    id: String? = null
+    // A reference that can be used to resolve this suggestion into a place, if any.
+    href: String? = null
+
+    // Returns the character ranges within the title that matched the search query.
+    fun getHighlights(): Map<String, List<Int>>
+}
