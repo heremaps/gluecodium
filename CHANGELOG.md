@@ -1,5 +1,9 @@
 # Gluecodium project Release Notes
 
+## 14.2.1
+Release date 2026-09-25
+ * CMake: a new option to specify gradle init script for running code generation via CMake is available. The user can utilize `GLUECODIUM_GRADLE_INIT_SCRIPT` to specify the gradle initialization script passed to the nested Gluecodium Gradle invocation.
+
 ## 14.2.0
 Release date 2026-09-09
  * C++: introduced the new 'EnumValues' attribute, which allows uses to instruct the C++ generator to create helper function for the given enumeration. The mentioned function returns an array of unique enumerator values.
