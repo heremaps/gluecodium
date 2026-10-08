@@ -46,11 +46,7 @@ public:
             (*reinterpret_cast<void (*)()>(f_close_callbacks_local))();
         };
 
-        if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
-            deleter();
-        } else {
-            gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
-        }
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
     }
 
     smoke_OuterStruct_InnerInterface_Proxy(const smoke_OuterStruct_InnerInterface_Proxy&) = delete;
@@ -107,11 +103,7 @@ public:
             (*reinterpret_cast<void (*)()>(f_close_callbacks_local))();
         };
 
-        if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
-            deleter();
-        } else {
-            gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
-        }
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
     }
 
     smoke_OuterStruct_InnerLambda_Proxy(const smoke_OuterStruct_InnerLambda_Proxy&) = delete;

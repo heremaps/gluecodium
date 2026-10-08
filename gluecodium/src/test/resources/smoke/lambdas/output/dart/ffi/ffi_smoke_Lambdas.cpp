@@ -37,11 +37,7 @@ public:
             (*reinterpret_cast<void (*)()>(f_close_callbacks_local))();
         };
 
-        if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
-            deleter();
-        } else {
-            gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
-        }
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
     }
 
     smoke_Lambdas_Producer_Proxy(const smoke_Lambdas_Producer_Proxy&) = delete;
@@ -98,11 +94,7 @@ public:
             (*reinterpret_cast<void (*)()>(f_close_callbacks_local))();
         };
 
-        if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
-            deleter();
-        } else {
-            gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
-        }
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
     }
 
     smoke_Lambdas_Confuser_Proxy(const smoke_Lambdas_Confuser_Proxy&) = delete;
@@ -160,11 +152,7 @@ public:
             (*reinterpret_cast<void (*)()>(f_close_callbacks_local))();
         };
 
-        if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
-            deleter();
-        } else {
-            gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
-        }
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
     }
 
     smoke_Lambdas_Consumer_Proxy(const smoke_Lambdas_Consumer_Proxy&) = delete;
@@ -218,11 +206,7 @@ public:
             (*reinterpret_cast<void (*)()>(f_close_callbacks_local))();
         };
 
-        if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
-            deleter();
-        } else {
-            gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
-        }
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
     }
 
     smoke_Lambdas_Indexer_Proxy(const smoke_Lambdas_Indexer_Proxy&) = delete;
@@ -282,11 +266,7 @@ public:
             (*reinterpret_cast<void (*)()>(f_close_callbacks_local))();
         };
 
-        if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
-            deleter();
-        } else {
-            gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
-        }
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
     }
 
     smoke_Lambdas_NullableConfuser_Proxy(const smoke_Lambdas_NullableConfuser_Proxy&) = delete;
