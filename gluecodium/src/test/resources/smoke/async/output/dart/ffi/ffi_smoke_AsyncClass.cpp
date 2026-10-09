@@ -32,11 +32,7 @@ public:
             (*reinterpret_cast<void (*)()>(f_close_callbacks_local))();
         };
 
-        if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
-            deleter();
-        } else {
-            gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
-        }
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
     }
 
     smoke_AsyncClass_AsyncvoidResultlambda_Proxy(const smoke_AsyncClass_AsyncvoidResultlambda_Proxy&) = delete;
@@ -89,11 +85,7 @@ public:
             (*reinterpret_cast<void (*)()>(f_close_callbacks_local))();
         };
 
-        if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
-            deleter();
-        } else {
-            gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
-        }
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
     }
 
     smoke_AsyncClass_AsyncvoidthrowsResultlambda_Proxy(const smoke_AsyncClass_AsyncvoidthrowsResultlambda_Proxy&) = delete;
@@ -146,11 +138,7 @@ public:
             (*reinterpret_cast<void (*)()>(f_close_callbacks_local))();
         };
 
-        if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
-            deleter();
-        } else {
-            gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
-        }
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
     }
 
     smoke_AsyncClass_AsyncvoidthrowsErrorlambda_Proxy(const smoke_AsyncClass_AsyncvoidthrowsErrorlambda_Proxy&) = delete;
@@ -204,11 +192,7 @@ public:
             (*reinterpret_cast<void (*)()>(f_close_callbacks_local))();
         };
 
-        if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
-            deleter();
-        } else {
-            gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
-        }
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
     }
 
     smoke_AsyncClass_AsyncintResultlambda_Proxy(const smoke_AsyncClass_AsyncintResultlambda_Proxy&) = delete;
@@ -262,11 +246,7 @@ public:
             (*reinterpret_cast<void (*)()>(f_close_callbacks_local))();
         };
 
-        if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
-            deleter();
-        } else {
-            gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
-        }
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
     }
 
     smoke_AsyncClass_AsyncintthrowsResultlambda_Proxy(const smoke_AsyncClass_AsyncintthrowsResultlambda_Proxy&) = delete;
@@ -320,11 +300,7 @@ public:
             (*reinterpret_cast<void (*)()>(f_close_callbacks_local))();
         };
 
-        if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
-            deleter();
-        } else {
-            gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
-        }
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
     }
 
     smoke_AsyncClass_AsyncintthrowsErrorlambda_Proxy(const smoke_AsyncClass_AsyncintthrowsErrorlambda_Proxy&) = delete;
@@ -378,11 +354,7 @@ public:
             (*reinterpret_cast<void (*)()>(f_close_callbacks_local))();
         };
 
-        if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
-            deleter();
-        } else {
-            gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
-        }
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
     }
 
     smoke_AsyncClass_AsyncstaticResultlambda_Proxy(const smoke_AsyncClass_AsyncstaticResultlambda_Proxy&) = delete;

@@ -1,5 +1,8 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+Dart: ensure that destructor of C++ proxy object never invokes Dart code. The destructor can be invoked by native finalizer. In such case the call will result in abort of the application due to violation of native finalizer contract.
+
 ## 14.2.1
 Release date 2026-09-25
  * CMake: a new option to specify gradle init script for running code generation via CMake is available. The user can utilize `GLUECODIUM_GRADLE_INIT_SCRIPT` to specify the gradle initialization script passed to the nested Gluecodium Gradle invocation.

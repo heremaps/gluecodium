@@ -37,11 +37,7 @@ public:
             (*reinterpret_cast<void (*)()>(f_close_callbacks_local))();
         };
 
-        if (gluecodium::ffi::IsolateContext::is_current(isolate_id)) {
-            deleter();
-        } else {
-            gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
-        }
+        gluecodium::ffi::cbqm.enqueueCallback(isolate_id, deleter);
     }
 
     smoke_ErrorsInterface_Proxy(const smoke_ErrorsInterface_Proxy&) = delete;

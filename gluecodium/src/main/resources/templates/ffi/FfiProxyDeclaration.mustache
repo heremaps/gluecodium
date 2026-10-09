@@ -58,11 +58,7 @@ public:
             (*reinterpret_cast<void (*)()>(f_close_callbacks_local))();
         };
 
-        if ({{>ffi/FfiInternal}}::IsolateContext::is_current(isolate_id)) {
-            deleter();
-        } else {
-            {{>ffi/FfiInternal}}::cbqm.enqueueCallback(isolate_id, deleter);
-        }
+        {{>ffi/FfiInternal}}::cbqm.enqueueCallback(isolate_id, deleter);
     }
 
     {{resolveName}}_Proxy(const {{resolveName}}_Proxy&) = delete;
