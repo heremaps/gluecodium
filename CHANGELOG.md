@@ -1,7 +1,8 @@
 # Gluecodium project Release Notes
 
-## Unreleased
-Dart: ensure that destructor of C++ proxy object never invokes Dart code. The destructor can be invoked by native finalizer. In such case the call will result in abort of the application due to violation of native finalizer contract.
+## 14.2.2
+Release date 2026-10-09
+ * Dart: ensure that destructor of C++ proxy object never invokes Dart code. The destructor can be invoked by native finalizer. In such case the call will result in abort of the application due to violation of native finalizer contract.
 
 ## 14.2.1
 Release date 2026-09-25
