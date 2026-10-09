@@ -139,6 +139,70 @@ class LimeAndroidAttributesMismatchValidatorTest {
     }
 
     @Test
+    fun elementWithDataClassAttributeOnlyForKotlinDoesNotGenerateWarningByDefault() {
+        val attributes =
+            LimeAttributes.Builder()
+                .addAttribute(LimeAttributeType.KOTLIN, LimeAttributeValueType.DATA_CLASS)
+                .build()
+
+        val limeStruct = LimeStruct(path = somePath, attributes = attributes)
+        allElements[somePath.toString()] = limeStruct
+
+        val logger: LimeLogger = mockk()
+        val validator = LimeAndroidAttributesMismatchValidator(logger)
+        val result = validator.validate(limeModel)
+
+        verify(exactly = 0) { logger.warning(limeStruct, any()) }
+        assertTrue(result)
+    }
+
+    @Test
+    fun elementWithDataClassAttributeGeneratesWarningWhenAllowlistIsOverriddenToBeEmpty() {
+        val attributes =
+            LimeAttributes.Builder()
+                .addAttribute(LimeAttributeType.KOTLIN, LimeAttributeValueType.DATA_CLASS)
+                .build()
+
+        val limeStruct = LimeStruct(path = somePath, attributes = attributes)
+        allElements[somePath.toString()] = limeStruct
+
+        val logger: LimeLogger = mockk()
+        justRun { logger.warning(limeStruct, any()) }
+
+        val generatorOptions = GeneratorOptions(androidAttributesMismatchAllowlist = emptySet())
+        val validator = LimeAndroidAttributesMismatchValidator(logger, generatorOptions)
+        val result = validator.validate(limeModel)
+
+        verify(exactly = 1) {
+            logger.warning(limeStruct, "Attributes missing in Java, but present in Kotlin: [DataClass]")
+        }
+        assertTrue(result)
+    }
+
+    @Test
+    fun elementWithSkipAttributeDoesNotGenerateWarningWhenAllowlistIsExtended() {
+        val attributes =
+            LimeAttributes.Builder()
+                .addAttribute(LimeAttributeType.KOTLIN, LimeAttributeValueType.SKIP)
+                .build()
+
+        val limeStruct = LimeStruct(path = somePath, attributes = attributes)
+        allElements[somePath.toString()] = limeStruct
+
+        val logger: LimeLogger = mockk()
+        val generatorOptions =
+            GeneratorOptions(
+                androidAttributesMismatchAllowlist =
+                    setOf(LimeAttributeValueType.DATA_CLASS.toString(), LimeAttributeValueType.SKIP.toString()),
+            )
+        val validator = LimeAndroidAttributesMismatchValidator(logger, generatorOptions)
+        val result = validator.validate(limeModel)
+
+        verify(exactly = 0) { logger.warning(limeStruct, any()) }
+        assertTrue(result)
+    }
+
+    @Test
     fun mismatchForTwoPlatformsGeneratesTwoWarningsWhenWerrorNotSet() {
         val attributes =
             LimeAttributes.Builder()

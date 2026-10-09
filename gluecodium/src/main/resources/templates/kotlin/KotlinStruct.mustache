@@ -24,7 +24,17 @@
 {{/unless}}{{/internalApiAnnotation}}internal {{!!
 }}{{/if}}{{!!
 }}{{#unless external.kotlin.converter}}{{>kotlin/KotlinTypeVisibility}}{{/unless}}{{!!
-}}class {{resolveName}}{{!!
+}}{{#if attributes.kotlin.dataClass}}data {{/if}}class {{resolveName}}{{!!
+}}{{#if attributes.kotlin.dataClass}}(
+{{#fields}}{{prefixPartial "kotlin/KotlinDocComment" "    "}}{{prefixPartial "kotlin/KotlinAttributes" "    "}}{{!!
+}}    {{#resolveName "visibility"}}{{#unless this.isEmpty}}@JvmSynthetic {{this}}{{/unless}}{{/resolveName}}{{!!
+}}val {{resolveName}}: {{resolveName typeRef}}{{#if defaultValue}} = {{resolveName defaultValue}}{{/if}}{{#if iter.hasNext}},{{/if}}
+{{/fields}}){{!!
+}}{{#unless external.kotlin.name}}{{!!
+}}{{#if attributes.serializable}} : Parcelable{{/if}}{{!!
+}}{{/unless}} {
+{{/if}}{{!!
+}}{{#unless attributes.kotlin.dataClass}}{{!!
 }}{{#unless external.kotlin.name}}{{!!
 }}{{#if attributes.serializable}} : Parcelable{{/if}}{{!!
 }}{{/unless}} {
@@ -38,11 +48,13 @@
 }}{{resolveName}}: {{resolveName typeRef}}{{!!
 }}
 {{/fields}}
-{{/set}}
+{{/set}}{{!!
+}}{{/unless}}
 
 {{>kotlin/KotlinContainerContents}}
 
-{{!!
+{{#unless attributes.kotlin.dataClass}}{{!!
+}}{{!!
     1. If user explicitly specified constructors via 'constructor' keyword, then define them.
 }}
 {{#set self=this}}
@@ -187,6 +199,7 @@
 
 {{#if attributes.equatable}}{{prefixPartial "kotlin/KotlinEqualsAndHashCode" "    "}}
 {{/if}}
+{{/unless}}{{!! end unless attributes.kotlin.dataClass }}
 
 {{#unless external.kotlin.name}}{{!!
 }}{{#if attributes.serializable}}{{prefixPartial "kotlin/KotlinParcelableImpl" "    "}}

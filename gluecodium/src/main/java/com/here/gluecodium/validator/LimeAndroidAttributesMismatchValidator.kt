@@ -33,6 +33,14 @@ class LimeAndroidAttributesMismatchValidator(private val limeLogger: LimeLogger,
     private val maybeError: LimeLogger.(LimeNamedElement, String) -> Unit =
         if (werror) LimeLogger::error else LimeLogger::warning
 
+    // Kotlin-only attribute values with no Java equivalent (e.g. `DataClass`) are expected to differ between the
+    // two platforms and should not be reported as a mismatch. The set of allowed values is configurable via
+    // `GeneratorOptions.androidAttributesMismatchAllowlist` so users are not limited to the built-in defaults.
+    private val allowedMismatchedAttributes =
+        LimeAttributeValueType.entries
+            .filter { it.toString() in generatorOptions.androidAttributesMismatchAllowlist }
+            .toSet()
+
     fun validate(limeModel: LimeModel): Boolean {
         val allElements = limeModel.referenceMap.values
         val validationResults =
@@ -47,7 +55,8 @@ class LimeAndroidAttributesMismatchValidator(private val limeLogger: LimeLogger,
         val commonAttributes = kotlinAttributes intersect javaAttributes
 
         var result = true
-        val attributesMissingInJava = kotlinAttributes subtract commonAttributes
+        val attributesMissingInJava =
+            (kotlinAttributes subtract commonAttributes) - allowedMismatchedAttributes
         if (attributesMissingInJava.isNotEmpty()) {
             logAttributesMismatch(
                 element = element,
