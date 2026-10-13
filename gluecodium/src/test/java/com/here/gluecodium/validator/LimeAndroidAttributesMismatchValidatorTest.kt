@@ -23,8 +23,10 @@ import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.common.GeneratorOptions
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeAttributeValueType.INTERFACE
 import com.here.gluecodium.model.lime.LimeAttributes
 import com.here.gluecodium.model.lime.LimeBasicTypeRef
+import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeElement
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeModel
@@ -74,6 +76,21 @@ class LimeAndroidAttributesMismatchValidatorTest {
         val result = validator.validate(limeModel)
 
         verify(exactly = 0) { logger.warning(limeStruct, any()) }
+        assertTrue(result)
+    }
+
+    @Test
+    fun kotlinInterfaceMarkerDoesNotRequireJavaCounterpart() {
+        val attributes = LimeAttributes.Builder().addAttribute(LimeAttributeType.KOTLIN, INTERFACE).build()
+        val limeClass = LimeClass(path = somePath, attributes = attributes)
+        allElements[somePath.toString()] = limeClass
+
+        val logger: LimeLogger = mockk()
+        val generatorOptions = GeneratorOptions(werror = setOf(GeneratorOptions.WARNING_ANDROID_ATTRIBUTES_MISMATCH))
+        val validator = LimeAndroidAttributesMismatchValidator(logger, generatorOptions)
+        val result = validator.validate(limeModel)
+
+        verify(exactly = 0) { logger.error(limeClass, any()) }
         assertTrue(result)
     }
 

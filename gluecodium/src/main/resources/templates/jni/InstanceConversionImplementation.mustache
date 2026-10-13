@@ -40,10 +40,10 @@ namespace jni
 
 {{#model}}
 {{#ifPredicate "hasTypeRepository"}}
-REGISTER_JNI_CLASS_CACHE_INHERITANCE("{{resolveName}}{{#notInstanceOf this "LimeClass"}}Impl{{/notInstanceOf}}", {{!!
+REGISTER_JNI_CLASS_CACHE_INHERITANCE("{{resolveName}}{{#notInstanceOf this "LimeClass"}}Impl{{/notInstanceOf}}{{resolveName this "kotlinInterfaceSuffix"}}", {{!!
 }}{{resolveName "mangled"}}, "{{#path.head}}{{.}}_{{/path.head}}{{resolveName "C++"}}", {{resolveName "C++ FQN"}})
 {{/ifPredicate}}{{#unlessPredicate "hasTypeRepository"}}
-REGISTER_JNI_CLASS_CACHE("{{resolveName}}{{#notInstanceOf this "LimeClass"}}Impl{{/notInstanceOf}}", {{!!
+REGISTER_JNI_CLASS_CACHE("{{resolveName}}{{#notInstanceOf this "LimeClass"}}Impl{{/notInstanceOf}}{{resolveName this "kotlinInterfaceSuffix"}}", {{!!
 }}{{resolveName "mangled"}}, {{resolveName "C++ FQN"}})
 {{/unlessPredicate}}{{#unless isNarrow}}{{#instanceOf this "LimeInterface"}}{{#if this.parents}}
 REGISTER_JNI_CLASS_CACHE_INTERFACE("{{resolveName}}", {{resolveName "mangled"}}__interface, {{resolveName "C++ FQN"}})
@@ -66,6 +66,14 @@ void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared
     }}<{{resolveName "C++ FQN"}}, {{resolveName "mangled"}}_CppProxy>(env, obj, "{{resolveName "mangled"}}", result);
 }
 {{/notInstanceOf}}{{/notInstanceOf}}
+
+{{#ifPredicate this "isKotlinInterfaceClass"}}
+template<>
+void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared_ptr<{{resolveName "C++ FQN"}}>& result)
+{
+    CppProxyBase::createProxy<{{resolveName "C++ FQN"}}, {{resolveName "mangled"}}_CppProxy>(env, obj, "{{resolveName "mangled"}}", result);
+}
+{{/ifPredicate}}
 
 {{#unless isNarrow}}{{#instanceOf this "LimeInterface"}}{{#set interface=this}}{{#eval "descendantInterfaces" fullName}}
 {{#interface}}{{>cppTypeName}}{{/interface}} try_descendant_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, {{#interface}}{{>cppTypeName}}{{/interface}}*) {

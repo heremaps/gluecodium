@@ -28,6 +28,7 @@ private class {{resolveName}}Impl : NativeBase, {{resolveName}} {
     protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
         : super(nativeHandle, { disposeNativeHandle(it) }) {}
 
+{{#unless omitInternalMembers}}
 {{#set override=true classElement=this}}
 {{#functions}}
 {{#unless isStatic}}
@@ -35,13 +36,49 @@ private class {{resolveName}}Impl : NativeBase, {{resolveName}} {
 {{/unless}}
 {{/functions}}
 {{/set}}
+{{/unless}}
+{{!! Members absent from the contract are declared here without 'override'. !}}
+{{#if omitInternalMembers}}
+{{#set override=true classElement=this}}
+{{#functions}}
+{{#unless isStatic}}
+{{#unlessPredicate "isInternal"}}
+{{prefixPartial "kotlin/KotlinFunction" "    "}}
+{{/unlessPredicate}}
+{{/unless}}
+{{/functions}}
+{{/set}}
+{{#set classElement=this}}
+{{#functions}}
+{{#unless isStatic}}
+{{#ifPredicate "isInternal"}}
+{{prefixPartial "kotlin/KotlinFunction" "    "}}
+{{/ifPredicate}}
+{{/unless}}
+{{/functions}}
+{{/set}}
+{{/if}}
 
 {{#set override=true classElement=this}}
 {{#classElement.properties}}
 {{#unless isStatic}}
+{{#unlessPredicate "isInternal"}}
 {{#set property=this isCached=attributes.cached}}{{#property}}
 {{prefixPartial "kotlin/KotlinProperty" "    "}}
 {{/property}}{{/set}}
+{{/unlessPredicate}}
+{{/unless}}
+{{/classElement.properties}}
+{{/set}}
+
+{{#set classElement=this}}
+{{#classElement.properties}}
+{{#unless isStatic}}
+{{#ifPredicate "isInternal"}}
+{{#set property=this isCached=attributes.cached}}{{#property}}
+{{prefixPartial "kotlin/KotlinProperty" "    "}}
+{{/property}}{{/set}}
+{{/ifPredicate}}
 {{/unless}}
 {{/classElement.properties}}
 {{/set}}

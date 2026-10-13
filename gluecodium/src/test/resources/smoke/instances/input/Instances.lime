@@ -17,13 +17,52 @@
 
 package smoke
 
+@Kotlin(Interface)
 class SimpleClass {
+    property title: String {
+        get
+    }
+
     fun getStringValue(): String
     fun useSimpleClass(input: SimpleClass): SimpleClass
+
+    static fun default_title(): String
 }
 
 struct StructWithClass {
     classInstance: SimpleClass
+}
+
+# Never accepted as an input, so its internal members can be kept off the generated contract.
+@Kotlin(Interface)
+class ReadOnlyClass {
+    property title: String {
+        get
+    }
+
+    @Internal
+    property relevance: Int? {
+        get
+    }
+
+    fun getStringValue(): String
+
+    @Internal
+    fun updateValue(input: String)
+
+    static fun default_title(): String
+}
+
+# A C++ reference is backed by a value converted once and kept by the proxy, so it must be cached.
+@Kotlin(Interface)
+class CachedRefClass {
+    @Cached
+    @Cpp(Ref)
+    property items: List<String> {
+        get
+    }
+
+    fun getStringValue(): String
 }
 
 interface SimpleInterface {

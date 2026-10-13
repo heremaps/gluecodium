@@ -20,6 +20,8 @@
 package com.here.gluecodium.generator.jni
 
 import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeValueType.INTERFACE
+import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeExternalDescriptor.Companion.NAME_NAME
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
@@ -52,7 +54,16 @@ internal class JniFileNameRules(
     fun getElementFileName(limeElement: LimeNamedElement) =
         sanitizeFilename(
             getElementFileNamePrefix(limeElement) +
-                if (limeElement is LimeInterface || limeElement is LimeLambda) "Impl" else "",
+                if (limeElement is LimeInterface || limeElement is LimeLambda ||
+                    (
+                        platformAttribute == LimeAttributeType.KOTLIN && limeElement is LimeClass &&
+                            limeElement.attributes.have(LimeAttributeType.KOTLIN, INTERFACE)
+                    )
+                ) {
+                    "Impl"
+                } else {
+                    ""
+                },
         )
 
     private fun getElementFileNamePrefix(limeElement: LimeNamedElement) =

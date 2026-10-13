@@ -340,6 +340,7 @@ internal object AntlrLimeConverter {
             "Error" -> LimeAttributeValueType.ERROR
             "FullName" -> LimeAttributeValueType.FULL_NAME
             "FunctionName" -> LimeAttributeValueType.FUNCTION_NAME
+            "Interface" -> LimeAttributeValueType.INTERFACE
             "Internal" -> LimeAttributeValueType.INTERNAL
             "Label" -> LimeAttributeValueType.LABEL
             "Message" -> LimeAttributeValueType.MESSAGE

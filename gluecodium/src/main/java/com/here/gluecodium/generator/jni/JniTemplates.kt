@@ -34,6 +34,7 @@ import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.jni.JniGeneratorPredicates.Companion.hasThrowingFunctions
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributes
+import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
 import com.here.gluecodium.model.lime.LimeDirectTypeRef
@@ -70,7 +71,9 @@ internal class JniTemplates(
         mapOf(
             "" to jniNameResolver,
             "signature" to JniTypeSignatureNameResolver(jniNameResolver, fullInternalPackages, platformAttribute),
-            "mangled" to JniMangledNameResolver(jniNameResolver),
+            "mangled" to JniMangledNameResolver(jniNameResolver, platformAttribute),
+            "kotlinInterfaceSuffix" to JniKotlinInterfaceSuffixResolver(platformAttribute),
+            "contract" to JniContractAccessorNameResolver(jniNameResolver),
             "C++" to cppNameResolver,
             "C++ FQN" to CppFullNameResolver(nameCache),
         )
@@ -196,11 +199,12 @@ internal class JniTemplates(
 
     fun generateConversionFiles(allTypes: List<LimeType>): List<GeneratedFile> {
         val lambdas = allTypes.filterIsInstance<LimeLambda>()
+        val kotlinInterfaceClasses = allTypes.filter { generatorPredicates.isKotlinInterfaceClass(it) }
         return allTypes.filterIsInstance<LimeStruct>().flatMap { generateStructConversionFiles(it) } +
             allTypes.filterIsInstance<LimeEnumeration>().flatMap { generateEnumConversionFiles(it) } +
             (lambdas + allTypes.filterIsInstance<LimeContainerWithInheritance>()).flatMap {
                 generateInstanceConversionFiles(it)
-            } + (lambdas + allTypes.filterIsInstance<LimeInterface>()).flatMap { generateCppProxyFiles(it) }
+            } + (lambdas + allTypes.filterIsInstance<LimeInterface>() + kotlinInterfaceClasses).flatMap { generateCppProxyFiles(it) }
     }
 
     fun generateConversionUtilsHeaderFile(fileName: String) =
@@ -340,6 +344,12 @@ internal class JniTemplates(
             when (limeElement) {
                 is LimeInterface, is LimeLambda ->
                     jniIncludeResolver.resolveInstanceConversionIncludes(limeElement).sorted()
+                is LimeClass ->
+                    if (generatorPredicates.isKotlinInterfaceClass(limeElement)) {
+                        jniIncludeResolver.resolveInstanceConversionIncludes(limeElement).sorted()
+                    } else {
+                        emptyList()
+                    }
                 else -> emptyList()
             }
         val implFile =

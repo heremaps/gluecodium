@@ -5,15 +5,21 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:meta/meta.dart';
 
 abstract class SimpleClass implements Finalizable {
-
 
   String getStringValue();
 
   SimpleClass useSimpleClass(SimpleClass input);
-}
 
+  static String defaultTitle() => $prototype.defaultTitle();
+  String get title;
+
+  /// @nodoc
+  @visibleForTesting
+  static dynamic $prototype = SimpleClass$Impl(Pointer<Void>.fromAddress(0));
+}
 
 // SimpleClass "private" section, not exported.
 
@@ -30,8 +36,8 @@ final _smokeSimpleclassReleaseHandle = __lib.catchArgumentError(() => __lib.nati
     void Function(Pointer<Void>)
   >('library_smoke_SimpleClass_release_handle'));
 
-
-
+/// @nodoc
+@visibleForTesting
 
 class SimpleClass$Impl extends __lib.NativeBase implements SimpleClass {
 
@@ -67,6 +73,31 @@ class SimpleClass$Impl extends __lib.NativeBase implements SimpleClass {
 
   }
 
+  String defaultTitle() {
+    final _defaultTitleFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_SimpleClass_defaultTitle'));
+    final __resultHandle = _defaultTitleFfi(__lib.LibraryContext.isolateId);
+    try {
+      return stringFromFfi(__resultHandle);
+    } finally {
+      stringReleaseFfiHandle(__resultHandle);
+
+    }
+
+  }
+
+  @override
+  String get title {
+    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_SimpleClass_title_get'));
+    final _handle = this.handle;
+    final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
+    try {
+      return stringFromFfi(__resultHandle);
+    } finally {
+      stringReleaseFfiHandle(__resultHandle);
+
+    }
+
+  }
 
 }
 
@@ -98,5 +129,4 @@ void smokeSimpleclassReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeSimpleclassReleaseHandle(handle);
 
 // End of SimpleClass "private" section.
-
 

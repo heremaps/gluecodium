@@ -1,11 +1,16 @@
 /*
+
  *
  */
+
 #pragma once
+
 #include <jni.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+
 JNIEXPORT void JNICALL
 Java_com_example_smoke_Errors_methodWithErrors(JNIEnv* _jenv, jobject _jinstance);
 JNIEXPORT void JNICALL
@@ -16,6 +21,7 @@ JNIEXPORT void JNICALL
 Java_com_example_smoke_Errors_methodWithPayloadError(JNIEnv* _jenv, jobject _jinstance);
 JNIEXPORT jstring JNICALL
 Java_com_example_smoke_Errors_methodWithPayloadErrorAndReturnValue(JNIEnv* _jenv, jobject _jinstance);
+
 #ifdef __cplusplus
 }
 #endif

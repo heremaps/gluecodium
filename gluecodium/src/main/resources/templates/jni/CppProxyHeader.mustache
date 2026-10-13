@@ -27,6 +27,9 @@
 {{/includes}}
 #include "CppProxyBase.h"
 #include "JniReference.h"
+{{#ifPredicate this "hasCppRefProperties"}}
+#include <mutex>
+{{/ifPredicate}}
 
 {{#internalNamespace}}
 namespace {{.}}
@@ -36,7 +39,8 @@ namespace jni
 {
 
 class {{resolveName "mangled"}}_CppProxy final : public CppProxyBase{{!!
-}}{{#instanceOf this "LimeInterface"}}, public {{resolveName "C++ FQN"}}{{/instanceOf}} {
+}}{{#instanceOf this "LimeInterface"}}, public {{resolveName "C++ FQN"}}{{/instanceOf}}{{!!
+}}{{#ifPredicate this "isKotlinInterfaceClass"}}, public {{resolveName "C++ FQN"}}{{/ifPredicate}} {
 public:
     {{resolveName "mangled"}}_CppProxy( JniReference<jobject> globalRef, jint _jHashCode ) noexcept;
     {{resolveName "mangled"}}_CppProxy( const {{resolveName "mangled"}}_CppProxy& ) = delete;
@@ -49,11 +53,18 @@ public:
 {{>proxyPropertyHeader}}
 {{/unless}}{{/inheritedProperties}}
 {{#functions}}{{#unless isStatic}}
-{{>proxyMethodHeader}}{{#instanceOf container "LimeInterface"}} override{{/instanceOf}};
+{{>proxyMethodHeader}}{{#instanceOf container "LimeInterface"}} override{{/instanceOf}}{{#ifPredicate container "isKotlinInterfaceClass"}} override{{/ifPredicate}};
 {{/unless}}{{/functions}}
 {{#properties}}{{#unless isStatic}}
 {{>proxyPropertyHeader}}
 {{/unless}}{{/properties}}
+{{#ifPredicate this "hasCppRefProperties"}}
+
+private:
+{{#properties}}{{#unless isStatic}}{{#if attributes.cpp.ref}}
+{{>proxyRefCacheMembers}}
+{{/if}}{{/unless}}{{/properties}}
+{{/ifPredicate}}
 };
 
 }
@@ -70,10 +81,19 @@ public:
 }}{{/proxyMethodHeader}}{{!!
 
 }}{{+proxyPropertyHeader}}
-{{#set property=this cppNoexcept=attributes.cpp.noexcept}}{{#getter}}
-    {{>cpp/CppReturnType}} {{resolveName property "C++" "getter"}}(  ) const{{#if cppNoexcept}} noexcept{{/if}} override;
+{{#set property=this cppRef=attributes.cpp.ref cppNoexcept=attributes.cpp.noexcept}}{{#getter}}
+    {{#if cppRef}}const {{resolveName returnType "C++"}}&{{/if}}{{#unless cppRef}}{{>cpp/CppReturnType}}{{/unless}} {{!!
+    }}{{resolveName property "C++" "getter"}}(  ) const{{#if cppNoexcept}} noexcept{{/if}} override;
 {{/getter}}{{#setter}}
     void {{resolveName property "C++" "setter"}}( {{!!
     }}{{#parameters}}{{>jni/CppProxyMethodParameter}}{{/parameters}} ){{#if cppNoexcept}} noexcept{{/if}} override;
 {{/setter}}{{/set}}
-{{/proxyPropertyHeader}}
+{{/proxyPropertyHeader}}{{!!
+
+}}{{+proxyRefCacheMembers}}
+{{#set property=this}}{{#getter}}
+    // A C++ reference must outlive the call, so the value is converted once and kept for the proxy's lifetime.
+    mutable ::std::once_flag _{{resolveName property "C++" "getter"}}_once;
+    mutable ::std::unique_ptr< {{resolveName returnType "C++"}} > _{{resolveName property "C++" "getter"}}_value;
+{{/getter}}{{/set}}
+{{/proxyRefCacheMembers}}

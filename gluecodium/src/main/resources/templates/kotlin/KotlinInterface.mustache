@@ -27,7 +27,9 @@
 {{#set isInterface=true classElement=this}}
 {{#functions}}
 {{#unless isStatic}}
+{{#unlessPredicate "isInternal"}}
 {{prefixPartial "kotlin/KotlinFunction" "    "}}
+{{/unlessPredicate}}
 {{/unless}}
 {{/functions}}
 {{/set}}
@@ -35,9 +37,11 @@
 {{#set isInterface=true}}
 {{#properties}}
 {{#unless isStatic}}
+{{#unlessPredicate "isInternal"}}
 {{#set property=this}}{{#property}}
 {{prefixPartial "kotlin/KotlinProperty" "    "}}
 {{/property}}{{/set}}
+{{/unlessPredicate}}
 {{/unless}}
 {{/properties}}
 {{/set}}
@@ -47,7 +51,7 @@
 {{#constants}}{{prefixPartial "kotlin/KotlinConstant" "        "}}
 {{/constants}}
 {{#ifPredicate "hasStaticFunctions"}}
-{{#set isInterface=true interface=this}}
+{{#set isInterface=true allowInternalVisibility=true interface=this}}
 {{#functions}}
 {{#if isStatic}}
 {{prefixPartial "kotlin/KotlinFunction" "        "}}{{prefixPartial "redirectToImpl" "    " skipFirstLine=true}}
@@ -56,7 +60,7 @@
 {{/set}}
 {{/ifPredicate}}
 {{#ifPredicate "hasStaticProperties"}}
-{{#set isInterface=true interface=this}}
+{{#set isInterface=true allowInternalVisibility=true interface=this}}
 {{#properties}}
 {{#set property=this}}
 {{#property}}

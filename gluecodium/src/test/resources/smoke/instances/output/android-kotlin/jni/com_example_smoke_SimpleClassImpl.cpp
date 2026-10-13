@@ -3,7 +3,7 @@
  *
  */
 
-#include "com_example_smoke_SimpleClass.h"
+#include "com_example_smoke_SimpleClassImpl.h"
 #include "com_example_smoke_SimpleClass__Conversion.h"
 #include "ArrayConversionUtils.h"
 #include "JniClassCache.h"
@@ -15,7 +15,7 @@
 extern "C" {
 
 jstring
-Java_com_example_smoke_SimpleClass_getStringValue(JNIEnv* _jenv, jobject _jinstance)
+Java_com_example_smoke_SimpleClassImpl_getStringValue(JNIEnv* _jenv, jobject _jinstance)
 
 {
 
@@ -34,7 +34,7 @@ Java_com_example_smoke_SimpleClass_getStringValue(JNIEnv* _jenv, jobject _jinsta
 }
 
 jobject
-Java_com_example_smoke_SimpleClass_useSimpleClass(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
+Java_com_example_smoke_SimpleClassImpl_useSimpleClass(JNIEnv* _jenv, jobject _jinstance, jobject jinput)
 
 {
 
@@ -58,10 +58,45 @@ Java_com_example_smoke_SimpleClass_useSimpleClass(JNIEnv* _jenv, jobject _jinsta
     return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 
+jstring
+Java_com_example_smoke_SimpleClassImpl_defaultTitle(JNIEnv* _jenv, jobject _jinstance)
+
+{
+
+
+
+
+
+    auto _result = ::smoke::SimpleClass::default_title();
+
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
+}
+
+
+jstring
+Java_com_example_smoke_SimpleClassImpl_getTitle(JNIEnv* _jenv, jobject _jinstance)
+
+{
+
+
+
+    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::SimpleClass>*> (
+
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
+
+
+
+
+    auto _result = (*pInstanceSharedPointer)->get_title();
+
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
+}
+
+
 
 
 JNIEXPORT void JNICALL
-Java_com_example_smoke_SimpleClass_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
+Java_com_example_smoke_SimpleClassImpl_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)
 {
     auto p_nobj = reinterpret_cast<std::shared_ptr<::smoke::SimpleClass>*>(_jpointerRef);
     ::gluecodium::jni::JniWrapperCache::remove_cached_wrapper(_jenv, *p_nobj);

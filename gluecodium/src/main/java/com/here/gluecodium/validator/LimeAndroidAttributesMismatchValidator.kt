@@ -23,6 +23,8 @@ import com.here.gluecodium.common.LimeLogger
 import com.here.gluecodium.generator.common.GeneratorOptions
 import com.here.gluecodium.model.lime.LimeAttributeType
 import com.here.gluecodium.model.lime.LimeAttributeValueType
+import com.here.gluecodium.model.lime.LimeAttributeValueType.INTERFACE
+import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeModel
 import com.here.gluecodium.model.lime.LimeNamedElement
@@ -44,10 +46,16 @@ class LimeAndroidAttributesMismatchValidator(private val limeLogger: LimeLogger,
     private fun validateLimeNamedElement(element: LimeNamedElement): Boolean {
         val javaAttributes = element.attributes.getAllAttributeValueTypes(LimeAttributeType.JAVA)
         val kotlinAttributes = element.attributes.getAllAttributeValueTypes(LimeAttributeType.KOTLIN)
-        val commonAttributes = kotlinAttributes intersect javaAttributes
+        val comparableKotlinAttributes =
+            if (element is LimeClass && element.attributes.have(LimeAttributeType.KOTLIN, INTERFACE)) {
+                kotlinAttributes - INTERFACE
+            } else {
+                kotlinAttributes
+            }
+        val commonAttributes = comparableKotlinAttributes intersect javaAttributes
 
         var result = true
-        val attributesMissingInJava = kotlinAttributes subtract commonAttributes
+        val attributesMissingInJava = comparableKotlinAttributes subtract commonAttributes
         if (attributesMissingInJava.isNotEmpty()) {
             logAttributesMismatch(
                 element = element,

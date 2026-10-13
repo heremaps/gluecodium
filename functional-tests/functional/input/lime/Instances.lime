@@ -17,6 +17,8 @@
 
 package test
 
+import another.AdditionalErrors.External
+
 // Example interface which demonstrates the usage of instances
 class SimpleInstantiableOne {
     constructor create(value: String)
@@ -64,7 +66,48 @@ class NestedInstantiableTwo {
     fun getSelfInstantiable(): NestedInstantiableTwo
 }
 
+@Kotlin(Interface)
+class ImplementableInstance {
+    property title: String {
+        get
+    }
+    fun describe(): String
+    fun getMessage(): String throws External
+    fun echo(other: ImplementableInstance): ImplementableInstance
+    static fun default_title(): String
+}
+
+// Values are converted once by the native proxy, because a C++ reference must outlive the call.
+@Kotlin(Interface)
+class CachedRefInstance {
+    @Cached
+    @Cpp(Ref)
+    property items: List<String> {
+        get
+    }
+    @Cached
+    @Cpp(Ref)
+    property label: String {
+        get
+    }
+}
+
 class InstancesFactory {
+    static fun createCachedRefInstance(): CachedRefInstance
+    // Reads the properties twice and reports whether both reads returned the same stored object.
+    static fun readCachedRefInstance(instance: CachedRefInstance): String
+    static fun readCachedRefInstanceOnWorker(instance: CachedRefInstance): String
+    static fun retainCachedRefItems(instance: CachedRefInstance)
+    static fun readRetainedCachedRefItems(): String
+    static fun clearRetainedCachedRefItems()
+    static fun createImplementableInstance(): ImplementableInstance
+    static fun readImplementableInstance(instance: ImplementableInstance): String
+    static fun echoImplementableInstance(instance: ImplementableInstance, other: ImplementableInstance): ImplementableInstance
+    static fun readImplementableInstanceOnWorker(instance: ImplementableInstance): String
+    static fun retainImplementableInstance(instance: ImplementableInstance)
+    static fun getRetainedImplementableInstance(): ImplementableInstance?
+    static fun clearRetainedImplementableInstance()
+    static fun getImplementableMessage(instance: ImplementableInstance): String throws External
     // Creates an instance of SimpleInstantiableOne interface
     static fun createSimpleInstantiableOne(): /* Reference to created instance */ SimpleInstantiableOne
     // Creates an instance of SimpleInstantiableTwo interface

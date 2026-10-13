@@ -33,6 +33,7 @@ import com.here.gluecodium.generator.cpp.CppNameCache
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.jni.JniTemplates
 import com.here.gluecodium.model.lime.LimeAttributeType.KOTLIN
+import com.here.gluecodium.model.lime.LimeAttributeValueType.INTERFACE
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeEnumeration
 import com.here.gluecodium.model.lime.LimeException
@@ -258,9 +259,10 @@ internal class KotlinGenerator : Generator {
 
         val contentTemplateName = selectTemplate(limeElement)
         val packages = (basePackages + limeElement.path.head).map { KotlinNameResolver.normalizePackageName(it) }
+        val isKotlinInterfaceClass = limeElement is LimeClass && limeElement.attributes.have(KOTLIN, INTERFACE)
 
         var imports = importCollector.collectImports(limeElement).filterNot { KotlinNameRules.getPackageFromImportString(it) == packages }
-        if (limeElement is LimeInterface || limeElement is LimeLambda) {
+        if (limeElement is LimeInterface || limeElement is LimeLambda || isKotlinInterfaceClass) {
             imports = (imports + listOf(importResolver.nativeBaseImport))
         }
 
@@ -280,6 +282,7 @@ internal class KotlinGenerator : Generator {
                 "optInAnnotationString" to optInAnnotationString,
                 "internalApiAnnotation" to internalApiAnnotation,
                 "internalApiAnnotationClassPath" to internalApiAnnotationClassPath,
+                "omitInternalMembers" to isKotlinInterfaceClass,
             )
 
         val nameResolvers = mapOf("" to nameResolver, "visibility" to visibilityResolver)
@@ -295,7 +298,12 @@ internal class KotlinGenerator : Generator {
 
     private fun selectTemplate(limeElement: LimeNamedElement) =
         when (limeElement) {
-            is LimeClass -> "kotlin/KotlinClass"
+            is LimeClass ->
+                if (limeElement.attributes.have(KOTLIN, INTERFACE)) {
+                    "kotlin/KotlinInterface"
+                } else {
+                    "kotlin/KotlinClass"
+                }
             is LimeInterface -> "kotlin/KotlinInterface"
             is LimeStruct -> "kotlin/KotlinStruct"
             is LimeEnumeration -> "kotlin/KotlinEnumeration"

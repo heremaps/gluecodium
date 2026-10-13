@@ -1,5 +1,8 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+ * Kotlin: added the `@Kotlin(Interface)` attribute to generate a public interface with a hidden native-backed implementation for supported top-level LIME classes. App implementations can be proxied to C++ when the type is accepted by native APIs.
+
 ## 14.2.1
 Release date 2026-09-25
  * CMake: a new option to specify gradle init script for running code generation via CMake is available. The user can utilize `GLUECODIUM_GRADLE_INIT_SCRIPT` to specify the gradle initialization script passed to the nested Gluecodium Gradle invocation.

@@ -26,6 +26,8 @@ import com.here.gluecodium.generator.cpp.CppNameResolver
 import com.here.gluecodium.generator.cpp.CppNameRules
 import com.here.gluecodium.generator.cpp.CppSignatureResolver
 import com.here.gluecodium.model.lime.LimeAttributeType
+import com.here.gluecodium.model.lime.LimeAttributeValueType.INTERFACE
+import com.here.gluecodium.model.lime.LimeAttributeValueType.REF
 import com.here.gluecodium.model.lime.LimeBasicType
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId.BOOLEAN
 import com.here.gluecodium.model.lime.LimeBasicType.TypeId.VOID
@@ -69,6 +71,10 @@ internal class JniGeneratorPredicates(
             "hasCppSetter" to { limeField: Any ->
                 limeField is LimeField && cppNameResolver.resolveSetterName(limeField) != null
             },
+            "hasCppRefProperties" to { limeElement: Any ->
+                isKotlinInterfaceClass(limeElement) &&
+                    (limeElement as LimeClass).properties.any { !it.isStatic && it.attributes.have(LimeAttributeType.CPP, REF) }
+            },
             "hasImmutableFields" to { CommonGeneratorPredicates.hasImmutableFields(it) },
             "hasOverloadedLambda" to { limeType: Any ->
                 when (limeType) {
@@ -79,6 +85,7 @@ internal class JniGeneratorPredicates(
                 }
             },
             "hasTypeRepository" to { CommonGeneratorPredicates.hasTypeRepository(it) },
+            "isKotlinInterfaceClass" to { limeElement: Any -> isKotlinInterfaceClass(limeElement) },
             "isJniPrimitive" to
 
                 fun(limeTypeRef: Any): Boolean {
@@ -123,6 +130,10 @@ internal class JniGeneratorPredicates(
 
     fun shouldRetain(limeElement: LimeNamedElement) =
         LimeModelSkipPredicates.shouldRetainCheckParent(limeElement, activeTags, platformAttribute, limeReferenceMap)
+
+    fun isKotlinInterfaceClass(limeElement: Any) =
+        platformAttribute == LimeAttributeType.KOTLIN &&
+            limeElement is LimeClass && limeElement.attributes.have(LimeAttributeType.KOTLIN, INTERFACE)
 
     private fun collectOverloadedLambdas(): Set<String> {
         val lambdas = limeReferenceMap.values.filterIsInstance<LimeLambda>()

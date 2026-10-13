@@ -16,7 +16,6 @@ public:
     SimpleClass();
     virtual ~SimpleClass();
 
-
 public:
     virtual ::std::string get_string_value(  ) = 0;
     /**
@@ -25,7 +24,9 @@ public:
      * \return @NotNull
      */
     virtual ::std::shared_ptr< ::smoke::SimpleClass > use_simple_class( const ::std::shared_ptr< ::smoke::SimpleClass >& input ) = 0;
-};
+    static ::std::string default_title(  );
+    virtual ::std::string get_title(  ) const = 0;
 
+};
 
 }

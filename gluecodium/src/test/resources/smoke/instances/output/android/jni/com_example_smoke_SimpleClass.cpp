@@ -19,14 +19,9 @@ Java_com_example_smoke_SimpleClass_getStringValue(JNIEnv* _jenv, jobject _jinsta
 
 {
 
-
-
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::SimpleClass>*> (
 
         ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
-
-
-
 
     auto _result = (*pInstanceSharedPointer)->get_string_value();
 
@@ -38,27 +33,42 @@ Java_com_example_smoke_SimpleClass_useSimpleClass(JNIEnv* _jenv, jobject _jinsta
 
 {
 
-
-
     ::std::shared_ptr< ::smoke::SimpleClass > input = ::gluecodium::jni::convert_from_jni(_jenv,
             ::gluecodium::jni::make_non_releasing_ref(jinput),
             ::gluecodium::jni::TypeId<::std::shared_ptr< ::smoke::SimpleClass >>{});
 
-
-
     auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::SimpleClass>*> (
 
         ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
-
-
-
 
     auto _result = (*pInstanceSharedPointer)->use_simple_class(input);
 
     return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
 }
 
+jstring
+Java_com_example_smoke_SimpleClass_defaultTitle(JNIEnv* _jenv, jobject _jinstance)
 
+{
+
+    auto _result = ::smoke::SimpleClass::default_title();
+
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
+}
+
+jstring
+Java_com_example_smoke_SimpleClass_getTitle(JNIEnv* _jenv, jobject _jinstance)
+
+{
+
+    auto pInstanceSharedPointer = reinterpret_cast<std::shared_ptr<::smoke::SimpleClass>*> (
+
+        ::gluecodium::jni::get_class_native_handle(_jenv,_jinstance));
+
+    auto _result = (*pInstanceSharedPointer)->get_title();
+
+    return ::gluecodium::jni::convert_to_jni(_jenv, _result).release();
+}
 
 JNIEXPORT void JNICALL
 Java_com_example_smoke_SimpleClass_disposeNativeHandle(JNIEnv* _jenv, jobject _jinstance, jlong _jpointerRef)

@@ -113,6 +113,20 @@ Kotlin-specific attributes
   This is the default specification for this attribute.
 * **FunctionName** **=** **"**_FunctionName_**"**: marks a lambda type to have a specific function
   name in the generated functional interface in Kotlin (instead of a default name).
+* **Interface**: marks a top-level LIME class to generate a same-name Kotlin interface and a private
+  native-backed implementation. The class must not declare constructors, inheritance, nested types, or writable
+  properties. Public instance members form the interface; Kotlin-internal instance members remain on the private
+  implementation and are not available on the interface. Gluecodium always generates a C++ proxy so that application
+  implementations can be used from native code. A class that can be passed into native code cannot have
+  Kotlin-internal instance members, because the proxy would call members that the interface does not declare.
+  Public static members and constants are exposed through the interface companion object; Kotlin-internal static
+  members and constants are not supported, because Kotlin does not allow them in an interface companion object.
+  `@Cpp(Ref)` is supported only on `@Cached` properties: the proxy converts the application's value once and keeps it
+  for the proxy's lifetime, so the C++ reference stays valid. `@Cpp(Ref)` on functions, and on properties that are not
+  `@Cached`, is rejected.
+  The native methods of the private implementation are part of the JNI layer generated for Kotlin only. A build that
+  forces the JNI layer of the Java generator (`GLUECODIUM_FORCE_USAGE_OF_JNI_FROM_JAVA_GENERATOR`) does not contain
+  them, so the modules that declare such classes must be built with the Kotlin JNI layer.
 * **Skip** \[**=** **"**_CustomTag_**"** \]: marks an element to be skipped (not generated) in Kotlin. Can be applied to
   any element except for enumerators. Optionally, if custom tag is specified, the element is only skipped if that tag
   was defined (see `@Skip` above).

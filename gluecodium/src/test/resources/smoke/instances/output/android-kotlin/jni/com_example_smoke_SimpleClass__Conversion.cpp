@@ -4,6 +4,7 @@
  */
 
 #include "com_example_smoke_SimpleClass__Conversion.h"
+#include "com_example_smoke_SimpleClassImplCppProxy.h"
 #include "CppProxyBase.h"
 #include "FieldAccessMethods.h"
 #include "JniClassCache.h"
@@ -17,9 +18,13 @@ namespace gluecodium
 namespace jni
 {
 
-REGISTER_JNI_CLASS_CACHE("com/example/smoke/SimpleClass", com_example_smoke_SimpleClass, ::smoke::SimpleClass)
+REGISTER_JNI_CLASS_CACHE("com/example/smoke/SimpleClassImpl", com_example_smoke_SimpleClassImpl, ::smoke::SimpleClass)
 
-
+template<>
+void createCppProxy(JNIEnv* env, const JniReference<jobject>& obj, ::std::shared_ptr<::smoke::SimpleClass>& result)
+{
+    CppProxyBase::createProxy<::smoke::SimpleClass, com_example_smoke_SimpleClassImpl_CppProxy>(env, obj, "com_example_smoke_SimpleClassImpl", result);
+}
 
 std::shared_ptr<::smoke::SimpleClass> convert_from_jni(JNIEnv* _env, const JniReference<jobject>& _jobj, TypeId<std::shared_ptr<::smoke::SimpleClass>>)
 {

@@ -32,6 +32,7 @@ enum class LimeAttributeValueType(private val tag: String) {
     FULL_NAME("FullName"),
     FUNCTION_NAME("FunctionName"),
     FUNCTION("Function"),
+    INTERFACE("Interface"),
     INTERNAL("Internal"),
     LABEL("Label"),
     MESSAGE("Message"),

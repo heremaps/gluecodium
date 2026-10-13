@@ -70,6 +70,8 @@ internal class JniNameResolver(
 
     override fun resolveSetterName(element: Any) = resolveAccessorName(element) { getSetterName(it) }
 
+    fun resolveContractGetterName(element: Any) = (element as? LimeTypedElement)?.let { nameRules.getGetterName(it) }
+
     // Narrow usage:
     // * for intermediate types for "external" types with converters
     // * or for optimized list types

@@ -125,12 +125,34 @@ namespace jni
 }}{{+proxyPropertyImpl}}{{!!
 }}{{#if getter}}{{#set property=this function=getter isConst=true cppNoexcept=attributes.cpp.noexcept}}{{!!
 }}{{#resolveName property "C++" "getter"}}{{#set cppName=this}}{{!!
-}}{{#resolveName property "" "getter"}}{{#set javaName=this}}{{#function}}
-{{>proxyMethodImpl}}
+}}{{#resolveName property "contract" "getter"}}{{#set javaName=this}}{{#function}}
+{{#if property.attributes.cpp.ref}}{{>proxyRefGetterImpl}}{{/if}}{{!!
+}}{{#unless property.attributes.cpp.ref}}{{>proxyMethodImpl}}{{/unless}}
 {{/function}}{{/set}}{{/resolveName}}{{/set}}{{/resolveName}}{{/set}}{{/if}}{{!!
 }}{{#if setter}}{{#set property=this function=setter cppNoexcept=attributes.cpp.noexcept}}{{!!
 }}{{#resolveName property "C++" "setter"}}{{#set cppName=this}}{{!!
 }}{{#resolveName property "" "setter"}}{{#set javaName=this}}{{#function}}
 {{>proxyMethodImpl}}
 {{/function}}{{/set}}{{/resolveName}}{{/set}}{{/resolveName}}{{/set}}{{/if}}{{!!
-}}{{/proxyPropertyImpl}}
+}}{{/proxyPropertyImpl}}{{!!
+
+}}{{+proxyRefGetterImpl}}
+const {{resolveName returnType "C++"}}&
+{{resolveName container "mangled"}}_CppProxy::{{cppName}}( ) const{{#if cppNoexcept}} noexcept{{/if}} {
+{{#unlessPredicate "shouldRetain"}}
+    static const {{resolveName returnType "C++"}} _default{};
+    return _default;
+{{/unlessPredicate}}{{#ifPredicate "shouldRetain"}}
+    ::std::call_once( _{{cppName}}_once, [this]() {
+        JNIEnv* jniEnv = getJniEnvironment( );
+        auto _result = callJavaMethod<{{resolveName returnType}}>( "{{javaName}}", "(){{resolveName returnType "signature"}}", jniEnv );
+        checkExceptionAndReportIfAny(jniEnv);
+        _{{cppName}}_value.reset( new {{resolveName returnType "C++"}}( {{!!
+        }}{{#unlessPredicate returnType.typeRef "isJniPrimitive"}}{{#returnType}}{{>jni/JniConversionPrefix}}{{/returnType}}convert_from_jni( jniEnv, _result, {{!!
+        }}TypeId<{{resolveName returnType "C++"}}>{}){{/unlessPredicate}}{{!!
+        }}{{#ifPredicate returnType.typeRef "isJniPrimitive"}}_result{{/ifPredicate}} ) );
+    } );
+    return *_{{cppName}}_value;
+{{/ifPredicate}}
+}
+{{/proxyRefGetterImpl}}
