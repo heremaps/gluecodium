@@ -1,5 +1,8 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+ * Dart: cache function pointers to avoid excessive symbols lookup. The internal implementation of lookup may lock global mutex and cause unexpected problems. Instead of getting symbol for a function on each call the new Gluecodium gets it only on the first call to that function.
+
 ## 14.2.2
 Release date 2026-10-09
  * Dart: ensure that destructor of C++ proxy object never invokes Dart code. The destructor can be invoked by native finalizer. In such case the call will result in abort of the application due to violation of native finalizer contract.
