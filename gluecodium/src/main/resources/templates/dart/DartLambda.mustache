@@ -132,6 +132,4 @@ void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) =>
 
 // End of {{resolveName}} "private" section.{{!!
 
-}}{{+ffiApi}}Int64 Function(Handle{{#if parameters}}, {{/if}}{{!!
-}}{{#parameters}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
-}}{{#unless returnType.isVoid}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}>{{/unless}}){{/ffiApi}}
+}}

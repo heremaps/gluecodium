@@ -355,10 +355,5 @@ Pointer<Void>? tryDescendantToFfi({{resolveName interface}} value) {
 {{/eval}}{{/set}}{{/unless}}
 // End of {{resolveName}} "private" section.{{!!
 
-}}{{+ffiApi}}Uint8 Function(Handle{{#if parameters}}, {{/if}}{{!!
-}}{{#parameters}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
-}}{{#unless returnType.isVoid}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}>{{/unless}}{{!!
-}}{{#if thrownType}}, Pointer<{{resolveName exception.errorType "FfiApiTypes"}}>{{/if}}){{/ffiApi}}{{!!
-
 }}{{+ffiFunctionPointers}}{{#each inheritedFunctions functions}}{{#unless isStatic}}, Pointer{{/unless}}{{/each}}{{!!
 }}{{#each inheritedProperties properties}}{{#unless isStatic}}, Pointer{{#if setter}}, Pointer{{/if}}{{/unless}}{{/each}}{{/ffiFunctionPointers}}
