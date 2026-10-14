@@ -113,9 +113,19 @@ final _{{resolveName "Ffi"}}GetTypeId = __lib.catchArgumentError(() => __lib.nat
   >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_get_type_id'));
 
 {{#functions}}
+{{>dart/DartFunctionLookup}}
 {{>dart/DartFunctionException}}
 
-{{/functions}}{{!!
+{{/functions}}
+{{#inheritedFunctions}}
+{{>dart/DartFunctionLookup}}
+{{/inheritedFunctions}}
+{{#properties}}
+{{>dart/DartPropertyLookup}}
+{{/properties}}
+{{#inheritedProperties}}
+{{>dart/DartPropertyLookup}}
+{{/inheritedProperties}}{{!!
 }}{{#if inheritedFunctions functions inheritedProperties properties logic="or"}}
 class {{resolveName}}$Lambdas implements {{resolveName}} {
 {{#each inheritedFunctions functions}}{{#unless isStatic}}

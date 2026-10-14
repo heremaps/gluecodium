@@ -19,8 +19,6 @@
   !
   !}}
  {
-  final _{{resolveName}}Ffi = __lib.catchArgumentError(() => {{!!
-  }}__lib.nativeLibrary.lookupFunction<{{>ffiApi}}, {{>ffiDart}}>('{{>dart/DartFunctionFfiName}}'));
 {{#parameters}}
   final _{{resolveName}}Handle = {{#set call="ToFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}({{resolveName}});
 {{/parameters}}{{#unless isStatic}}
@@ -28,7 +26,7 @@
 {{/unless}}
   {{#if this.thrownType}}final __callResultHandle = {{/if}}{{!!
   }}{{#unless this.thrownType returnType.isVoid logic="and"}}final __resultHandle = {{/unless}}{{!!
-  }}_{{resolveName}}Ffi({{#unless isStatic}}_handle, {{/unless}}__lib.LibraryContext.isolateId{{#if parameters}}, {{/if}}{{!!
+  }}{{>dart/DartFunctionLookupVariableName}}({{#unless isStatic}}_handle, {{/unless}}__lib.LibraryContext.isolateId{{#if parameters}}, {{/if}}{{!!
   }}{{#parameters}}_{{resolveName}}Handle{{#if iter.hasNext}}, {{/if}}{{/parameters}});
 {{#if isStruct}}{{#unless isStatic}}  {{resolveName parent "Ffi"}}ReleaseFfiHandle(_handle);
 {{/unless}}{{/if}}{{!!
@@ -54,16 +52,6 @@
 }}{{#unless isStruct}}  return __resultHandle;{{/unless}}{{/if}}{{!!
 }}{{#unless isConstructor returnType.isVoid logic="and"}}{{>ffiReturnConversion}}{{/unless}}
 }{{!!
-
-}}{{+ffiApi}}{{#if this.thrownType}}Pointer<Void>{{/if}}{{#unless this.thrownType}}{{!!
-}}{{resolveName returnType.typeRef "FfiApiTypes"}}{{/unless}} Function({{!!
-}}{{#unless isStatic}}Pointer<Void>, {{/unless}}Int32{{#if parameters}}, {{/if}}{{!!
-}}{{#parameters}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{/ffiApi}}{{!!
-
-}}{{+ffiDart}}{{#if this.thrownType}}Pointer<Void>{{/if}}{{#unless this.thrownType}}{{!!
-}}{{resolveName returnType.typeRef "FfiDartTypes"}}{{/unless}} Function({{!!
-}}{{#unless isStatic}}Pointer<Void>, {{/unless}}int{{#if parameters}}, {{/if}}{{!!
-}}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{/ffiDart}}{{!!
 
 }}{{+ffiReturnConversion}}{{!!
 }}  {{#returnType}}{{#if typeRef.attributes.optimized}}{{!!

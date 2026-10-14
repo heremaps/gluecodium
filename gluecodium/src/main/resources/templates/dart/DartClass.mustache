@@ -98,9 +98,22 @@ final _{{resolveName "Ffi"}}GetTypeId = __lib.catchArgumentError(() => __lib.nat
 {{>dart/DartOptimizedLists}}
 
 {{#functions}}
+{{>dart/DartFunctionLookup}}
 {{>dart/DartFunctionException}}
 
 {{/functions}}
+{{#properties}}
+{{>dart/DartPropertyLookup}}
+{{/properties}}
+{{#set parent=this container=this isInherited=true}}
+{{#container.interfaceInheritedFunctions}}
+{{>dart/DartFunctionLookup}}
+{{/container.interfaceInheritedFunctions}}
+{{#container.interfaceInheritedProperties}}
+{{>dart/DartPropertyLookup}}
+{{/container.interfaceInheritedProperties}}
+{{/set}}
+
 {{#ifPredicate "hasStaticFunctions"}}
 /// @nodoc
 @visibleForTesting
