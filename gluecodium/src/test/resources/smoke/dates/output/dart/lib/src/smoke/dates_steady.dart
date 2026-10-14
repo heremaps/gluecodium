@@ -130,6 +130,16 @@ final _smokeDatessteadyReleaseHandle = __lib.catchArgumentError(() => __lib.nati
   >('library_smoke_DatesSteady_release_handle'));
 
 
+final __ffiPtr_library_smoke_DatesSteady_dateMethod__Date = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32, Uint64), int Function(Pointer<Void>, int, int)>('library_smoke_DatesSteady_dateMethod__Date'));
+
+
+final __ffiPtr_library_smoke_DatesSteady_nullableDateMethod__Date_ = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DatesSteady_nullableDateMethod__Date_'));
+
+
+final __ffiPtr_library_smoke_DatesSteady_dateListMethod__ListOf_Date_std_2chrono_2steady_1clock_2time_1point = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DatesSteady_dateListMethod__ListOf_Date_std_2chrono_2steady_1clock_2time_1point'));
 
 
 
@@ -140,10 +150,9 @@ class DatesSteady$Impl extends __lib.NativeBase implements DatesSteady {
 
   @override
   DatesSteady_MonotonicDate dateMethod(DatesSteady_MonotonicDate input) {
-    final _dateMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32, Uint64), int Function(Pointer<Void>, int, int)>('library_smoke_DatesSteady_dateMethod__Date'));
     final _inputHandle = dateToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = _dateMethodFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffiPtr_library_smoke_DatesSteady_dateMethod__Date(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     dateReleaseFfiHandle(_inputHandle);
     try {
       return dateFromFfi(__resultHandle);
@@ -156,10 +165,9 @@ class DatesSteady$Impl extends __lib.NativeBase implements DatesSteady {
 
   @override
   DatesSteady_MonotonicDate? nullableDateMethod(DatesSteady_MonotonicDate? input) {
-    final _nullableDateMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DatesSteady_nullableDateMethod__Date_'));
     final _inputHandle = dateToFfiNullable(input);
     final _handle = this.handle;
-    final __resultHandle = _nullableDateMethodFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffiPtr_library_smoke_DatesSteady_nullableDateMethod__Date_(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     dateReleaseFfiHandleNullable(_inputHandle);
     try {
       return dateFromFfiNullable(__resultHandle);
@@ -172,10 +180,9 @@ class DatesSteady$Impl extends __lib.NativeBase implements DatesSteady {
 
   @override
   DatesSteady_DateList dateListMethod(DatesSteady_DateList input) {
-    final _dateListMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DatesSteady_dateListMethod__ListOf_Date_std_2chrono_2steady_1clock_2time_1point'));
     final _inputHandle = foobarListofDateStd2chrono2steady1clock2time1pointToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = _dateListMethodFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffiPtr_library_smoke_DatesSteady_dateListMethod__ListOf_Date_std_2chrono_2steady_1clock_2time_1point(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     foobarListofDateStd2chrono2steady1clock2time1pointReleaseFfiHandle(_inputHandle);
     try {
       return foobarListofDateStd2chrono2steady1clock2time1pointFromFfi(__resultHandle);

@@ -38,8 +38,16 @@ final _smokeCachedpropertiesReleaseHandle = __lib.catchArgumentError(() => __lib
   >('library_smoke_CachedProperties_release_handle'));
 
 
+final __ffiPtr_library_smoke_CachedProperties_cachedProperty_get = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_CachedProperties_cachedProperty_get'));
+
+final __ffiPtr_library_smoke_CachedProperties_staticCachedProperty_get = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_CachedProperties_staticCachedProperty_get'));
+
+
 /// @nodoc
 @visibleForTesting
+
 class CachedProperties$Impl extends __lib.NativeBase implements CachedProperties {
 
   CachedProperties$Impl(Pointer<Void> handle) : super(handle);

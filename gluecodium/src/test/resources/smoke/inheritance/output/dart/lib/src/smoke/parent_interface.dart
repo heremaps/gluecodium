@@ -52,6 +52,15 @@ final _smokeParentinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nati
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ParentInterface_get_type_id'));
 
+final __ffiPtr_library_smoke_ParentInterface_rootMethod = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentInterface_rootMethod'));
+
+
+final __ffiPtr_library_smoke_ParentInterface_rootProperty_get = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ParentInterface_rootProperty_get'));
+
+final __ffiPtr_library_smoke_ParentInterface_rootProperty_set__String = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ParentInterface_rootProperty_set__String'));
 
 class ParentInterface$Lambdas implements ParentInterface {
   void Function() rootMethodLambda;
@@ -79,16 +88,14 @@ class ParentInterface$Impl extends __lib.NativeBase implements ParentInterface {
 
   @override
   void rootMethod() {
-    final _rootMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentInterface_rootMethod'));
     final _handle = this.handle;
-    _rootMethodFfi(_handle, __lib.LibraryContext.isolateId);
+    __ffiPtr_library_smoke_ParentInterface_rootMethod(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   String get rootProperty {
-    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ParentInterface_rootProperty_get'));
     final _handle = this.handle;
-    final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffiPtr_library_smoke_ParentInterface_rootProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {
@@ -100,10 +107,9 @@ class ParentInterface$Impl extends __lib.NativeBase implements ParentInterface {
 
 
   set rootProperty(String value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ParentInterface_rootProperty_set__String'));
     final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
-    _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffiPtr_library_smoke_ParentInterface_rootProperty_set__String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
 
   }

@@ -45,6 +45,9 @@ final _smokeSkiptagsindartGetTypeId = __lib.catchArgumentError(() => __lib.nativ
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_SkipTagsInDart_get_type_id'));
 
+final __ffiPtr_library_smoke_SkipTagsInDart_dontSkipTagged = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SkipTagsInDart_dontSkipTagged'));
+
 
 class SkipTagsInDart$Lambdas implements SkipTagsInDart {
   void Function() dontSkipTaggedLambda;
@@ -65,9 +68,8 @@ class SkipTagsInDart$Impl extends __lib.NativeBase implements SkipTagsInDart {
 
   @override
   void dontSkipTagged() {
-    final _dontSkipTaggedFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SkipTagsInDart_dontSkipTagged'));
     final _handle = this.handle;
-    _dontSkipTaggedFfi(_handle, __lib.LibraryContext.isolateId);
+    __ffiPtr_library_smoke_SkipTagsInDart_dontSkipTagged(_handle, __lib.LibraryContext.isolateId);
 
   }
 

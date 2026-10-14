@@ -31,6 +31,11 @@ final _smokeInternalclasswithcommentsReleaseHandle = __lib.catchArgumentError(()
   >('library_smoke_InternalClassWithComments_release_handle'));
 
 
+final __ffiPtr_library_smoke_InternalClassWithComments_doNothing = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClassWithComments_doNothing'));
+
+
+
 
 class InternalClassWithComments$Impl extends __lib.NativeBase implements InternalClassWithComments {
 
@@ -38,9 +43,8 @@ class InternalClassWithComments$Impl extends __lib.NativeBase implements Interna
 
   @override
   void doNothing() {
-    final _doNothingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClassWithComments_doNothing'));
     final _handle = this.handle;
-    _doNothingFfi(_handle, __lib.LibraryContext.isolateId);
+    __ffiPtr_library_smoke_InternalClassWithComments_doNothing(_handle, __lib.LibraryContext.isolateId);
 
   }
 

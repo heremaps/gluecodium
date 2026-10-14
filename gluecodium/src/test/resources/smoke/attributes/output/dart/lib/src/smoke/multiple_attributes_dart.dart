@@ -61,7 +61,24 @@ final _smokeMultipleattributesdartReleaseHandle = __lib.catchArgumentError(() =>
   >('library_smoke_MultipleAttributesDart_release_handle'));
 
 
+final __ffiPtr_library_smoke_MultipleAttributesDart_noLists2 = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_MultipleAttributesDart_noLists2'));
 
+
+final __ffiPtr_library_smoke_MultipleAttributesDart_noLists3 = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_MultipleAttributesDart_noLists3'));
+
+
+final __ffiPtr_library_smoke_MultipleAttributesDart_listFirst = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_MultipleAttributesDart_listFirst'));
+
+
+final __ffiPtr_library_smoke_MultipleAttributesDart_listSecond = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_MultipleAttributesDart_listSecond'));
+
+
+final __ffiPtr_library_smoke_MultipleAttributesDart_twoLists = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_MultipleAttributesDart_twoLists'));
 
 
 
@@ -72,41 +89,36 @@ class MultipleAttributesDart$Impl extends __lib.NativeBase implements MultipleAt
 
   @override
   void noLists2() {
-    final _noLists2Ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_MultipleAttributesDart_noLists2'));
     final _handle = this.handle;
-    _noLists2Ffi(_handle, __lib.LibraryContext.isolateId);
+    __ffiPtr_library_smoke_MultipleAttributesDart_noLists2(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   @override
   void noLists3() {
-    final _noLists3Ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_MultipleAttributesDart_noLists3'));
     final _handle = this.handle;
-    _noLists3Ffi(_handle, __lib.LibraryContext.isolateId);
+    __ffiPtr_library_smoke_MultipleAttributesDart_noLists3(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   @override
   void listFirst() {
-    final _listFirstFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_MultipleAttributesDart_listFirst'));
     final _handle = this.handle;
-    _listFirstFfi(_handle, __lib.LibraryContext.isolateId);
+    __ffiPtr_library_smoke_MultipleAttributesDart_listFirst(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   @override
   void listSecond() {
-    final _listSecondFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_MultipleAttributesDart_listSecond'));
     final _handle = this.handle;
-    _listSecondFfi(_handle, __lib.LibraryContext.isolateId);
+    __ffiPtr_library_smoke_MultipleAttributesDart_listSecond(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   @override
   void twoLists() {
-    final _twoListsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_MultipleAttributesDart_twoLists'));
     final _handle = this.handle;
-    _twoListsFfi(_handle, __lib.LibraryContext.isolateId);
+    __ffiPtr_library_smoke_MultipleAttributesDart_twoLists(_handle, __lib.LibraryContext.isolateId);
 
   }
 

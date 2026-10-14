@@ -226,16 +226,19 @@ final _smokeExcludedcommentsSomelambdaCreateProxy = __lib.catchArgumentError(() 
     Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_ExcludedComments_SomeLambda_create_proxy'));
 
+final __ffiPtr_library_smoke_ExcludedComments_SomeLambda_call__String_Int = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Double Function(Pointer<Void>, Int32, Pointer<Void>, Int32), double Function(Pointer<Void>, int, Pointer<Void>, int)>('library_smoke_ExcludedComments_SomeLambda_call__String_Int'));
+
+
 class ExcludedComments_SomeLambda$Impl implements Finalizable {
   final Pointer<Void> handle;
   ExcludedComments_SomeLambda$Impl(this.handle);
 
   double call(String p0, int p1) {
-    final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Double Function(Pointer<Void>, Int32, Pointer<Void>, Int32), double Function(Pointer<Void>, int, Pointer<Void>, int)>('library_smoke_ExcludedComments_SomeLambda_call__String_Int'));
     final _p0Handle = stringToFfi(p0);
     final _p1Handle = (p1);
     final _handle = this.handle;
-    final __resultHandle = _callFfi(_handle, __lib.LibraryContext.isolateId, _p0Handle, _p1Handle);
+    final __resultHandle = __ffiPtr_library_smoke_ExcludedComments_SomeLambda_call__String_Int(_handle, __lib.LibraryContext.isolateId, _p0Handle, _p1Handle);
     stringReleaseFfiHandle(_p0Handle);
 
     try {
@@ -345,6 +348,9 @@ final _smokeExcludedcommentsReleaseHandle = __lib.catchArgumentError(() => __lib
   >('library_smoke_ExcludedComments_release_handle'));
 
 
+final __ffiPtr_library_smoke_ExcludedComments_someMethodWithAllComments__String = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ExcludedComments_someMethodWithAllComments__String'));
+
 final _someMethodWithAllCommentssmokeExcludedcommentsSomemethodwithallcommentsStringReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -363,6 +369,16 @@ final _someMethodWithAllCommentssmokeExcludedcommentsSomemethodwithallcommentsSt
   >('library_smoke_ExcludedComments_someMethodWithAllComments__String_return_has_error'));
 
 
+final __ffiPtr_library_smoke_ExcludedComments_someMethodWithoutReturnTypeOrInputParameters = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ExcludedComments_someMethodWithoutReturnTypeOrInputParameters'));
+
+
+final __ffiPtr_library_smoke_ExcludedComments_isSomeProperty_get = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_ExcludedComments_isSomeProperty_get'));
+
+final __ffiPtr_library_smoke_ExcludedComments_isSomeProperty_set__Boolean = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_ExcludedComments_isSomeProperty_set__Boolean'));
+
 
 
 class ExcludedComments$Impl extends __lib.NativeBase implements ExcludedComments {
@@ -371,10 +387,9 @@ class ExcludedComments$Impl extends __lib.NativeBase implements ExcludedComments
 
   @override
   ExcludedComments_Usefulness someMethodWithAllComments(String inputParameter) {
-    final _someMethodWithAllCommentsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ExcludedComments_someMethodWithAllComments__String'));
     final _inputParameterHandle = stringToFfi(inputParameter);
     final _handle = this.handle;
-    final __callResultHandle = _someMethodWithAllCommentsFfi(_handle, __lib.LibraryContext.isolateId, _inputParameterHandle);
+    final __callResultHandle = __ffiPtr_library_smoke_ExcludedComments_someMethodWithAllComments__String(_handle, __lib.LibraryContext.isolateId, _inputParameterHandle);
     stringReleaseFfiHandle(_inputParameterHandle);
     if (_someMethodWithAllCommentssmokeExcludedcommentsSomemethodwithallcommentsStringReturnHasError(__callResultHandle) != 0) {
         final __errorHandle = _someMethodWithAllCommentssmokeExcludedcommentsSomemethodwithallcommentsStringReturnGetError(__callResultHandle);
@@ -398,17 +413,15 @@ class ExcludedComments$Impl extends __lib.NativeBase implements ExcludedComments
 
   @override
   void someMethodWithoutReturnTypeOrInputParameters() {
-    final _someMethodWithoutReturnTypeOrInputParametersFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ExcludedComments_someMethodWithoutReturnTypeOrInputParameters'));
     final _handle = this.handle;
-    _someMethodWithoutReturnTypeOrInputParametersFfi(_handle, __lib.LibraryContext.isolateId);
+    __ffiPtr_library_smoke_ExcludedComments_someMethodWithoutReturnTypeOrInputParameters(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   @override
   ExcludedComments_Usefulness get isSomeProperty {
-    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_ExcludedComments_isSomeProperty_get'));
     final _handle = this.handle;
-    final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffiPtr_library_smoke_ExcludedComments_isSomeProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return booleanFromFfi(__resultHandle);
     } finally {
@@ -420,10 +433,9 @@ class ExcludedComments$Impl extends __lib.NativeBase implements ExcludedComments
 
   @override
   set isSomeProperty(ExcludedComments_Usefulness value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_ExcludedComments_isSomeProperty_set__Boolean'));
     final _valueHandle = booleanToFfi(value);
     final _handle = this.handle;
-    _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffiPtr_library_smoke_ExcludedComments_isSomeProperty_set__Boolean(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     booleanReleaseFfiHandle(_valueHandle);
 
   }

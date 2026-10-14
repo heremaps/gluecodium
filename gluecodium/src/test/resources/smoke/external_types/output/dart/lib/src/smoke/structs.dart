@@ -230,17 +230,24 @@ final _smokeStructsReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLi
   >('library_smoke_Structs_release_handle'));
 
 
+final __ffiPtr_library_smoke_Structs_getExternalStruct = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Structs_getExternalStruct'));
+
+
+final __ffiPtr_library_smoke_Structs_getAnotherExternalStruct = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Structs_getAnotherExternalStruct'));
+
 
 
 /// @nodoc
 @visibleForTesting
+
 class Structs$Impl extends __lib.NativeBase implements Structs {
 
   Structs$Impl(Pointer<Void> handle) : super(handle);
 
   Structs_ExternalStruct getExternalStruct() {
-    final _getExternalStructFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Structs_getExternalStruct'));
-    final __resultHandle = _getExternalStructFfi(__lib.LibraryContext.isolateId);
+    final __resultHandle = __ffiPtr_library_smoke_Structs_getExternalStruct(__lib.LibraryContext.isolateId);
     try {
       return smokeStructsExternalstructFromFfi(__resultHandle);
     } finally {
@@ -251,8 +258,7 @@ class Structs$Impl extends __lib.NativeBase implements Structs {
   }
 
   Structs_AnotherExternalStruct getAnotherExternalStruct() {
-    final _getAnotherExternalStructFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Structs_getAnotherExternalStruct'));
-    final __resultHandle = _getAnotherExternalStructFfi(__lib.LibraryContext.isolateId);
+    final __resultHandle = __ffiPtr_library_smoke_Structs_getAnotherExternalStruct(__lib.LibraryContext.isolateId);
     try {
       return smokeStructsAnotherexternalstructFromFfi(__resultHandle);
     } finally {

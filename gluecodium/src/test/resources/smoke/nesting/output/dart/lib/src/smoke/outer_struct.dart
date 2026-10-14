@@ -11,6 +11,9 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:library/src/generic_types__conversion.dart';
 import 'package:meta/meta.dart';
 
+final __ffiPtr_library_smoke_OuterStruct_doNothing = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_OuterStruct_doNothing'));
+
 final _doNothingsmokeOuterstructDonothingReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -105,6 +108,9 @@ class OuterStruct_InstantiationException implements Exception {
   final OuterStruct_TypeAlias error;
   OuterStruct_InstantiationException(this.error);
 }
+final __ffiPtr_library_smoke_OuterStruct_InnerStruct_doSomething = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_OuterStruct_InnerStruct_doSomething'));
+
 
 
 class OuterStruct_InnerStruct {
@@ -141,9 +147,8 @@ final _smokeOuterstructInnerstructGetFieldotherField = __lib.catchArgumentError(
 @visibleForTesting
 class OuterStruct_InnerStruct$Impl {
   void doSomething(OuterStruct_InnerStruct $that) {
-    final _doSomethingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_OuterStruct_InnerStruct_doSomething'));
     final _handle = smokeOuterstructInnerstructToFfi($that);
-    _doSomethingFfi(_handle, __lib.LibraryContext.isolateId);
+    __ffiPtr_library_smoke_OuterStruct_InnerStruct_doSomething(_handle, __lib.LibraryContext.isolateId);
     smokeOuterstructInnerstructReleaseFfiHandle(_handle);
 
   }
@@ -228,6 +233,10 @@ final _smokeOuterstructInnerclassReleaseHandle = __lib.catchArgumentError(() => 
   >('library_smoke_OuterStruct_InnerClass_release_handle'));
 
 
+final __ffiPtr_library_smoke_OuterStruct_InnerClass_fooBar = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_OuterStruct_InnerClass_fooBar'));
+
+
 
 
 class OuterStruct_InnerClass$Impl extends __lib.NativeBase implements OuterStruct_InnerClass {
@@ -236,9 +245,8 @@ class OuterStruct_InnerClass$Impl extends __lib.NativeBase implements OuterStruc
 
   @override
   Set<Locale> fooBar() {
-    final _fooBarFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_OuterStruct_InnerClass_fooBar'));
     final _handle = this.handle;
-    final __resultHandle = _fooBarFfi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffiPtr_library_smoke_OuterStruct_InnerClass_fooBar(_handle, __lib.LibraryContext.isolateId);
     try {
       return foobarSetofLocaleFromFfi(__resultHandle);
     } finally {
@@ -317,6 +325,9 @@ final _smokeOuterstructInnerinterfaceGetTypeId = __lib.catchArgumentError(() => 
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_OuterStruct_InnerInterface_get_type_id'));
 
+final __ffiPtr_library_smoke_OuterStruct_InnerInterface_barBaz = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_OuterStruct_InnerInterface_barBaz'));
+
 
 class OuterStruct_InnerInterface$Lambdas implements OuterStruct_InnerInterface {
   Map<String, Uint8List> Function() barBazLambda;
@@ -337,9 +348,8 @@ class OuterStruct_InnerInterface$Impl extends __lib.NativeBase implements OuterS
 
   @override
   Map<String, Uint8List> barBaz() {
-    final _barBazFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_OuterStruct_InnerInterface_barBaz'));
     final _handle = this.handle;
-    final __resultHandle = _barBazFfi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffiPtr_library_smoke_OuterStruct_InnerInterface_barBaz(_handle, __lib.LibraryContext.isolateId);
     try {
       return foobarMapofStringToBlobFromFfi(__resultHandle);
     } finally {
@@ -440,14 +450,17 @@ final _smokeOuterstructInnerlambdaCreateProxy = __lib.catchArgumentError(() => _
     Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_OuterStruct_InnerLambda_create_proxy'));
 
+final __ffiPtr_library_smoke_OuterStruct_InnerLambda_call = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_OuterStruct_InnerLambda_call'));
+
+
 class OuterStruct_InnerLambda$Impl implements Finalizable {
   final Pointer<Void> handle;
   OuterStruct_InnerLambda$Impl(this.handle);
 
   void call() {
-    final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_OuterStruct_InnerLambda_call'));
     final _handle = this.handle;
-    _callFfi(_handle, __lib.LibraryContext.isolateId);
+    __ffiPtr_library_smoke_OuterStruct_InnerLambda_call(_handle, __lib.LibraryContext.isolateId);
 
   }
 
@@ -551,9 +564,8 @@ final _smokeOuterstructGetFieldfield = __lib.catchArgumentError(() => __lib.nati
 @visibleForTesting
 class OuterStruct$Impl {
   void doNothing(OuterStruct $that) {
-    final _doNothingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_OuterStruct_doNothing'));
     final _handle = smokeOuterstructToFfi($that);
-    final __callResultHandle = _doNothingFfi(_handle, __lib.LibraryContext.isolateId);
+    final __callResultHandle = __ffiPtr_library_smoke_OuterStruct_doNothing(_handle, __lib.LibraryContext.isolateId);
     smokeOuterstructReleaseFfiHandle(_handle);
     if (_doNothingsmokeOuterstructDonothingReturnHasError(__callResultHandle) != 0) {
         final __errorHandle = _doNothingsmokeOuterstructDonothingReturnGetError(__callResultHandle);

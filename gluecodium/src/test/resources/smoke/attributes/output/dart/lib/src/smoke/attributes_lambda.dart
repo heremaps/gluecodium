@@ -26,14 +26,17 @@ final _smokeAttributeslambdaCreateProxy = __lib.catchArgumentError(() => __lib.n
     Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_AttributesLambda_create_proxy'));
 
+final __ffiPtr_library_smoke_AttributesLambda_call = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_AttributesLambda_call'));
+
+
 class AttributesLambda$Impl implements Finalizable {
   final Pointer<Void> handle;
   AttributesLambda$Impl(this.handle);
 
   void call() {
-    final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_AttributesLambda_call'));
     final _handle = this.handle;
-    _callFfi(_handle, __lib.LibraryContext.isolateId);
+    __ffiPtr_library_smoke_AttributesLambda_call(_handle, __lib.LibraryContext.isolateId);
 
   }
 

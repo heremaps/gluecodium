@@ -119,6 +119,7 @@ final _smokeOuterstructwithinternalattributeClassnestedininternalstructReleaseHa
 
 
 
+
 class OuterStructWithInternalAttribute_ClassNestedInInternalStruct$Impl extends __lib.NativeBase implements OuterStructWithInternalAttribute_ClassNestedInInternalStruct {
 
   OuterStructWithInternalAttribute_ClassNestedInInternalStruct$Impl(Pointer<Void> handle) : super(handle);
@@ -175,14 +176,17 @@ final _smokeOuterstructwithinternalattributeLambdanestedininternalstructCreatePr
     Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_OuterStructWithInternalAttribute_LambdaNestedInInternalStruct_create_proxy'));
 
+final __ffiPtr_library_smoke_OuterStructWithInternalAttribute_LambdaNestedInInternalStruct_call = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_OuterStructWithInternalAttribute_LambdaNestedInInternalStruct_call'));
+
+
 class OuterStructWithInternalAttribute_LambdaNestedInInternalStruct$Impl implements Finalizable {
   final Pointer<Void> handle;
   OuterStructWithInternalAttribute_LambdaNestedInInternalStruct$Impl(this.handle);
 
   void call() {
-    final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_OuterStructWithInternalAttribute_LambdaNestedInInternalStruct_call'));
     final _handle = this.handle;
-    _callFfi(_handle, __lib.LibraryContext.isolateId);
+    __ffiPtr_library_smoke_OuterStructWithInternalAttribute_LambdaNestedInInternalStruct_call(_handle, __lib.LibraryContext.isolateId);
 
   }
 

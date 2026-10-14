@@ -148,10 +148,28 @@ final _smokeCalculatorlistenerGetTypeId = __lib.catchArgumentError(() => __lib.n
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_CalculatorListener_get_type_id'));
 
+final __ffiPtr_library_smoke_CalculatorListener_onCalculationResult__Double = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Double), void Function(Pointer<Void>, int, double)>('library_smoke_CalculatorListener_onCalculationResult__Double'));
 
 
+final __ffiPtr_library_smoke_CalculatorListener_onCalculationResultConst__Double = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Double), void Function(Pointer<Void>, int, double)>('library_smoke_CalculatorListener_onCalculationResultConst__Double'));
 
 
+final __ffiPtr_library_smoke_CalculatorListener_onCalculationResultStruct__ResultStruct = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CalculatorListener_onCalculationResultStruct__ResultStruct'));
+
+
+final __ffiPtr_library_smoke_CalculatorListener_onCalculationResultArray__ListOf_Double = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CalculatorListener_onCalculationResultArray__ListOf_Double'));
+
+
+final __ffiPtr_library_smoke_CalculatorListener_onCalculationResultMap__MapOf_String_to_Double = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CalculatorListener_onCalculationResultMap__MapOf_String_to_Double'));
+
+
+final __ffiPtr_library_smoke_CalculatorListener_onCalculationResultInstance__CalculationResult = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CalculatorListener_onCalculationResultInstance__CalculationResult'));
 
 
 class CalculatorListener$Lambdas implements CalculatorListener {
@@ -198,60 +216,54 @@ class CalculatorListener$Impl extends __lib.NativeBase implements CalculatorList
 
   @override
   void onCalculationResult(double calculationResult) {
-    final _onCalculationResultFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Double), void Function(Pointer<Void>, int, double)>('library_smoke_CalculatorListener_onCalculationResult__Double'));
     final _calculationResultHandle = (calculationResult);
     final _handle = this.handle;
-    _onCalculationResultFfi(_handle, __lib.LibraryContext.isolateId, _calculationResultHandle);
+    __ffiPtr_library_smoke_CalculatorListener_onCalculationResult__Double(_handle, __lib.LibraryContext.isolateId, _calculationResultHandle);
 
 
   }
 
   @override
   void onCalculationResultConst(double calculationResult) {
-    final _onCalculationResultConstFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Double), void Function(Pointer<Void>, int, double)>('library_smoke_CalculatorListener_onCalculationResultConst__Double'));
     final _calculationResultHandle = (calculationResult);
     final _handle = this.handle;
-    _onCalculationResultConstFfi(_handle, __lib.LibraryContext.isolateId, _calculationResultHandle);
+    __ffiPtr_library_smoke_CalculatorListener_onCalculationResultConst__Double(_handle, __lib.LibraryContext.isolateId, _calculationResultHandle);
 
 
   }
 
   @override
   void onCalculationResultStruct(CalculatorListener_ResultStruct calculationResult) {
-    final _onCalculationResultStructFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CalculatorListener_onCalculationResultStruct__ResultStruct'));
     final _calculationResultHandle = smokeCalculatorlistenerResultstructToFfi(calculationResult);
     final _handle = this.handle;
-    _onCalculationResultStructFfi(_handle, __lib.LibraryContext.isolateId, _calculationResultHandle);
+    __ffiPtr_library_smoke_CalculatorListener_onCalculationResultStruct__ResultStruct(_handle, __lib.LibraryContext.isolateId, _calculationResultHandle);
     smokeCalculatorlistenerResultstructReleaseFfiHandle(_calculationResultHandle);
 
   }
 
   @override
   void onCalculationResultArray(List<double> calculationResult) {
-    final _onCalculationResultArrayFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CalculatorListener_onCalculationResultArray__ListOf_Double'));
     final _calculationResultHandle = foobarListofDoubleToFfi(calculationResult);
     final _handle = this.handle;
-    _onCalculationResultArrayFfi(_handle, __lib.LibraryContext.isolateId, _calculationResultHandle);
+    __ffiPtr_library_smoke_CalculatorListener_onCalculationResultArray__ListOf_Double(_handle, __lib.LibraryContext.isolateId, _calculationResultHandle);
     foobarListofDoubleReleaseFfiHandle(_calculationResultHandle);
 
   }
 
   @override
   void onCalculationResultMap(CalculatorListener_NamedCalculationResults calculationResults) {
-    final _onCalculationResultMapFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CalculatorListener_onCalculationResultMap__MapOf_String_to_Double'));
     final _calculationResultsHandle = foobarMapofStringToDoubleToFfi(calculationResults);
     final _handle = this.handle;
-    _onCalculationResultMapFfi(_handle, __lib.LibraryContext.isolateId, _calculationResultsHandle);
+    __ffiPtr_library_smoke_CalculatorListener_onCalculationResultMap__MapOf_String_to_Double(_handle, __lib.LibraryContext.isolateId, _calculationResultsHandle);
     foobarMapofStringToDoubleReleaseFfiHandle(_calculationResultsHandle);
 
   }
 
   @override
   void onCalculationResultInstance(CalculationResult calculationResult) {
-    final _onCalculationResultInstanceFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_CalculatorListener_onCalculationResultInstance__CalculationResult'));
     final _calculationResultHandle = smokeCalculationresultToFfi(calculationResult);
     final _handle = this.handle;
-    _onCalculationResultInstanceFfi(_handle, __lib.LibraryContext.isolateId, _calculationResultHandle);
+    __ffiPtr_library_smoke_CalculatorListener_onCalculationResultInstance__CalculationResult(_handle, __lib.LibraryContext.isolateId, _calculationResultHandle);
     smokeCalculationresultReleaseFfiHandle(_calculationResultHandle);
 
   }

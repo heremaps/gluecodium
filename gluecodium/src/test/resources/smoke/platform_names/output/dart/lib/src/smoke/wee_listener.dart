@@ -45,6 +45,9 @@ final _smokePlatformnameslistenerGetTypeId = __lib.catchArgumentError(() => __li
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_PlatformNamesListener_get_type_id'));
 
+final __ffiPtr_library_smoke_PlatformNamesListener_basicMethod__String = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PlatformNamesListener_basicMethod__String'));
+
 
 class weeListener$Lambdas implements weeListener {
   void Function(String) WeeMethodLambda;
@@ -65,10 +68,9 @@ class weeListener$Impl extends __lib.NativeBase implements weeListener {
 
   @override
   void WeeMethod(String WeeParameter) {
-    final _WeeMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PlatformNamesListener_basicMethod__String'));
     final _WeeParameterHandle = stringToFfi(WeeParameter);
     final _handle = this.handle;
-    _WeeMethodFfi(_handle, __lib.LibraryContext.isolateId, _WeeParameterHandle);
+    __ffiPtr_library_smoke_PlatformNamesListener_basicMethod__String(_handle, __lib.LibraryContext.isolateId, _WeeParameterHandle);
     stringReleaseFfiHandle(_WeeParameterHandle);
 
   }

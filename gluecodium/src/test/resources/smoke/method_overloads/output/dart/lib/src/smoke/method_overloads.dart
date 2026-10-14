@@ -141,13 +141,44 @@ final _smokeMethodoverloadsReleaseHandle = __lib.catchArgumentError(() => __lib.
   >('library_smoke_MethodOverloads_release_handle'));
 
 
+final __ffiPtr_library_smoke_MethodOverloads_isBoolean__Boolean = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Uint8), int Function(Pointer<Void>, int, int)>('library_smoke_MethodOverloads_isBoolean__Boolean'));
 
 
+final __ffiPtr_library_smoke_MethodOverloads_isBoolean__Byte = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Int8), int Function(Pointer<Void>, int, int)>('library_smoke_MethodOverloads_isBoolean__Byte'));
 
 
+final __ffiPtr_library_smoke_MethodOverloads_isBoolean__String = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isBoolean__String'));
 
 
+final __ffiPtr_library_smoke_MethodOverloads_isBoolean__Point = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isBoolean__Point'));
 
+
+final __ffiPtr_library_smoke_MethodOverloads_isBoolean__Boolean_Byte_String_Point = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Uint8, Int8, Pointer<Void>, Pointer<Void>), int Function(Pointer<Void>, int, int, int, Pointer<Void>, Pointer<Void>)>('library_smoke_MethodOverloads_isBoolean__Boolean_Byte_String_Point'));
+
+
+final __ffiPtr_library_smoke_MethodOverloads_isBoolean__ListOf_String = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isBoolean__ListOf_String'));
+
+
+final __ffiPtr_library_smoke_MethodOverloads_isBoolean__ListOf_Byte = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isBoolean__ListOf_Byte'));
+
+
+final __ffiPtr_library_smoke_MethodOverloads_isBoolean = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_MethodOverloads_isBoolean'));
+
+
+final __ffiPtr_library_smoke_MethodOverloads_isFloat__String = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isFloat__String'));
+
+
+final __ffiPtr_library_smoke_MethodOverloads_isFloat__ListOf_Byte = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isFloat__ListOf_Byte'));
 
 
 
@@ -158,10 +189,9 @@ class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
 
   @override
   bool isBoolean(bool input) {
-    final _isBooleanFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Uint8), int Function(Pointer<Void>, int, int)>('library_smoke_MethodOverloads_isBoolean__Boolean'));
     final _inputHandle = booleanToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = _isBooleanFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffiPtr_library_smoke_MethodOverloads_isBoolean__Boolean(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     booleanReleaseFfiHandle(_inputHandle);
     try {
       return booleanFromFfi(__resultHandle);
@@ -174,10 +204,9 @@ class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
 
   @override
   bool isBooleanByte(int input) {
-    final _isBooleanByteFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Int8), int Function(Pointer<Void>, int, int)>('library_smoke_MethodOverloads_isBoolean__Byte'));
     final _inputHandle = (input);
     final _handle = this.handle;
-    final __resultHandle = _isBooleanByteFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffiPtr_library_smoke_MethodOverloads_isBoolean__Byte(_handle, __lib.LibraryContext.isolateId, _inputHandle);
 
     try {
       return booleanFromFfi(__resultHandle);
@@ -190,10 +219,9 @@ class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
 
   @override
   bool isBooleanString(String input) {
-    final _isBooleanStringFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isBoolean__String'));
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = _isBooleanStringFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffiPtr_library_smoke_MethodOverloads_isBoolean__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
     try {
       return booleanFromFfi(__resultHandle);
@@ -206,10 +234,9 @@ class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
 
   @override
   bool isBooleanPoint(MethodOverloads_Point input) {
-    final _isBooleanPointFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isBoolean__Point'));
     final _inputHandle = smokeMethodoverloadsPointToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = _isBooleanPointFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffiPtr_library_smoke_MethodOverloads_isBoolean__Point(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     smokeMethodoverloadsPointReleaseFfiHandle(_inputHandle);
     try {
       return booleanFromFfi(__resultHandle);
@@ -222,13 +249,12 @@ class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
 
   @override
   bool isBooleanMulti(bool input1, int input2, String input3, MethodOverloads_Point input4) {
-    final _isBooleanMultiFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Uint8, Int8, Pointer<Void>, Pointer<Void>), int Function(Pointer<Void>, int, int, int, Pointer<Void>, Pointer<Void>)>('library_smoke_MethodOverloads_isBoolean__Boolean_Byte_String_Point'));
     final _input1Handle = booleanToFfi(input1);
     final _input2Handle = (input2);
     final _input3Handle = stringToFfi(input3);
     final _input4Handle = smokeMethodoverloadsPointToFfi(input4);
     final _handle = this.handle;
-    final __resultHandle = _isBooleanMultiFfi(_handle, __lib.LibraryContext.isolateId, _input1Handle, _input2Handle, _input3Handle, _input4Handle);
+    final __resultHandle = __ffiPtr_library_smoke_MethodOverloads_isBoolean__Boolean_Byte_String_Point(_handle, __lib.LibraryContext.isolateId, _input1Handle, _input2Handle, _input3Handle, _input4Handle);
     booleanReleaseFfiHandle(_input1Handle);
 
     stringReleaseFfiHandle(_input3Handle);
@@ -244,10 +270,9 @@ class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
 
   @override
   bool isBooleanStringArray(MethodOverloads_StringArray input) {
-    final _isBooleanStringArrayFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isBoolean__ListOf_String'));
     final _inputHandle = foobarListofStringToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = _isBooleanStringArrayFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffiPtr_library_smoke_MethodOverloads_isBoolean__ListOf_String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     foobarListofStringReleaseFfiHandle(_inputHandle);
     try {
       return booleanFromFfi(__resultHandle);
@@ -260,10 +285,9 @@ class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
 
   @override
   bool isBooleanIntArray(MethodOverloads_IntArray input) {
-    final _isBooleanIntArrayFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isBoolean__ListOf_Byte'));
     final _inputHandle = foobarListofByteToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = _isBooleanIntArrayFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffiPtr_library_smoke_MethodOverloads_isBoolean__ListOf_Byte(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     foobarListofByteReleaseFfiHandle(_inputHandle);
     try {
       return booleanFromFfi(__resultHandle);
@@ -276,9 +300,8 @@ class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
 
   @override
   bool isBooleanConst() {
-    final _isBooleanConstFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_MethodOverloads_isBoolean'));
     final _handle = this.handle;
-    final __resultHandle = _isBooleanConstFfi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffiPtr_library_smoke_MethodOverloads_isBoolean(_handle, __lib.LibraryContext.isolateId);
     try {
       return booleanFromFfi(__resultHandle);
     } finally {
@@ -290,10 +313,9 @@ class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
 
   @override
   bool isFloatString(String input) {
-    final _isFloatStringFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isFloat__String'));
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = _isFloatStringFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffiPtr_library_smoke_MethodOverloads_isFloat__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
     try {
       return booleanFromFfi(__resultHandle);
@@ -306,10 +328,9 @@ class MethodOverloads$Impl extends __lib.NativeBase implements MethodOverloads {
 
   @override
   bool isFloatList(MethodOverloads_IntArray input) {
-    final _isFloatListFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_MethodOverloads_isFloat__ListOf_Byte'));
     final _inputHandle = foobarListofByteToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = _isFloatListFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffiPtr_library_smoke_MethodOverloads_isFloat__ListOf_Byte(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     foobarListofByteReleaseFfiHandle(_inputHandle);
     try {
       return booleanFromFfi(__resultHandle);

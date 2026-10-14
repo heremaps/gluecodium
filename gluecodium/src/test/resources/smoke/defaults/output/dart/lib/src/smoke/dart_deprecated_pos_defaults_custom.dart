@@ -5,6 +5,9 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 
+final __ffiPtr_library_smoke_DartDeprecatedPosDefaultsCustom_custom = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_DartDeprecatedPosDefaultsCustom_custom'));
+
 
 /// Foo Bar this is a comment
 
@@ -53,8 +56,7 @@ final _smokeDartdeprecatedposdefaultscustomGetFieldstringField = __lib.catchArgu
 @visibleForTesting
 class DartDeprecatedPosDefaultsCustom$Impl {
   DartDeprecatedPosDefaultsCustom custom() {
-    final _customFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_DartDeprecatedPosDefaultsCustom_custom'));
-    final __resultHandle = _customFfi(__lib.LibraryContext.isolateId);
+    final __resultHandle = __ffiPtr_library_smoke_DartDeprecatedPosDefaultsCustom_custom(__lib.LibraryContext.isolateId);
     try {
       return smokeDartdeprecatedposdefaultscustomFromFfi(__resultHandle);
     } finally {

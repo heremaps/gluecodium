@@ -184,6 +184,12 @@ final _smokeExternalinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.na
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ExternalInterface_get_type_id'));
 
+final __ffiPtr_library_smoke_ExternalInterface_someMethod__Byte = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Int8), void Function(Pointer<Void>, int, int)>('library_smoke_ExternalInterface_someMethod__Byte'));
+
+
+final __ffiPtr_library_smoke_ExternalInterface_someProperty_get = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ExternalInterface_someProperty_get'));
 
 class ExternalInterface$Lambdas implements ExternalInterface {
   void Function(int) someMethodLambda;
@@ -207,18 +213,16 @@ class ExternalInterface$Impl extends __lib.NativeBase implements ExternalInterfa
 
   @override
   void someMethod(int someParameter) {
-    final _someMethodFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Int8), void Function(Pointer<Void>, int, int)>('library_smoke_ExternalInterface_someMethod__Byte'));
     final _someParameterHandle = (someParameter);
     final _handle = this.handle;
-    _someMethodFfi(_handle, __lib.LibraryContext.isolateId, _someParameterHandle);
+    __ffiPtr_library_smoke_ExternalInterface_someMethod__Byte(_handle, __lib.LibraryContext.isolateId, _someParameterHandle);
 
 
   }
 
   String get someProperty {
-    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ExternalInterface_someProperty_get'));
     final _handle = this.handle;
-    final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffiPtr_library_smoke_ExternalInterface_someProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {

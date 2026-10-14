@@ -31,6 +31,14 @@ final _smokeSimpleclassReleaseHandle = __lib.catchArgumentError(() => __lib.nati
   >('library_smoke_SimpleClass_release_handle'));
 
 
+final __ffiPtr_library_smoke_SimpleClass_getStringValue = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_SimpleClass_getStringValue'));
+
+
+final __ffiPtr_library_smoke_SimpleClass_useSimpleClass__SimpleClass = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_SimpleClass_useSimpleClass__SimpleClass'));
+
+
 
 
 class SimpleClass$Impl extends __lib.NativeBase implements SimpleClass {
@@ -39,9 +47,8 @@ class SimpleClass$Impl extends __lib.NativeBase implements SimpleClass {
 
   @override
   String getStringValue() {
-    final _getStringValueFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_SimpleClass_getStringValue'));
     final _handle = this.handle;
-    final __resultHandle = _getStringValueFfi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffiPtr_library_smoke_SimpleClass_getStringValue(_handle, __lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {
@@ -53,10 +60,9 @@ class SimpleClass$Impl extends __lib.NativeBase implements SimpleClass {
 
   @override
   SimpleClass useSimpleClass(SimpleClass input) {
-    final _useSimpleClassFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_SimpleClass_useSimpleClass__SimpleClass'));
     final _inputHandle = smokeSimpleclassToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = _useSimpleClassFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffiPtr_library_smoke_SimpleClass_useSimpleClass__SimpleClass(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     smokeSimpleclassReleaseFfiHandle(_inputHandle);
     try {
       return smokeSimpleclassFromFfi(__resultHandle);

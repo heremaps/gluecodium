@@ -39,11 +39,22 @@ final _smokeInternalclasswithfunctionsReleaseHandle = __lib.catchArgumentError((
   >('library_smoke_InternalClassWithFunctions_release_handle'));
 
 
+final __ffiPtr_library_smoke_InternalClassWithFunctions_fooBar = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClassWithFunctions_fooBar'));
+
+
+final __ffiPtr_library_smoke_InternalClassWithFunctions_make = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InternalClassWithFunctions_make'));
+
+
+final __ffiPtr_library_smoke_InternalClassWithFunctions_make__String = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_InternalClassWithFunctions_make__String'));
 
 
 
 /// @nodoc
 @visibleForTesting
+
 class InternalClassWithFunctions$Impl extends __lib.NativeBase implements InternalClassWithFunctions {
 
   InternalClassWithFunctions$Impl(Pointer<Void> handle) : super(handle);
@@ -56,6 +67,7 @@ class InternalClassWithFunctions$Impl extends __lib.NativeBase implements Intern
     __lib.cacheInstance(_result_handle, _result);
 
     _smokeInternalclasswithfunctionsRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+
     return _result;
   }
 
@@ -67,27 +79,25 @@ class InternalClassWithFunctions$Impl extends __lib.NativeBase implements Intern
     __lib.cacheInstance(_result_handle, _result);
 
     _smokeInternalclasswithfunctionsRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+
     return _result;
   }
 
   @override
   void fooBar() {
-    final _fooBarFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClassWithFunctions_fooBar'));
     final _handle = this.handle;
-    _fooBarFfi(_handle, __lib.LibraryContext.isolateId);
+    __ffiPtr_library_smoke_InternalClassWithFunctions_fooBar(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   static Pointer<Void> _make() {
-    final _makeFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InternalClassWithFunctions_make'));
-    final __resultHandle = _makeFfi(__lib.LibraryContext.isolateId);
+    final __resultHandle = __ffiPtr_library_smoke_InternalClassWithFunctions_make(__lib.LibraryContext.isolateId);
     return __resultHandle;
   }
 
   static Pointer<Void> _remake(String foo) {
-    final _remakeFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_InternalClassWithFunctions_make__String'));
     final _fooHandle = stringToFfi(foo);
-    final __resultHandle = _remakeFfi(__lib.LibraryContext.isolateId, _fooHandle);
+    final __resultHandle = __ffiPtr_library_smoke_InternalClassWithFunctions_make__String(__lib.LibraryContext.isolateId, _fooHandle);
     stringReleaseFfiHandle(_fooHandle);
     return __resultHandle;
   }

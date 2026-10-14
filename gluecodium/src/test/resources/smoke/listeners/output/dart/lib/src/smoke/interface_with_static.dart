@@ -62,7 +62,25 @@ final _smokeInterfacewithstaticGetTypeId = __lib.catchArgumentError(() => __lib.
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_InterfaceWithStatic_get_type_id'));
 
+final __ffiPtr_library_smoke_InterfaceWithStatic_regularFunction = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_InterfaceWithStatic_regularFunction'));
 
+
+final __ffiPtr_library_smoke_InterfaceWithStatic_staticFunction = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InterfaceWithStatic_staticFunction'));
+
+
+final __ffiPtr_library_smoke_InterfaceWithStatic_regularProperty_get = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_InterfaceWithStatic_regularProperty_get'));
+
+final __ffiPtr_library_smoke_InterfaceWithStatic_regularProperty_set__String = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_InterfaceWithStatic_regularProperty_set__String'));
+
+final __ffiPtr_library_smoke_InterfaceWithStatic_staticProperty_get = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InterfaceWithStatic_staticProperty_get'));
+
+final __ffiPtr_library_smoke_InterfaceWithStatic_staticProperty_set__String = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Int32, Pointer<Void>), void Function(int, Pointer<Void>)>('library_smoke_InterfaceWithStatic_staticProperty_set__String'));
 
 class InterfaceWithStatic$Lambdas implements InterfaceWithStatic {
   String Function() regularFunctionLambda;
@@ -93,9 +111,8 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
 
   @override
   String regularFunction() {
-    final _regularFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_InterfaceWithStatic_regularFunction'));
     final _handle = this.handle;
-    final __resultHandle = _regularFunctionFfi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffiPtr_library_smoke_InterfaceWithStatic_regularFunction(_handle, __lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {
@@ -106,8 +123,7 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
   }
 
   String staticFunction() {
-    final _staticFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InterfaceWithStatic_staticFunction'));
-    final __resultHandle = _staticFunctionFfi(__lib.LibraryContext.isolateId);
+    final __resultHandle = __ffiPtr_library_smoke_InterfaceWithStatic_staticFunction(__lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {
@@ -118,9 +134,8 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
   }
 
   String get regularProperty {
-    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_InterfaceWithStatic_regularProperty_get'));
     final _handle = this.handle;
-    final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffiPtr_library_smoke_InterfaceWithStatic_regularProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {
@@ -132,18 +147,16 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
 
 
   set regularProperty(String value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_InterfaceWithStatic_regularProperty_set__String'));
     final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
-    _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffiPtr_library_smoke_InterfaceWithStatic_regularProperty_set__String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
 
   }
 
 
   String get staticProperty {
-    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InterfaceWithStatic_staticProperty_get'));
-    final __resultHandle = _getFfi(__lib.LibraryContext.isolateId);
+    final __resultHandle = __ffiPtr_library_smoke_InterfaceWithStatic_staticProperty_get(__lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {
@@ -155,9 +168,8 @@ class InterfaceWithStatic$Impl extends __lib.NativeBase implements InterfaceWith
 
 
   set staticProperty(String value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32, Pointer<Void>), void Function(int, Pointer<Void>)>('library_smoke_InterfaceWithStatic_staticProperty_set__String'));
     final _valueHandle = stringToFfi(value);
-    _setFfi(__lib.LibraryContext.isolateId, _valueHandle);
+    __ffiPtr_library_smoke_InterfaceWithStatic_staticProperty_set__String(__lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
 
   }

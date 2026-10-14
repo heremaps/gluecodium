@@ -49,6 +49,12 @@ final _smokeSimpleinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nati
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_SimpleInterface_get_type_id'));
 
+final __ffiPtr_library_smoke_SimpleInterface_getStringValue = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_SimpleInterface_getStringValue'));
+
+
+final __ffiPtr_library_smoke_SimpleInterface_useSimpleInterface__SimpleInterface = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_SimpleInterface_useSimpleInterface__SimpleInterface'));
 
 
 class SimpleInterface$Lambdas implements SimpleInterface {
@@ -75,9 +81,8 @@ class SimpleInterface$Impl extends __lib.NativeBase implements SimpleInterface {
 
   @override
   String getStringValue() {
-    final _getStringValueFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_SimpleInterface_getStringValue'));
     final _handle = this.handle;
-    final __resultHandle = _getStringValueFfi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffiPtr_library_smoke_SimpleInterface_getStringValue(_handle, __lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {
@@ -89,10 +94,9 @@ class SimpleInterface$Impl extends __lib.NativeBase implements SimpleInterface {
 
   @override
   SimpleInterface useSimpleInterface(SimpleInterface input) {
-    final _useSimpleInterfaceFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_SimpleInterface_useSimpleInterface__SimpleInterface'));
     final _inputHandle = smokeSimpleinterfaceToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = _useSimpleInterfaceFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffiPtr_library_smoke_SimpleInterface_useSimpleInterface__SimpleInterface(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     smokeSimpleinterfaceReleaseFfiHandle(_inputHandle);
     try {
       return smokeSimpleinterfaceFromFfi(__resultHandle);

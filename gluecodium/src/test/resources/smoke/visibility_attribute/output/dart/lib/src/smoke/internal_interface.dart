@@ -55,6 +55,15 @@ final _smokeInternalinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.na
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_InternalInterface_get_type_id'));
 
+final __ffiPtr_library_smoke_InternalInterface_fooBar = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalInterface_fooBar'));
+
+
+final __ffiPtr_library_smoke_InternalInterface_somePropertyOfInternalInterface_get = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InternalInterface_somePropertyOfInternalInterface_get'));
+
+final __ffiPtr_library_smoke_InternalInterface_somePropertyOfInternalInterface_set__String = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Int32, Pointer<Void>), void Function(int, Pointer<Void>)>('library_smoke_InternalInterface_somePropertyOfInternalInterface_set__String'));
 
 class InternalInterface$Lambdas implements InternalInterface {
   void Function() fooBarLambda;
@@ -77,15 +86,13 @@ class InternalInterface$Impl extends __lib.NativeBase implements InternalInterfa
 
   @override
   void fooBar() {
-    final _fooBarFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalInterface_fooBar'));
     final _handle = this.handle;
-    _fooBarFfi(_handle, __lib.LibraryContext.isolateId);
+    __ffiPtr_library_smoke_InternalInterface_fooBar(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   String get somePropertyOfInternalInterface {
-    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InternalInterface_somePropertyOfInternalInterface_get'));
-    final __resultHandle = _getFfi(__lib.LibraryContext.isolateId);
+    final __resultHandle = __ffiPtr_library_smoke_InternalInterface_somePropertyOfInternalInterface_get(__lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {
@@ -97,9 +104,8 @@ class InternalInterface$Impl extends __lib.NativeBase implements InternalInterfa
 
 
   set somePropertyOfInternalInterface(String value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32, Pointer<Void>), void Function(int, Pointer<Void>)>('library_smoke_InternalInterface_somePropertyOfInternalInterface_set__String'));
     final _valueHandle = stringToFfi(value);
-    _setFfi(__lib.LibraryContext.isolateId, _valueHandle);
+    __ffiPtr_library_smoke_InternalInterface_somePropertyOfInternalInterface_set__String(__lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
 
   }

@@ -29,6 +29,11 @@ final _smokeAsyncrenamedReleaseHandle = __lib.catchArgumentError(() => __lib.nat
   >('library_smoke_AsyncRenamed_release_handle'));
 
 
+final __ffiPtr_library_smoke_AsyncRenamed_dispose__dispose__resultLambda = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AsyncRenamed_dispose__dispose__resultLambda'));
+
+
+
 
 
 class AsyncRenamed$Impl extends __lib.NativeBase implements AsyncRenamed {
@@ -45,10 +50,9 @@ class AsyncRenamed$Impl extends __lib.NativeBase implements AsyncRenamed {
   }
 
   void _dispose__async(AsyncRenamed_dispose__resultLambda _resultLambda) {
-    final __dispose__asyncFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AsyncRenamed_dispose__dispose__resultLambda'));
     final __resultLambdaHandle = smokeAsyncrenamedDisposeresultlambdaToFfi(_resultLambda);
     final _handle = this.handle;
-    __dispose__asyncFfi(_handle, __lib.LibraryContext.isolateId, __resultLambdaHandle);
+    __ffiPtr_library_smoke_AsyncRenamed_dispose__dispose__resultLambda(_handle, __lib.LibraryContext.isolateId, __resultLambdaHandle);
     smokeAsyncrenamedDisposeresultlambdaReleaseFfiHandle(__resultLambdaHandle);
 
   }
@@ -99,14 +103,17 @@ final _smokeAsyncrenamedDisposeresultlambdaCreateProxy = __lib.catchArgumentErro
     Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_AsyncRenamed_DisposeResultlambda_create_proxy'));
 
+final __ffiPtr_library_smoke_AsyncRenamed_DisposeResultlambda_call = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_AsyncRenamed_DisposeResultlambda_call'));
+
+
 class AsyncRenamed_dispose__resultLambda$Impl implements Finalizable {
   final Pointer<Void> handle;
   AsyncRenamed_dispose__resultLambda$Impl(this.handle);
 
   void dispose__resultLambda() {
-    final _dispose__resultLambdaFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_AsyncRenamed_DisposeResultlambda_call'));
     final _handle = this.handle;
-    _dispose__resultLambdaFfi(_handle, __lib.LibraryContext.isolateId);
+    __ffiPtr_library_smoke_AsyncRenamed_DisposeResultlambda_call(_handle, __lib.LibraryContext.isolateId);
 
   }
 

@@ -63,16 +63,23 @@ final _smokeUseoptimizedlistsmokeVerybigstructLazyListRegisterFinalizer = __lib.
     void Function(Pointer<Void>, int, Object)
   >('library_smoke_UseOptimizedList_smoke_VeryBigStructLazyList_register_finalizer'));
 
+final __ffiPtr_library_smoke_UseOptimizedList_fetchTheBigOnes = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_UseOptimizedList_fetchTheBigOnes'));
+
+
+final __ffiPtr_library_smoke_UseOptimizedList_lazyOnes_get = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_UseOptimizedList_lazyOnes_get'));
+
 
 /// @nodoc
 @visibleForTesting
+
 class UseOptimizedList$Impl extends __lib.NativeBase implements UseOptimizedList {
 
   UseOptimizedList$Impl(Pointer<Void> handle) : super(handle);
 
   List<VeryBigStruct> fetchTheBigOnes() {
-    final _fetchTheBigOnesFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_UseOptimizedList_fetchTheBigOnes'));
-    final __resultHandle = _fetchTheBigOnesFfi(__lib.LibraryContext.isolateId);
+    final __resultHandle = __ffiPtr_library_smoke_UseOptimizedList_fetchTheBigOnes(__lib.LibraryContext.isolateId);
     return __lib.LazyList(
         __resultHandle,
         _smokeUseoptimizedlistsmokeVerybigstructLazyListGetSize(__resultHandle),
@@ -88,8 +95,7 @@ class UseOptimizedList$Impl extends __lib.NativeBase implements UseOptimizedList
   }
 
   List<UnreasonablyLazyClass> get lazyOnes {
-    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_UseOptimizedList_lazyOnes_get'));
-    final __resultHandle = _getFfi(__lib.LibraryContext.isolateId);
+    final __resultHandle = __ffiPtr_library_smoke_UseOptimizedList_lazyOnes_get(__lib.LibraryContext.isolateId);
     return __lib.LazyList(
         __resultHandle,
         _smokeUseoptimizedlistsmokeUnreasonablylazyclassLazyListGetSize(__resultHandle),

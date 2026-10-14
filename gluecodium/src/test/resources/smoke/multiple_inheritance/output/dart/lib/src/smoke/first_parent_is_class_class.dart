@@ -39,6 +39,25 @@ final _smokeFirstparentisclassclassGetTypeId = __lib.catchArgumentError(() => __
   >('library_smoke_FirstParentIsClassClass_get_type_id'));
 
 
+final __ffiPtr_library_smoke_FirstParentIsClassClass_childFunction = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_FirstParentIsClassClass_childFunction'));
+
+
+final __ffiPtr_library_smoke_FirstParentIsClassClass_childProperty_get = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_FirstParentIsClassClass_childProperty_get'));
+
+final __ffiPtr_library_smoke_FirstParentIsClassClass_childProperty_set__String = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_FirstParentIsClassClass_childProperty_set__String'));
+
+final __ffiPtr_library_smoke_FirstParentIsClassClass_parentFunctionOne = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_FirstParentIsClassClass_parentFunctionOne'));
+
+final __ffiPtr_library_smoke_FirstParentIsClassClass_parentPropertyOne_get = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_FirstParentIsClassClass_parentPropertyOne_get'));
+
+final __ffiPtr_library_smoke_FirstParentIsClassClass_parentPropertyOne_set = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_FirstParentIsClassClass_parentPropertyOne_set'));
+
 
 // ignore: invalid_use_of_visible_for_testing_member
 class FirstParentIsClassClass$Impl extends ParentClass$Impl implements FirstParentIsClassClass {
@@ -47,25 +66,22 @@ class FirstParentIsClassClass$Impl extends ParentClass$Impl implements FirstPare
 
   @override
   void childFunction() {
-    final _childFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_FirstParentIsClassClass_childFunction'));
     final _handle = this.handle;
-    _childFunctionFfi(_handle, __lib.LibraryContext.isolateId);
+    __ffiPtr_library_smoke_FirstParentIsClassClass_childFunction(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   @override
   void parentFunctionOne() {
-    final _parentFunctionOneFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_FirstParentIsClassClass_parentFunctionOne'));
     final _handle = this.handle;
-    _parentFunctionOneFfi(_handle, __lib.LibraryContext.isolateId);
+    __ffiPtr_library_smoke_FirstParentIsClassClass_parentFunctionOne(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   @override
   String get childProperty {
-    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_FirstParentIsClassClass_childProperty_get'));
     final _handle = this.handle;
-    final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffiPtr_library_smoke_FirstParentIsClassClass_childProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {
@@ -77,10 +93,9 @@ class FirstParentIsClassClass$Impl extends ParentClass$Impl implements FirstPare
 
   @override
   set childProperty(String value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_FirstParentIsClassClass_childProperty_set__String'));
     final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
-    _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffiPtr_library_smoke_FirstParentIsClassClass_childProperty_set__String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
 
   }
@@ -88,9 +103,8 @@ class FirstParentIsClassClass$Impl extends ParentClass$Impl implements FirstPare
 
   @override
   String get parentPropertyOne {
-    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_FirstParentIsClassClass_parentPropertyOne_get'));
     final _handle = this.handle;
-    final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffiPtr_library_smoke_FirstParentIsClassClass_parentPropertyOne_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {
@@ -102,10 +116,9 @@ class FirstParentIsClassClass$Impl extends ParentClass$Impl implements FirstPare
 
   @override
   set parentPropertyOne(String value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_FirstParentIsClassClass_parentPropertyOne_set'));
     final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
-    _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffiPtr_library_smoke_FirstParentIsClassClass_parentPropertyOne_set(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
 
   }
