@@ -1,11 +1,16 @@
 /*
+
  *
  */
+
 package com.example.smoke;
+
 import android.support.annotation.NonNull;
 import com.example.NativeBase;
+
 public final class OuterClassWithInheritance extends ParentClass {
     public static final class InnerClass extends NativeBase {
+
         /**
          * For internal use only.
          * @hidden
@@ -20,10 +25,18 @@ public final class OuterClassWithInheritance extends ParentClass {
                 }
             });
         }
+
         private static native void disposeNativeHandle(long nativeHandle);
+
+
+
         @NonNull
         public native String bar(@NonNull final String input);
+
+
+
     }
+
     /**
      * @hidden
      */
@@ -36,14 +49,65 @@ public final class OuterClassWithInheritance extends ParentClass {
                 }
             });
         }
+
         private static native void disposeNativeHandle(long nativeHandle);
+
+
+
         @NonNull
         public native String baz(@NonNull final String input);
+
+
+
+        @NonNull
+
+        @Override
+        public native String foo(@NonNull final String input);
+
     }
-    public interface InnerInterface {
+
+    /**
+     * @hidden
+     */
+    static class AnotherInnerInterfaceImpl extends NativeBase implements AnotherInnerInterface {
+        protected AnotherInnerInterfaceImpl(final long nativeHandle, final Object dummy) {
+            super(nativeHandle, new Disposer() {
+                @Override
+                public void disposeNative(long handle) {
+                    disposeNativeHandle(handle);
+                }
+            });
+        }
+
+        private static native void disposeNativeHandle(long nativeHandle);
+
+
+
+        @NonNull
+        public native String baz(@NonNull final String input);
+
+
+
+        @NonNull
+
+        @Override
+        public native String foo(@NonNull final String input);
+
+    }
+
+    public interface InnerInterface extends OuterInterface {
+
         @NonNull
         String baz(@NonNull final String input);
     }
+
+    public interface AnotherInnerInterface extends OuterInterface {
+
+        @NonNull
+        String baz(@NonNull final String input);
+    }
+
+
     /**
      * For internal use only.
      * @hidden
@@ -53,6 +117,13 @@ public final class OuterClassWithInheritance extends ParentClass {
     protected OuterClassWithInheritance(final long nativeHandle, final Object dummy) {
         super(nativeHandle, dummy);
     }
+
+
+
     @NonNull
     public native String foo(@NonNull final String input);
+
+
+
 }
+

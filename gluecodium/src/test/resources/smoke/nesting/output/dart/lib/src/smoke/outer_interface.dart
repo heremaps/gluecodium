@@ -6,6 +6,7 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:library/src/smoke/outer_class_with_inheritance.dart';
 
 abstract class OuterInterface implements Finalizable {
 
@@ -322,6 +323,11 @@ void _smokeOuterinterfacefooStatic(OuterInterface _obj, Pointer<Void> input, Poi
 Pointer<Void> smokeOuterinterfaceToFfi(OuterInterface __interfaceObj) {
   if (__interfaceObj is __lib.NativeBase) return _smokeOuterinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
 
+  final descendantResult = tryDescendantToFfi(__interfaceObj);
+  if (descendantResult != null) {
+    return descendantResult;
+  }
+
   void __fooCaller(Pointer<Void> input, Pointer<Pointer<Void>> _result) { _smokeOuterinterfacefooStatic(__interfaceObj, input, _result); }
   final __fooCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Pointer<Void>>)>.isolateLocal(__fooCaller);
   __fooCallback.keepIsolateAlive = false;
@@ -374,6 +380,12 @@ OuterInterface? smokeOuterinterfaceFromFfiNullable(Pointer<Void> handle) =>
 
 void smokeOuterinterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeOuterinterfaceReleaseHandle(handle);
+
+Pointer<Void>? tryDescendantToFfi(OuterInterface value) {
+  if (value is OuterClassWithInheritance_AnotherInnerInterface) return smokeOuterclasswithinheritanceAnotherinnerinterfaceToFfi(value);
+  if (value is OuterClassWithInheritance_InnerInterface) return smokeOuterclasswithinheritanceInnerinterfaceToFfi(value);
+  return null;
+}
 
 // End of OuterInterface "private" section.
 

@@ -96,9 +96,11 @@ class OuterClassWithInheritance : NestedContainersParentClass {
     class OuterClassInnerClass {
         fun bar(input: String): String
     }
-    interface OuterClassInnerInterface {
+    interface OuterClassInnerInterface : OuterInterface {
         fun baz(input: String): String
     }
-
+    interface OuterClassAnotherInnerInterface : OuterInterface {
+        fun baz(input: String): String
+    }
     fun foo(input: String): String
 }

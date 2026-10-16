@@ -39,8 +39,7 @@ class OuterClassWithInheritance : ParentClass {
         }
     }
 
-
-    fun interface InnerInterface {
+    interface InnerInterface : OuterInterface {
 
 
 
@@ -64,6 +63,41 @@ class OuterClassWithInheritance : ParentClass {
         override external fun baz(input: String) : String
 
 
+
+
+        override external fun foo(input: String) : String
+
+        companion object {
+            @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+        }
+    }
+    interface AnotherInnerInterface : OuterInterface {
+
+
+
+        fun baz(input: String) : String
+
+
+    }
+
+    /**
+     * @suppress
+     *
+     * This class is used to represent C++ implementations of the interface or lambda in Kotlin.
+     * It is instantiated by JNI and should not be used by the end users.
+     */
+    private class AnotherInnerInterfaceImpl : NativeBase, AnotherInnerInterface {
+        protected constructor(nativeHandle: Long, @Suppress("UNUSED_PARAMETER") tag: Any?)
+            : super(nativeHandle, { disposeNativeHandle(it) }) {}
+
+
+
+        override external fun baz(input: String) : String
+
+
+
+
+        override external fun foo(input: String) : String
 
         companion object {
             @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
@@ -90,5 +124,4 @@ class OuterClassWithInheritance : ParentClass {
 
 
 }
-
 
