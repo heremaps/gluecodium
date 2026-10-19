@@ -120,18 +120,18 @@ final _smokeDurationmillisecondsReleaseHandle = __lib.catchArgumentError(() => _
   >('library_smoke_DurationMilliseconds_release_handle'));
 
 
-final __ffiPtr_library_smoke_DurationMilliseconds_durationFunction__Duration = __lib.catchArgumentError(() =>
+final __ffi_smoke_DurationMilliseconds_library_smoke_DurationMilliseconds_durationFunction__Duration = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32, Uint64), int Function(Pointer<Void>, int, int)>('library_smoke_DurationMilliseconds_durationFunction__Duration'));
 
 
-final __ffiPtr_library_smoke_DurationMilliseconds_nullableDurationFunction__Duration_ = __lib.catchArgumentError(() =>
+final __ffi_smoke_DurationMilliseconds_library_smoke_DurationMilliseconds_nullableDurationFunction__Duration_ = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DurationMilliseconds_nullableDurationFunction__Duration_'));
 
 
-final __ffiPtr_library_smoke_DurationMilliseconds_durationProperty_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_DurationMilliseconds_library_smoke_DurationMilliseconds_durationProperty_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_DurationMilliseconds_durationProperty_get'));
 
-final __ffiPtr_library_smoke_DurationMilliseconds_durationProperty_set__Duration = __lib.catchArgumentError(() =>
+final __ffi_smoke_DurationMilliseconds_library_smoke_DurationMilliseconds_durationProperty_set__Duration = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint64), void Function(Pointer<Void>, int, int)>('library_smoke_DurationMilliseconds_durationProperty_set__Duration'));
 
 
@@ -144,7 +144,7 @@ class DurationMilliseconds$Impl extends __lib.NativeBase implements DurationMill
   Duration durationFunction(Duration input) {
     final _inputHandle = durationToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_DurationMilliseconds_durationFunction__Duration(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_DurationMilliseconds_library_smoke_DurationMilliseconds_durationFunction__Duration(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     durationReleaseFfiHandle(_inputHandle);
     try {
       return durationFromFfi(__resultHandle);
@@ -159,7 +159,7 @@ class DurationMilliseconds$Impl extends __lib.NativeBase implements DurationMill
   Duration? nullableDurationFunction(Duration? input) {
     final _inputHandle = durationToFfiNullable(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_DurationMilliseconds_nullableDurationFunction__Duration_(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_DurationMilliseconds_library_smoke_DurationMilliseconds_nullableDurationFunction__Duration_(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     durationReleaseFfiHandleNullable(_inputHandle);
     try {
       return durationFromFfiNullable(__resultHandle);
@@ -173,7 +173,7 @@ class DurationMilliseconds$Impl extends __lib.NativeBase implements DurationMill
   @override
   Duration get durationProperty {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_DurationMilliseconds_durationProperty_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_DurationMilliseconds_library_smoke_DurationMilliseconds_durationProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return durationFromFfi(__resultHandle);
     } finally {
@@ -187,7 +187,7 @@ class DurationMilliseconds$Impl extends __lib.NativeBase implements DurationMill
   set durationProperty(Duration value) {
     final _valueHandle = durationToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_DurationMilliseconds_durationProperty_set__Duration(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_DurationMilliseconds_library_smoke_DurationMilliseconds_durationProperty_set__Duration(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     durationReleaseFfiHandle(_valueHandle);
 
   }

@@ -5,7 +5,7 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 
-final __ffiPtr_library_smoke_DartPublicElements_foo = __lib.catchArgumentError(() =>
+final __ffi_smoke_DartPublicElements_library_smoke_DartPublicElements_foo = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_DartPublicElements_foo'));
 
 
@@ -45,7 +45,7 @@ final _smokeDartpublicelementsGetFieldstringField = __lib.catchArgumentError(() 
 class DartPublicElements$Impl {
   void foo(DartPublicElements $that) {
     final _handle = smokeDartpublicelementsToFfi($that);
-    __ffiPtr_library_smoke_DartPublicElements_foo(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_DartPublicElements_library_smoke_DartPublicElements_foo(_handle, __lib.LibraryContext.isolateId);
     smokeDartpublicelementsReleaseFfiHandle(_handle);
 
   }

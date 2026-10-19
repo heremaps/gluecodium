@@ -172,15 +172,15 @@ final _smokeThermometerReleaseHandle = __lib.catchArgumentError(() => __lib.nati
   >('library_smoke_Thermometer_release_handle'));
 
 
-final __ffiPtr_library_smoke_Thermometer_makeWithDuration__Duration_ListOf_smoke_TemperatureObserver = __lib.catchArgumentError(() =>
+final __ffi_smoke_Thermometer_library_smoke_Thermometer_makeWithDuration__Duration_ListOf_smoke_TemperatureObserver = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Uint64, Pointer<Void>), Pointer<Void> Function(int, int, Pointer<Void>)>('library_smoke_Thermometer_makeWithDuration__Duration_ListOf_smoke_TemperatureObserver'));
 
 
-final __ffiPtr_library_smoke_Thermometer_makeWithoutDuration__ListOf_smoke_TemperatureObserver = __lib.catchArgumentError(() =>
+final __ffi_smoke_Thermometer_library_smoke_Thermometer_makeWithoutDuration__ListOf_smoke_TemperatureObserver = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Thermometer_makeWithoutDuration__ListOf_smoke_TemperatureObserver'));
 
 
-final __ffiPtr_library_smoke_Thermometer_throwingMake__Int_ListOf_smoke_TemperatureObserver = __lib.catchArgumentError(() =>
+final __ffi_smoke_Thermometer_library_smoke_Thermometer_throwingMake__Int_ListOf_smoke_TemperatureObserver = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Int32, Pointer<Void>), Pointer<Void> Function(int, int, Pointer<Void>)>('library_smoke_Thermometer_throwingMake__Int_ListOf_smoke_TemperatureObserver'));
 
 final _throwingMakesmokeThermometerThrowingmakeIntListofSmokeTemperatureobserverReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -201,11 +201,11 @@ final _throwingMakesmokeThermometerThrowingmakeIntListofSmokeTemperatureobserver
   >('library_smoke_Thermometer_throwingMake__Int_ListOf_smoke_TemperatureObserver_return_has_error'));
 
 
-final __ffiPtr_library_smoke_Thermometer_nothrowMake__String_ListOf_smoke_TemperatureObserver = __lib.catchArgumentError(() =>
+final __ffi_smoke_Thermometer_library_smoke_Thermometer_nothrowMake__String_ListOf_smoke_TemperatureObserver = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>, Pointer<Void>)>('library_smoke_Thermometer_nothrowMake__String_ListOf_smoke_TemperatureObserver'));
 
 
-final __ffiPtr_library_smoke_Thermometer_anotherThrowingMake__Boolean_ListOf_smoke_TemperatureObserver = __lib.catchArgumentError(() =>
+final __ffi_smoke_Thermometer_library_smoke_Thermometer_anotherThrowingMake__Boolean_ListOf_smoke_TemperatureObserver = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Uint8, Pointer<Void>), Pointer<Void> Function(int, int, Pointer<Void>)>('library_smoke_Thermometer_anotherThrowingMake__Boolean_ListOf_smoke_TemperatureObserver'));
 
 final _anotherThrowingMakesmokeThermometerAnotherthrowingmakeBooleanListofSmokeTemperatureobserverReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -226,11 +226,11 @@ final _anotherThrowingMakesmokeThermometerAnotherthrowingmakeBooleanListofSmokeT
   >('library_smoke_Thermometer_anotherThrowingMake__Boolean_ListOf_smoke_TemperatureObserver_return_has_error'));
 
 
-final __ffiPtr_library_smoke_Thermometer_notifyObservers__Thermometer_ListOf_smoke_TemperatureObserver = __lib.catchArgumentError(() =>
+final __ffi_smoke_Thermometer_library_smoke_Thermometer_notifyObservers__Thermometer_ListOf_smoke_TemperatureObserver = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Int32, Pointer<Void>, Pointer<Void>), void Function(int, Pointer<Void>, Pointer<Void>)>('library_smoke_Thermometer_notifyObservers__Thermometer_ListOf_smoke_TemperatureObserver'));
 
 
-final __ffiPtr_library_smoke_Thermometer_throwingNotifyObservers__Thermometer_ListOf_smoke_TemperatureObserver = __lib.catchArgumentError(() =>
+final __ffi_smoke_Thermometer_library_smoke_Thermometer_throwingNotifyObservers__Thermometer_ListOf_smoke_TemperatureObserver = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>, Pointer<Void>)>('library_smoke_Thermometer_throwingNotifyObservers__Thermometer_ListOf_smoke_TemperatureObserver'));
 
 final _throwingNotifyObserverssmokeThermometerThrowingnotifyobserversThermometerListofSmokeTemperatureobserverReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -247,19 +247,19 @@ final _throwingNotifyObserverssmokeThermometerThrowingnotifyobserversThermometer
   >('library_smoke_Thermometer_throwingNotifyObservers__Thermometer_ListOf_smoke_TemperatureObserver_return_has_error'));
 
 
-final __ffiPtr_library_smoke_Thermometer_forceUpdate = __lib.catchArgumentError(() =>
+final __ffi_smoke_Thermometer_library_smoke_Thermometer_forceUpdate = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_Thermometer_forceUpdate'));
 
 
-final __ffiPtr_library_smoke_Thermometer_getCelsius = __lib.catchArgumentError(() =>
+final __ffi_smoke_Thermometer_library_smoke_Thermometer_getCelsius = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Double Function(Pointer<Void>, Int32), double Function(Pointer<Void>, int)>('library_smoke_Thermometer_getCelsius'));
 
 
-final __ffiPtr_library_smoke_Thermometer_getKelvin = __lib.catchArgumentError(() =>
+final __ffi_smoke_Thermometer_library_smoke_Thermometer_getKelvin = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Double Function(Pointer<Void>, Int32), double Function(Pointer<Void>, int)>('library_smoke_Thermometer_getKelvin'));
 
 
-final __ffiPtr_library_smoke_Thermometer_getFahrenheit = __lib.catchArgumentError(() =>
+final __ffi_smoke_Thermometer_library_smoke_Thermometer_getFahrenheit = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Double Function(Pointer<Void>, Int32), double Function(Pointer<Void>, int)>('library_smoke_Thermometer_getFahrenheit'));
 
 
@@ -344,7 +344,7 @@ class Thermometer$Impl extends __lib.NativeBase implements Thermometer {
   static Pointer<Void> _makeWithDuration(Duration interval, List<TemperatureObserver> observers) {
     final _intervalHandle = durationToFfi(interval);
     final _observersHandle = foobarListofSmokeTemperatureobserverToFfi(observers);
-    final __resultHandle = __ffiPtr_library_smoke_Thermometer_makeWithDuration__Duration_ListOf_smoke_TemperatureObserver(__lib.LibraryContext.isolateId, _intervalHandle, _observersHandle);
+    final __resultHandle = __ffi_smoke_Thermometer_library_smoke_Thermometer_makeWithDuration__Duration_ListOf_smoke_TemperatureObserver(__lib.LibraryContext.isolateId, _intervalHandle, _observersHandle);
     durationReleaseFfiHandle(_intervalHandle);
     foobarListofSmokeTemperatureobserverReleaseFfiHandle(_observersHandle);
     return __resultHandle;
@@ -352,7 +352,7 @@ class Thermometer$Impl extends __lib.NativeBase implements Thermometer {
 
   static Pointer<Void> _makeWithoutDuration(List<TemperatureObserver> observers) {
     final _observersHandle = foobarListofSmokeTemperatureobserverToFfi(observers);
-    final __resultHandle = __ffiPtr_library_smoke_Thermometer_makeWithoutDuration__ListOf_smoke_TemperatureObserver(__lib.LibraryContext.isolateId, _observersHandle);
+    final __resultHandle = __ffi_smoke_Thermometer_library_smoke_Thermometer_makeWithoutDuration__ListOf_smoke_TemperatureObserver(__lib.LibraryContext.isolateId, _observersHandle);
     foobarListofSmokeTemperatureobserverReleaseFfiHandle(_observersHandle);
     return __resultHandle;
   }
@@ -360,7 +360,7 @@ class Thermometer$Impl extends __lib.NativeBase implements Thermometer {
   static Pointer<Void> _throwingMake(int id, List<TemperatureObserver> observers) {
     final _idHandle = (id);
     final _observersHandle = foobarListofSmokeTemperatureobserverToFfi(observers);
-    final __callResultHandle = __ffiPtr_library_smoke_Thermometer_throwingMake__Int_ListOf_smoke_TemperatureObserver(__lib.LibraryContext.isolateId, _idHandle, _observersHandle);
+    final __callResultHandle = __ffi_smoke_Thermometer_library_smoke_Thermometer_throwingMake__Int_ListOf_smoke_TemperatureObserver(__lib.LibraryContext.isolateId, _idHandle, _observersHandle);
 
     foobarListofSmokeTemperatureobserverReleaseFfiHandle(_observersHandle);
     if (_throwingMakesmokeThermometerThrowingmakeIntListofSmokeTemperatureobserverReturnHasError(__callResultHandle) != 0) {
@@ -380,7 +380,7 @@ class Thermometer$Impl extends __lib.NativeBase implements Thermometer {
   static Pointer<Void> _nothrowMake(String label, List<TemperatureObserver> niceObservers) {
     final _labelHandle = stringToFfi(label);
     final _niceObserversHandle = foobarListofSmokeTemperatureobserverToFfi(niceObservers);
-    final __resultHandle = __ffiPtr_library_smoke_Thermometer_nothrowMake__String_ListOf_smoke_TemperatureObserver(__lib.LibraryContext.isolateId, _labelHandle, _niceObserversHandle);
+    final __resultHandle = __ffi_smoke_Thermometer_library_smoke_Thermometer_nothrowMake__String_ListOf_smoke_TemperatureObserver(__lib.LibraryContext.isolateId, _labelHandle, _niceObserversHandle);
     stringReleaseFfiHandle(_labelHandle);
     foobarListofSmokeTemperatureobserverReleaseFfiHandle(_niceObserversHandle);
     return __resultHandle;
@@ -389,7 +389,7 @@ class Thermometer$Impl extends __lib.NativeBase implements Thermometer {
   static Pointer<Void> _anotherThrowingMake(bool dummy, List<TemperatureObserver> observers) {
     final _dummyHandle = booleanToFfi(dummy);
     final _observersHandle = foobarListofSmokeTemperatureobserverToFfi(observers);
-    final __callResultHandle = __ffiPtr_library_smoke_Thermometer_anotherThrowingMake__Boolean_ListOf_smoke_TemperatureObserver(__lib.LibraryContext.isolateId, _dummyHandle, _observersHandle);
+    final __callResultHandle = __ffi_smoke_Thermometer_library_smoke_Thermometer_anotherThrowingMake__Boolean_ListOf_smoke_TemperatureObserver(__lib.LibraryContext.isolateId, _dummyHandle, _observersHandle);
     booleanReleaseFfiHandle(_dummyHandle);
     foobarListofSmokeTemperatureobserverReleaseFfiHandle(_observersHandle);
     if (_anotherThrowingMakesmokeThermometerAnotherthrowingmakeBooleanListofSmokeTemperatureobserverReturnHasError(__callResultHandle) != 0) {
@@ -409,7 +409,7 @@ class Thermometer$Impl extends __lib.NativeBase implements Thermometer {
   void notifyObservers(Thermometer thermometer, List<TemperatureObserver> someObservers) {
     final _thermometerHandle = smokeThermometerToFfi(thermometer);
     final _someObserversHandle = foobarListofSmokeTemperatureobserverToFfi(someObservers);
-    __ffiPtr_library_smoke_Thermometer_notifyObservers__Thermometer_ListOf_smoke_TemperatureObserver(__lib.LibraryContext.isolateId, _thermometerHandle, _someObserversHandle);
+    __ffi_smoke_Thermometer_library_smoke_Thermometer_notifyObservers__Thermometer_ListOf_smoke_TemperatureObserver(__lib.LibraryContext.isolateId, _thermometerHandle, _someObserversHandle);
     smokeThermometerReleaseFfiHandle(_thermometerHandle);
     foobarListofSmokeTemperatureobserverReleaseFfiHandle(_someObserversHandle);
 
@@ -418,7 +418,7 @@ class Thermometer$Impl extends __lib.NativeBase implements Thermometer {
   void throwingNotifyObservers(Thermometer thermometer, List<TemperatureObserver> someObservers) {
     final _thermometerHandle = smokeThermometerToFfi(thermometer);
     final _someObserversHandle = foobarListofSmokeTemperatureobserverToFfi(someObservers);
-    final __callResultHandle = __ffiPtr_library_smoke_Thermometer_throwingNotifyObservers__Thermometer_ListOf_smoke_TemperatureObserver(__lib.LibraryContext.isolateId, _thermometerHandle, _someObserversHandle);
+    final __callResultHandle = __ffi_smoke_Thermometer_library_smoke_Thermometer_throwingNotifyObservers__Thermometer_ListOf_smoke_TemperatureObserver(__lib.LibraryContext.isolateId, _thermometerHandle, _someObserversHandle);
     smokeThermometerReleaseFfiHandle(_thermometerHandle);
     foobarListofSmokeTemperatureobserverReleaseFfiHandle(_someObserversHandle);
     if (_throwingNotifyObserverssmokeThermometerThrowingnotifyobserversThermometerListofSmokeTemperatureobserverReturnHasError(__callResultHandle) != 0) {
@@ -437,14 +437,14 @@ class Thermometer$Impl extends __lib.NativeBase implements Thermometer {
   @override
   void forceUpdate() {
     final _handle = this.handle;
-    __ffiPtr_library_smoke_Thermometer_forceUpdate(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_Thermometer_library_smoke_Thermometer_forceUpdate(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   @override
   double getCelsius() {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_Thermometer_getCelsius(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_Thermometer_library_smoke_Thermometer_getCelsius(_handle, __lib.LibraryContext.isolateId);
     try {
       return (__resultHandle);
     } finally {
@@ -457,7 +457,7 @@ class Thermometer$Impl extends __lib.NativeBase implements Thermometer {
   @override
   double getKelvin() {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_Thermometer_getKelvin(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_Thermometer_library_smoke_Thermometer_getKelvin(_handle, __lib.LibraryContext.isolateId);
     try {
       return (__resultHandle);
     } finally {
@@ -470,7 +470,7 @@ class Thermometer$Impl extends __lib.NativeBase implements Thermometer {
   @override
   double getFahrenheit() {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_Thermometer_getFahrenheit(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_Thermometer_library_smoke_Thermometer_getFahrenheit(_handle, __lib.LibraryContext.isolateId);
     try {
       return (__resultHandle);
     } finally {

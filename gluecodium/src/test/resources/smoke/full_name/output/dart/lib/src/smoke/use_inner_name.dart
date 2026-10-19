@@ -29,7 +29,7 @@ final _smokeUseinnernameReleaseHandle = __lib.catchArgumentError(() => __lib.nat
   >('library_smoke_UseInnerName_release_handle'));
 
 
-final __ffiPtr_library_smoke_UseInnerName_doFoo = __lib.catchArgumentError(() =>
+final __ffi_smoke_UseInnerName_library_smoke_UseInnerName_doFoo = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_UseInnerName_doFoo'));
 
 
@@ -42,7 +42,7 @@ class UseInnerName$Impl extends __lib.NativeBase implements UseInnerName {
   @override
   Futhark doFoo() {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_UseInnerName_doFoo(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_UseInnerName_library_smoke_UseInnerName_doFoo(_handle, __lib.LibraryContext.isolateId);
     try {
       return smokeOuternameInnernameFromFfi(__resultHandle);
     } finally {

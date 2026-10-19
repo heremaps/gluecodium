@@ -33,7 +33,7 @@ final _smokeSinglenamelessconstructorReleaseHandle = __lib.catchArgumentError(()
   >('library_smoke_SingleNamelessConstructor_release_handle'));
 
 
-final __ffiPtr_library_smoke_SingleNamelessConstructor_create = __lib.catchArgumentError(() =>
+final __ffi_smoke_SingleNamelessConstructor_library_smoke_SingleNamelessConstructor_create = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_SingleNamelessConstructor_create'));
 
 
@@ -58,7 +58,7 @@ class SingleNamelessConstructor$Impl extends __lib.NativeBase implements SingleN
   }
 
   static Pointer<Void> _create() {
-    final __resultHandle = __ffiPtr_library_smoke_SingleNamelessConstructor_create(__lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_SingleNamelessConstructor_library_smoke_SingleNamelessConstructor_create(__lib.LibraryContext.isolateId);
     return __resultHandle;
   }
 

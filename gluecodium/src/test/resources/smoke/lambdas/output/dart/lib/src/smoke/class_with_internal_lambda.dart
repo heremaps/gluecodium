@@ -39,7 +39,7 @@ final _smokeClasswithinternallambdaInternalnestedlambdaCreateProxy = __lib.catch
     Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_ClassWithInternalLambda_InternalNestedLambda_create_proxy'));
 
-final __ffiPtr_library_smoke_ClassWithInternalLambda_InternalNestedLambda_call__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_ClassWithInternalLambda_InternalNestedLambda_library_smoke_ClassWithInternalLambda_InternalNestedLambda_call__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ClassWithInternalLambda_InternalNestedLambda_call__String'));
 
 
@@ -50,7 +50,7 @@ class ClassWithInternalLambda_InternalNestedLambda$Impl implements Finalizable {
   bool call(String p0) {
     final _p0Handle = stringToFfi(p0);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_ClassWithInternalLambda_InternalNestedLambda_call__String(_handle, __lib.LibraryContext.isolateId, _p0Handle);
+    final __resultHandle = __ffi_smoke_ClassWithInternalLambda_InternalNestedLambda_library_smoke_ClassWithInternalLambda_InternalNestedLambda_call__String(_handle, __lib.LibraryContext.isolateId, _p0Handle);
     stringReleaseFfiHandle(_p0Handle);
     try {
       return booleanFromFfi(__resultHandle);
@@ -158,7 +158,7 @@ final _smokeClasswithinternallambdaReleaseHandle = __lib.catchArgumentError(() =
   >('library_smoke_ClassWithInternalLambda_release_handle'));
 
 
-final __ffiPtr_library_smoke_ClassWithInternalLambda_invokeInternalLambda__InternalNestedLambda_String = __lib.catchArgumentError(() =>
+final __ffi_smoke_ClassWithInternalLambda_library_smoke_ClassWithInternalLambda_invokeInternalLambda__InternalNestedLambda_String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Pointer<Void>, Pointer<Void>), int Function(int, Pointer<Void>, Pointer<Void>)>('library_smoke_ClassWithInternalLambda_invokeInternalLambda__InternalNestedLambda_String'));
 
 
@@ -173,7 +173,7 @@ class ClassWithInternalLambda$Impl extends __lib.NativeBase implements ClassWith
   bool invokeInternalLambda(ClassWithInternalLambda_InternalNestedLambda lambda, String value) {
     final _lambdaHandle = smokeClasswithinternallambdaInternalnestedlambdaToFfi(lambda);
     final _valueHandle = stringToFfi(value);
-    final __resultHandle = __ffiPtr_library_smoke_ClassWithInternalLambda_invokeInternalLambda__InternalNestedLambda_String(__lib.LibraryContext.isolateId, _lambdaHandle, _valueHandle);
+    final __resultHandle = __ffi_smoke_ClassWithInternalLambda_library_smoke_ClassWithInternalLambda_invokeInternalLambda__InternalNestedLambda_String(__lib.LibraryContext.isolateId, _lambdaHandle, _valueHandle);
     smokeClasswithinternallambdaInternalnestedlambdaReleaseFfiHandle(_lambdaHandle);
     stringReleaseFfiHandle(_valueHandle);
     try {

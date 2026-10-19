@@ -40,18 +40,18 @@ final _smokePlatformnamesinterfaceReleaseHandle = __lib.catchArgumentError(() =>
   >('library_smoke_PlatformNamesInterface_release_handle'));
 
 
-final __ffiPtr_library_smoke_PlatformNamesInterface_basicMethod__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_PlatformNamesInterface_library_smoke_PlatformNamesInterface_basicMethod__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PlatformNamesInterface_basicMethod__String'));
 
 
-final __ffiPtr_library_smoke_PlatformNamesInterface_create__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_PlatformNamesInterface_library_smoke_PlatformNamesInterface_create__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_PlatformNamesInterface_create__String'));
 
 
-final __ffiPtr_library_smoke_PlatformNamesInterface_basicProperty_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_PlatformNamesInterface_library_smoke_PlatformNamesInterface_basicProperty_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Uint32 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_PlatformNamesInterface_basicProperty_get'));
 
-final __ffiPtr_library_smoke_PlatformNamesInterface_basicProperty_set__UInt = __lib.catchArgumentError(() =>
+final __ffi_smoke_PlatformNamesInterface_library_smoke_PlatformNamesInterface_basicProperty_set__UInt = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint32), void Function(Pointer<Void>, int, int)>('library_smoke_PlatformNamesInterface_basicProperty_set__UInt'));
 
 
@@ -78,7 +78,7 @@ class weeInterface$Impl extends __lib.NativeBase implements weeInterface {
   weeTypes_weeStruct WeeMethod(String WeeParameter) {
     final _WeeParameterHandle = stringToFfi(WeeParameter);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_PlatformNamesInterface_basicMethod__String(_handle, __lib.LibraryContext.isolateId, _WeeParameterHandle);
+    final __resultHandle = __ffi_smoke_PlatformNamesInterface_library_smoke_PlatformNamesInterface_basicMethod__String(_handle, __lib.LibraryContext.isolateId, _WeeParameterHandle);
     stringReleaseFfiHandle(_WeeParameterHandle);
     try {
       return smokePlatformnamesBasicstructFromFfi(__resultHandle);
@@ -91,7 +91,7 @@ class weeInterface$Impl extends __lib.NativeBase implements weeInterface {
 
   static Pointer<Void> _make(String makeParameter) {
     final _makeParameterHandle = stringToFfi(makeParameter);
-    final __resultHandle = __ffiPtr_library_smoke_PlatformNamesInterface_create__String(__lib.LibraryContext.isolateId, _makeParameterHandle);
+    final __resultHandle = __ffi_smoke_PlatformNamesInterface_library_smoke_PlatformNamesInterface_create__String(__lib.LibraryContext.isolateId, _makeParameterHandle);
     stringReleaseFfiHandle(_makeParameterHandle);
     return __resultHandle;
   }
@@ -99,7 +99,7 @@ class weeInterface$Impl extends __lib.NativeBase implements weeInterface {
   @override
   int get WEE_PROPERTY {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_PlatformNamesInterface_basicProperty_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_PlatformNamesInterface_library_smoke_PlatformNamesInterface_basicProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return (__resultHandle);
     } finally {
@@ -113,7 +113,7 @@ class weeInterface$Impl extends __lib.NativeBase implements weeInterface {
   set WEE_PROPERTY(int value) {
     final _valueHandle = (value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_PlatformNamesInterface_basicProperty_set__UInt(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_PlatformNamesInterface_library_smoke_PlatformNamesInterface_basicProperty_set__UInt(_handle, __lib.LibraryContext.isolateId, _valueHandle);
 
 
   }

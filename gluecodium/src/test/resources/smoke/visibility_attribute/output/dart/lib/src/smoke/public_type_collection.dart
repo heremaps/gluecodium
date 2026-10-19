@@ -9,7 +9,7 @@ import 'package:meta/meta.dart';
 class PublicTypeCollection {
 }
 
-final __ffiPtr_library_smoke_PublicTypeCollection_InternalStruct_fooBar = __lib.catchArgumentError(() =>
+final __ffi_smoke_PublicTypeCollection_InternalStruct_library_smoke_PublicTypeCollection_InternalStruct_fooBar = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PublicTypeCollection_InternalStruct_fooBar'));
 
 
@@ -51,7 +51,7 @@ final _smokePublictypecollectionInternalstructGetFieldstringField = __lib.catchA
 class PublicTypeCollection_InternalStruct$Impl {
   void fooBar(PublicTypeCollection_InternalStruct $that) {
     final _handle = smokePublictypecollectionInternalstructToFfi($that);
-    __ffiPtr_library_smoke_PublicTypeCollection_InternalStruct_fooBar(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_PublicTypeCollection_InternalStruct_library_smoke_PublicTypeCollection_InternalStruct_fooBar(_handle, __lib.LibraryContext.isolateId);
     smokePublictypecollectionInternalstructReleaseFfiHandle(_handle);
 
   }

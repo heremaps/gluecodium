@@ -119,14 +119,14 @@ final _smokeLocalesReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLi
   >('library_smoke_Locales_release_handle'));
 
 
-final __ffiPtr_library_smoke_Locales_localeMethod__Locale = __lib.catchArgumentError(() =>
+final __ffi_smoke_Locales_library_smoke_Locales_localeMethod__Locale = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Locales_localeMethod__Locale'));
 
 
-final __ffiPtr_library_smoke_Locales_localeProperty_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_Locales_library_smoke_Locales_localeProperty_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Locales_localeProperty_get'));
 
-final __ffiPtr_library_smoke_Locales_localeProperty_set__Locale = __lib.catchArgumentError(() =>
+final __ffi_smoke_Locales_library_smoke_Locales_localeProperty_set__Locale = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Locales_localeProperty_set__Locale'));
 
 
@@ -139,7 +139,7 @@ class Locales$Impl extends __lib.NativeBase implements Locales {
   Locale localeMethod(Locale input) {
     final _inputHandle = localeToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_Locales_localeMethod__Locale(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_Locales_library_smoke_Locales_localeMethod__Locale(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     localeReleaseFfiHandle(_inputHandle);
     try {
       return localeFromFfi(__resultHandle);
@@ -153,7 +153,7 @@ class Locales$Impl extends __lib.NativeBase implements Locales {
   @override
   Locale get localeProperty {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_Locales_localeProperty_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_Locales_library_smoke_Locales_localeProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return localeFromFfi(__resultHandle);
     } finally {
@@ -167,7 +167,7 @@ class Locales$Impl extends __lib.NativeBase implements Locales {
   set localeProperty(Locale value) {
     final _valueHandle = localeToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_Locales_localeProperty_set__Locale(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_Locales_library_smoke_Locales_localeProperty_set__Locale(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     localeReleaseFfiHandle(_valueHandle);
 
   }

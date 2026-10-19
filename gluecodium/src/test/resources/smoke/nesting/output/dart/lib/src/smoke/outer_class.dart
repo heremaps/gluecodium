@@ -36,7 +36,7 @@ final _smokeOuterclassInnerclassReleaseHandle = __lib.catchArgumentError(() => _
   >('library_smoke_OuterClass_InnerClass_release_handle'));
 
 
-final __ffiPtr_library_smoke_OuterClass_InnerClass_foo__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_OuterClass_InnerClass_library_smoke_OuterClass_InnerClass_foo__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterClass_InnerClass_foo__String'));
 
 
@@ -50,7 +50,7 @@ class OuterClass_InnerClass$Impl extends __lib.NativeBase implements OuterClass_
   String foo(String input) {
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_OuterClass_InnerClass_foo__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_OuterClass_InnerClass_library_smoke_OuterClass_InnerClass_foo__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
     try {
       return stringFromFfi(__resultHandle);
@@ -130,7 +130,7 @@ final _smokeOuterclassInnerinterfaceGetTypeId = __lib.catchArgumentError(() => _
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_OuterClass_InnerInterface_get_type_id'));
 
-final __ffiPtr_library_smoke_OuterClass_InnerInterface_foo__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_OuterClass_InnerInterface_library_smoke_OuterClass_InnerInterface_foo__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterClass_InnerInterface_foo__String'));
 
 
@@ -155,7 +155,7 @@ class OuterClass_InnerInterface$Impl extends __lib.NativeBase implements OuterCl
   String foo(String input) {
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_OuterClass_InnerInterface_foo__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_OuterClass_InnerInterface_library_smoke_OuterClass_InnerInterface_foo__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
     try {
       return stringFromFfi(__resultHandle);
@@ -254,7 +254,7 @@ final _smokeOuterclassReleaseHandle = __lib.catchArgumentError(() => __lib.nativ
   >('library_smoke_OuterClass_release_handle'));
 
 
-final __ffiPtr_library_smoke_OuterClass_foo__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_OuterClass_library_smoke_OuterClass_foo__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterClass_foo__String'));
 
 
@@ -268,7 +268,7 @@ class OuterClass$Impl extends __lib.NativeBase implements OuterClass {
   String foo(String input) {
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_OuterClass_foo__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_OuterClass_library_smoke_OuterClass_foo__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
     try {
       return stringFromFfi(__resultHandle);

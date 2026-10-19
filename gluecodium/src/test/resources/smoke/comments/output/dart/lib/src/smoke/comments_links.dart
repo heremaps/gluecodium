@@ -164,7 +164,7 @@ final _smokeCommentslinksReleaseHandle = __lib.catchArgumentError(() => __lib.na
   >('library_smoke_CommentsLinks_release_handle'));
 
 
-final __ffiPtr_library_smoke_CommentsLinks_randomMethod__SomeEnum = __lib.catchArgumentError(() =>
+final __ffi_smoke_CommentsLinks_library_smoke_CommentsLinks_randomMethod__SomeEnum = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Uint32), Pointer<Void> Function(Pointer<Void>, int, int)>('library_smoke_CommentsLinks_randomMethod__SomeEnum'));
 
 final _randomMethodsmokeCommentslinksRandommethodSomeenumReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -185,7 +185,7 @@ final _randomMethodsmokeCommentslinksRandommethodSomeenumReturnHasError = __lib.
   >('library_smoke_CommentsLinks_randomMethod__SomeEnum_return_has_error'));
 
 
-final __ffiPtr_library_smoke_CommentsLinks_randomMethod__String_Boolean = __lib.catchArgumentError(() =>
+final __ffi_smoke_CommentsLinks_library_smoke_CommentsLinks_randomMethod__String_Boolean = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>, Uint8), void Function(Pointer<Void>, int, Pointer<Void>, int)>('library_smoke_CommentsLinks_randomMethod__String_Boolean'));
 
 
@@ -199,7 +199,7 @@ class CommentsLinks$Impl extends __lib.NativeBase implements CommentsLinks {
   Comments_SomeEnum randomMethod(Comments_SomeEnum inputParameter) {
     final _inputParameterHandle = smokeCommentsSomeenumToFfi(inputParameter);
     final _handle = this.handle;
-    final __callResultHandle = __ffiPtr_library_smoke_CommentsLinks_randomMethod__SomeEnum(_handle, __lib.LibraryContext.isolateId, _inputParameterHandle);
+    final __callResultHandle = __ffi_smoke_CommentsLinks_library_smoke_CommentsLinks_randomMethod__SomeEnum(_handle, __lib.LibraryContext.isolateId, _inputParameterHandle);
     smokeCommentsSomeenumReleaseFfiHandle(_inputParameterHandle);
     if (_randomMethodsmokeCommentslinksRandommethodSomeenumReturnHasError(__callResultHandle) != 0) {
         final __errorHandle = _randomMethodsmokeCommentslinksRandommethodSomeenumReturnGetError(__callResultHandle);
@@ -226,7 +226,7 @@ class CommentsLinks$Impl extends __lib.NativeBase implements CommentsLinks {
     final _textHandle = stringToFfi(text);
     final _flagHandle = booleanToFfi(flag);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_CommentsLinks_randomMethod__String_Boolean(_handle, __lib.LibraryContext.isolateId, _textHandle, _flagHandle);
+    __ffi_smoke_CommentsLinks_library_smoke_CommentsLinks_randomMethod__String_Boolean(_handle, __lib.LibraryContext.isolateId, _textHandle, _flagHandle);
     stringReleaseFfiHandle(_textHandle);
     booleanReleaseFfiHandle(_flagHandle);
 

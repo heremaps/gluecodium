@@ -29,7 +29,7 @@ final _smokeSkipenableparametersReleaseHandle = __lib.catchArgumentError(() => _
   >('library_smoke_SkipEnableParameters_release_handle'));
 
 
-final __ffiPtr_library_smoke_SkipEnableParameters_doSomething__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_SkipEnableParameters_library_smoke_SkipEnableParameters_doSomething__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_SkipEnableParameters_doSomething__String'));
 
 
@@ -43,7 +43,7 @@ class SkipEnableParameters$Impl extends __lib.NativeBase implements SkipEnablePa
   void doSomething(String input) {
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_SkipEnableParameters_doSomething__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    __ffi_smoke_SkipEnableParameters_library_smoke_SkipEnableParameters_doSomething__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
 
   }

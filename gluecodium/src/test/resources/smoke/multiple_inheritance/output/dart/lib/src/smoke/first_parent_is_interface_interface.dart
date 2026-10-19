@@ -67,35 +67,35 @@ final _smokeFirstparentisinterfaceinterfaceGetTypeId = __lib.catchArgumentError(
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_FirstParentIsInterfaceInterface_get_type_id'));
 
-final __ffiPtr_library_smoke_FirstParentIsInterfaceInterface_childFunction = __lib.catchArgumentError(() =>
+final __ffi_smoke_FirstParentIsInterfaceInterface_library_smoke_FirstParentIsInterfaceInterface_childFunction = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_FirstParentIsInterfaceInterface_childFunction'));
 
 
-final __ffiPtr_library_smoke_ParentInterface_parentFunction = __lib.catchArgumentError(() =>
+final __ffi_smoke_FirstParentIsInterfaceInterface_library_smoke_ParentInterface_parentFunction = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentInterface_parentFunction'));
 
-final __ffiPtr_library_smoke_ParentInterface_someFunctionThatUsesTypeFromAnotherPackage__SomeCoolClassType = __lib.catchArgumentError(() =>
+final __ffi_smoke_FirstParentIsInterfaceInterface_library_smoke_ParentInterface_someFunctionThatUsesTypeFromAnotherPackage__SomeCoolClassType = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ParentInterface_someFunctionThatUsesTypeFromAnotherPackage__SomeCoolClassType'));
 
-final __ffiPtr_library_smoke_ParentNarrowOne_parentFunctionOne = __lib.catchArgumentError(() =>
+final __ffi_smoke_FirstParentIsInterfaceInterface_library_smoke_ParentNarrowOne_parentFunctionOne = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentNarrowOne_parentFunctionOne'));
 
-final __ffiPtr_library_smoke_FirstParentIsInterfaceInterface_childProperty_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_FirstParentIsInterfaceInterface_library_smoke_FirstParentIsInterfaceInterface_childProperty_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_FirstParentIsInterfaceInterface_childProperty_get'));
 
-final __ffiPtr_library_smoke_FirstParentIsInterfaceInterface_childProperty_set__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_FirstParentIsInterfaceInterface_library_smoke_FirstParentIsInterfaceInterface_childProperty_set__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_FirstParentIsInterfaceInterface_childProperty_set__String'));
 
-final __ffiPtr_library_smoke_ParentInterface_parentProperty_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_FirstParentIsInterfaceInterface_library_smoke_ParentInterface_parentProperty_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ParentInterface_parentProperty_get'));
 
-final __ffiPtr_library_smoke_ParentInterface_parentProperty_set__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_FirstParentIsInterfaceInterface_library_smoke_ParentInterface_parentProperty_set__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ParentInterface_parentProperty_set__String'));
 
-final __ffiPtr_library_smoke_ParentNarrowOne_parentPropertyOne_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_FirstParentIsInterfaceInterface_library_smoke_ParentNarrowOne_parentPropertyOne_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ParentNarrowOne_parentPropertyOne_get'));
 
-final __ffiPtr_library_smoke_ParentNarrowOne_parentPropertyOne_set__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_FirstParentIsInterfaceInterface_library_smoke_ParentNarrowOne_parentPropertyOne_set__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ParentNarrowOne_parentPropertyOne_set__String'));
 
 class FirstParentIsInterfaceInterface$Lambdas implements FirstParentIsInterfaceInterface {
@@ -156,7 +156,7 @@ class FirstParentIsInterfaceInterface$Impl extends __lib.NativeBase implements F
   @override
   void parentFunction() {
     final _handle = this.handle;
-    __ffiPtr_library_smoke_ParentInterface_parentFunction(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_FirstParentIsInterfaceInterface_library_smoke_ParentInterface_parentFunction(_handle, __lib.LibraryContext.isolateId);
 
   }
 
@@ -164,7 +164,7 @@ class FirstParentIsInterfaceInterface$Impl extends __lib.NativeBase implements F
   void someFunctionThatUsesTypeFromAnotherPackage(SomeCoolClassType someParam) {
     final _someParamHandle = anotherSomecoolclasstypeToFfi(someParam);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_ParentInterface_someFunctionThatUsesTypeFromAnotherPackage__SomeCoolClassType(_handle, __lib.LibraryContext.isolateId, _someParamHandle);
+    __ffi_smoke_FirstParentIsInterfaceInterface_library_smoke_ParentInterface_someFunctionThatUsesTypeFromAnotherPackage__SomeCoolClassType(_handle, __lib.LibraryContext.isolateId, _someParamHandle);
     anotherSomecoolclasstypeReleaseFfiHandle(_someParamHandle);
 
   }
@@ -172,20 +172,20 @@ class FirstParentIsInterfaceInterface$Impl extends __lib.NativeBase implements F
   @override
   void parentFunctionOne() {
     final _handle = this.handle;
-    __ffiPtr_library_smoke_ParentNarrowOne_parentFunctionOne(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_FirstParentIsInterfaceInterface_library_smoke_ParentNarrowOne_parentFunctionOne(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   @override
   void childFunction() {
     final _handle = this.handle;
-    __ffiPtr_library_smoke_FirstParentIsInterfaceInterface_childFunction(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_FirstParentIsInterfaceInterface_library_smoke_FirstParentIsInterfaceInterface_childFunction(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   String get parentProperty {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_ParentInterface_parentProperty_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_FirstParentIsInterfaceInterface_library_smoke_ParentInterface_parentProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {
@@ -199,7 +199,7 @@ class FirstParentIsInterfaceInterface$Impl extends __lib.NativeBase implements F
   set parentProperty(String value) {
     final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_ParentInterface_parentProperty_set__String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_FirstParentIsInterfaceInterface_library_smoke_ParentInterface_parentProperty_set__String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
 
   }
@@ -207,7 +207,7 @@ class FirstParentIsInterfaceInterface$Impl extends __lib.NativeBase implements F
 
   String get parentPropertyOne {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_ParentNarrowOne_parentPropertyOne_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_FirstParentIsInterfaceInterface_library_smoke_ParentNarrowOne_parentPropertyOne_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {
@@ -221,7 +221,7 @@ class FirstParentIsInterfaceInterface$Impl extends __lib.NativeBase implements F
   set parentPropertyOne(String value) {
     final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_ParentNarrowOne_parentPropertyOne_set__String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_FirstParentIsInterfaceInterface_library_smoke_ParentNarrowOne_parentPropertyOne_set__String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
 
   }
@@ -229,7 +229,7 @@ class FirstParentIsInterfaceInterface$Impl extends __lib.NativeBase implements F
 
   String get childProperty {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_FirstParentIsInterfaceInterface_childProperty_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_FirstParentIsInterfaceInterface_library_smoke_FirstParentIsInterfaceInterface_childProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {
@@ -243,7 +243,7 @@ class FirstParentIsInterfaceInterface$Impl extends __lib.NativeBase implements F
   set childProperty(String value) {
     final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_FirstParentIsInterfaceInterface_childProperty_set__String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_FirstParentIsInterfaceInterface_library_smoke_FirstParentIsInterfaceInterface_childProperty_set__String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
 
   }

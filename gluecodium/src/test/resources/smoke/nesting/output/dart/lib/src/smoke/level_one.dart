@@ -80,7 +80,7 @@ void smokeLeveloneLeveltwoLevelthreeLevelfourenumReleaseFfiHandleNullable(Pointe
   _smokeLeveloneLeveltwoLevelthreeLevelfourenumReleaseHandleNullable(handle);
 
 // End of LevelOne_LevelTwo_LevelThree_LevelFourEnum "private" section.
-final __ffiPtr_library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fooFactory = __lib.catchArgumentError(() =>
+final __ffi_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fooFactory = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fooFactory'));
 
 
@@ -121,7 +121,7 @@ final _smokeLeveloneLeveltwoLevelthreeLevelfourGetFieldstringField = __lib.catch
 @visibleForTesting
 class LevelOne_LevelTwo_LevelThree_LevelFour$Impl {
   LevelOne_LevelTwo_LevelThree_LevelFour fooFactory() {
-    final __resultHandle = __ffiPtr_library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fooFactory(__lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_library_smoke_LevelOne_LevelTwo_LevelThree_LevelFour_fooFactory(__lib.LibraryContext.isolateId);
     try {
       return smokeLeveloneLeveltwoLevelthreeLevelfourFromFfi(__resultHandle);
     } finally {
@@ -205,7 +205,7 @@ final _smokeLeveloneLeveltwoLevelthreeReleaseHandle = __lib.catchArgumentError((
   >('library_smoke_LevelOne_LevelTwo_LevelThree_release_handle'));
 
 
-final __ffiPtr_library_smoke_LevelOne_LevelTwo_LevelThree_foo__InnerInterface = __lib.catchArgumentError(() =>
+final __ffi_smoke_LevelOne_LevelTwo_LevelThree_library_smoke_LevelOne_LevelTwo_LevelThree_foo__InnerInterface = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_LevelOne_LevelTwo_LevelThree_foo__InnerInterface'));
 
 
@@ -219,7 +219,7 @@ class LevelOne_LevelTwo_LevelThree$Impl extends __lib.NativeBase implements Leve
   OuterInterface_InnerClass foo(OuterClass_InnerInterface input) {
     final _inputHandle = smokeOuterclassInnerinterfaceToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_LevelOne_LevelTwo_LevelThree_foo__InnerInterface(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_LevelOne_LevelTwo_LevelThree_library_smoke_LevelOne_LevelTwo_LevelThree_foo__InnerInterface(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     smokeOuterclassInnerinterfaceReleaseFfiHandle(_inputHandle);
     try {
       return smokeOuterinterfaceInnerclassFromFfi(__resultHandle);

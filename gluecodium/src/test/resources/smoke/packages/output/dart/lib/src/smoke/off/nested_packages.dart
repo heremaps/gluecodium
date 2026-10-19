@@ -114,7 +114,7 @@ final _smokeOffNestedpackagesReleaseHandle = __lib.catchArgumentError(() => __li
   >('library_smoke_off_NestedPackages_release_handle'));
 
 
-final __ffiPtr_library_smoke_off_NestedPackages_basicMethod__SomeStruct = __lib.catchArgumentError(() =>
+final __ffi_smoke_off_NestedPackages_library_smoke_off_NestedPackages_basicMethod__SomeStruct = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_off_NestedPackages_basicMethod__SomeStruct'));
 
 
@@ -128,7 +128,7 @@ class NestedPackages$Impl extends __lib.NativeBase implements NestedPackages {
 
   NestedPackages_SomeStruct basicMethod(NestedPackages_SomeStruct input) {
     final _inputHandle = smokeOffNestedpackagesSomestructToFfi(input);
-    final __resultHandle = __ffiPtr_library_smoke_off_NestedPackages_basicMethod__SomeStruct(__lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_off_NestedPackages_library_smoke_off_NestedPackages_basicMethod__SomeStruct(__lib.LibraryContext.isolateId, _inputHandle);
     smokeOffNestedpackagesSomestructReleaseFfiHandle(_inputHandle);
     try {
       return smokeOffNestedpackagesSomestructFromFfi(__resultHandle);

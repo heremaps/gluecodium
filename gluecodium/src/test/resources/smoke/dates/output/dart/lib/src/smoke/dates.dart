@@ -134,24 +134,24 @@ final _smokeDatesReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibr
   >('library_smoke_Dates_release_handle'));
 
 
-final __ffiPtr_library_smoke_Dates_dateMethod__Date = __lib.catchArgumentError(() =>
+final __ffi_smoke_Dates_library_smoke_Dates_dateMethod__Date = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32, Uint64), int Function(Pointer<Void>, int, int)>('library_smoke_Dates_dateMethod__Date'));
 
 
-final __ffiPtr_library_smoke_Dates_nullableDateMethod__Date_ = __lib.catchArgumentError(() =>
+final __ffi_smoke_Dates_library_smoke_Dates_nullableDateMethod__Date_ = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Dates_nullableDateMethod__Date_'));
 
 
-final __ffiPtr_library_smoke_Dates_dateProperty_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_Dates_library_smoke_Dates_dateProperty_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_Dates_dateProperty_get'));
 
-final __ffiPtr_library_smoke_Dates_dateProperty_set__Date = __lib.catchArgumentError(() =>
+final __ffi_smoke_Dates_library_smoke_Dates_dateProperty_set__Date = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint64), void Function(Pointer<Void>, int, int)>('library_smoke_Dates_dateProperty_set__Date'));
 
-final __ffiPtr_library_smoke_Dates_dateSet_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_Dates_library_smoke_Dates_dateSet_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Dates_dateSet_get'));
 
-final __ffiPtr_library_smoke_Dates_dateSet_set__SetOf_Date = __lib.catchArgumentError(() =>
+final __ffi_smoke_Dates_library_smoke_Dates_dateSet_set__SetOf_Date = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Dates_dateSet_set__SetOf_Date'));
 
 
@@ -164,7 +164,7 @@ class Dates$Impl extends __lib.NativeBase implements Dates {
   DateTime dateMethod(DateTime input) {
     final _inputHandle = dateToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_Dates_dateMethod__Date(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_Dates_library_smoke_Dates_dateMethod__Date(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     dateReleaseFfiHandle(_inputHandle);
     try {
       return dateFromFfi(__resultHandle);
@@ -179,7 +179,7 @@ class Dates$Impl extends __lib.NativeBase implements Dates {
   DateTime? nullableDateMethod(DateTime? input) {
     final _inputHandle = dateToFfiNullable(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_Dates_nullableDateMethod__Date_(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_Dates_library_smoke_Dates_nullableDateMethod__Date_(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     dateReleaseFfiHandleNullable(_inputHandle);
     try {
       return dateFromFfiNullable(__resultHandle);
@@ -193,7 +193,7 @@ class Dates$Impl extends __lib.NativeBase implements Dates {
   @override
   DateTime get dateProperty {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_Dates_dateProperty_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_Dates_library_smoke_Dates_dateProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return dateFromFfi(__resultHandle);
     } finally {
@@ -207,7 +207,7 @@ class Dates$Impl extends __lib.NativeBase implements Dates {
   set dateProperty(DateTime value) {
     final _valueHandle = dateToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_Dates_dateProperty_set__Date(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_Dates_library_smoke_Dates_dateProperty_set__Date(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     dateReleaseFfiHandle(_valueHandle);
 
   }
@@ -216,7 +216,7 @@ class Dates$Impl extends __lib.NativeBase implements Dates {
   @override
   Set<DateTime> get dateSet {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_Dates_dateSet_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_Dates_library_smoke_Dates_dateSet_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return foobarSetofDateFromFfi(__resultHandle);
     } finally {
@@ -230,7 +230,7 @@ class Dates$Impl extends __lib.NativeBase implements Dates {
   set dateSet(Set<DateTime> value) {
     final _valueHandle = foobarSetofDateToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_Dates_dateSet_set__SetOf_Date(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_Dates_library_smoke_Dates_dateSet_set__SetOf_Date(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     foobarSetofDateReleaseFfiHandle(_valueHandle);
 
   }

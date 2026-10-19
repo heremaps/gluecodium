@@ -168,11 +168,11 @@ final _smokeExternalclassReleaseHandle = __lib.catchArgumentError(() => __lib.na
   >('library_smoke_ExternalClass_release_handle'));
 
 
-final __ffiPtr_library_smoke_ExternalClass_someMethod__Byte = __lib.catchArgumentError(() =>
+final __ffi_smoke_ExternalClass_library_smoke_ExternalClass_someMethod__Byte = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Int8), void Function(Pointer<Void>, int, int)>('library_smoke_ExternalClass_someMethod__Byte'));
 
 
-final __ffiPtr_library_smoke_ExternalClass_someProperty_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_ExternalClass_library_smoke_ExternalClass_someProperty_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ExternalClass_someProperty_get'));
 
 
@@ -185,7 +185,7 @@ class ExternalClass$Impl extends __lib.NativeBase implements ExternalClass {
   void someMethod(int someParameter) {
     final _someParameterHandle = (someParameter);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_ExternalClass_someMethod__Byte(_handle, __lib.LibraryContext.isolateId, _someParameterHandle);
+    __ffi_smoke_ExternalClass_library_smoke_ExternalClass_someMethod__Byte(_handle, __lib.LibraryContext.isolateId, _someParameterHandle);
 
 
   }
@@ -193,7 +193,7 @@ class ExternalClass$Impl extends __lib.NativeBase implements ExternalClass {
   @override
   String get someProperty {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_ExternalClass_someProperty_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_ExternalClass_library_smoke_ExternalClass_someProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {

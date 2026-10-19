@@ -41,31 +41,31 @@ final _smokeGenerictypeswithgenerictypesReleaseHandle = __lib.catchArgumentError
   >('library_smoke_GenericTypesWithGenericTypes_release_handle'));
 
 
-final __ffiPtr_library_smoke_GenericTypesWithGenericTypes_methodWithListOfLists__ListOf_foobar_ListOf_Int = __lib.catchArgumentError(() =>
+final __ffi_smoke_GenericTypesWithGenericTypes_library_smoke_GenericTypesWithGenericTypes_methodWithListOfLists__ListOf_foobar_ListOf_Int = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithListOfLists__ListOf_foobar_ListOf_Int'));
 
 
-final __ffiPtr_library_smoke_GenericTypesWithGenericTypes_methodWithMapOfMaps__MapOf_Int_to_foobar_MapOf_Int_to_Boolean = __lib.catchArgumentError(() =>
+final __ffi_smoke_GenericTypesWithGenericTypes_library_smoke_GenericTypesWithGenericTypes_methodWithMapOfMaps__MapOf_Int_to_foobar_MapOf_Int_to_Boolean = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithMapOfMaps__MapOf_Int_to_foobar_MapOf_Int_to_Boolean'));
 
 
-final __ffiPtr_library_smoke_GenericTypesWithGenericTypes_methodWithSetOfSets__SetOf_foobar_SetOf_Int = __lib.catchArgumentError(() =>
+final __ffi_smoke_GenericTypesWithGenericTypes_library_smoke_GenericTypesWithGenericTypes_methodWithSetOfSets__SetOf_foobar_SetOf_Int = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithSetOfSets__SetOf_foobar_SetOf_Int'));
 
 
-final __ffiPtr_library_smoke_GenericTypesWithGenericTypes_methodWithListAndMap__ListOf_foobar_MapOf_Int_to_Boolean = __lib.catchArgumentError(() =>
+final __ffi_smoke_GenericTypesWithGenericTypes_library_smoke_GenericTypesWithGenericTypes_methodWithListAndMap__ListOf_foobar_MapOf_Int_to_Boolean = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithListAndMap__ListOf_foobar_MapOf_Int_to_Boolean'));
 
 
-final __ffiPtr_library_smoke_GenericTypesWithGenericTypes_methodWithListAndSet__ListOf_foobar_SetOf_Int = __lib.catchArgumentError(() =>
+final __ffi_smoke_GenericTypesWithGenericTypes_library_smoke_GenericTypesWithGenericTypes_methodWithListAndSet__ListOf_foobar_SetOf_Int = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithListAndSet__ListOf_foobar_SetOf_Int'));
 
 
-final __ffiPtr_library_smoke_GenericTypesWithGenericTypes_methodWithMapAndSet__MapOf_Int_to_foobar_SetOf_Int = __lib.catchArgumentError(() =>
+final __ffi_smoke_GenericTypesWithGenericTypes_library_smoke_GenericTypesWithGenericTypes_methodWithMapAndSet__MapOf_Int_to_foobar_SetOf_Int = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithMapAndSet__MapOf_Int_to_foobar_SetOf_Int'));
 
 
-final __ffiPtr_library_smoke_GenericTypesWithGenericTypes_methodWithMapGenericKeys__MapOf_foobar_SetOf_Int_to_Boolean = __lib.catchArgumentError(() =>
+final __ffi_smoke_GenericTypesWithGenericTypes_library_smoke_GenericTypesWithGenericTypes_methodWithMapGenericKeys__MapOf_foobar_SetOf_Int_to_Boolean = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_GenericTypesWithGenericTypes_methodWithMapGenericKeys__MapOf_foobar_SetOf_Int_to_Boolean'));
 
 
@@ -79,7 +79,7 @@ class GenericTypesWithGenericTypes$Impl extends __lib.NativeBase implements Gene
   List<List<int>> methodWithListOfLists(List<List<int>> input) {
     final _inputHandle = foobarListofFoobarListofIntToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_GenericTypesWithGenericTypes_methodWithListOfLists__ListOf_foobar_ListOf_Int(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_GenericTypesWithGenericTypes_library_smoke_GenericTypesWithGenericTypes_methodWithListOfLists__ListOf_foobar_ListOf_Int(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     foobarListofFoobarListofIntReleaseFfiHandle(_inputHandle);
     try {
       return foobarListofFoobarListofIntFromFfi(__resultHandle);
@@ -94,7 +94,7 @@ class GenericTypesWithGenericTypes$Impl extends __lib.NativeBase implements Gene
   Map<Map<int, bool>, bool> methodWithMapOfMaps(Map<int, Map<int, bool>> input) {
     final _inputHandle = foobarMapofIntToFoobarMapofIntToBooleanToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_GenericTypesWithGenericTypes_methodWithMapOfMaps__MapOf_Int_to_foobar_MapOf_Int_to_Boolean(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_GenericTypesWithGenericTypes_library_smoke_GenericTypesWithGenericTypes_methodWithMapOfMaps__MapOf_Int_to_foobar_MapOf_Int_to_Boolean(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     foobarMapofIntToFoobarMapofIntToBooleanReleaseFfiHandle(_inputHandle);
     try {
       return foobarMapofFoobarMapofIntToBooleanToBooleanFromFfi(__resultHandle);
@@ -109,7 +109,7 @@ class GenericTypesWithGenericTypes$Impl extends __lib.NativeBase implements Gene
   Set<Set<int>> methodWithSetOfSets(Set<Set<int>> input) {
     final _inputHandle = foobarSetofFoobarSetofIntToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_GenericTypesWithGenericTypes_methodWithSetOfSets__SetOf_foobar_SetOf_Int(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_GenericTypesWithGenericTypes_library_smoke_GenericTypesWithGenericTypes_methodWithSetOfSets__SetOf_foobar_SetOf_Int(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     foobarSetofFoobarSetofIntReleaseFfiHandle(_inputHandle);
     try {
       return foobarSetofFoobarSetofIntFromFfi(__resultHandle);
@@ -124,7 +124,7 @@ class GenericTypesWithGenericTypes$Impl extends __lib.NativeBase implements Gene
   Map<int, List<int>> methodWithListAndMap(List<Map<int, bool>> input) {
     final _inputHandle = foobarListofFoobarMapofIntToBooleanToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_GenericTypesWithGenericTypes_methodWithListAndMap__ListOf_foobar_MapOf_Int_to_Boolean(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_GenericTypesWithGenericTypes_library_smoke_GenericTypesWithGenericTypes_methodWithListAndMap__ListOf_foobar_MapOf_Int_to_Boolean(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     foobarListofFoobarMapofIntToBooleanReleaseFfiHandle(_inputHandle);
     try {
       return foobarMapofIntToFoobarListofIntFromFfi(__resultHandle);
@@ -139,7 +139,7 @@ class GenericTypesWithGenericTypes$Impl extends __lib.NativeBase implements Gene
   Set<List<int>> methodWithListAndSet(List<Set<int>> input) {
     final _inputHandle = foobarListofFoobarSetofIntToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_GenericTypesWithGenericTypes_methodWithListAndSet__ListOf_foobar_SetOf_Int(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_GenericTypesWithGenericTypes_library_smoke_GenericTypesWithGenericTypes_methodWithListAndSet__ListOf_foobar_SetOf_Int(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     foobarListofFoobarSetofIntReleaseFfiHandle(_inputHandle);
     try {
       return foobarSetofFoobarListofIntFromFfi(__resultHandle);
@@ -154,7 +154,7 @@ class GenericTypesWithGenericTypes$Impl extends __lib.NativeBase implements Gene
   Set<Map<int, bool>> methodWithMapAndSet(Map<int, Set<int>> input) {
     final _inputHandle = foobarMapofIntToFoobarSetofIntToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_GenericTypesWithGenericTypes_methodWithMapAndSet__MapOf_Int_to_foobar_SetOf_Int(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_GenericTypesWithGenericTypes_library_smoke_GenericTypesWithGenericTypes_methodWithMapAndSet__MapOf_Int_to_foobar_SetOf_Int(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     foobarMapofIntToFoobarSetofIntReleaseFfiHandle(_inputHandle);
     try {
       return foobarSetofFoobarMapofIntToBooleanFromFfi(__resultHandle);
@@ -169,7 +169,7 @@ class GenericTypesWithGenericTypes$Impl extends __lib.NativeBase implements Gene
   Map<List<int>, bool> methodWithMapGenericKeys(Map<Set<int>, bool> input) {
     final _inputHandle = foobarMapofFoobarSetofIntToBooleanToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_GenericTypesWithGenericTypes_methodWithMapGenericKeys__MapOf_foobar_SetOf_Int_to_Boolean(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_GenericTypesWithGenericTypes_library_smoke_GenericTypesWithGenericTypes_methodWithMapGenericKeys__MapOf_foobar_SetOf_Int_to_Boolean(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     foobarMapofFoobarSetofIntToBooleanReleaseFfiHandle(_inputHandle);
     try {
       return foobarMapofFoobarListofIntToBooleanFromFfi(__resultHandle);

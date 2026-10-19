@@ -194,15 +194,15 @@ final _smokePlatformcommentsReleaseHandle = __lib.catchArgumentError(() => __lib
   >('library_smoke_PlatformComments_release_handle'));
 
 
-final __ffiPtr_library_smoke_PlatformComments_doNothing = __lib.catchArgumentError(() =>
+final __ffi_smoke_PlatformComments_library_smoke_PlatformComments_doNothing = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PlatformComments_doNothing'));
 
 
-final __ffiPtr_library_smoke_PlatformComments_doMagic = __lib.catchArgumentError(() =>
+final __ffi_smoke_PlatformComments_library_smoke_PlatformComments_doMagic = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PlatformComments_doMagic'));
 
 
-final __ffiPtr_library_smoke_PlatformComments_someMethodWithAllComments__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_PlatformComments_library_smoke_PlatformComments_someMethodWithAllComments__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_PlatformComments_someMethodWithAllComments__String'));
 
 final _someMethodWithAllCommentssmokePlatformcommentsSomemethodwithallcommentsStringReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -223,7 +223,7 @@ final _someMethodWithAllCommentssmokePlatformcommentsSomemethodwithallcommentsSt
   >('library_smoke_PlatformComments_someMethodWithAllComments__String_return_has_error'));
 
 
-final __ffiPtr_library_smoke_PlatformComments_someDeprecatedMethod = __lib.catchArgumentError(() =>
+final __ffi_smoke_PlatformComments_library_smoke_PlatformComments_someDeprecatedMethod = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_PlatformComments_someDeprecatedMethod'));
 
 
@@ -236,14 +236,14 @@ class PlatformComments$Impl extends __lib.NativeBase implements PlatformComments
   @override
   void doNothing() {
     final _handle = this.handle;
-    __ffiPtr_library_smoke_PlatformComments_doNothing(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_PlatformComments_library_smoke_PlatformComments_doNothing(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   @override
   void doMagic() {
     final _handle = this.handle;
-    __ffiPtr_library_smoke_PlatformComments_doMagic(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_PlatformComments_library_smoke_PlatformComments_doMagic(_handle, __lib.LibraryContext.isolateId);
 
   }
 
@@ -251,7 +251,7 @@ class PlatformComments$Impl extends __lib.NativeBase implements PlatformComments
   bool someMethodWithAllComments(String input) {
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
-    final __callResultHandle = __ffiPtr_library_smoke_PlatformComments_someMethodWithAllComments__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __callResultHandle = __ffi_smoke_PlatformComments_library_smoke_PlatformComments_someMethodWithAllComments__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
     if (_someMethodWithAllCommentssmokePlatformcommentsSomemethodwithallcommentsStringReturnHasError(__callResultHandle) != 0) {
         final __errorHandle = _someMethodWithAllCommentssmokePlatformcommentsSomemethodwithallcommentsStringReturnGetError(__callResultHandle);
@@ -276,7 +276,7 @@ class PlatformComments$Impl extends __lib.NativeBase implements PlatformComments
   @override
   void someDeprecatedMethod() {
     final _handle = this.handle;
-    __ffiPtr_library_smoke_PlatformComments_someDeprecatedMethod(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_PlatformComments_library_smoke_PlatformComments_someDeprecatedMethod(_handle, __lib.LibraryContext.isolateId);
 
   }
 

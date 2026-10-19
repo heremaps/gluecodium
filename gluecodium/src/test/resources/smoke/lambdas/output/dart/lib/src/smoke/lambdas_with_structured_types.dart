@@ -36,7 +36,7 @@ final _smokeLambdaswithstructuredtypesClasscallbackCreateProxy = __lib.catchArgu
     Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_LambdasWithStructuredTypes_ClassCallback_create_proxy'));
 
-final __ffiPtr_library_smoke_LambdasWithStructuredTypes_ClassCallback_call__LambdasInterface = __lib.catchArgumentError(() =>
+final __ffi_smoke_LambdasWithStructuredTypes_ClassCallback_library_smoke_LambdasWithStructuredTypes_ClassCallback_call__LambdasInterface = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_LambdasWithStructuredTypes_ClassCallback_call__LambdasInterface'));
 
 
@@ -47,7 +47,7 @@ class LambdasWithStructuredTypes_ClassCallback$Impl implements Finalizable {
   void call(LambdasInterface p0) {
     final _p0Handle = smokeLambdasinterfaceToFfi(p0);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_LambdasWithStructuredTypes_ClassCallback_call__LambdasInterface(_handle, __lib.LibraryContext.isolateId, _p0Handle);
+    __ffi_smoke_LambdasWithStructuredTypes_ClassCallback_library_smoke_LambdasWithStructuredTypes_ClassCallback_call__LambdasInterface(_handle, __lib.LibraryContext.isolateId, _p0Handle);
     smokeLambdasinterfaceReleaseFfiHandle(_p0Handle);
 
   }
@@ -152,7 +152,7 @@ final _smokeLambdaswithstructuredtypesStructcallbackCreateProxy = __lib.catchArg
     Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_LambdasWithStructuredTypes_StructCallback_create_proxy'));
 
-final __ffiPtr_library_smoke_LambdasWithStructuredTypes_StructCallback_call__SomeStruct = __lib.catchArgumentError(() =>
+final __ffi_smoke_LambdasWithStructuredTypes_StructCallback_library_smoke_LambdasWithStructuredTypes_StructCallback_call__SomeStruct = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_LambdasWithStructuredTypes_StructCallback_call__SomeStruct'));
 
 
@@ -163,7 +163,7 @@ class LambdasWithStructuredTypes_StructCallback$Impl implements Finalizable {
   void call(LambdasDeclarationOrder_SomeStruct p0) {
     final _p0Handle = smokeLambdasdeclarationorderSomestructToFfi(p0);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_LambdasWithStructuredTypes_StructCallback_call__SomeStruct(_handle, __lib.LibraryContext.isolateId, _p0Handle);
+    __ffi_smoke_LambdasWithStructuredTypes_StructCallback_library_smoke_LambdasWithStructuredTypes_StructCallback_call__SomeStruct(_handle, __lib.LibraryContext.isolateId, _p0Handle);
     smokeLambdasdeclarationorderSomestructReleaseFfiHandle(_p0Handle);
 
   }
@@ -264,11 +264,11 @@ final _smokeLambdaswithstructuredtypesReleaseHandle = __lib.catchArgumentError((
   >('library_smoke_LambdasWithStructuredTypes_release_handle'));
 
 
-final __ffiPtr_library_smoke_LambdasWithStructuredTypes_doClassStuff__ClassCallback = __lib.catchArgumentError(() =>
+final __ffi_smoke_LambdasWithStructuredTypes_library_smoke_LambdasWithStructuredTypes_doClassStuff__ClassCallback = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_LambdasWithStructuredTypes_doClassStuff__ClassCallback'));
 
 
-final __ffiPtr_library_smoke_LambdasWithStructuredTypes_doStructStuff__StructCallback = __lib.catchArgumentError(() =>
+final __ffi_smoke_LambdasWithStructuredTypes_library_smoke_LambdasWithStructuredTypes_doStructStuff__StructCallback = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_LambdasWithStructuredTypes_doStructStuff__StructCallback'));
 
 
@@ -282,7 +282,7 @@ class LambdasWithStructuredTypes$Impl extends __lib.NativeBase implements Lambda
   void doClassStuff(LambdasWithStructuredTypes_ClassCallback callback) {
     final _callbackHandle = smokeLambdaswithstructuredtypesClasscallbackToFfi(callback);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_LambdasWithStructuredTypes_doClassStuff__ClassCallback(_handle, __lib.LibraryContext.isolateId, _callbackHandle);
+    __ffi_smoke_LambdasWithStructuredTypes_library_smoke_LambdasWithStructuredTypes_doClassStuff__ClassCallback(_handle, __lib.LibraryContext.isolateId, _callbackHandle);
     smokeLambdaswithstructuredtypesClasscallbackReleaseFfiHandle(_callbackHandle);
 
   }
@@ -291,7 +291,7 @@ class LambdasWithStructuredTypes$Impl extends __lib.NativeBase implements Lambda
   void doStructStuff(LambdasWithStructuredTypes_StructCallback callback) {
     final _callbackHandle = smokeLambdaswithstructuredtypesStructcallbackToFfi(callback);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_LambdasWithStructuredTypes_doStructStuff__StructCallback(_handle, __lib.LibraryContext.isolateId, _callbackHandle);
+    __ffi_smoke_LambdasWithStructuredTypes_library_smoke_LambdasWithStructuredTypes_doStructStuff__StructCallback(_handle, __lib.LibraryContext.isolateId, _callbackHandle);
     smokeLambdaswithstructuredtypesStructcallbackReleaseFfiHandle(_callbackHandle);
 
   }

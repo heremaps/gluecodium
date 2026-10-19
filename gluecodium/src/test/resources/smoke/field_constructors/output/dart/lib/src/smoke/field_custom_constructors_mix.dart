@@ -5,7 +5,7 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 
-final __ffiPtr_library_smoke_FieldCustomConstructorsMix_createMe__Int_Double = __lib.catchArgumentError(() =>
+final __ffi_smoke_FieldCustomConstructorsMix_library_smoke_FieldCustomConstructorsMix_createMe__Int_Double = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Int32, Double), Pointer<Void> Function(int, int, double)>('library_smoke_FieldCustomConstructorsMix_createMe__Int_Double'));
 
 
@@ -60,7 +60,7 @@ class FieldCustomConstructorsMix$Impl {
   FieldCustomConstructorsMix $init(int intValue, double dummy) {
     final _intValueHandle = (intValue);
     final _dummyHandle = (dummy);
-    final __resultHandle = __ffiPtr_library_smoke_FieldCustomConstructorsMix_createMe__Int_Double(__lib.LibraryContext.isolateId, _intValueHandle, _dummyHandle);
+    final __resultHandle = __ffi_smoke_FieldCustomConstructorsMix_library_smoke_FieldCustomConstructorsMix_createMe__Int_Double(__lib.LibraryContext.isolateId, _intValueHandle, _dummyHandle);
 
 
     try {

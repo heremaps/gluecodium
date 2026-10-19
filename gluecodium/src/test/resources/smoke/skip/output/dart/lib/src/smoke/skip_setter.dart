@@ -43,7 +43,7 @@ final _smokeSkipsetterGetTypeId = __lib.catchArgumentError(() => __lib.nativeLib
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_SkipSetter_get_type_id'));
 
-final __ffiPtr_library_smoke_SkipSetter_foo_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_SkipSetter_library_smoke_SkipSetter_foo_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_SkipSetter_foo_get'));
 
 class SkipSetter$Lambdas implements SkipSetter {
@@ -63,7 +63,7 @@ class SkipSetter$Impl extends __lib.NativeBase implements SkipSetter {
 
   String get foo {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_SkipSetter_foo_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_SkipSetter_library_smoke_SkipSetter_foo_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {

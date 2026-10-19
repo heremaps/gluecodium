@@ -57,14 +57,14 @@ final _smokeAttributesinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_AttributesInterface_get_type_id'));
 
-final __ffiPtr_library_smoke_AttributesInterface_veryFun__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_AttributesInterface_library_smoke_AttributesInterface_veryFun__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesInterface_veryFun__String'));
 
 
-final __ffiPtr_library_smoke_AttributesInterface_prop_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_AttributesInterface_library_smoke_AttributesInterface_prop_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_AttributesInterface_prop_get'));
 
-final __ffiPtr_library_smoke_AttributesInterface_prop_set__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_AttributesInterface_library_smoke_AttributesInterface_prop_set__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesInterface_prop_set__String'));
 
 class AttributesInterface$Lambdas implements AttributesInterface {
@@ -95,7 +95,7 @@ class AttributesInterface$Impl extends __lib.NativeBase implements AttributesInt
   void veryFun(@OnParameterInInterface String param) {
     final _paramHandle = stringToFfi(param);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_AttributesInterface_veryFun__String(_handle, __lib.LibraryContext.isolateId, _paramHandle);
+    __ffi_smoke_AttributesInterface_library_smoke_AttributesInterface_veryFun__String(_handle, __lib.LibraryContext.isolateId, _paramHandle);
     stringReleaseFfiHandle(_paramHandle);
 
   }
@@ -103,7 +103,7 @@ class AttributesInterface$Impl extends __lib.NativeBase implements AttributesInt
   @OnPropertyInInterface
   String get prop {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_AttributesInterface_prop_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_AttributesInterface_library_smoke_AttributesInterface_prop_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {
@@ -118,7 +118,7 @@ class AttributesInterface$Impl extends __lib.NativeBase implements AttributesInt
   set prop(String value) {
     final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_AttributesInterface_prop_set__String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_AttributesInterface_library_smoke_AttributesInterface_prop_set__String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
 
   }

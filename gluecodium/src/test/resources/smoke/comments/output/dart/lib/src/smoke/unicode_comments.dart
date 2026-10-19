@@ -37,7 +37,7 @@ final _smokeUnicodecommentsReleaseHandle = __lib.catchArgumentError(() => __lib.
   >('library_smoke_UnicodeComments_release_handle'));
 
 
-final __ffiPtr_library_smoke_UnicodeComments_someMethodWithAllComments__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_UnicodeComments_library_smoke_UnicodeComments_someMethodWithAllComments__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_UnicodeComments_someMethodWithAllComments__String'));
 
 final _someMethodWithAllCommentssmokeUnicodecommentsSomemethodwithallcommentsStringReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -68,7 +68,7 @@ class UnicodeComments$Impl extends __lib.NativeBase implements UnicodeComments {
   Comments_Usefulness someMethodWithAllComments(String input) {
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
-    final __callResultHandle = __ffiPtr_library_smoke_UnicodeComments_someMethodWithAllComments__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __callResultHandle = __ffi_smoke_UnicodeComments_library_smoke_UnicodeComments_someMethodWithAllComments__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
     if (_someMethodWithAllCommentssmokeUnicodecommentsSomemethodwithallcommentsStringReturnHasError(__callResultHandle) != 0) {
         final __errorHandle = _someMethodWithAllCommentssmokeUnicodecommentsSomemethodwithallcommentsStringReturnGetError(__callResultHandle);

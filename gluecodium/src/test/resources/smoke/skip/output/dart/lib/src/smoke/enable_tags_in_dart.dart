@@ -49,11 +49,11 @@ final _smokeEnabletagsindartGetTypeId = __lib.catchArgumentError(() => __lib.nat
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_EnableTagsInDart_get_type_id'));
 
-final __ffiPtr_library_smoke_EnableTagsInDart_enableTagged = __lib.catchArgumentError(() =>
+final __ffi_smoke_EnableTagsInDart_library_smoke_EnableTagsInDart_enableTagged = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_EnableTagsInDart_enableTagged'));
 
 
-final __ffiPtr_library_smoke_EnableTagsInDart_enableTaggedList = __lib.catchArgumentError(() =>
+final __ffi_smoke_EnableTagsInDart_library_smoke_EnableTagsInDart_enableTaggedList = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_EnableTagsInDart_enableTaggedList'));
 
 
@@ -82,14 +82,14 @@ class EnableTagsInDart$Impl extends __lib.NativeBase implements EnableTagsInDart
   @override
   void enableTagged() {
     final _handle = this.handle;
-    __ffiPtr_library_smoke_EnableTagsInDart_enableTagged(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_EnableTagsInDart_library_smoke_EnableTagsInDart_enableTagged(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   @override
   void enableTaggedList() {
     final _handle = this.handle;
-    __ffiPtr_library_smoke_EnableTagsInDart_enableTaggedList(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_EnableTagsInDart_library_smoke_EnableTagsInDart_enableTaggedList(_handle, __lib.LibraryContext.isolateId);
 
   }
 

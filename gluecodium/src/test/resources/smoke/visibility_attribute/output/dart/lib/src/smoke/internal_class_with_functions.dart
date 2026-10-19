@@ -39,15 +39,15 @@ final _smokeInternalclasswithfunctionsReleaseHandle = __lib.catchArgumentError((
   >('library_smoke_InternalClassWithFunctions_release_handle'));
 
 
-final __ffiPtr_library_smoke_InternalClassWithFunctions_fooBar = __lib.catchArgumentError(() =>
+final __ffi_smoke_InternalClassWithFunctions_library_smoke_InternalClassWithFunctions_fooBar = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClassWithFunctions_fooBar'));
 
 
-final __ffiPtr_library_smoke_InternalClassWithFunctions_make = __lib.catchArgumentError(() =>
+final __ffi_smoke_InternalClassWithFunctions_library_smoke_InternalClassWithFunctions_make = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_InternalClassWithFunctions_make'));
 
 
-final __ffiPtr_library_smoke_InternalClassWithFunctions_make__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_InternalClassWithFunctions_library_smoke_InternalClassWithFunctions_make__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_InternalClassWithFunctions_make__String'));
 
 
@@ -86,18 +86,18 @@ class InternalClassWithFunctions$Impl extends __lib.NativeBase implements Intern
   @override
   void fooBar() {
     final _handle = this.handle;
-    __ffiPtr_library_smoke_InternalClassWithFunctions_fooBar(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_InternalClassWithFunctions_library_smoke_InternalClassWithFunctions_fooBar(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   static Pointer<Void> _make() {
-    final __resultHandle = __ffiPtr_library_smoke_InternalClassWithFunctions_make(__lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_InternalClassWithFunctions_library_smoke_InternalClassWithFunctions_make(__lib.LibraryContext.isolateId);
     return __resultHandle;
   }
 
   static Pointer<Void> _remake(String foo) {
     final _fooHandle = stringToFfi(foo);
-    final __resultHandle = __ffiPtr_library_smoke_InternalClassWithFunctions_make__String(__lib.LibraryContext.isolateId, _fooHandle);
+    final __resultHandle = __ffi_smoke_InternalClassWithFunctions_library_smoke_InternalClassWithFunctions_make__String(__lib.LibraryContext.isolateId, _fooHandle);
     stringReleaseFfiHandle(_fooHandle);
     return __resultHandle;
   }

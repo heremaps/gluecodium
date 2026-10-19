@@ -37,14 +37,14 @@ final _smokeParentclassGetTypeId = __lib.catchArgumentError(() => __lib.nativeLi
   >('library_smoke_ParentClass_get_type_id'));
 
 
-final __ffiPtr_library_smoke_ParentClass_rootMethod = __lib.catchArgumentError(() =>
+final __ffi_smoke_ParentClass_library_smoke_ParentClass_rootMethod = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentClass_rootMethod'));
 
 
-final __ffiPtr_library_smoke_ParentClass_rootProperty_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_ParentClass_library_smoke_ParentClass_rootProperty_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ParentClass_rootProperty_get'));
 
-final __ffiPtr_library_smoke_ParentClass_rootProperty_set__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_ParentClass_library_smoke_ParentClass_rootProperty_set__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ParentClass_rootProperty_set__String'));
 
 
@@ -56,14 +56,14 @@ class ParentClass$Impl extends __lib.NativeBase implements ParentClass {
   @override
   void rootMethod() {
     final _handle = this.handle;
-    __ffiPtr_library_smoke_ParentClass_rootMethod(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_ParentClass_library_smoke_ParentClass_rootMethod(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   @override
   String get rootProperty {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_ParentClass_rootProperty_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_ParentClass_library_smoke_ParentClass_rootProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {
@@ -77,7 +77,7 @@ class ParentClass$Impl extends __lib.NativeBase implements ParentClass {
   set rootProperty(String value) {
     final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_ParentClass_rootProperty_set__String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_ParentClass_library_smoke_ParentClass_rootProperty_set__String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
 
   }

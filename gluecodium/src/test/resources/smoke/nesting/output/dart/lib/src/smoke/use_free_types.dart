@@ -33,7 +33,7 @@ final _smokeUsefreetypesReleaseHandle = __lib.catchArgumentError(() => __lib.nat
   >('library_smoke_UseFreeTypes_release_handle'));
 
 
-final __ffiPtr_library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum = __lib.catchArgumentError(() =>
+final __ffi_smoke_UseFreeTypes_library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>, Uint32), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>, int)>('library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum'));
 
 final _doStuffsmokeUsefreetypesDostuffFreepointFreeenumReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -65,7 +65,7 @@ class UseFreeTypes$Impl extends __lib.NativeBase implements UseFreeTypes {
     final _pointHandle = smokeFreepointToFfi(point);
     final _modeHandle = smokeFreeenumToFfi(mode);
     final _handle = this.handle;
-    final __callResultHandle = __ffiPtr_library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum(_handle, __lib.LibraryContext.isolateId, _pointHandle, _modeHandle);
+    final __callResultHandle = __ffi_smoke_UseFreeTypes_library_smoke_UseFreeTypes_doStuff__FreePoint_FreeEnum(_handle, __lib.LibraryContext.isolateId, _pointHandle, _modeHandle);
     smokeFreepointReleaseFfiHandle(_pointHandle);
     smokeFreeenumReleaseFfiHandle(_modeHandle);
     if (_doStuffsmokeUsefreetypesDostuffFreepointFreeenumReturnHasError(__callResultHandle) != 0) {

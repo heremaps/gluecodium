@@ -34,11 +34,11 @@ final _smokeNocacheclassReleaseHandle = __lib.catchArgumentError(() => __lib.nat
   >('library_smoke_NoCacheClass_release_handle'));
 
 
-final __ffiPtr_library_smoke_NoCacheClass_make = __lib.catchArgumentError(() =>
+final __ffi_smoke_NoCacheClass_library_smoke_NoCacheClass_make = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_NoCacheClass_make'));
 
 
-final __ffiPtr_library_smoke_NoCacheClass_foo = __lib.catchArgumentError(() =>
+final __ffi_smoke_NoCacheClass_library_smoke_NoCacheClass_foo = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_NoCacheClass_foo'));
 
 
@@ -61,14 +61,14 @@ class NoCacheClass$Impl extends __lib.NativeBase implements NoCacheClass {
   }
 
   static Pointer<Void> _make() {
-    final __resultHandle = __ffiPtr_library_smoke_NoCacheClass_make(__lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_NoCacheClass_library_smoke_NoCacheClass_make(__lib.LibraryContext.isolateId);
     return __resultHandle;
   }
 
   @override
   void foo() {
     final _handle = this.handle;
-    __ffiPtr_library_smoke_NoCacheClass_foo(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_NoCacheClass_library_smoke_NoCacheClass_foo(_handle, __lib.LibraryContext.isolateId);
 
   }
 

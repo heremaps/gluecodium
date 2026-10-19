@@ -113,7 +113,7 @@ final _smokeExternalclassInternaloneReleaseHandle = __lib.catchArgumentError(() 
   >('library_smoke_ExternalClass_InternalOne_release_handle'));
 
 
-final __ffiPtr_library_smoke_ExternalClass_InternalOne_create = __lib.catchArgumentError(() =>
+final __ffi_smoke_ExternalClass_InternalOne_library_smoke_ExternalClass_InternalOne_create = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_ExternalClass_InternalOne_create'));
 
 final _$initsmokeExternalclassInternaloneCreateReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -134,7 +134,7 @@ final _$initsmokeExternalclassInternaloneCreateReturnHasError = __lib.catchArgum
   >('library_smoke_ExternalClass_InternalOne_create_return_has_error'));
 
 
-final __ffiPtr_library_smoke_ExternalClass_InternalOne_create__ULong = __lib.catchArgumentError(() =>
+final __ffi_smoke_ExternalClass_InternalOne_library_smoke_ExternalClass_InternalOne_create__ULong = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Uint64), Pointer<Void> Function(int, int)>('library_smoke_ExternalClass_InternalOne_create__ULong'));
 
 final _WithParametersmokeExternalclassInternaloneCreateUlongReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -188,7 +188,7 @@ class ExternalClass_InternalOne$Impl extends __lib.NativeBase implements Externa
   }
 
   static Pointer<Void> _$init() {
-    final __callResultHandle = __ffiPtr_library_smoke_ExternalClass_InternalOne_create(__lib.LibraryContext.isolateId);
+    final __callResultHandle = __ffi_smoke_ExternalClass_InternalOne_library_smoke_ExternalClass_InternalOne_create(__lib.LibraryContext.isolateId);
     if (_$initsmokeExternalclassInternaloneCreateReturnHasError(__callResultHandle) != 0) {
         final __errorHandle = _$initsmokeExternalclassInternaloneCreateReturnGetError(__callResultHandle);
         _$initsmokeExternalclassInternaloneCreateReturnReleaseHandle(__callResultHandle);
@@ -205,7 +205,7 @@ class ExternalClass_InternalOne$Impl extends __lib.NativeBase implements Externa
 
   static Pointer<Void> _WithParameter(int value) {
     final _valueHandle = (value);
-    final __callResultHandle = __ffiPtr_library_smoke_ExternalClass_InternalOne_create__ULong(__lib.LibraryContext.isolateId, _valueHandle);
+    final __callResultHandle = __ffi_smoke_ExternalClass_InternalOne_library_smoke_ExternalClass_InternalOne_create__ULong(__lib.LibraryContext.isolateId, _valueHandle);
 
     if (_WithParametersmokeExternalclassInternaloneCreateUlongReturnHasError(__callResultHandle) != 0) {
         final __errorHandle = _WithParametersmokeExternalclassInternaloneCreateUlongReturnGetError(__callResultHandle);
@@ -279,7 +279,7 @@ final _smokeExternalclassInternaltwoReleaseHandle = __lib.catchArgumentError(() 
   >('library_smoke_ExternalClass_InternalTwo_release_handle'));
 
 
-final __ffiPtr_library_smoke_ExternalClass_InternalTwo_create = __lib.catchArgumentError(() =>
+final __ffi_smoke_ExternalClass_InternalTwo_library_smoke_ExternalClass_InternalTwo_create = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_ExternalClass_InternalTwo_create'));
 
 final _$initsmokeExternalclassInternaltwoCreateReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -321,7 +321,7 @@ class ExternalClass_InternalTwo$Impl extends __lib.NativeBase implements Externa
   }
 
   static Pointer<Void> _$init() {
-    final __callResultHandle = __ffiPtr_library_smoke_ExternalClass_InternalTwo_create(__lib.LibraryContext.isolateId);
+    final __callResultHandle = __ffi_smoke_ExternalClass_InternalTwo_library_smoke_ExternalClass_InternalTwo_create(__lib.LibraryContext.isolateId);
     if (_$initsmokeExternalclassInternaltwoCreateReturnHasError(__callResultHandle) != 0) {
         final __errorHandle = _$initsmokeExternalclassInternaltwoCreateReturnGetError(__callResultHandle);
         _$initsmokeExternalclassInternaltwoCreateReturnReleaseHandle(__callResultHandle);
@@ -388,7 +388,7 @@ final _smokeExternalclassGetTypeId = __lib.catchArgumentError(() => __lib.native
   >('library_smoke_ExternalClass_get_type_id'));
 
 
-final __ffiPtr_library_smoke_ExternalClass_create = __lib.catchArgumentError(() =>
+final __ffi_smoke_ExternalClass_library_smoke_ExternalClass_create = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_ExternalClass_create'));
 
 final _$initsmokeExternalclassCreateReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -430,7 +430,7 @@ class ExternalClass$Impl extends __lib.NativeBase implements ExternalClass {
   }
 
   static Pointer<Void> _$init() {
-    final __callResultHandle = __ffiPtr_library_smoke_ExternalClass_create(__lib.LibraryContext.isolateId);
+    final __callResultHandle = __ffi_smoke_ExternalClass_library_smoke_ExternalClass_create(__lib.LibraryContext.isolateId);
     if (_$initsmokeExternalclassCreateReturnHasError(__callResultHandle) != 0) {
         final __errorHandle = _$initsmokeExternalclassCreateReturnGetError(__callResultHandle);
         _$initsmokeExternalclassCreateReturnReleaseHandle(__callResultHandle);

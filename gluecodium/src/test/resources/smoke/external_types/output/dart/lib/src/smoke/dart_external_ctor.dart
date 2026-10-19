@@ -6,7 +6,7 @@ import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 import '../foo_converter.dart';
 
-final __ffiPtr_library_smoke_DartExternalCtor_make__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_DartExternalCtor_library_smoke_DartExternalCtor_make__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_DartExternalCtor_make__String'));
 
 
@@ -46,7 +46,7 @@ final _smokeDartexternalctorGetFieldfield = __lib.catchArgumentError(() => __lib
 class DartExternalCtor$Impl {
   DartExternalCtorInternal make(String field) {
     final _fieldHandle = stringToFfi(field);
-    final __resultHandle = __ffiPtr_library_smoke_DartExternalCtor_make__String(__lib.LibraryContext.isolateId, _fieldHandle);
+    final __resultHandle = __ffi_smoke_DartExternalCtor_library_smoke_DartExternalCtor_make__String(__lib.LibraryContext.isolateId, _fieldHandle);
     stringReleaseFfiHandle(_fieldHandle);
     try {
       return smokeDartexternalctorFromFfiInternal(__resultHandle);

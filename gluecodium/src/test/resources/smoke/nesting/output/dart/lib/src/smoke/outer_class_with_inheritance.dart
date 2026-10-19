@@ -38,7 +38,7 @@ final _smokeOuterclasswithinheritanceInnerclassReleaseHandle = __lib.catchArgume
   >('library_smoke_OuterClassWithInheritance_InnerClass_release_handle'));
 
 
-final __ffiPtr_library_smoke_OuterClassWithInheritance_InnerClass_bar__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_OuterClassWithInheritance_InnerClass_library_smoke_OuterClassWithInheritance_InnerClass_bar__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterClassWithInheritance_InnerClass_bar__String'));
 
 
@@ -52,7 +52,7 @@ class OuterClassWithInheritance_InnerClass$Impl extends __lib.NativeBase impleme
   String bar(String input) {
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_OuterClassWithInheritance_InnerClass_bar__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_OuterClassWithInheritance_InnerClass_library_smoke_OuterClassWithInheritance_InnerClass_bar__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
     try {
       return stringFromFfi(__resultHandle);
@@ -134,11 +134,11 @@ final _smokeOuterclasswithinheritanceInnerinterfaceGetTypeId = __lib.catchArgume
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_OuterClassWithInheritance_InnerInterface_get_type_id'));
 
-final __ffiPtr_library_smoke_OuterClassWithInheritance_InnerInterface_baz__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_OuterClassWithInheritance_InnerInterface_library_smoke_OuterClassWithInheritance_InnerInterface_baz__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterClassWithInheritance_InnerInterface_baz__String'));
 
 
-final __ffiPtr_library_smoke_OuterInterface_foo__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_OuterClassWithInheritance_InnerInterface_library_smoke_OuterInterface_foo__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterInterface_foo__String'));
 
 class OuterClassWithInheritance_InnerInterface$Lambdas implements OuterClassWithInheritance_InnerInterface {
@@ -167,7 +167,7 @@ class OuterClassWithInheritance_InnerInterface$Impl extends __lib.NativeBase imp
   String foo(String input) {
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_OuterInterface_foo__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_OuterClassWithInheritance_InnerInterface_library_smoke_OuterInterface_foo__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
     try {
       return stringFromFfi(__resultHandle);
@@ -182,7 +182,7 @@ class OuterClassWithInheritance_InnerInterface$Impl extends __lib.NativeBase imp
   String baz(String input) {
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_OuterClassWithInheritance_InnerInterface_baz__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_OuterClassWithInheritance_InnerInterface_library_smoke_OuterClassWithInheritance_InnerInterface_baz__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
     try {
       return stringFromFfi(__resultHandle);
@@ -319,11 +319,11 @@ final _smokeOuterclasswithinheritanceAnotherinnerinterfaceGetTypeId = __lib.catc
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_OuterClassWithInheritance_AnotherInnerInterface_get_type_id'));
 
-final __ffiPtr_library_smoke_OuterClassWithInheritance_AnotherInnerInterface_baz__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_OuterClassWithInheritance_AnotherInnerInterface_library_smoke_OuterClassWithInheritance_AnotherInnerInterface_baz__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterClassWithInheritance_AnotherInnerInterface_baz__String'));
 
 
-final __ffiPtr_library_smoke_OuterInterface_foo__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_OuterClassWithInheritance_AnotherInnerInterface_library_smoke_OuterInterface_foo__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterInterface_foo__String'));
 
 class OuterClassWithInheritance_AnotherInnerInterface$Lambdas implements OuterClassWithInheritance_AnotherInnerInterface {
@@ -352,7 +352,7 @@ class OuterClassWithInheritance_AnotherInnerInterface$Impl extends __lib.NativeB
   String foo(String input) {
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_OuterInterface_foo__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_OuterClassWithInheritance_AnotherInnerInterface_library_smoke_OuterInterface_foo__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
     try {
       return stringFromFfi(__resultHandle);
@@ -367,7 +367,7 @@ class OuterClassWithInheritance_AnotherInnerInterface$Impl extends __lib.NativeB
   String baz(String input) {
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_OuterClassWithInheritance_AnotherInnerInterface_baz__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_OuterClassWithInheritance_AnotherInnerInterface_library_smoke_OuterClassWithInheritance_AnotherInnerInterface_baz__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
     try {
       return stringFromFfi(__resultHandle);
@@ -485,7 +485,7 @@ final _smokeOuterclasswithinheritanceGetTypeId = __lib.catchArgumentError(() => 
   >('library_smoke_OuterClassWithInheritance_get_type_id'));
 
 
-final __ffiPtr_library_smoke_OuterClassWithInheritance_foo__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_OuterClassWithInheritance_library_smoke_OuterClassWithInheritance_foo__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterClassWithInheritance_foo__String'));
 
 
@@ -499,7 +499,7 @@ class OuterClassWithInheritance$Impl extends ParentClass$Impl implements OuterCl
   String foo(String input) {
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_OuterClassWithInheritance_foo__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_OuterClassWithInheritance_library_smoke_OuterClassWithInheritance_foo__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
     try {
       return stringFromFfi(__resultHandle);

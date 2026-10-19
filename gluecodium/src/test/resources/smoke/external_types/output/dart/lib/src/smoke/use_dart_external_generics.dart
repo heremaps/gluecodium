@@ -31,7 +31,7 @@ final _smokeUsedartexternalgenericsReleaseHandle = __lib.catchArgumentError(() =
   >('library_smoke_UseDartExternalGenerics_release_handle'));
 
 
-final __ffiPtr_library_smoke_UseDartExternalGenerics_useGenerics__ListOf_smoke_Rectangle_SetOf_smoke_CompressionState = __lib.catchArgumentError(() =>
+final __ffi_smoke_UseDartExternalGenerics_library_smoke_UseDartExternalGenerics_useGenerics__ListOf_smoke_Rectangle_SetOf_smoke_CompressionState = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>, Pointer<Void>)>('library_smoke_UseDartExternalGenerics_useGenerics__ListOf_smoke_Rectangle_SetOf_smoke_CompressionState'));
 
 
@@ -46,7 +46,7 @@ class UseDartExternalGenerics$Impl extends __lib.NativeBase implements UseDartEx
     final _listHandle = foobarListofSmokeRectangleToFfi(list);
     final _setHandle = foobarSetofSmokeCompressionstateToFfi(set);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_UseDartExternalGenerics_useGenerics__ListOf_smoke_Rectangle_SetOf_smoke_CompressionState(_handle, __lib.LibraryContext.isolateId, _listHandle, _setHandle);
+    final __resultHandle = __ffi_smoke_UseDartExternalGenerics_library_smoke_UseDartExternalGenerics_useGenerics__ListOf_smoke_Rectangle_SetOf_smoke_CompressionState(_handle, __lib.LibraryContext.isolateId, _listHandle, _setHandle);
     foobarListofSmokeRectangleReleaseFfiHandle(_listHandle);
     foobarSetofSmokeCompressionstateReleaseFfiHandle(_setHandle);
     try {

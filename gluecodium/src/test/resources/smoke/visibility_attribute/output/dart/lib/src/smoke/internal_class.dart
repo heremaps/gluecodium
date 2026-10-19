@@ -29,7 +29,7 @@ final _smokeInternalclassReleaseHandle = __lib.catchArgumentError(() => __lib.na
   >('library_smoke_InternalClass_release_handle'));
 
 
-final __ffiPtr_library_smoke_InternalClass_fooBar = __lib.catchArgumentError(() =>
+final __ffi_smoke_InternalClass_library_smoke_InternalClass_fooBar = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_InternalClass_fooBar'));
 
 
@@ -42,7 +42,7 @@ class InternalClass$Impl extends __lib.NativeBase implements InternalClass {
   @override
   void fooBar() {
     final _handle = this.handle;
-    __ffiPtr_library_smoke_InternalClass_fooBar(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_InternalClass_library_smoke_InternalClass_fooBar(_handle, __lib.LibraryContext.isolateId);
 
   }
 

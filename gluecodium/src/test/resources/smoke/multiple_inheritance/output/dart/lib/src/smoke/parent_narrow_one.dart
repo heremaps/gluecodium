@@ -50,14 +50,14 @@ final _smokeParentnarrowoneGetTypeId = __lib.catchArgumentError(() => __lib.nati
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ParentNarrowOne_get_type_id'));
 
-final __ffiPtr_library_smoke_ParentNarrowOne_parentFunctionOne = __lib.catchArgumentError(() =>
+final __ffi_smoke_ParentNarrowOne_library_smoke_ParentNarrowOne_parentFunctionOne = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ParentNarrowOne_parentFunctionOne'));
 
 
-final __ffiPtr_library_smoke_ParentNarrowOne_parentPropertyOne_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_ParentNarrowOne_library_smoke_ParentNarrowOne_parentPropertyOne_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ParentNarrowOne_parentPropertyOne_get'));
 
-final __ffiPtr_library_smoke_ParentNarrowOne_parentPropertyOne_set__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_ParentNarrowOne_library_smoke_ParentNarrowOne_parentPropertyOne_set__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ParentNarrowOne_parentPropertyOne_set__String'));
 
 class ParentNarrowOne$Lambdas implements ParentNarrowOne {
@@ -87,13 +87,13 @@ class ParentNarrowOne$Impl extends __lib.NativeBase implements ParentNarrowOne {
   @override
   void parentFunctionOne() {
     final _handle = this.handle;
-    __ffiPtr_library_smoke_ParentNarrowOne_parentFunctionOne(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_ParentNarrowOne_library_smoke_ParentNarrowOne_parentFunctionOne(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   String get parentPropertyOne {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_ParentNarrowOne_parentPropertyOne_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_ParentNarrowOne_library_smoke_ParentNarrowOne_parentPropertyOne_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {
@@ -107,7 +107,7 @@ class ParentNarrowOne$Impl extends __lib.NativeBase implements ParentNarrowOne {
   set parentPropertyOne(String value) {
     final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_ParentNarrowOne_parentPropertyOne_set__String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_ParentNarrowOne_library_smoke_ParentNarrowOne_parentPropertyOne_set__String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
 
   }

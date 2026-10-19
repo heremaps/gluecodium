@@ -5,7 +5,7 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/smoke/free_enum.dart';
 import 'package:meta/meta.dart';
 
-final __ffiPtr_library_smoke_FreePoint_flip = __lib.catchArgumentError(() =>
+final __ffi_smoke_FreePoint_library_smoke_FreePoint_flip = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_FreePoint_flip'));
 
 
@@ -53,7 +53,7 @@ final _smokeFreepointGetFieldy = __lib.catchArgumentError(() => __lib.nativeLibr
 class FreePoint$Impl {
   FreePoint flip(FreePoint $that) {
     final _handle = smokeFreepointToFfi($that);
-    final __resultHandle = __ffiPtr_library_smoke_FreePoint_flip(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_FreePoint_library_smoke_FreePoint_flip(_handle, __lib.LibraryContext.isolateId);
     smokeFreepointReleaseFfiHandle(_handle);
     try {
       return smokeFreepointFromFfi(__resultHandle);

@@ -205,58 +205,58 @@ final _smokePropertiesReleaseHandle = __lib.catchArgumentError(() => __lib.nativ
   >('library_smoke_Properties_release_handle'));
 
 
-final __ffiPtr_library_smoke_Properties_builtInTypeProperty_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_Properties_library_smoke_Properties_builtInTypeProperty_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Uint32 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_Properties_builtInTypeProperty_get'));
 
-final __ffiPtr_library_smoke_Properties_builtInTypeProperty_set__UInt = __lib.catchArgumentError(() =>
+final __ffi_smoke_Properties_library_smoke_Properties_builtInTypeProperty_set__UInt = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint32), void Function(Pointer<Void>, int, int)>('library_smoke_Properties_builtInTypeProperty_set__UInt'));
 
-final __ffiPtr_library_smoke_Properties_readonlyProperty_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_Properties_library_smoke_Properties_readonlyProperty_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Float Function(Pointer<Void>, Int32), double Function(Pointer<Void>, int)>('library_smoke_Properties_readonlyProperty_get'));
 
-final __ffiPtr_library_smoke_Properties_structProperty_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_Properties_library_smoke_Properties_structProperty_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Properties_structProperty_get'));
 
-final __ffiPtr_library_smoke_Properties_structProperty_set__ExampleStruct = __lib.catchArgumentError(() =>
+final __ffi_smoke_Properties_library_smoke_Properties_structProperty_set__ExampleStruct = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Properties_structProperty_set__ExampleStruct'));
 
-final __ffiPtr_library_smoke_Properties_arrayProperty_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_Properties_library_smoke_Properties_arrayProperty_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Properties_arrayProperty_get'));
 
-final __ffiPtr_library_smoke_Properties_arrayProperty_set__ListOf_String = __lib.catchArgumentError(() =>
+final __ffi_smoke_Properties_library_smoke_Properties_arrayProperty_set__ListOf_String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Properties_arrayProperty_set__ListOf_String'));
 
-final __ffiPtr_library_smoke_Properties_complexTypeProperty_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_Properties_library_smoke_Properties_complexTypeProperty_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Uint32 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_Properties_complexTypeProperty_get'));
 
-final __ffiPtr_library_smoke_Properties_complexTypeProperty_set__InternalErrorCode = __lib.catchArgumentError(() =>
+final __ffi_smoke_Properties_library_smoke_Properties_complexTypeProperty_set__InternalErrorCode = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint32), void Function(Pointer<Void>, int, int)>('library_smoke_Properties_complexTypeProperty_set__InternalErrorCode'));
 
-final __ffiPtr_library_smoke_Properties_byteBufferProperty_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_Properties_library_smoke_Properties_byteBufferProperty_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Properties_byteBufferProperty_get'));
 
-final __ffiPtr_library_smoke_Properties_byteBufferProperty_set__Blob = __lib.catchArgumentError(() =>
+final __ffi_smoke_Properties_library_smoke_Properties_byteBufferProperty_set__Blob = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Properties_byteBufferProperty_set__Blob'));
 
-final __ffiPtr_library_smoke_Properties_instanceProperty_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_Properties_library_smoke_Properties_instanceProperty_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_Properties_instanceProperty_get'));
 
-final __ffiPtr_library_smoke_Properties_instanceProperty_set__PropertiesInterface = __lib.catchArgumentError(() =>
+final __ffi_smoke_Properties_library_smoke_Properties_instanceProperty_set__PropertiesInterface = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_Properties_instanceProperty_set__PropertiesInterface'));
 
-final __ffiPtr_library_smoke_Properties_isBooleanProperty_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_Properties_library_smoke_Properties_isBooleanProperty_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_Properties_isBooleanProperty_get'));
 
-final __ffiPtr_library_smoke_Properties_isBooleanProperty_set__Boolean = __lib.catchArgumentError(() =>
+final __ffi_smoke_Properties_library_smoke_Properties_isBooleanProperty_set__Boolean = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_Properties_isBooleanProperty_set__Boolean'));
 
-final __ffiPtr_library_smoke_Properties_staticProperty_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_Properties_library_smoke_Properties_staticProperty_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Properties_staticProperty_get'));
 
-final __ffiPtr_library_smoke_Properties_staticProperty_set__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_Properties_library_smoke_Properties_staticProperty_set__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Int32, Pointer<Void>), void Function(int, Pointer<Void>)>('library_smoke_Properties_staticProperty_set__String'));
 
-final __ffiPtr_library_smoke_Properties_staticReadonlyProperty_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_Properties_library_smoke_Properties_staticReadonlyProperty_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Properties_staticReadonlyProperty_get'));
 
 
@@ -270,7 +270,7 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
   @override
   int get builtInTypeProperty {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_Properties_builtInTypeProperty_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_Properties_library_smoke_Properties_builtInTypeProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return (__resultHandle);
     } finally {
@@ -284,7 +284,7 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
   set builtInTypeProperty(int value) {
     final _valueHandle = (value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_Properties_builtInTypeProperty_set__UInt(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_Properties_library_smoke_Properties_builtInTypeProperty_set__UInt(_handle, __lib.LibraryContext.isolateId, _valueHandle);
 
 
   }
@@ -293,7 +293,7 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
   @override
   double get readonlyProperty {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_Properties_readonlyProperty_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_Properties_library_smoke_Properties_readonlyProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return (__resultHandle);
     } finally {
@@ -307,7 +307,7 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
   @override
   Properties_ExampleStruct get structProperty {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_Properties_structProperty_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_Properties_library_smoke_Properties_structProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return smokePropertiesExamplestructFromFfi(__resultHandle);
     } finally {
@@ -321,7 +321,7 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
   set structProperty(Properties_ExampleStruct value) {
     final _valueHandle = smokePropertiesExamplestructToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_Properties_structProperty_set__ExampleStruct(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_Properties_library_smoke_Properties_structProperty_set__ExampleStruct(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     smokePropertiesExamplestructReleaseFfiHandle(_valueHandle);
 
   }
@@ -330,7 +330,7 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
   @override
   List<String> get arrayProperty {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_Properties_arrayProperty_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_Properties_library_smoke_Properties_arrayProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return foobarListofStringFromFfi(__resultHandle);
     } finally {
@@ -344,7 +344,7 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
   set arrayProperty(List<String> value) {
     final _valueHandle = foobarListofStringToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_Properties_arrayProperty_set__ListOf_String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_Properties_library_smoke_Properties_arrayProperty_set__ListOf_String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     foobarListofStringReleaseFfiHandle(_valueHandle);
 
   }
@@ -353,7 +353,7 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
   @override
   Properties_InternalErrorCode get complexTypeProperty {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_Properties_complexTypeProperty_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_Properties_library_smoke_Properties_complexTypeProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return smokePropertiesInternalerrorcodeFromFfi(__resultHandle);
     } finally {
@@ -367,7 +367,7 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
   set complexTypeProperty(Properties_InternalErrorCode value) {
     final _valueHandle = smokePropertiesInternalerrorcodeToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_Properties_complexTypeProperty_set__InternalErrorCode(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_Properties_library_smoke_Properties_complexTypeProperty_set__InternalErrorCode(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     smokePropertiesInternalerrorcodeReleaseFfiHandle(_valueHandle);
 
   }
@@ -376,7 +376,7 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
   @override
   Uint8List get byteBufferProperty {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_Properties_byteBufferProperty_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_Properties_library_smoke_Properties_byteBufferProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return blobFromFfi(__resultHandle);
     } finally {
@@ -390,7 +390,7 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
   set byteBufferProperty(Uint8List value) {
     final _valueHandle = blobToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_Properties_byteBufferProperty_set__Blob(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_Properties_library_smoke_Properties_byteBufferProperty_set__Blob(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     blobReleaseFfiHandle(_valueHandle);
 
   }
@@ -399,7 +399,7 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
   @override
   PropertiesInterface get instanceProperty {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_Properties_instanceProperty_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_Properties_library_smoke_Properties_instanceProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return smokePropertiesinterfaceFromFfi(__resultHandle);
     } finally {
@@ -413,7 +413,7 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
   set instanceProperty(PropertiesInterface value) {
     final _valueHandle = smokePropertiesinterfaceToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_Properties_instanceProperty_set__PropertiesInterface(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_Properties_library_smoke_Properties_instanceProperty_set__PropertiesInterface(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     smokePropertiesinterfaceReleaseFfiHandle(_valueHandle);
 
   }
@@ -422,7 +422,7 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
   @override
   bool get isBooleanProperty {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_Properties_isBooleanProperty_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_Properties_library_smoke_Properties_isBooleanProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return booleanFromFfi(__resultHandle);
     } finally {
@@ -436,14 +436,14 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
   set isBooleanProperty(bool value) {
     final _valueHandle = booleanToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_Properties_isBooleanProperty_set__Boolean(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_Properties_library_smoke_Properties_isBooleanProperty_set__Boolean(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     booleanReleaseFfiHandle(_valueHandle);
 
   }
 
 
   String get staticProperty {
-    final __resultHandle = __ffiPtr_library_smoke_Properties_staticProperty_get(__lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_Properties_library_smoke_Properties_staticProperty_get(__lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {
@@ -455,14 +455,14 @@ class Properties$Impl extends __lib.NativeBase implements Properties {
 
   set staticProperty(String value) {
     final _valueHandle = stringToFfi(value);
-    __ffiPtr_library_smoke_Properties_staticProperty_set__String(__lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_Properties_library_smoke_Properties_staticProperty_set__String(__lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
 
   }
 
 
   Properties_ExampleStruct get staticReadonlyProperty {
-    final __resultHandle = __ffiPtr_library_smoke_Properties_staticReadonlyProperty_get(__lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_Properties_library_smoke_Properties_staticReadonlyProperty_get(__lib.LibraryContext.isolateId);
     try {
       return smokePropertiesExamplestructFromFfi(__resultHandle);
     } finally {

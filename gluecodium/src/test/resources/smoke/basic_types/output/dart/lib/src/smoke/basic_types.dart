@@ -56,51 +56,51 @@ final _smokeBasictypesReleaseHandle = __lib.catchArgumentError(() => __lib.nativ
   >('library_smoke_BasicTypes_release_handle'));
 
 
-final __ffiPtr_library_smoke_BasicTypes_stringFunction__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_BasicTypes_library_smoke_BasicTypes_stringFunction__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_BasicTypes_stringFunction__String'));
 
 
-final __ffiPtr_library_smoke_BasicTypes_boolFunction__Boolean = __lib.catchArgumentError(() =>
+final __ffi_smoke_BasicTypes_library_smoke_BasicTypes_boolFunction__Boolean = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Uint8), int Function(int, int)>('library_smoke_BasicTypes_boolFunction__Boolean'));
 
 
-final __ffiPtr_library_smoke_BasicTypes_floatFunction__Float = __lib.catchArgumentError(() =>
+final __ffi_smoke_BasicTypes_library_smoke_BasicTypes_floatFunction__Float = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Float Function(Int32, Float), double Function(int, double)>('library_smoke_BasicTypes_floatFunction__Float'));
 
 
-final __ffiPtr_library_smoke_BasicTypes_doubleFunction__Double = __lib.catchArgumentError(() =>
+final __ffi_smoke_BasicTypes_library_smoke_BasicTypes_doubleFunction__Double = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Double Function(Int32, Double), double Function(int, double)>('library_smoke_BasicTypes_doubleFunction__Double'));
 
 
-final __ffiPtr_library_smoke_BasicTypes_byteFunction__Byte = __lib.catchArgumentError(() =>
+final __ffi_smoke_BasicTypes_library_smoke_BasicTypes_byteFunction__Byte = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Int8 Function(Int32, Int8), int Function(int, int)>('library_smoke_BasicTypes_byteFunction__Byte'));
 
 
-final __ffiPtr_library_smoke_BasicTypes_shortFunction__Short = __lib.catchArgumentError(() =>
+final __ffi_smoke_BasicTypes_library_smoke_BasicTypes_shortFunction__Short = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Int16 Function(Int32, Int16), int Function(int, int)>('library_smoke_BasicTypes_shortFunction__Short'));
 
 
-final __ffiPtr_library_smoke_BasicTypes_intFunction__Int = __lib.catchArgumentError(() =>
+final __ffi_smoke_BasicTypes_library_smoke_BasicTypes_intFunction__Int = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Int32 Function(Int32, Int32), int Function(int, int)>('library_smoke_BasicTypes_intFunction__Int'));
 
 
-final __ffiPtr_library_smoke_BasicTypes_longFunction__Long = __lib.catchArgumentError(() =>
+final __ffi_smoke_BasicTypes_library_smoke_BasicTypes_longFunction__Long = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Int64 Function(Int32, Int64), int Function(int, int)>('library_smoke_BasicTypes_longFunction__Long'));
 
 
-final __ffiPtr_library_smoke_BasicTypes_ubyteFunction__UByte = __lib.catchArgumentError(() =>
+final __ffi_smoke_BasicTypes_library_smoke_BasicTypes_ubyteFunction__UByte = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Uint8), int Function(int, int)>('library_smoke_BasicTypes_ubyteFunction__UByte'));
 
 
-final __ffiPtr_library_smoke_BasicTypes_ushortFunction__UShort = __lib.catchArgumentError(() =>
+final __ffi_smoke_BasicTypes_library_smoke_BasicTypes_ushortFunction__UShort = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Uint16 Function(Int32, Uint16), int Function(int, int)>('library_smoke_BasicTypes_ushortFunction__UShort'));
 
 
-final __ffiPtr_library_smoke_BasicTypes_uintFunction__UInt = __lib.catchArgumentError(() =>
+final __ffi_smoke_BasicTypes_library_smoke_BasicTypes_uintFunction__UInt = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Uint32 Function(Int32, Uint32), int Function(int, int)>('library_smoke_BasicTypes_uintFunction__UInt'));
 
 
-final __ffiPtr_library_smoke_BasicTypes_ulongFunction__ULong = __lib.catchArgumentError(() =>
+final __ffi_smoke_BasicTypes_library_smoke_BasicTypes_ulongFunction__ULong = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Uint64 Function(Int32, Uint64), int Function(int, int)>('library_smoke_BasicTypes_ulongFunction__ULong'));
 
 
@@ -114,7 +114,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
 
   String stringFunction(String input) {
     final _inputHandle = stringToFfi(input);
-    final __resultHandle = __ffiPtr_library_smoke_BasicTypes_stringFunction__String(__lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_BasicTypes_library_smoke_BasicTypes_stringFunction__String(__lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
     try {
       return stringFromFfi(__resultHandle);
@@ -127,7 +127,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
 
   bool boolFunction(bool input) {
     final _inputHandle = booleanToFfi(input);
-    final __resultHandle = __ffiPtr_library_smoke_BasicTypes_boolFunction__Boolean(__lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_BasicTypes_library_smoke_BasicTypes_boolFunction__Boolean(__lib.LibraryContext.isolateId, _inputHandle);
     booleanReleaseFfiHandle(_inputHandle);
     try {
       return booleanFromFfi(__resultHandle);
@@ -140,7 +140,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
 
   double floatFunction(double input) {
     final _inputHandle = (input);
-    final __resultHandle = __ffiPtr_library_smoke_BasicTypes_floatFunction__Float(__lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_BasicTypes_library_smoke_BasicTypes_floatFunction__Float(__lib.LibraryContext.isolateId, _inputHandle);
 
     try {
       return (__resultHandle);
@@ -153,7 +153,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
 
   double doubleFunction(double input) {
     final _inputHandle = (input);
-    final __resultHandle = __ffiPtr_library_smoke_BasicTypes_doubleFunction__Double(__lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_BasicTypes_library_smoke_BasicTypes_doubleFunction__Double(__lib.LibraryContext.isolateId, _inputHandle);
 
     try {
       return (__resultHandle);
@@ -166,7 +166,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
 
   int byteFunction(int input) {
     final _inputHandle = (input);
-    final __resultHandle = __ffiPtr_library_smoke_BasicTypes_byteFunction__Byte(__lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_BasicTypes_library_smoke_BasicTypes_byteFunction__Byte(__lib.LibraryContext.isolateId, _inputHandle);
 
     try {
       return (__resultHandle);
@@ -179,7 +179,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
 
   int shortFunction(int input) {
     final _inputHandle = (input);
-    final __resultHandle = __ffiPtr_library_smoke_BasicTypes_shortFunction__Short(__lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_BasicTypes_library_smoke_BasicTypes_shortFunction__Short(__lib.LibraryContext.isolateId, _inputHandle);
 
     try {
       return (__resultHandle);
@@ -192,7 +192,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
 
   int intFunction(int input) {
     final _inputHandle = (input);
-    final __resultHandle = __ffiPtr_library_smoke_BasicTypes_intFunction__Int(__lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_BasicTypes_library_smoke_BasicTypes_intFunction__Int(__lib.LibraryContext.isolateId, _inputHandle);
 
     try {
       return (__resultHandle);
@@ -205,7 +205,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
 
   int longFunction(int input) {
     final _inputHandle = (input);
-    final __resultHandle = __ffiPtr_library_smoke_BasicTypes_longFunction__Long(__lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_BasicTypes_library_smoke_BasicTypes_longFunction__Long(__lib.LibraryContext.isolateId, _inputHandle);
 
     try {
       return (__resultHandle);
@@ -218,7 +218,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
 
   int ubyteFunction(int input) {
     final _inputHandle = (input);
-    final __resultHandle = __ffiPtr_library_smoke_BasicTypes_ubyteFunction__UByte(__lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_BasicTypes_library_smoke_BasicTypes_ubyteFunction__UByte(__lib.LibraryContext.isolateId, _inputHandle);
 
     try {
       return (__resultHandle);
@@ -231,7 +231,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
 
   int ushortFunction(int input) {
     final _inputHandle = (input);
-    final __resultHandle = __ffiPtr_library_smoke_BasicTypes_ushortFunction__UShort(__lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_BasicTypes_library_smoke_BasicTypes_ushortFunction__UShort(__lib.LibraryContext.isolateId, _inputHandle);
 
     try {
       return (__resultHandle);
@@ -244,7 +244,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
 
   int uintFunction(int input) {
     final _inputHandle = (input);
-    final __resultHandle = __ffiPtr_library_smoke_BasicTypes_uintFunction__UInt(__lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_BasicTypes_library_smoke_BasicTypes_uintFunction__UInt(__lib.LibraryContext.isolateId, _inputHandle);
 
     try {
       return (__resultHandle);
@@ -257,7 +257,7 @@ class BasicTypes$Impl extends __lib.NativeBase implements BasicTypes {
 
   int ulongFunction(int input) {
     final _inputHandle = (input);
-    final __resultHandle = __ffiPtr_library_smoke_BasicTypes_ulongFunction__ULong(__lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_BasicTypes_library_smoke_BasicTypes_ulongFunction__ULong(__lib.LibraryContext.isolateId, _inputHandle);
 
     try {
       return (__resultHandle);

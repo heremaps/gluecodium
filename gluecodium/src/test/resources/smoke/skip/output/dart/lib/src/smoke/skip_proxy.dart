@@ -73,34 +73,34 @@ final _smokeSkipproxyGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibr
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_SkipProxy_get_type_id'));
 
-final __ffiPtr_library_smoke_SkipProxy_notInJava__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_SkipProxy_library_smoke_SkipProxy_notInJava__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_SkipProxy_notInJava__String'));
 
 
-final __ffiPtr_library_smoke_SkipProxy_notInSwift__Boolean = __lib.catchArgumentError(() =>
+final __ffi_smoke_SkipProxy_library_smoke_SkipProxy_notInSwift__Boolean = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Uint8), int Function(Pointer<Void>, int, int)>('library_smoke_SkipProxy_notInSwift__Boolean'));
 
 
-final __ffiPtr_library_smoke_SkipProxy_notInKotlin__Float = __lib.catchArgumentError(() =>
+final __ffi_smoke_SkipProxy_library_smoke_SkipProxy_notInKotlin__Float = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Float Function(Pointer<Void>, Int32, Float), double Function(Pointer<Void>, int, double)>('library_smoke_SkipProxy_notInKotlin__Float'));
 
 
-final __ffiPtr_library_smoke_SkipProxy_skippedInJava_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_SkipProxy_library_smoke_SkipProxy_skippedInJava_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_SkipProxy_skippedInJava_get'));
 
-final __ffiPtr_library_smoke_SkipProxy_skippedInJava_set__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_SkipProxy_library_smoke_SkipProxy_skippedInJava_set__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_SkipProxy_skippedInJava_set__String'));
 
-final __ffiPtr_library_smoke_SkipProxy_isSkippedInSwift_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_SkipProxy_library_smoke_SkipProxy_isSkippedInSwift_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_SkipProxy_isSkippedInSwift_get'));
 
-final __ffiPtr_library_smoke_SkipProxy_isSkippedInSwift_set__Boolean = __lib.catchArgumentError(() =>
+final __ffi_smoke_SkipProxy_library_smoke_SkipProxy_isSkippedInSwift_set__Boolean = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_SkipProxy_isSkippedInSwift_set__Boolean'));
 
-final __ffiPtr_library_smoke_SkipProxy_skippedInKotlin_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_SkipProxy_library_smoke_SkipProxy_skippedInKotlin_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Float Function(Pointer<Void>, Int32), double Function(Pointer<Void>, int)>('library_smoke_SkipProxy_skippedInKotlin_get'));
 
-final __ffiPtr_library_smoke_SkipProxy_skippedInKotlin_set__Float = __lib.catchArgumentError(() =>
+final __ffi_smoke_SkipProxy_library_smoke_SkipProxy_skippedInKotlin_set__Float = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Float), void Function(Pointer<Void>, int, double)>('library_smoke_SkipProxy_skippedInKotlin_set__Float'));
 
 class SkipProxy$Lambdas implements SkipProxy {
@@ -157,7 +157,7 @@ class SkipProxy$Impl extends __lib.NativeBase implements SkipProxy {
   String notInJava(String input) {
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_SkipProxy_notInJava__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_SkipProxy_library_smoke_SkipProxy_notInJava__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
     try {
       return stringFromFfi(__resultHandle);
@@ -172,7 +172,7 @@ class SkipProxy$Impl extends __lib.NativeBase implements SkipProxy {
   bool notInSwift(bool input) {
     final _inputHandle = booleanToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_SkipProxy_notInSwift__Boolean(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_SkipProxy_library_smoke_SkipProxy_notInSwift__Boolean(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     booleanReleaseFfiHandle(_inputHandle);
     try {
       return booleanFromFfi(__resultHandle);
@@ -187,7 +187,7 @@ class SkipProxy$Impl extends __lib.NativeBase implements SkipProxy {
   double notInKotlin(double input) {
     final _inputHandle = (input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_SkipProxy_notInKotlin__Float(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_SkipProxy_library_smoke_SkipProxy_notInKotlin__Float(_handle, __lib.LibraryContext.isolateId, _inputHandle);
 
     try {
       return (__resultHandle);
@@ -200,7 +200,7 @@ class SkipProxy$Impl extends __lib.NativeBase implements SkipProxy {
 
   String get skippedInJava {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_SkipProxy_skippedInJava_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_SkipProxy_library_smoke_SkipProxy_skippedInJava_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {
@@ -214,7 +214,7 @@ class SkipProxy$Impl extends __lib.NativeBase implements SkipProxy {
   set skippedInJava(String value) {
     final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_SkipProxy_skippedInJava_set__String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_SkipProxy_library_smoke_SkipProxy_skippedInJava_set__String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
 
   }
@@ -222,7 +222,7 @@ class SkipProxy$Impl extends __lib.NativeBase implements SkipProxy {
 
   bool get isSkippedInSwift {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_SkipProxy_isSkippedInSwift_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_SkipProxy_library_smoke_SkipProxy_isSkippedInSwift_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return booleanFromFfi(__resultHandle);
     } finally {
@@ -236,7 +236,7 @@ class SkipProxy$Impl extends __lib.NativeBase implements SkipProxy {
   set isSkippedInSwift(bool value) {
     final _valueHandle = booleanToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_SkipProxy_isSkippedInSwift_set__Boolean(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_SkipProxy_library_smoke_SkipProxy_isSkippedInSwift_set__Boolean(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     booleanReleaseFfiHandle(_valueHandle);
 
   }
@@ -244,7 +244,7 @@ class SkipProxy$Impl extends __lib.NativeBase implements SkipProxy {
 
   double get skippedInKotlin {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_SkipProxy_skippedInKotlin_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_SkipProxy_library_smoke_SkipProxy_skippedInKotlin_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return (__resultHandle);
     } finally {
@@ -258,7 +258,7 @@ class SkipProxy$Impl extends __lib.NativeBase implements SkipProxy {
   set skippedInKotlin(double value) {
     final _valueHandle = (value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_SkipProxy_skippedInKotlin_set__Float(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_SkipProxy_library_smoke_SkipProxy_skippedInKotlin_set__Float(_handle, __lib.LibraryContext.isolateId, _valueHandle);
 
 
   }

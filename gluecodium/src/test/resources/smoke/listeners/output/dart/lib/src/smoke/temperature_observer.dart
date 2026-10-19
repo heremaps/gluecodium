@@ -48,7 +48,7 @@ final _smokeTemperatureobserverGetTypeId = __lib.catchArgumentError(() => __lib.
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_TemperatureObserver_get_type_id'));
 
-final __ffiPtr_library_smoke_TemperatureObserver_onTemperatureUpdate__Thermometer = __lib.catchArgumentError(() =>
+final __ffi_smoke_TemperatureObserver_library_smoke_TemperatureObserver_onTemperatureUpdate__Thermometer = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_TemperatureObserver_onTemperatureUpdate__Thermometer'));
 
 
@@ -73,7 +73,7 @@ class TemperatureObserver$Impl extends __lib.NativeBase implements TemperatureOb
   void onTemperatureUpdate(Thermometer thermometer) {
     final _thermometerHandle = smokeThermometerToFfi(thermometer);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_TemperatureObserver_onTemperatureUpdate__Thermometer(_handle, __lib.LibraryContext.isolateId, _thermometerHandle);
+    __ffi_smoke_TemperatureObserver_library_smoke_TemperatureObserver_onTemperatureUpdate__Thermometer(_handle, __lib.LibraryContext.isolateId, _thermometerHandle);
     smokeThermometerReleaseFfiHandle(_thermometerHandle);
 
   }

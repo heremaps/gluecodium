@@ -5,7 +5,7 @@ import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 
-final __ffiPtr_library_smoke_AttributesStruct_veryFun__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_AttributesStruct_library_smoke_AttributesStruct_veryFun__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesStruct_veryFun__String'));
 
 
@@ -52,7 +52,7 @@ class AttributesStruct$Impl {
   void veryFun(AttributesStruct $that, @OnParameterInStruct String param) {
     final _paramHandle = stringToFfi(param);
     final _handle = smokeAttributesstructToFfi($that);
-    __ffiPtr_library_smoke_AttributesStruct_veryFun__String(_handle, __lib.LibraryContext.isolateId, _paramHandle);
+    __ffi_smoke_AttributesStruct_library_smoke_AttributesStruct_veryFun__String(_handle, __lib.LibraryContext.isolateId, _paramHandle);
     smokeAttributesstructReleaseFfiHandle(_handle);
     stringReleaseFfiHandle(_paramHandle);
 

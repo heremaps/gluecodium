@@ -60,7 +60,7 @@ final _smokeMultilinecommentsReleaseHandle = __lib.catchArgumentError(() => __li
   >('library_smoke_MultiLineComments_release_handle'));
 
 
-final __ffiPtr_library_smoke_MultiLineComments_someMethodWithLongComment__String_Double = __lib.catchArgumentError(() =>
+final __ffi_smoke_MultiLineComments_library_smoke_MultiLineComments_someMethodWithLongComment__String_Double = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Float Function(Pointer<Void>, Int32, Pointer<Void>, Double), double Function(Pointer<Void>, int, Pointer<Void>, double)>('library_smoke_MultiLineComments_someMethodWithLongComment__String_Double'));
 
 
@@ -75,7 +75,7 @@ class MultiLineComments$Impl extends __lib.NativeBase implements MultiLineCommen
     final _inputHandle = stringToFfi(input);
     final _ratioHandle = (ratio);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_MultiLineComments_someMethodWithLongComment__String_Double(_handle, __lib.LibraryContext.isolateId, _inputHandle, _ratioHandle);
+    final __resultHandle = __ffi_smoke_MultiLineComments_library_smoke_MultiLineComments_someMethodWithLongComment__String_Double(_handle, __lib.LibraryContext.isolateId, _inputHandle, _ratioHandle);
     stringReleaseFfiHandle(_inputHandle);
 
     try {

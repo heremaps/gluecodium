@@ -89,7 +89,7 @@ void smokeStructsFoobarReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeStructsFoobarReleaseHandleNullable(handle);
 
 // End of Structs_FooBar "private" section.
-final __ffiPtr_library_smoke_Structs_Point_fromPolar__Double_Double = __lib.catchArgumentError(() =>
+final __ffi_smoke_Structs_Point_library_smoke_Structs_Point_fromPolar__Double_Double = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Double, Double), Pointer<Void> Function(int, double, double)>('library_smoke_Structs_Point_fromPolar__Double_Double'));
 
 
@@ -137,7 +137,7 @@ class Structs_Point$Impl {
   Structs_Point fromPolar(double phi, double r) {
     final _phiHandle = (phi);
     final _rHandle = (r);
-    final __resultHandle = __ffiPtr_library_smoke_Structs_Point_fromPolar__Double_Double(__lib.LibraryContext.isolateId, _phiHandle, _rHandle);
+    final __resultHandle = __ffi_smoke_Structs_Point_library_smoke_Structs_Point_fromPolar__Double_Double(__lib.LibraryContext.isolateId, _phiHandle, _rHandle);
 
 
     try {
@@ -1034,19 +1034,19 @@ final _smokeStructsReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLi
   >('library_smoke_Structs_release_handle'));
 
 
-final __ffiPtr_library_smoke_Structs_swapPointCoordinates__Point = __lib.catchArgumentError(() =>
+final __ffi_smoke_Structs_library_smoke_Structs_swapPointCoordinates__Point = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_swapPointCoordinates__Point'));
 
 
-final __ffiPtr_library_smoke_Structs_returnAllTypesStruct__AllTypesStruct = __lib.catchArgumentError(() =>
+final __ffi_smoke_Structs_library_smoke_Structs_returnAllTypesStruct__AllTypesStruct = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_returnAllTypesStruct__AllTypesStruct'));
 
 
-final __ffiPtr_library_smoke_Structs_createPoint__Double_Double = __lib.catchArgumentError(() =>
+final __ffi_smoke_Structs_library_smoke_Structs_createPoint__Double_Double = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Double, Double), Pointer<Void> Function(int, double, double)>('library_smoke_Structs_createPoint__Double_Double'));
 
 
-final __ffiPtr_library_smoke_Structs_modifyAllTypesStruct__AllTypesStruct = __lib.catchArgumentError(() =>
+final __ffi_smoke_Structs_library_smoke_Structs_modifyAllTypesStruct__AllTypesStruct = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_Structs_modifyAllTypesStruct__AllTypesStruct'));
 
 
@@ -1060,7 +1060,7 @@ class Structs$Impl extends __lib.NativeBase implements Structs {
 
   Structs_Point swapPointCoordinates(Structs_Point input) {
     final _inputHandle = smokeStructsPointToFfi(input);
-    final __resultHandle = __ffiPtr_library_smoke_Structs_swapPointCoordinates__Point(__lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_Structs_library_smoke_Structs_swapPointCoordinates__Point(__lib.LibraryContext.isolateId, _inputHandle);
     smokeStructsPointReleaseFfiHandle(_inputHandle);
     try {
       return smokeStructsPointFromFfi(__resultHandle);
@@ -1073,7 +1073,7 @@ class Structs$Impl extends __lib.NativeBase implements Structs {
 
   Structs_AllTypesStruct returnAllTypesStruct(Structs_AllTypesStruct input) {
     final _inputHandle = smokeStructsAlltypesstructToFfi(input);
-    final __resultHandle = __ffiPtr_library_smoke_Structs_returnAllTypesStruct__AllTypesStruct(__lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_Structs_library_smoke_Structs_returnAllTypesStruct__AllTypesStruct(__lib.LibraryContext.isolateId, _inputHandle);
     smokeStructsAlltypesstructReleaseFfiHandle(_inputHandle);
     try {
       return smokeStructsAlltypesstructFromFfi(__resultHandle);
@@ -1087,7 +1087,7 @@ class Structs$Impl extends __lib.NativeBase implements Structs {
   TypeCollection_Point createPoint(double x, double y) {
     final _xHandle = (x);
     final _yHandle = (y);
-    final __resultHandle = __ffiPtr_library_smoke_Structs_createPoint__Double_Double(__lib.LibraryContext.isolateId, _xHandle, _yHandle);
+    final __resultHandle = __ffi_smoke_Structs_library_smoke_Structs_createPoint__Double_Double(__lib.LibraryContext.isolateId, _xHandle, _yHandle);
 
 
     try {
@@ -1101,7 +1101,7 @@ class Structs$Impl extends __lib.NativeBase implements Structs {
 
   TypeCollection_AllTypesStruct modifyAllTypesStruct(TypeCollection_AllTypesStruct input) {
     final _inputHandle = smokeTypecollectionAlltypesstructToFfi(input);
-    final __resultHandle = __ffiPtr_library_smoke_Structs_modifyAllTypesStruct__AllTypesStruct(__lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_Structs_library_smoke_Structs_modifyAllTypesStruct__AllTypesStruct(__lib.LibraryContext.isolateId, _inputHandle);
     smokeTypecollectionAlltypesstructReleaseFfiHandle(_inputHandle);
     try {
       return smokeTypecollectionAlltypesstructFromFfi(__resultHandle);

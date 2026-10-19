@@ -38,15 +38,15 @@ final _smokeSkipfunctionsReleaseHandle = __lib.catchArgumentError(() => __lib.na
   >('library_smoke_SkipFunctions_release_handle'));
 
 
-final __ffiPtr_library_smoke_SkipFunctions_notInJava__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_SkipFunctions_library_smoke_SkipFunctions_notInJava__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_SkipFunctions_notInJava__String'));
 
 
-final __ffiPtr_library_smoke_SkipFunctions_notInSwift__Boolean = __lib.catchArgumentError(() =>
+final __ffi_smoke_SkipFunctions_library_smoke_SkipFunctions_notInSwift__Boolean = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Uint8), int Function(int, int)>('library_smoke_SkipFunctions_notInSwift__Boolean'));
 
 
-final __ffiPtr_library_smoke_SkipFunctions_notInKotlin__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_SkipFunctions_library_smoke_SkipFunctions_notInKotlin__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_SkipFunctions_notInKotlin__String'));
 
 
@@ -60,7 +60,7 @@ class SkipFunctions$Impl extends __lib.NativeBase implements SkipFunctions {
 
   String notInJava(String input) {
     final _inputHandle = stringToFfi(input);
-    final __resultHandle = __ffiPtr_library_smoke_SkipFunctions_notInJava__String(__lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_SkipFunctions_library_smoke_SkipFunctions_notInJava__String(__lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
     try {
       return stringFromFfi(__resultHandle);
@@ -73,7 +73,7 @@ class SkipFunctions$Impl extends __lib.NativeBase implements SkipFunctions {
 
   bool notInSwift(bool input) {
     final _inputHandle = booleanToFfi(input);
-    final __resultHandle = __ffiPtr_library_smoke_SkipFunctions_notInSwift__Boolean(__lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_SkipFunctions_library_smoke_SkipFunctions_notInSwift__Boolean(__lib.LibraryContext.isolateId, _inputHandle);
     booleanReleaseFfiHandle(_inputHandle);
     try {
       return booleanFromFfi(__resultHandle);
@@ -86,7 +86,7 @@ class SkipFunctions$Impl extends __lib.NativeBase implements SkipFunctions {
 
   String notInKotlin(String input) {
     final _inputHandle = stringToFfi(input);
-    final __resultHandle = __ffiPtr_library_smoke_SkipFunctions_notInKotlin__String(__lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_SkipFunctions_library_smoke_SkipFunctions_notInKotlin__String(__lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
     try {
       return stringFromFfi(__resultHandle);

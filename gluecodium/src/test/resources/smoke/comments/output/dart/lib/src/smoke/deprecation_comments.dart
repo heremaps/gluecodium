@@ -238,20 +238,20 @@ final _smokeDeprecationcommentsGetTypeId = __lib.catchArgumentError(() => __lib.
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_DeprecationComments_get_type_id'));
 
-final __ffiPtr_library_smoke_DeprecationComments_someMethodWithAllComments__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_DeprecationComments_library_smoke_DeprecationComments_someMethodWithAllComments__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32, Pointer<Void>), int Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DeprecationComments_someMethodWithAllComments__String'));
 
 
-final __ffiPtr_library_smoke_DeprecationComments_isSomeProperty_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_DeprecationComments_library_smoke_DeprecationComments_isSomeProperty_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Uint8 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_DeprecationComments_isSomeProperty_get'));
 
-final __ffiPtr_library_smoke_DeprecationComments_isSomeProperty_set__Boolean = __lib.catchArgumentError(() =>
+final __ffi_smoke_DeprecationComments_library_smoke_DeprecationComments_isSomeProperty_set__Boolean = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint8), void Function(Pointer<Void>, int, int)>('library_smoke_DeprecationComments_isSomeProperty_set__Boolean'));
 
-final __ffiPtr_library_smoke_DeprecationComments_propertyButNotAccessors_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_DeprecationComments_library_smoke_DeprecationComments_propertyButNotAccessors_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_DeprecationComments_propertyButNotAccessors_get'));
 
-final __ffiPtr_library_smoke_DeprecationComments_propertyButNotAccessors_set__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_DeprecationComments_library_smoke_DeprecationComments_propertyButNotAccessors_set__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DeprecationComments_propertyButNotAccessors_set__String'));
 
 class DeprecationComments$Lambdas implements DeprecationComments {
@@ -290,7 +290,7 @@ class DeprecationComments$Impl extends __lib.NativeBase implements DeprecationCo
   DeprecationComments_Usefulness someMethodWithAllComments(String input) {
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_DeprecationComments_someMethodWithAllComments__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_DeprecationComments_library_smoke_DeprecationComments_someMethodWithAllComments__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
     try {
       return booleanFromFfi(__resultHandle);
@@ -305,7 +305,7 @@ class DeprecationComments$Impl extends __lib.NativeBase implements DeprecationCo
   @Deprecated("Unfortunately, this property's getter is deprecated.\nUse [Comments.isSomeProperty] instead.")
   DeprecationComments_Usefulness get isSomeProperty {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_DeprecationComments_isSomeProperty_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_DeprecationComments_library_smoke_DeprecationComments_isSomeProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return booleanFromFfi(__resultHandle);
     } finally {
@@ -324,7 +324,7 @@ class DeprecationComments$Impl extends __lib.NativeBase implements DeprecationCo
   set isSomeProperty(DeprecationComments_Usefulness value) {
     final _valueHandle = booleanToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_DeprecationComments_isSomeProperty_set__Boolean(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_DeprecationComments_library_smoke_DeprecationComments_isSomeProperty_set__Boolean(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     booleanReleaseFfiHandle(_valueHandle);
 
   }
@@ -334,7 +334,7 @@ class DeprecationComments$Impl extends __lib.NativeBase implements DeprecationCo
   @Deprecated("Will be removed in v3.2.1.")
   String get propertyButNotAccessors {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_DeprecationComments_propertyButNotAccessors_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_DeprecationComments_library_smoke_DeprecationComments_propertyButNotAccessors_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {
@@ -352,7 +352,7 @@ class DeprecationComments$Impl extends __lib.NativeBase implements DeprecationCo
   set propertyButNotAccessors(String value) {
     final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_DeprecationComments_propertyButNotAccessors_set__String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_DeprecationComments_library_smoke_DeprecationComments_propertyButNotAccessors_set__String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
 
   }

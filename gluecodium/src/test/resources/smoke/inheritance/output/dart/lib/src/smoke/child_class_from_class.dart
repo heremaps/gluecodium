@@ -35,7 +35,7 @@ final _smokeChildclassfromclassGetTypeId = __lib.catchArgumentError(() => __lib.
   >('library_smoke_ChildClassFromClass_get_type_id'));
 
 
-final __ffiPtr_library_smoke_ChildClassFromClass_childClassMethod = __lib.catchArgumentError(() =>
+final __ffi_smoke_ChildClassFromClass_library_smoke_ChildClassFromClass_childClassMethod = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_ChildClassFromClass_childClassMethod'));
 
 
@@ -48,7 +48,7 @@ class ChildClassFromClass$Impl extends ParentClass$Impl implements ChildClassFro
   @override
   void childClassMethod() {
     final _handle = this.handle;
-    __ffiPtr_library_smoke_ChildClassFromClass_childClassMethod(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_ChildClassFromClass_library_smoke_ChildClassFromClass_childClassMethod(_handle, __lib.LibraryContext.isolateId);
 
   }
 

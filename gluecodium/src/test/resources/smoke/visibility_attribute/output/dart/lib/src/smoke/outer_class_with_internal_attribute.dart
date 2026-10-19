@@ -171,7 +171,7 @@ final _smokeOuterclasswithinternalattributeLambdanestedininternalclassCreateProx
     Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_OuterClassWithInternalAttribute_LambdaNestedInInternalClass_create_proxy'));
 
-final __ffiPtr_library_smoke_OuterClassWithInternalAttribute_LambdaNestedInInternalClass_call = __lib.catchArgumentError(() =>
+final __ffi_smoke_OuterClassWithInternalAttribute_LambdaNestedInInternalClass_library_smoke_OuterClassWithInternalAttribute_LambdaNestedInInternalClass_call = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_OuterClassWithInternalAttribute_LambdaNestedInInternalClass_call'));
 
 
@@ -181,7 +181,7 @@ class OuterClassWithInternalAttribute_LambdaNestedInInternalClass$Impl implement
 
   void call() {
     final _handle = this.handle;
-    __ffiPtr_library_smoke_OuterClassWithInternalAttribute_LambdaNestedInInternalClass_call(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_OuterClassWithInternalAttribute_LambdaNestedInInternalClass_library_smoke_OuterClassWithInternalAttribute_LambdaNestedInInternalClass_call(_handle, __lib.LibraryContext.isolateId);
 
   }
 

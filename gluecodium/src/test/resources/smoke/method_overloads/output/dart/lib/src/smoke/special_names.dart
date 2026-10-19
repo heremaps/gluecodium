@@ -42,23 +42,23 @@ final _smokeSpecialnamesReleaseHandle = __lib.catchArgumentError(() => __lib.nat
   >('library_smoke_SpecialNames_release_handle'));
 
 
-final __ffiPtr_library_smoke_SpecialNames_create = __lib.catchArgumentError(() =>
+final __ffi_smoke_SpecialNames_library_smoke_SpecialNames_create = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_create'));
 
 
-final __ffiPtr_library_smoke_SpecialNames_release = __lib.catchArgumentError(() =>
+final __ffi_smoke_SpecialNames_library_smoke_SpecialNames_release = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_release'));
 
 
-final __ffiPtr_library_smoke_SpecialNames_createProxy = __lib.catchArgumentError(() =>
+final __ffi_smoke_SpecialNames_library_smoke_SpecialNames_createProxy = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_createProxy'));
 
 
-final __ffiPtr_library_smoke_SpecialNames_Uppercase = __lib.catchArgumentError(() =>
+final __ffi_smoke_SpecialNames_library_smoke_SpecialNames_Uppercase = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialNames_Uppercase'));
 
 
-final __ffiPtr_library_smoke_SpecialNames_make__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_SpecialNames_library_smoke_SpecialNames_make__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_SpecialNames_make__String'));
 
 
@@ -85,34 +85,34 @@ class SpecialNames$Impl extends __lib.NativeBase implements SpecialNames {
   @override
   void create() {
     final _handle = this.handle;
-    __ffiPtr_library_smoke_SpecialNames_create(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_SpecialNames_library_smoke_SpecialNames_create(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   @override
   void reallyRelease() {
     final _handle = this.handle;
-    __ffiPtr_library_smoke_SpecialNames_release(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_SpecialNames_library_smoke_SpecialNames_release(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   @override
   void createProxy() {
     final _handle = this.handle;
-    __ffiPtr_library_smoke_SpecialNames_createProxy(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_SpecialNames_library_smoke_SpecialNames_createProxy(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   @override
   void Uppercase() {
     final _handle = this.handle;
-    __ffiPtr_library_smoke_SpecialNames_Uppercase(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_SpecialNames_library_smoke_SpecialNames_Uppercase(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   static Pointer<Void> _make(String result) {
     final _resultHandle = stringToFfi(result);
-    final __resultHandle = __ffiPtr_library_smoke_SpecialNames_make__String(__lib.LibraryContext.isolateId, _resultHandle);
+    final __resultHandle = __ffi_smoke_SpecialNames_library_smoke_SpecialNames_make__String(__lib.LibraryContext.isolateId, _resultHandle);
     stringReleaseFfiHandle(_resultHandle);
     return __resultHandle;
   }

@@ -234,46 +234,46 @@ final _smokeListenerwithpropertiesGetTypeId = __lib.catchArgumentError(() => __l
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_ListenerWithProperties_get_type_id'));
 
-final __ffiPtr_library_smoke_ListenerWithProperties_message_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_message_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ListenerWithProperties_message_get'));
 
-final __ffiPtr_library_smoke_ListenerWithProperties_message_set__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_message_set__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ListenerWithProperties_message_set__String'));
 
-final __ffiPtr_library_smoke_ListenerWithProperties_packedMessage_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_packedMessage_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ListenerWithProperties_packedMessage_get'));
 
-final __ffiPtr_library_smoke_ListenerWithProperties_packedMessage_set__CalculationResult = __lib.catchArgumentError(() =>
+final __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_packedMessage_set__CalculationResult = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ListenerWithProperties_packedMessage_set__CalculationResult'));
 
-final __ffiPtr_library_smoke_ListenerWithProperties_structuredMessage_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_structuredMessage_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ListenerWithProperties_structuredMessage_get'));
 
-final __ffiPtr_library_smoke_ListenerWithProperties_structuredMessage_set__ResultStruct = __lib.catchArgumentError(() =>
+final __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_structuredMessage_set__ResultStruct = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ListenerWithProperties_structuredMessage_set__ResultStruct'));
 
-final __ffiPtr_library_smoke_ListenerWithProperties_enumeratedMessage_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_enumeratedMessage_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Uint32 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_ListenerWithProperties_enumeratedMessage_get'));
 
-final __ffiPtr_library_smoke_ListenerWithProperties_enumeratedMessage_set__ResultEnum = __lib.catchArgumentError(() =>
+final __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_enumeratedMessage_set__ResultEnum = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint32), void Function(Pointer<Void>, int, int)>('library_smoke_ListenerWithProperties_enumeratedMessage_set__ResultEnum'));
 
-final __ffiPtr_library_smoke_ListenerWithProperties_arrayedMessage_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_arrayedMessage_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ListenerWithProperties_arrayedMessage_get'));
 
-final __ffiPtr_library_smoke_ListenerWithProperties_arrayedMessage_set__ListOf_String = __lib.catchArgumentError(() =>
+final __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_arrayedMessage_set__ListOf_String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ListenerWithProperties_arrayedMessage_set__ListOf_String'));
 
-final __ffiPtr_library_smoke_ListenerWithProperties_mappedMessage_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_mappedMessage_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ListenerWithProperties_mappedMessage_get'));
 
-final __ffiPtr_library_smoke_ListenerWithProperties_mappedMessage_set__MapOf_String_to_Double = __lib.catchArgumentError(() =>
+final __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_mappedMessage_set__MapOf_String_to_Double = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ListenerWithProperties_mappedMessage_set__MapOf_String_to_Double'));
 
-final __ffiPtr_library_smoke_ListenerWithProperties_bufferedMessage_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_bufferedMessage_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ListenerWithProperties_bufferedMessage_get'));
 
-final __ffiPtr_library_smoke_ListenerWithProperties_bufferedMessage_set__Blob = __lib.catchArgumentError(() =>
+final __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_bufferedMessage_set__Blob = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ListenerWithProperties_bufferedMessage_set__Blob'));
 
 class ListenerWithProperties$Lambdas implements ListenerWithProperties {
@@ -345,7 +345,7 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
 
   String get message {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_ListenerWithProperties_message_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_message_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {
@@ -359,7 +359,7 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
   set message(String value) {
     final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_ListenerWithProperties_message_set__String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_message_set__String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
 
   }
@@ -367,7 +367,7 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
 
   CalculationResult get packedMessage {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_ListenerWithProperties_packedMessage_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_packedMessage_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return smokeCalculationresultFromFfi(__resultHandle);
     } finally {
@@ -381,7 +381,7 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
   set packedMessage(CalculationResult value) {
     final _valueHandle = smokeCalculationresultToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_ListenerWithProperties_packedMessage_set__CalculationResult(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_packedMessage_set__CalculationResult(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     smokeCalculationresultReleaseFfiHandle(_valueHandle);
 
   }
@@ -389,7 +389,7 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
 
   ListenerWithProperties_ResultStruct get structuredMessage {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_ListenerWithProperties_structuredMessage_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_structuredMessage_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return smokeListenerwithpropertiesResultstructFromFfi(__resultHandle);
     } finally {
@@ -403,7 +403,7 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
   set structuredMessage(ListenerWithProperties_ResultStruct value) {
     final _valueHandle = smokeListenerwithpropertiesResultstructToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_ListenerWithProperties_structuredMessage_set__ResultStruct(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_structuredMessage_set__ResultStruct(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     smokeListenerwithpropertiesResultstructReleaseFfiHandle(_valueHandle);
 
   }
@@ -411,7 +411,7 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
 
   ListenerWithProperties_ResultEnum get enumeratedMessage {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_ListenerWithProperties_enumeratedMessage_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_enumeratedMessage_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return smokeListenerwithpropertiesResultenumFromFfi(__resultHandle);
     } finally {
@@ -425,7 +425,7 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
   set enumeratedMessage(ListenerWithProperties_ResultEnum value) {
     final _valueHandle = smokeListenerwithpropertiesResultenumToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_ListenerWithProperties_enumeratedMessage_set__ResultEnum(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_enumeratedMessage_set__ResultEnum(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     smokeListenerwithpropertiesResultenumReleaseFfiHandle(_valueHandle);
 
   }
@@ -433,7 +433,7 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
 
   List<String> get arrayedMessage {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_ListenerWithProperties_arrayedMessage_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_arrayedMessage_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return foobarListofStringFromFfi(__resultHandle);
     } finally {
@@ -447,7 +447,7 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
   set arrayedMessage(List<String> value) {
     final _valueHandle = foobarListofStringToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_ListenerWithProperties_arrayedMessage_set__ListOf_String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_arrayedMessage_set__ListOf_String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     foobarListofStringReleaseFfiHandle(_valueHandle);
 
   }
@@ -455,7 +455,7 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
 
   ListenerWithProperties_StringToDouble get mappedMessage {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_ListenerWithProperties_mappedMessage_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_mappedMessage_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return foobarMapofStringToDoubleFromFfi(__resultHandle);
     } finally {
@@ -469,7 +469,7 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
   set mappedMessage(ListenerWithProperties_StringToDouble value) {
     final _valueHandle = foobarMapofStringToDoubleToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_ListenerWithProperties_mappedMessage_set__MapOf_String_to_Double(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_mappedMessage_set__MapOf_String_to_Double(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     foobarMapofStringToDoubleReleaseFfiHandle(_valueHandle);
 
   }
@@ -477,7 +477,7 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
 
   Uint8List get bufferedMessage {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_ListenerWithProperties_bufferedMessage_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_bufferedMessage_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return blobFromFfi(__resultHandle);
     } finally {
@@ -491,7 +491,7 @@ class ListenerWithProperties$Impl extends __lib.NativeBase implements ListenerWi
   set bufferedMessage(Uint8List value) {
     final _valueHandle = blobToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_ListenerWithProperties_bufferedMessage_set__Blob(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_ListenerWithProperties_library_smoke_ListenerWithProperties_bufferedMessage_set__Blob(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     blobReleaseFfiHandle(_valueHandle);
 
   }

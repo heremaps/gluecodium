@@ -67,7 +67,7 @@ void smokePlatformnamesBasicenumReleaseFfiHandleNullable(Pointer<Void> handle) =
   _smokePlatformnamesBasicenumReleaseHandleNullable(handle);
 
 // End of weeTypes_werrEnum "private" section.
-final __ffiPtr_library_smoke_PlatformNames_BasicStruct_make__String = __lib.catchArgumentError(() =>
+final __ffi_smoke_PlatformNames_BasicStruct_library_smoke_PlatformNames_BasicStruct_make__String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_PlatformNames_BasicStruct_make__String'));
 
 
@@ -107,7 +107,7 @@ final _smokePlatformnamesBasicstructGetFieldstringField = __lib.catchArgumentErr
 class weeTypes_weeStruct$Impl {
   weeTypes_weeStruct WeeCreate(String WeeParameter) {
     final _WeeParameterHandle = stringToFfi(WeeParameter);
-    final __resultHandle = __ffiPtr_library_smoke_PlatformNames_BasicStruct_make__String(__lib.LibraryContext.isolateId, _WeeParameterHandle);
+    final __resultHandle = __ffi_smoke_PlatformNames_BasicStruct_library_smoke_PlatformNames_BasicStruct_make__String(__lib.LibraryContext.isolateId, _WeeParameterHandle);
     stringReleaseFfiHandle(_WeeParameterHandle);
     try {
       return smokePlatformnamesBasicstructFromFfi(__resultHandle);

@@ -47,11 +47,11 @@ final _packageClassGetTypeId = __lib.catchArgumentError(() => __lib.nativeLibrar
   >('library_package_Class_get_type_id'));
 
 
-final __ffiPtr_library_package_Class_constructor = __lib.catchArgumentError(() =>
+final __ffi_package_Class_library_package_Class_constructor = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_package_Class_constructor'));
 
 
-final __ffiPtr_library_package_Class_fun__ListOf_package_Types_Struct = __lib.catchArgumentError(() =>
+final __ffi_package_Class_library_package_Class_fun__ListOf_package_Types_Struct = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_package_Class_fun__ListOf_package_Types_Struct'));
 
 final _funpackageClassFunListofPackageTypesStructReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -72,10 +72,10 @@ final _funpackageClassFunListofPackageTypesStructReturnHasError = __lib.catchArg
   >('library_package_Class_fun__ListOf_package_Types_Struct_return_has_error'));
 
 
-final __ffiPtr_library_package_Class_property_get = __lib.catchArgumentError(() =>
+final __ffi_package_Class_library_package_Class_property_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Uint32 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_package_Class_property_get'));
 
-final __ffiPtr_library_package_Class_property_set__enum = __lib.catchArgumentError(() =>
+final __ffi_package_Class_library_package_Class_property_set__enum = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint32), void Function(Pointer<Void>, int, int)>('library_package_Class_property_set__enum'));
 
 
@@ -99,7 +99,7 @@ class Class$Impl extends __lib.NativeBase implements Class {
   }
 
   static Pointer<Void> _constructor() {
-    final __resultHandle = __ffiPtr_library_package_Class_constructor(__lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_package_Class_library_package_Class_constructor(__lib.LibraryContext.isolateId);
     return __resultHandle;
   }
 
@@ -107,7 +107,7 @@ class Class$Impl extends __lib.NativeBase implements Class {
   Types_Struct fun(Types_ULong double) {
     final _doubleHandle = foobarListofPackageTypesStructToFfi(double);
     final _handle = this.handle;
-    final __callResultHandle = __ffiPtr_library_package_Class_fun__ListOf_package_Types_Struct(_handle, __lib.LibraryContext.isolateId, _doubleHandle);
+    final __callResultHandle = __ffi_package_Class_library_package_Class_fun__ListOf_package_Types_Struct(_handle, __lib.LibraryContext.isolateId, _doubleHandle);
     foobarListofPackageTypesStructReleaseFfiHandle(_doubleHandle);
     if (_funpackageClassFunListofPackageTypesStructReturnHasError(__callResultHandle) != 0) {
         final __errorHandle = _funpackageClassFunListofPackageTypesStructReturnGetError(__callResultHandle);
@@ -132,7 +132,7 @@ class Class$Impl extends __lib.NativeBase implements Class {
   @override
   Types_Enum get property {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_package_Class_property_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_package_Class_library_package_Class_property_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return packageTypesEnumFromFfi(__resultHandle);
     } finally {
@@ -146,7 +146,7 @@ class Class$Impl extends __lib.NativeBase implements Class {
   set property(Types_Enum value) {
     final _valueHandle = packageTypesEnumToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_package_Class_property_set__enum(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_package_Class_library_package_Class_property_set__enum(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     packageTypesEnumReleaseFfiHandle(_valueHandle);
 
   }

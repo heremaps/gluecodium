@@ -38,16 +38,16 @@ final _smokeDartinternalclasswithinternaltypedefReleaseHandle = __lib.catchArgum
   >('library_smoke_DartInternalClassWithInternalTypedef_release_handle'));
 
 
-final __ffiPtr_library_smoke_DartInternalClassWithInternalTypedef_numbers_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_DartInternalClassWithInternalTypedef_library_smoke_DartInternalClassWithInternalTypedef_numbers_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_DartInternalClassWithInternalTypedef_numbers_get'));
 
-final __ffiPtr_library_smoke_DartInternalClassWithInternalTypedef_numbers_set__MapOf_String_to_Int = __lib.catchArgumentError(() =>
+final __ffi_smoke_DartInternalClassWithInternalTypedef_library_smoke_DartInternalClassWithInternalTypedef_numbers_set__MapOf_String_to_Int = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DartInternalClassWithInternalTypedef_numbers_set__MapOf_String_to_Int'));
 
-final __ffiPtr_library_smoke_DartInternalClassWithInternalTypedef_labels_get = __lib.catchArgumentError(() =>
+final __ffi_smoke_DartInternalClassWithInternalTypedef_library_smoke_DartInternalClassWithInternalTypedef_labels_get = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_DartInternalClassWithInternalTypedef_labels_get'));
 
-final __ffiPtr_library_smoke_DartInternalClassWithInternalTypedef_labels_set__ListOf_String = __lib.catchArgumentError(() =>
+final __ffi_smoke_DartInternalClassWithInternalTypedef_library_smoke_DartInternalClassWithInternalTypedef_labels_set__ListOf_String = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DartInternalClassWithInternalTypedef_labels_set__ListOf_String'));
 
 
@@ -59,7 +59,7 @@ class DartInternalClassWithInternalTypedef$Impl extends __lib.NativeBase impleme
   @override
   DartInternalClassWithInternalTypedef_SomeStringToIntMap get numbers {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_DartInternalClassWithInternalTypedef_numbers_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_DartInternalClassWithInternalTypedef_library_smoke_DartInternalClassWithInternalTypedef_numbers_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return foobarMapofStringToIntFromFfi(__resultHandle);
     } finally {
@@ -73,7 +73,7 @@ class DartInternalClassWithInternalTypedef$Impl extends __lib.NativeBase impleme
   set numbers(DartInternalClassWithInternalTypedef_SomeStringToIntMap value) {
     final _valueHandle = foobarMapofStringToIntToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_DartInternalClassWithInternalTypedef_numbers_set__MapOf_String_to_Int(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_DartInternalClassWithInternalTypedef_library_smoke_DartInternalClassWithInternalTypedef_numbers_set__MapOf_String_to_Int(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     foobarMapofStringToIntReleaseFfiHandle(_valueHandle);
 
   }
@@ -82,7 +82,7 @@ class DartInternalClassWithInternalTypedef$Impl extends __lib.NativeBase impleme
   @override
   DartInternalClassWithInternalTypedef_SomeStringArray get labels {
     final _handle = this.handle;
-    final __resultHandle = __ffiPtr_library_smoke_DartInternalClassWithInternalTypedef_labels_get(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_DartInternalClassWithInternalTypedef_library_smoke_DartInternalClassWithInternalTypedef_labels_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return foobarListofStringFromFfi(__resultHandle);
     } finally {
@@ -96,7 +96,7 @@ class DartInternalClassWithInternalTypedef$Impl extends __lib.NativeBase impleme
   set labels(DartInternalClassWithInternalTypedef_SomeStringArray value) {
     final _valueHandle = foobarListofStringToFfi(value);
     final _handle = this.handle;
-    __ffiPtr_library_smoke_DartInternalClassWithInternalTypedef_labels_set__ListOf_String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_DartInternalClassWithInternalTypedef_library_smoke_DartInternalClassWithInternalTypedef_labels_set__ListOf_String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     foobarListofStringReleaseFfiHandle(_valueHandle);
 
   }

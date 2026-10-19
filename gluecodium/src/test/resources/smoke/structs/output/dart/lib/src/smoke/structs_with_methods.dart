@@ -10,23 +10,23 @@ import 'package:meta/meta.dart';
 class StructsWithMethods {
 }
 
-final __ffiPtr_library_smoke_StructsWithMethods_Vector_distanceTo__Vector = __lib.catchArgumentError(() =>
+final __ffi_smoke_StructsWithMethods_Vector_library_smoke_StructsWithMethods_Vector_distanceTo__Vector = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Double Function(Pointer<Void>, Int32, Pointer<Void>), double Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_StructsWithMethods_Vector_distanceTo__Vector'));
 
 
-final __ffiPtr_library_smoke_StructsWithMethods_Vector_add__Vector = __lib.catchArgumentError(() =>
+final __ffi_smoke_StructsWithMethods_Vector_library_smoke_StructsWithMethods_Vector_add__Vector = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_StructsWithMethods_Vector_add__Vector'));
 
 
-final __ffiPtr_library_smoke_StructsWithMethods_Vector_validate__Double_Double = __lib.catchArgumentError(() =>
+final __ffi_smoke_StructsWithMethods_Vector_library_smoke_StructsWithMethods_Vector_validate__Double_Double = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Uint8 Function(Int32, Double, Double), int Function(int, double, double)>('library_smoke_StructsWithMethods_Vector_validate__Double_Double'));
 
 
-final __ffiPtr_library_smoke_StructsWithMethods_Vector_create__Double_Double = __lib.catchArgumentError(() =>
+final __ffi_smoke_StructsWithMethods_Vector_library_smoke_StructsWithMethods_Vector_create__Double_Double = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Double, Double), Pointer<Void> Function(int, double, double)>('library_smoke_StructsWithMethods_Vector_create__Double_Double'));
 
 
-final __ffiPtr_library_smoke_StructsWithMethods_Vector_create__Vector = __lib.catchArgumentError(() =>
+final __ffi_smoke_StructsWithMethods_Vector_library_smoke_StructsWithMethods_Vector_create__Vector = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_StructsWithMethods_Vector_create__Vector'));
 
 final _copysmokeStructswithmethodsVectorCreateVectorReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
@@ -47,7 +47,7 @@ final _copysmokeStructswithmethodsVectorCreateVectorReturnHasError = __lib.catch
   >('library_smoke_StructsWithMethods_Vector_create__Vector_return_has_error'));
 
 
-final __ffiPtr_library_smoke_StructsWithMethods_Vector_create__ULong = __lib.catchArgumentError(() =>
+final __ffi_smoke_StructsWithMethods_Vector_library_smoke_StructsWithMethods_Vector_create__ULong = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Uint64), Pointer<Void> Function(int, int)>('library_smoke_StructsWithMethods_Vector_create__ULong'));
 
 
@@ -104,7 +104,7 @@ class StructsWithMethods_Vector$Impl {
   double distanceTo(StructsWithMethods_Vector $that, StructsWithMethods_Vector other) {
     final _otherHandle = smokeStructswithmethodsVectorToFfi(other);
     final _handle = smokeStructswithmethodsVectorToFfi($that);
-    final __resultHandle = __ffiPtr_library_smoke_StructsWithMethods_Vector_distanceTo__Vector(_handle, __lib.LibraryContext.isolateId, _otherHandle);
+    final __resultHandle = __ffi_smoke_StructsWithMethods_Vector_library_smoke_StructsWithMethods_Vector_distanceTo__Vector(_handle, __lib.LibraryContext.isolateId, _otherHandle);
     smokeStructswithmethodsVectorReleaseFfiHandle(_handle);
     smokeStructswithmethodsVectorReleaseFfiHandle(_otherHandle);
     try {
@@ -119,7 +119,7 @@ class StructsWithMethods_Vector$Impl {
   StructsWithMethods_Vector add(StructsWithMethods_Vector $that, StructsWithMethods_Vector other) {
     final _otherHandle = smokeStructswithmethodsVectorToFfi(other);
     final _handle = smokeStructswithmethodsVectorToFfi($that);
-    final __resultHandle = __ffiPtr_library_smoke_StructsWithMethods_Vector_add__Vector(_handle, __lib.LibraryContext.isolateId, _otherHandle);
+    final __resultHandle = __ffi_smoke_StructsWithMethods_Vector_library_smoke_StructsWithMethods_Vector_add__Vector(_handle, __lib.LibraryContext.isolateId, _otherHandle);
     smokeStructswithmethodsVectorReleaseFfiHandle(_handle);
     smokeStructswithmethodsVectorReleaseFfiHandle(_otherHandle);
     try {
@@ -134,7 +134,7 @@ class StructsWithMethods_Vector$Impl {
   bool validate(double x, double y) {
     final _xHandle = (x);
     final _yHandle = (y);
-    final __resultHandle = __ffiPtr_library_smoke_StructsWithMethods_Vector_validate__Double_Double(__lib.LibraryContext.isolateId, _xHandle, _yHandle);
+    final __resultHandle = __ffi_smoke_StructsWithMethods_Vector_library_smoke_StructsWithMethods_Vector_validate__Double_Double(__lib.LibraryContext.isolateId, _xHandle, _yHandle);
 
 
     try {
@@ -149,7 +149,7 @@ class StructsWithMethods_Vector$Impl {
   StructsWithMethods_Vector $init(double x, double y) {
     final _xHandle = (x);
     final _yHandle = (y);
-    final __resultHandle = __ffiPtr_library_smoke_StructsWithMethods_Vector_create__Double_Double(__lib.LibraryContext.isolateId, _xHandle, _yHandle);
+    final __resultHandle = __ffi_smoke_StructsWithMethods_Vector_library_smoke_StructsWithMethods_Vector_create__Double_Double(__lib.LibraryContext.isolateId, _xHandle, _yHandle);
 
 
     try {
@@ -163,7 +163,7 @@ class StructsWithMethods_Vector$Impl {
 
   StructsWithMethods_Vector copy(StructsWithMethods_Vector other) {
     final _otherHandle = smokeStructswithmethodsVectorToFfi(other);
-    final __callResultHandle = __ffiPtr_library_smoke_StructsWithMethods_Vector_create__Vector(__lib.LibraryContext.isolateId, _otherHandle);
+    final __callResultHandle = __ffi_smoke_StructsWithMethods_Vector_library_smoke_StructsWithMethods_Vector_create__Vector(__lib.LibraryContext.isolateId, _otherHandle);
     smokeStructswithmethodsVectorReleaseFfiHandle(_otherHandle);
     if (_copysmokeStructswithmethodsVectorCreateVectorReturnHasError(__callResultHandle) != 0) {
         final __errorHandle = _copysmokeStructswithmethodsVectorCreateVectorReturnGetError(__callResultHandle);
@@ -187,7 +187,7 @@ class StructsWithMethods_Vector$Impl {
 
   StructsWithMethods_Vector create(int input) {
     final _inputHandle = (input);
-    final __resultHandle = __ffiPtr_library_smoke_StructsWithMethods_Vector_create__ULong(__lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_StructsWithMethods_Vector_library_smoke_StructsWithMethods_Vector_create__ULong(__lib.LibraryContext.isolateId, _inputHandle);
 
     try {
       return smokeStructswithmethodsVectorFromFfi(__resultHandle);

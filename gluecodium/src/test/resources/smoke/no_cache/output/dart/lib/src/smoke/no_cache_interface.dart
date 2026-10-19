@@ -45,7 +45,7 @@ final _smokeNocacheinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nat
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_NoCacheInterface_get_type_id'));
 
-final __ffiPtr_library_smoke_NoCacheInterface_foo = __lib.catchArgumentError(() =>
+final __ffi_smoke_NoCacheInterface_library_smoke_NoCacheInterface_foo = __lib.catchArgumentError(() =>
   __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_NoCacheInterface_foo'));
 
 
@@ -69,7 +69,7 @@ class NoCacheInterface$Impl extends __lib.NativeBase implements NoCacheInterface
   @override
   void foo() {
     final _handle = this.handle;
-    __ffiPtr_library_smoke_NoCacheInterface_foo(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_NoCacheInterface_library_smoke_NoCacheInterface_foo(_handle, __lib.LibraryContext.isolateId);
 
   }
 
