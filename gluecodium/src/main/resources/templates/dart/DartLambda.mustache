@@ -18,6 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
+{{#set ownerType=this}}{{#ownerType}}
 {{>dart/DartLambdaDocs}}{{>dart/DartAttributes}}
 typedef {{resolveName}} = {{>dart/DartLambdaType}};
 
@@ -133,3 +134,4 @@ void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) =>
 // End of {{resolveName}} "private" section.{{!!
 
 }}
+{{/ownerType}}{{/set}}

@@ -18,6 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
+{{#set ownerType=this}}{{#ownerType}}
 {{>dart/DartDocumentation}}{{>dart/DartAttributes}}
 abstract class {{resolveName}}{{!!
 }}{{#unless disableFinalizableMarker}}{{!!
@@ -357,3 +358,4 @@ Pointer<Void>? tryDescendantToFfi({{resolveName interface}} value) {
 
 }}{{+ffiFunctionPointers}}{{#each inheritedFunctions functions}}{{#unless isStatic}}, Pointer{{/unless}}{{/each}}{{!!
 }}{{#each inheritedProperties properties}}{{#unless isStatic}}, Pointer{{#if setter}}, Pointer{{/if}}{{/unless}}{{/each}}{{/ffiFunctionPointers}}
+{{/ownerType}}{{/set}}

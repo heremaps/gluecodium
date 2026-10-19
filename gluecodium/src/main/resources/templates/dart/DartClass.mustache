@@ -18,6 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
+{{#set ownerType=this}}{{#ownerType}}
 {{>dart/DartDocumentation}}{{>dart/DartAttributes}}
 abstract class {{resolveName}}{{!!
 }}{{#unless disableFinalizableMarker}}{{!!
@@ -231,3 +232,4 @@ bool _{{resolveName}}IsCached = false;
   return _{{resolveName}}Cache;
 }
 {{/dartCachedProperty}}
+{{/ownerType}}{{/set}}
