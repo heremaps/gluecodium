@@ -1,7 +1,8 @@
 # Gluecodium project Release Notes
 
-## Unreleased
- * Dart: cache function pointers to avoid excessive symbols lookup. The internal implementation of lookup may lock global mutex and cause unexpected problems. Instead of getting symbol for a function on each call the new Gluecodium gets it only on the first call to that function.
+## 14.2.3
+Release date 2026-10-20
+ * Dart: cache function pointers to avoid excessive symbols lookup. The internal implementation of lookup may lock global mutex and cause unexpected problems. Instead of getting symbol for a function on each call the new Gluecodium gets it only on the first call to that function. It means that each function is looked up just once per isolate.
 
 ## 14.2.2
 Release date 2026-10-09
