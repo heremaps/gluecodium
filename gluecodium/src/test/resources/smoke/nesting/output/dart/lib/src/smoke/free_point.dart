@@ -1,18 +1,34 @@
+
+
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/smoke/free_enum.dart';
 import 'package:meta/meta.dart';
+
+final __ffi_smoke_FreePoint_library_smoke_FreePoint_flip = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_FreePoint_flip'));
+
+
+
 class FreePoint {
   double x;
+
   double y;
+
   FreePoint(this.x, this.y);
   static final FreeEnum aBar = FreeEnum.bar;
+
+
   FreePoint flip() => $prototype.flip(this);
+
   /// @nodoc
   @visibleForTesting
   static dynamic $prototype = FreePoint$Impl();
 }
+
+
 // FreePoint "private" section, not exported.
+
 final _smokeFreepointCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Double, Double),
     Pointer<Void> Function(double, double)
@@ -29,40 +45,54 @@ final _smokeFreepointGetFieldy = __lib.catchArgumentError(() => __lib.nativeLibr
     Double Function(Pointer<Void>),
     double Function(Pointer<Void>)
   >('library_smoke_FreePoint_get_field_y'));
+
+
+
 /// @nodoc
 @visibleForTesting
 class FreePoint$Impl {
   FreePoint flip(FreePoint $that) {
-    final _flipFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_FreePoint_flip'));
     final _handle = smokeFreepointToFfi($that);
-    final __resultHandle = _flipFfi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_FreePoint_library_smoke_FreePoint_flip(_handle, __lib.LibraryContext.isolateId);
     smokeFreepointReleaseFfiHandle(_handle);
     try {
       return smokeFreepointFromFfi(__resultHandle);
     } finally {
       smokeFreepointReleaseFfiHandle(__resultHandle);
+
     }
+
   }
+
 }
+
 Pointer<Void> smokeFreepointToFfi(FreePoint value) {
   final _xHandle = (value.x);
   final _yHandle = (value.y);
   final _result = _smokeFreepointCreateHandle(_xHandle, _yHandle);
+  
+  
   return _result;
 }
+
 FreePoint smokeFreepointFromFfi(Pointer<Void> handle) {
   final _xHandle = _smokeFreepointGetFieldx(handle);
   final _yHandle = _smokeFreepointGetFieldy(handle);
   try {
     return FreePoint(
-      (_xHandle),
+      (_xHandle), 
       (_yHandle)
     );
   } finally {
+    
+    
   }
 }
+
 void smokeFreepointReleaseFfiHandle(Pointer<Void> handle) => _smokeFreepointReleaseHandle(handle);
+
 // Nullable FreePoint
+
 final _smokeFreepointCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -75,6 +105,7 @@ final _smokeFreepointGetValueNullable = __lib.catchArgumentError(() => __lib.nat
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_FreePoint_get_value_nullable'));
+
 Pointer<Void> smokeFreepointToFfiNullable(FreePoint? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeFreepointToFfi(value);
@@ -82,6 +113,7 @@ Pointer<Void> smokeFreepointToFfiNullable(FreePoint? value) {
   smokeFreepointReleaseFfiHandle(_handle);
   return result;
 }
+
 FreePoint? smokeFreepointFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeFreepointGetValueNullable(handle);
@@ -89,6 +121,10 @@ FreePoint? smokeFreepointFromFfiNullable(Pointer<Void> handle) {
   smokeFreepointReleaseFfiHandle(_handle);
   return result;
 }
+
 void smokeFreepointReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeFreepointReleaseHandleNullable(handle);
+
 // End of FreePoint "private" section.
+
+

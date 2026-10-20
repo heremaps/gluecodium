@@ -157,17 +157,21 @@ final _smokeEnumsReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibr
   >('library_smoke_Enums_release_handle'));
 
 
+final __ffi_smoke_Enums_library_smoke_Enums_methodWithExternalEnum__External_Enum = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Int32, Uint32), void Function(int, int)>('library_smoke_Enums_methodWithExternalEnum__External_Enum'));
+
+
 
 /// @nodoc
 @visibleForTesting
+
 class Enums$Impl extends __lib.NativeBase implements Enums {
 
   Enums$Impl(Pointer<Void> handle) : super(handle);
 
   void methodWithExternalEnum(Enums_ExternalEnum input) {
-    final _methodWithExternalEnumFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32, Uint32), void Function(int, int)>('library_smoke_Enums_methodWithExternalEnum__External_Enum'));
     final _inputHandle = smokeEnumsExternalenumToFfi(input);
-    _methodWithExternalEnumFfi(__lib.LibraryContext.isolateId, _inputHandle);
+    __ffi_smoke_Enums_library_smoke_Enums_methodWithExternalEnum__External_Enum(__lib.LibraryContext.isolateId, _inputHandle);
     smokeEnumsExternalenumReleaseFfiHandle(_inputHandle);
 
   }

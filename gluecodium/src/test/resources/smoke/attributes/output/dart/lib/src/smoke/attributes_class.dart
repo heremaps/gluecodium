@@ -39,6 +39,17 @@ final _smokeAttributesclassReleaseHandle = __lib.catchArgumentError(() => __lib.
   >('library_smoke_AttributesClass_release_handle'));
 
 
+final __ffi_smoke_AttributesClass_library_smoke_AttributesClass_veryFun__String = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesClass_veryFun__String'));
+
+
+final __ffi_smoke_AttributesClass_library_smoke_AttributesClass_prop_get = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_AttributesClass_prop_get'));
+
+final __ffi_smoke_AttributesClass_library_smoke_AttributesClass_prop_set__String = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesClass_prop_set__String'));
+
+
 
 class AttributesClass$Impl extends __lib.NativeBase implements AttributesClass {
 
@@ -46,10 +57,9 @@ class AttributesClass$Impl extends __lib.NativeBase implements AttributesClass {
 
   @override
   void veryFun(@OnParameterInClass String param) {
-    final _veryFunFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesClass_veryFun__String'));
     final _paramHandle = stringToFfi(param);
     final _handle = this.handle;
-    _veryFunFfi(_handle, __lib.LibraryContext.isolateId, _paramHandle);
+    __ffi_smoke_AttributesClass_library_smoke_AttributesClass_veryFun__String(_handle, __lib.LibraryContext.isolateId, _paramHandle);
     stringReleaseFfiHandle(_paramHandle);
 
   }
@@ -57,9 +67,8 @@ class AttributesClass$Impl extends __lib.NativeBase implements AttributesClass {
   @OnPropertyInClass
   @override
   String get prop {
-    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_AttributesClass_prop_get'));
     final _handle = this.handle;
-    final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_AttributesClass_library_smoke_AttributesClass_prop_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {
@@ -72,10 +81,9 @@ class AttributesClass$Impl extends __lib.NativeBase implements AttributesClass {
   @OnPropertyInClass
   @override
   set prop(String value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesClass_prop_set__String'));
     final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
-    _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_AttributesClass_library_smoke_AttributesClass_prop_set__String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
 
   }

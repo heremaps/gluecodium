@@ -18,8 +18,10 @@
   ! License-Filename: LICENSE
   !
   !}}
+{{#set ownerType=this}}{{#ownerType}}
 {{#unlessPredicate "skipDeclaration"}}
 {{#functions}}
+{{>dart/DartFunctionLookup}}
 {{>dart/DartFunctionException}}
 
 {{/functions}}{{!!
@@ -234,3 +236,4 @@ void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) => _{{resolveNa
 }}{{#unless typeRef.attributes.optimized}}{{!!
 }}{{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(_{{resolveName}}Handle){{/unless}}{{#if iter.hasNext}}, {{/if}}
 {{/fromFfiFieldInit}}
+{{/ownerType}}{{/set}}

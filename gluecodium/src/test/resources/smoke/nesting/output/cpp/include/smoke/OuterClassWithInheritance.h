@@ -7,7 +7,7 @@
 #pragma once
 
 #include "gluecodium/ExportGluecodiumCpp.h"
-#include "gluecodium/TypeRepository.h"
+#include "smoke/OuterInterface.h"
 #include "smoke/ParentClass.h"
 #include <string>
 
@@ -29,10 +29,20 @@ public:
         virtual ::std::string bar( const ::std::string& input ) = 0;
     };
 
-    class _GLUECODIUM_CPP_EXPORT InnerInterface {
+    class _GLUECODIUM_CPP_EXPORT InnerInterface: public ::smoke::OuterInterface {
     public:
         InnerInterface();
         virtual ~InnerInterface();
+
+
+    public:
+        virtual ::std::string baz( const ::std::string& input ) = 0;
+    };
+
+    class _GLUECODIUM_CPP_EXPORT AnotherInnerInterface: public ::smoke::OuterInterface {
+    public:
+        AnotherInnerInterface();
+        virtual ~AnotherInnerInterface();
 
 
     public:

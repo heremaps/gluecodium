@@ -45,58 +45,74 @@ final _smokeEnableifenabledReleaseHandle = __lib.catchArgumentError(() => __lib.
   >('library_smoke_EnableIfEnabled_release_handle'));
 
 
+final __ffi_smoke_EnableIfEnabled_library_smoke_EnableIfEnabled_enableIfUnquoted = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfUnquoted'));
 
 
+final __ffi_smoke_EnableIfEnabled_library_smoke_EnableIfEnabled_enableIfUnquotedList = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfUnquotedList'));
 
 
+final __ffi_smoke_EnableIfEnabled_library_smoke_EnableIfEnabled_enableIfQuoted = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfQuoted'));
+
+
+final __ffi_smoke_EnableIfEnabled_library_smoke_EnableIfEnabled_enableIfQuotedList = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfQuotedList'));
+
+
+final __ffi_smoke_EnableIfEnabled_library_smoke_EnableIfEnabled_enableIfTagged = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfTagged'));
+
+
+final __ffi_smoke_EnableIfEnabled_library_smoke_EnableIfEnabled_enableIfTaggedList = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfTaggedList'));
+
+
+final __ffi_smoke_EnableIfEnabled_library_smoke_EnableIfEnabled_enableIfMixedList = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfMixedList'));
 
 
 
 /// @nodoc
 @visibleForTesting
+
 class EnableIfEnabled$Impl extends __lib.NativeBase implements EnableIfEnabled {
 
   EnableIfEnabled$Impl(Pointer<Void> handle) : super(handle);
 
   void enableIfUnquoted() {
-    final _enableIfUnquotedFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfUnquoted'));
-    _enableIfUnquotedFfi(__lib.LibraryContext.isolateId);
+    __ffi_smoke_EnableIfEnabled_library_smoke_EnableIfEnabled_enableIfUnquoted(__lib.LibraryContext.isolateId);
 
   }
 
   void enableIfUnquotedList() {
-    final _enableIfUnquotedListFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfUnquotedList'));
-    _enableIfUnquotedListFfi(__lib.LibraryContext.isolateId);
+    __ffi_smoke_EnableIfEnabled_library_smoke_EnableIfEnabled_enableIfUnquotedList(__lib.LibraryContext.isolateId);
 
   }
 
   void enableIfQuoted() {
-    final _enableIfQuotedFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfQuoted'));
-    _enableIfQuotedFfi(__lib.LibraryContext.isolateId);
+    __ffi_smoke_EnableIfEnabled_library_smoke_EnableIfEnabled_enableIfQuoted(__lib.LibraryContext.isolateId);
 
   }
 
   void enableIfQuotedList() {
-    final _enableIfQuotedListFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfQuotedList'));
-    _enableIfQuotedListFfi(__lib.LibraryContext.isolateId);
+    __ffi_smoke_EnableIfEnabled_library_smoke_EnableIfEnabled_enableIfQuotedList(__lib.LibraryContext.isolateId);
 
   }
 
   void enableIfTagged() {
-    final _enableIfTaggedFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfTagged'));
-    _enableIfTaggedFfi(__lib.LibraryContext.isolateId);
+    __ffi_smoke_EnableIfEnabled_library_smoke_EnableIfEnabled_enableIfTagged(__lib.LibraryContext.isolateId);
 
   }
 
   void enableIfTaggedList() {
-    final _enableIfTaggedListFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfTaggedList'));
-    _enableIfTaggedListFfi(__lib.LibraryContext.isolateId);
+    __ffi_smoke_EnableIfEnabled_library_smoke_EnableIfEnabled_enableIfTaggedList(__lib.LibraryContext.isolateId);
 
   }
 
   void enableIfMixedList() {
-    final _enableIfMixedListFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Int32), void Function(int)>('library_smoke_EnableIfEnabled_enableIfMixedList'));
-    _enableIfMixedListFfi(__lib.LibraryContext.isolateId);
+    __ffi_smoke_EnableIfEnabled_library_smoke_EnableIfEnabled_enableIfMixedList(__lib.LibraryContext.isolateId);
 
   }
 

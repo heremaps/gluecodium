@@ -129,6 +129,17 @@ final _smokeAttributeswithdeprecatedReleaseHandle = __lib.catchArgumentError(() 
   >('library_smoke_AttributesWithDeprecated_release_handle'));
 
 
+final __ffi_smoke_AttributesWithDeprecated_library_smoke_AttributesWithDeprecated_veryFun = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_AttributesWithDeprecated_veryFun'));
+
+
+final __ffi_smoke_AttributesWithDeprecated_library_smoke_AttributesWithDeprecated_prop_get = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_AttributesWithDeprecated_prop_get'));
+
+final __ffi_smoke_AttributesWithDeprecated_library_smoke_AttributesWithDeprecated_prop_set__String = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesWithDeprecated_prop_set__String'));
+
+
 
 class AttributesWithDeprecated$Impl extends __lib.NativeBase implements AttributesWithDeprecated {
 
@@ -136,18 +147,16 @@ class AttributesWithDeprecated$Impl extends __lib.NativeBase implements Attribut
 
   @override
   void veryFun() {
-    final _veryFunFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_AttributesWithDeprecated_veryFun'));
     final _handle = this.handle;
-    _veryFunFfi(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_AttributesWithDeprecated_library_smoke_AttributesWithDeprecated_veryFun(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   @OnPropertyInClass
   @override
   String get prop {
-    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_AttributesWithDeprecated_prop_get'));
     final _handle = this.handle;
-    final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_AttributesWithDeprecated_library_smoke_AttributesWithDeprecated_prop_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {
@@ -160,10 +169,9 @@ class AttributesWithDeprecated$Impl extends __lib.NativeBase implements Attribut
   @OnPropertyInClass
   @override
   set prop(String value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_AttributesWithDeprecated_prop_set__String'));
     final _valueHandle = stringToFfi(value);
     final _handle = this.handle;
-    _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_AttributesWithDeprecated_library_smoke_AttributesWithDeprecated_prop_set__String(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     stringReleaseFfiHandle(_valueHandle);
 
   }

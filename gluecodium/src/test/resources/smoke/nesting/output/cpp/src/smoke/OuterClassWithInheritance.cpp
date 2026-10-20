@@ -1,8 +1,11 @@
 // -------------------------------------------------------------------------------------------------
 //
+
 //
 // -------------------------------------------------------------------------------------------------
+
 #include "smoke/OuterClassWithInheritance.h"
+
 namespace smoke {
 OuterClassWithInheritance::OuterClassWithInheritance() {
     ::gluecodium::get_type_repository().add_type(this, "smoke_OuterClassWithInheritance");
@@ -10,12 +13,26 @@ OuterClassWithInheritance::OuterClassWithInheritance() {
 OuterClassWithInheritance::~OuterClassWithInheritance() {
     ::gluecodium::get_type_repository().remove_type(this);
 }
+
 OuterClassWithInheritance::InnerClass::InnerClass() {
 }
 OuterClassWithInheritance::InnerClass::~InnerClass() {
 }
+
 OuterClassWithInheritance::InnerInterface::InnerInterface() {
+    ::gluecodium::get_type_repository().add_type(this, "smoke_InnerInterface");
 }
 OuterClassWithInheritance::InnerInterface::~InnerInterface() {
+    ::gluecodium::get_type_repository().remove_type(this);
 }
+
+OuterClassWithInheritance::AnotherInnerInterface::AnotherInnerInterface() {
+    ::gluecodium::get_type_repository().add_type(this, "smoke_AnotherInnerInterface");
 }
+OuterClassWithInheritance::AnotherInnerInterface::~AnotherInnerInterface() {
+    ::gluecodium::get_type_repository().remove_type(this);
+}
+
+
+}
+

@@ -120,6 +120,19 @@ final _smokeDurationsecondsReleaseHandle = __lib.catchArgumentError(() => __lib.
   >('library_smoke_DurationSeconds_release_handle'));
 
 
+final __ffi_smoke_DurationSeconds_library_smoke_DurationSeconds_durationFunction__Duration = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32, Uint64), int Function(Pointer<Void>, int, int)>('library_smoke_DurationSeconds_durationFunction__Duration'));
+
+
+final __ffi_smoke_DurationSeconds_library_smoke_DurationSeconds_nullableDurationFunction__Duration_ = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DurationSeconds_nullableDurationFunction__Duration_'));
+
+
+final __ffi_smoke_DurationSeconds_library_smoke_DurationSeconds_durationProperty_get = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_DurationSeconds_durationProperty_get'));
+
+final __ffi_smoke_DurationSeconds_library_smoke_DurationSeconds_durationProperty_set__Duration = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint64), void Function(Pointer<Void>, int, int)>('library_smoke_DurationSeconds_durationProperty_set__Duration'));
 
 
 
@@ -129,10 +142,9 @@ class DurationSeconds$Impl extends __lib.NativeBase implements DurationSeconds {
 
   @override
   Duration durationFunction(Duration input) {
-    final _durationFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32, Uint64), int Function(Pointer<Void>, int, int)>('library_smoke_DurationSeconds_durationFunction__Duration'));
     final _inputHandle = durationToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = _durationFunctionFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_DurationSeconds_library_smoke_DurationSeconds_durationFunction__Duration(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     durationReleaseFfiHandle(_inputHandle);
     try {
       return durationFromFfi(__resultHandle);
@@ -145,10 +157,9 @@ class DurationSeconds$Impl extends __lib.NativeBase implements DurationSeconds {
 
   @override
   Duration? nullableDurationFunction(Duration? input) {
-    final _nullableDurationFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_DurationSeconds_nullableDurationFunction__Duration_'));
     final _inputHandle = durationToFfiNullable(input);
     final _handle = this.handle;
-    final __resultHandle = _nullableDurationFunctionFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_DurationSeconds_library_smoke_DurationSeconds_nullableDurationFunction__Duration_(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     durationReleaseFfiHandleNullable(_inputHandle);
     try {
       return durationFromFfiNullable(__resultHandle);
@@ -161,9 +172,8 @@ class DurationSeconds$Impl extends __lib.NativeBase implements DurationSeconds {
 
   @override
   Duration get durationProperty {
-    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Uint64 Function(Pointer<Void>, Int32), int Function(Pointer<Void>, int)>('library_smoke_DurationSeconds_durationProperty_get'));
     final _handle = this.handle;
-    final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_DurationSeconds_library_smoke_DurationSeconds_durationProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return durationFromFfi(__resultHandle);
     } finally {
@@ -175,10 +185,9 @@ class DurationSeconds$Impl extends __lib.NativeBase implements DurationSeconds {
 
   @override
   set durationProperty(Duration value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Uint64), void Function(Pointer<Void>, int, int)>('library_smoke_DurationSeconds_durationProperty_set__Duration'));
     final _valueHandle = durationToFfi(value);
     final _handle = this.handle;
-    _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_DurationSeconds_library_smoke_DurationSeconds_durationProperty_set__Duration(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     durationReleaseFfiHandle(_valueHandle);
 
   }

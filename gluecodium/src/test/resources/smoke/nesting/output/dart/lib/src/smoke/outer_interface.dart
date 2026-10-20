@@ -6,6 +6,7 @@ import 'package:library/src/_native_base.dart' as __lib;
 import 'package:library/src/_token_cache.dart' as __lib;
 import 'package:library/src/_type_repository.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
+import 'package:library/src/smoke/outer_class_with_inheritance.dart';
 
 abstract class OuterInterface implements Finalizable {
 
@@ -44,6 +45,10 @@ final _smokeOuterinterfaceInnerclassReleaseHandle = __lib.catchArgumentError(() 
   >('library_smoke_OuterInterface_InnerClass_release_handle'));
 
 
+final __ffi_smoke_OuterInterface_InnerClass_library_smoke_OuterInterface_InnerClass_foo__String = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterInterface_InnerClass_foo__String'));
+
+
 
 
 class OuterInterface_InnerClass$Impl extends __lib.NativeBase implements OuterInterface_InnerClass {
@@ -52,10 +57,9 @@ class OuterInterface_InnerClass$Impl extends __lib.NativeBase implements OuterIn
 
   @override
   String foo(String input) {
-    final _fooFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterInterface_InnerClass_foo__String'));
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = _fooFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_OuterInterface_InnerClass_library_smoke_OuterInterface_InnerClass_foo__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
     try {
       return stringFromFfi(__resultHandle);
@@ -135,6 +139,9 @@ final _smokeOuterinterfaceInnerinterfaceGetTypeId = __lib.catchArgumentError(() 
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_OuterInterface_InnerInterface_get_type_id'));
 
+final __ffi_smoke_OuterInterface_InnerInterface_library_smoke_OuterInterface_InnerInterface_foo__String = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterInterface_InnerInterface_foo__String'));
+
 
 class OuterInterface_InnerInterface$Lambdas implements OuterInterface_InnerInterface {
   String Function(String) fooLambda;
@@ -155,10 +162,9 @@ class OuterInterface_InnerInterface$Impl extends __lib.NativeBase implements Out
 
   @override
   String foo(String input) {
-    final _fooFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterInterface_InnerInterface_foo__String'));
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = _fooFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_OuterInterface_InnerInterface_library_smoke_OuterInterface_InnerInterface_foo__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
     try {
       return stringFromFfi(__resultHandle);
@@ -264,6 +270,9 @@ final _smokeOuterinterfaceGetTypeId = __lib.catchArgumentError(() => __lib.nativ
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_OuterInterface_get_type_id'));
 
+final __ffi_smoke_OuterInterface_library_smoke_OuterInterface_foo__String = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterInterface_foo__String'));
+
 
 class OuterInterface$Lambdas implements OuterInterface {
   String Function(String) fooLambda;
@@ -284,10 +293,9 @@ class OuterInterface$Impl extends __lib.NativeBase implements OuterInterface {
 
   @override
   String foo(String input) {
-    final _fooFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32, Pointer<Void>), Pointer<Void> Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_OuterInterface_foo__String'));
     final _inputHandle = stringToFfi(input);
     final _handle = this.handle;
-    final __resultHandle = _fooFfi(_handle, __lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_OuterInterface_library_smoke_OuterInterface_foo__String(_handle, __lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
     try {
       return stringFromFfi(__resultHandle);
@@ -314,6 +322,11 @@ void _smokeOuterinterfacefooStatic(OuterInterface _obj, Pointer<Void> input, Poi
 
 Pointer<Void> smokeOuterinterfaceToFfi(OuterInterface __interfaceObj) {
   if (__interfaceObj is __lib.NativeBase) return _smokeOuterinterfaceCopyHandle((__interfaceObj as __lib.NativeBase).handle);
+
+  final descendantResult = tryDescendantToFfi(__interfaceObj);
+  if (descendantResult != null) {
+    return descendantResult;
+  }
 
   void __fooCaller(Pointer<Void> input, Pointer<Pointer<Void>> _result) { _smokeOuterinterfacefooStatic(__interfaceObj, input, _result); }
   final __fooCallback = NativeCallable<Void Function(Pointer<Void>, Pointer<Pointer<Void>>)>.isolateLocal(__fooCaller);
@@ -367,6 +380,12 @@ OuterInterface? smokeOuterinterfaceFromFfiNullable(Pointer<Void> handle) =>
 
 void smokeOuterinterfaceReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeOuterinterfaceReleaseHandle(handle);
+
+Pointer<Void>? tryDescendantToFfi(OuterInterface value) {
+  if (value is OuterClassWithInheritance_AnotherInnerInterface) return smokeOuterclasswithinheritanceAnotherinnerinterfaceToFfi(value);
+  if (value is OuterClassWithInheritance_InnerInterface) return smokeOuterclasswithinheritanceInnerinterfaceToFfi(value);
+  return null;
+}
 
 // End of OuterInterface "private" section.
 

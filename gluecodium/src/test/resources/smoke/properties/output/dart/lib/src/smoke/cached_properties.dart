@@ -38,8 +38,16 @@ final _smokeCachedpropertiesReleaseHandle = __lib.catchArgumentError(() => __lib
   >('library_smoke_CachedProperties_release_handle'));
 
 
+final __ffi_smoke_CachedProperties_library_smoke_CachedProperties_cachedProperty_get = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_CachedProperties_cachedProperty_get'));
+
+final __ffi_smoke_CachedProperties_library_smoke_CachedProperties_staticCachedProperty_get = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_CachedProperties_staticCachedProperty_get'));
+
+
 /// @nodoc
 @visibleForTesting
+
 class CachedProperties$Impl extends __lib.NativeBase implements CachedProperties {
 
   CachedProperties$Impl(Pointer<Void> handle) : super(handle);
@@ -51,8 +59,7 @@ class CachedProperties$Impl extends __lib.NativeBase implements CachedProperties
 
   List<String> get cachedProperty {
     if (!_cachedPropertyIsCached) {
-      final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_CachedProperties_cachedProperty_get'));
-      final __resultHandle = _getFfi(this.handle, __lib.LibraryContext.isolateId);
+      final __resultHandle = __ffi_smoke_CachedProperties_library_smoke_CachedProperties_cachedProperty_get(this.handle, __lib.LibraryContext.isolateId);
       try {
         _cachedPropertyCache = foobarListofStringFromFfi(__resultHandle);
       } finally {
@@ -70,8 +77,7 @@ class CachedProperties$Impl extends __lib.NativeBase implements CachedProperties
 
   Uint8List get staticCachedProperty {
     if (!_staticCachedPropertyIsCached) {
-      final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_CachedProperties_staticCachedProperty_get'));
-      final __resultHandle = _getFfi(__lib.LibraryContext.isolateId);
+      final __resultHandle = __ffi_smoke_CachedProperties_library_smoke_CachedProperties_staticCachedProperty_get(__lib.LibraryContext.isolateId);
       try {
         _staticCachedPropertyCache = blobFromFfi(__resultHandle);
       } finally {

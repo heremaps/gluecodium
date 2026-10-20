@@ -18,6 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
+{{#set ownerType=this}}{{#ownerType}}
 {{>dart/DartLambdaDocs}}{{>dart/DartAttributes}}
 typedef {{resolveName}} = {{>dart/DartLambdaType}};
 
@@ -41,6 +42,10 @@ final _{{resolveName "Ffi"}}CreateProxy = __lib.catchArgumentError(() => __lib.n
     Pointer<Void> Function(Uint64, Int32, Handle, Pointer, Pointer),
     Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('{{libraryName}}_{{resolveName "FfiSnakeCase"}}_create_proxy'));
+
+{{#set parent=this}}{{#asFunction}}
+{{>dart/DartFunctionLookup}}
+{{/asFunction}}{{/set}}
 
 {{#unless disableFinalizableMarker}}{{!!
 }}class {{resolveName}}$Impl implements Finalizable {
@@ -128,6 +133,5 @@ void {{resolveName "Ffi"}}ReleaseFfiHandle(Pointer<Void> handle) =>
 
 // End of {{resolveName}} "private" section.{{!!
 
-}}{{+ffiApi}}Int64 Function(Handle{{#if parameters}}, {{/if}}{{!!
-}}{{#parameters}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}{{!!
-}}{{#unless returnType.isVoid}}, Pointer<{{resolveName returnType.typeRef "FfiApiTypes"}}>{{/unless}}){{/ffiApi}}
+}}
+{{/ownerType}}{{/set}}

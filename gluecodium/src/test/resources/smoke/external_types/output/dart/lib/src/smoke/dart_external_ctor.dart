@@ -1,17 +1,31 @@
+
+
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
 import '../foo_converter.dart';
+
+final __ffi_smoke_DartExternalCtor_library_smoke_DartExternalCtor_make__String = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_DartExternalCtor_make__String'));
+
+
+
 class DartExternalCtorInternal {
   String field;
+
   DartExternalCtorInternal._(this.field);
+
   factory DartExternalCtorInternal(String field) => $prototype.make(field);
+
   /// @nodoc
   @visibleForTesting
   static dynamic $prototype = DartExternalCtor$Impl();
 }
+
+
 // DartExternalCtor "private" section, not exported.
+
 final _smokeDartexternalctorCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -24,21 +38,27 @@ final _smokeDartexternalctorGetFieldfield = __lib.catchArgumentError(() => __lib
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_DartExternalCtor_get_field_field'));
+
+
+
 /// @nodoc
 @visibleForTesting
 class DartExternalCtor$Impl {
   DartExternalCtorInternal make(String field) {
-    final _makeFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_DartExternalCtor_make__String'));
     final _fieldHandle = stringToFfi(field);
-    final __resultHandle = _makeFfi(__lib.LibraryContext.isolateId, _fieldHandle);
+    final __resultHandle = __ffi_smoke_DartExternalCtor_library_smoke_DartExternalCtor_make__String(__lib.LibraryContext.isolateId, _fieldHandle);
     stringReleaseFfiHandle(_fieldHandle);
     try {
       return smokeDartexternalctorFromFfiInternal(__resultHandle);
     } finally {
       smokeDartexternalctorReleaseFfiHandle(__resultHandle);
+
     }
+
   }
+
 }
+
 Pointer<Void> smokeDartexternalctorToFfi(DartExternalCtor valueExternal) {
   final value = FooConverter.convertToInternal(valueExternal);
   final _fieldHandle = stringToFfi(value.field);
@@ -46,6 +66,7 @@ Pointer<Void> smokeDartexternalctorToFfi(DartExternalCtor valueExternal) {
   stringReleaseFfiHandle(_fieldHandle);
   return _result;
 }
+
 DartExternalCtor smokeDartexternalctorFromFfi(Pointer<Void> handle) {
   final _fieldHandle = _smokeDartexternalctorGetFieldfield(handle);
   try {
@@ -57,6 +78,7 @@ DartExternalCtor smokeDartexternalctorFromFfi(Pointer<Void> handle) {
     stringReleaseFfiHandle(_fieldHandle);
   }
 }
+
 DartExternalCtorInternal smokeDartexternalctorFromFfiInternal(Pointer<Void> handle) {
   final _fieldHandle = _smokeDartexternalctorGetFieldfield(handle);
   try {
@@ -67,8 +89,11 @@ DartExternalCtorInternal smokeDartexternalctorFromFfiInternal(Pointer<Void> hand
     stringReleaseFfiHandle(_fieldHandle);
   }
 }
+
 void smokeDartexternalctorReleaseFfiHandle(Pointer<Void> handle) => _smokeDartexternalctorReleaseHandle(handle);
+
 // Nullable DartExternalCtor
+
 final _smokeDartexternalctorCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -81,6 +106,7 @@ final _smokeDartexternalctorGetValueNullable = __lib.catchArgumentError(() => __
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_DartExternalCtor_get_value_nullable'));
+
 Pointer<Void> smokeDartexternalctorToFfiNullable(DartExternalCtor? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeDartexternalctorToFfi(value);
@@ -88,6 +114,7 @@ Pointer<Void> smokeDartexternalctorToFfiNullable(DartExternalCtor? value) {
   smokeDartexternalctorReleaseFfiHandle(_handle);
   return result;
 }
+
 DartExternalCtor? smokeDartexternalctorFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeDartexternalctorGetValueNullable(handle);
@@ -95,6 +122,10 @@ DartExternalCtor? smokeDartexternalctorFromFfiNullable(Pointer<Void> handle) {
   smokeDartexternalctorReleaseFfiHandle(_handle);
   return result;
 }
+
 void smokeDartexternalctorReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeDartexternalctorReleaseHandleNullable(handle);
+
 // End of DartExternalCtor "private" section.
+
+

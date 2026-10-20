@@ -26,14 +26,17 @@ final _smokeStandaloneproducerCreateProxy = __lib.catchArgumentError(() => __lib
     Pointer<Void> Function(int, int, Object, Pointer, Pointer)
   >('library_smoke_StandaloneProducer_create_proxy'));
 
+final __ffi_smoke_StandaloneProducer_library_smoke_StandaloneProducer_call = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_StandaloneProducer_call'));
+
+
 class StandaloneProducer$Impl implements Finalizable {
   final Pointer<Void> handle;
   StandaloneProducer$Impl(this.handle);
 
   String call() {
-    final _callFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_StandaloneProducer_call'));
     final _handle = this.handle;
-    final __resultHandle = _callFfi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_StandaloneProducer_library_smoke_StandaloneProducer_call(_handle, __lib.LibraryContext.isolateId);
     try {
       return stringFromFfi(__resultHandle);
     } finally {

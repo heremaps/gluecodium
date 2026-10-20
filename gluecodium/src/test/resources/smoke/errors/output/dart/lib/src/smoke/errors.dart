@@ -181,6 +181,9 @@ final _smokeErrorsReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLib
   >('library_smoke_Errors_release_handle'));
 
 
+final __ffi_smoke_Errors_library_smoke_Errors_methodWithErrors = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithErrors'));
+
 final _methodWithErrorssmokeErrorsMethodwitherrorsReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -195,6 +198,9 @@ final _methodWithErrorssmokeErrorsMethodwitherrorsReturnHasError = __lib.catchAr
   >('library_smoke_Errors_methodWithErrors_return_has_error'));
 
 
+final __ffi_smoke_Errors_library_smoke_Errors_methodWithExternalErrors = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithExternalErrors'));
+
 final _methodWithExternalErrorssmokeErrorsMethodwithexternalerrorsReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -208,6 +214,9 @@ final _methodWithExternalErrorssmokeErrorsMethodwithexternalerrorsReturnHasError
     int Function(Pointer<Void>)
   >('library_smoke_Errors_methodWithExternalErrors_return_has_error'));
 
+
+final __ffi_smoke_Errors_library_smoke_Errors_methodWithErrorsAndReturnValue = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithErrorsAndReturnValue'));
 
 final _methodWithErrorsAndReturnValuesmokeErrorsMethodwitherrorsandreturnvalueReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
@@ -227,6 +236,9 @@ final _methodWithErrorsAndReturnValuesmokeErrorsMethodwitherrorsandreturnvalueRe
   >('library_smoke_Errors_methodWithErrorsAndReturnValue_return_has_error'));
 
 
+final __ffi_smoke_Errors_library_smoke_Errors_methodWithPayloadError = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithPayloadError'));
+
 final _methodWithPayloadErrorsmokeErrorsMethodwithpayloaderrorReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
@@ -240,6 +252,9 @@ final _methodWithPayloadErrorsmokeErrorsMethodwithpayloaderrorReturnHasError = _
     int Function(Pointer<Void>)
   >('library_smoke_Errors_methodWithPayloadError_return_has_error'));
 
+
+final __ffi_smoke_Errors_library_smoke_Errors_methodWithPayloadErrorAndReturnValue = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithPayloadErrorAndReturnValue'));
 
 final _methodWithPayloadErrorAndReturnValuesmokeErrorsMethodwithpayloaderrorandreturnvalueReturnReleaseHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Void Function(Pointer<Void>),
@@ -259,15 +274,16 @@ final _methodWithPayloadErrorAndReturnValuesmokeErrorsMethodwithpayloaderrorandr
   >('library_smoke_Errors_methodWithPayloadErrorAndReturnValue_return_has_error'));
 
 
+
 /// @nodoc
 @visibleForTesting
+
 class Errors$Impl extends __lib.NativeBase implements Errors {
 
   Errors$Impl(Pointer<Void> handle) : super(handle);
 
   void methodWithErrors() {
-    final _methodWithErrorsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithErrors'));
-    final __callResultHandle = _methodWithErrorsFfi(__lib.LibraryContext.isolateId);
+    final __callResultHandle = __ffi_smoke_Errors_library_smoke_Errors_methodWithErrors(__lib.LibraryContext.isolateId);
     if (_methodWithErrorssmokeErrorsMethodwitherrorsReturnHasError(__callResultHandle) != 0) {
         final __errorHandle = _methodWithErrorssmokeErrorsMethodwitherrorsReturnGetError(__callResultHandle);
         _methodWithErrorssmokeErrorsMethodwitherrorsReturnReleaseHandle(__callResultHandle);
@@ -282,8 +298,7 @@ class Errors$Impl extends __lib.NativeBase implements Errors {
   }
 
   void methodWithExternalErrors() {
-    final _methodWithExternalErrorsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithExternalErrors'));
-    final __callResultHandle = _methodWithExternalErrorsFfi(__lib.LibraryContext.isolateId);
+    final __callResultHandle = __ffi_smoke_Errors_library_smoke_Errors_methodWithExternalErrors(__lib.LibraryContext.isolateId);
     if (_methodWithExternalErrorssmokeErrorsMethodwithexternalerrorsReturnHasError(__callResultHandle) != 0) {
         final __errorHandle = _methodWithExternalErrorssmokeErrorsMethodwithexternalerrorsReturnGetError(__callResultHandle);
         _methodWithExternalErrorssmokeErrorsMethodwithexternalerrorsReturnReleaseHandle(__callResultHandle);
@@ -298,8 +313,7 @@ class Errors$Impl extends __lib.NativeBase implements Errors {
   }
 
   String methodWithErrorsAndReturnValue() {
-    final _methodWithErrorsAndReturnValueFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithErrorsAndReturnValue'));
-    final __callResultHandle = _methodWithErrorsAndReturnValueFfi(__lib.LibraryContext.isolateId);
+    final __callResultHandle = __ffi_smoke_Errors_library_smoke_Errors_methodWithErrorsAndReturnValue(__lib.LibraryContext.isolateId);
     if (_methodWithErrorsAndReturnValuesmokeErrorsMethodwitherrorsandreturnvalueReturnHasError(__callResultHandle) != 0) {
         final __errorHandle = _methodWithErrorsAndReturnValuesmokeErrorsMethodwitherrorsandreturnvalueReturnGetError(__callResultHandle);
         _methodWithErrorsAndReturnValuesmokeErrorsMethodwitherrorsandreturnvalueReturnReleaseHandle(__callResultHandle);
@@ -321,8 +335,7 @@ class Errors$Impl extends __lib.NativeBase implements Errors {
   }
 
   void methodWithPayloadError() {
-    final _methodWithPayloadErrorFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithPayloadError'));
-    final __callResultHandle = _methodWithPayloadErrorFfi(__lib.LibraryContext.isolateId);
+    final __callResultHandle = __ffi_smoke_Errors_library_smoke_Errors_methodWithPayloadError(__lib.LibraryContext.isolateId);
     if (_methodWithPayloadErrorsmokeErrorsMethodwithpayloaderrorReturnHasError(__callResultHandle) != 0) {
         final __errorHandle = _methodWithPayloadErrorsmokeErrorsMethodwithpayloaderrorReturnGetError(__callResultHandle);
         _methodWithPayloadErrorsmokeErrorsMethodwithpayloaderrorReturnReleaseHandle(__callResultHandle);
@@ -337,8 +350,7 @@ class Errors$Impl extends __lib.NativeBase implements Errors {
   }
 
   String methodWithPayloadErrorAndReturnValue() {
-    final _methodWithPayloadErrorAndReturnValueFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_Errors_methodWithPayloadErrorAndReturnValue'));
-    final __callResultHandle = _methodWithPayloadErrorAndReturnValueFfi(__lib.LibraryContext.isolateId);
+    final __callResultHandle = __ffi_smoke_Errors_library_smoke_Errors_methodWithPayloadErrorAndReturnValue(__lib.LibraryContext.isolateId);
     if (_methodWithPayloadErrorAndReturnValuesmokeErrorsMethodwithpayloaderrorandreturnvalueReturnHasError(__callResultHandle) != 0) {
         final __errorHandle = _methodWithPayloadErrorAndReturnValuesmokeErrorsMethodwithpayloaderrorandreturnvalueReturnGetError(__callResultHandle);
         _methodWithPayloadErrorAndReturnValuesmokeErrorsMethodwithpayloaderrorandreturnvalueReturnReleaseHandle(__callResultHandle);

@@ -33,9 +33,14 @@ final _smokeSinglenamedconstructorReleaseHandle = __lib.catchArgumentError(() =>
   >('library_smoke_SingleNamedConstructor_release_handle'));
 
 
+final __ffi_smoke_SingleNamedConstructor_library_smoke_SingleNamedConstructor_create = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_SingleNamedConstructor_create'));
+
+
 
 /// @nodoc
 @visibleForTesting
+
 class SingleNamedConstructor$Impl extends __lib.NativeBase implements SingleNamedConstructor {
 
   SingleNamedConstructor$Impl(Pointer<Void> handle) : super(handle);
@@ -48,12 +53,12 @@ class SingleNamedConstructor$Impl extends __lib.NativeBase implements SingleName
     __lib.cacheInstance(_result_handle, _result);
 
     _smokeSinglenamedconstructorRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+
     return _result;
   }
 
   static Pointer<Void> _fooBar() {
-    final _fooBarFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_SingleNamedConstructor_create'));
-    final __resultHandle = _fooBarFfi(__lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_SingleNamedConstructor_library_smoke_SingleNamedConstructor_create(__lib.LibraryContext.isolateId);
     return __resultHandle;
   }
 

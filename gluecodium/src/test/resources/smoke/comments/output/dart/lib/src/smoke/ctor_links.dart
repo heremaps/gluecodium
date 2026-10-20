@@ -39,9 +39,14 @@ final _smokeCtorlinksSinglectorReleaseHandle = __lib.catchArgumentError(() => __
   >('library_smoke_CtorLinks_SingleCtor_release_handle'));
 
 
+final __ffi_smoke_CtorLinks_SingleCtor_library_smoke_CtorLinks_SingleCtor_create = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_CtorLinks_SingleCtor_create'));
+
+
 
 /// @nodoc
 @visibleForTesting
+
 class CtorLinks_SingleCtor$Impl extends __lib.NativeBase implements CtorLinks_SingleCtor {
 
   CtorLinks_SingleCtor$Impl(Pointer<Void> handle) : super(handle);
@@ -54,12 +59,12 @@ class CtorLinks_SingleCtor$Impl extends __lib.NativeBase implements CtorLinks_Si
     __lib.cacheInstance(_result_handle, _result);
 
     _smokeCtorlinksSinglectorRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+
     return _result;
   }
 
   static Pointer<Void> _create() {
-    final _createFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32), Pointer<Void> Function(int)>('library_smoke_CtorLinks_SingleCtor_create'));
-    final __resultHandle = _createFfi(__lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_CtorLinks_SingleCtor_library_smoke_CtorLinks_SingleCtor_create(__lib.LibraryContext.isolateId);
     return __resultHandle;
   }
 
@@ -122,9 +127,14 @@ final _smokeCtorlinksSinglectorwithoneargumentReleaseHandle = __lib.catchArgumen
   >('library_smoke_CtorLinks_SingleCtorWithOneArgument_release_handle'));
 
 
+final __ffi_smoke_CtorLinks_SingleCtorWithOneArgument_library_smoke_CtorLinks_SingleCtorWithOneArgument_create__Int = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Int32), Pointer<Void> Function(int, int)>('library_smoke_CtorLinks_SingleCtorWithOneArgument_create__Int'));
+
+
 
 /// @nodoc
 @visibleForTesting
+
 class CtorLinks_SingleCtorWithOneArgument$Impl extends __lib.NativeBase implements CtorLinks_SingleCtorWithOneArgument {
 
   CtorLinks_SingleCtorWithOneArgument$Impl(Pointer<Void> handle) : super(handle);
@@ -137,13 +147,13 @@ class CtorLinks_SingleCtorWithOneArgument$Impl extends __lib.NativeBase implemen
     __lib.cacheInstance(_result_handle, _result);
 
     _smokeCtorlinksSinglectorwithoneargumentRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+
     return _result;
   }
 
   static Pointer<Void> _create(int arg) {
-    final _createFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Int32), Pointer<Void> Function(int, int)>('library_smoke_CtorLinks_SingleCtorWithOneArgument_create__Int'));
     final _argHandle = (arg);
-    final __resultHandle = _createFfi(__lib.LibraryContext.isolateId, _argHandle);
+    final __resultHandle = __ffi_smoke_CtorLinks_SingleCtorWithOneArgument_library_smoke_CtorLinks_SingleCtorWithOneArgument_create__Int(__lib.LibraryContext.isolateId, _argHandle);
 
     return __resultHandle;
   }
@@ -207,9 +217,14 @@ final _smokeCtorlinksSinglectorwithtwoargumentReleaseHandle = __lib.catchArgumen
   >('library_smoke_CtorLinks_SingleCtorWithTwoArgument_release_handle'));
 
 
+final __ffi_smoke_CtorLinks_SingleCtorWithTwoArgument_library_smoke_CtorLinks_SingleCtorWithTwoArgument_create__Int_String = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Int32, Pointer<Void>), Pointer<Void> Function(int, int, Pointer<Void>)>('library_smoke_CtorLinks_SingleCtorWithTwoArgument_create__Int_String'));
+
+
 
 /// @nodoc
 @visibleForTesting
+
 class CtorLinks_SingleCtorWithTwoArgument$Impl extends __lib.NativeBase implements CtorLinks_SingleCtorWithTwoArgument {
 
   CtorLinks_SingleCtorWithTwoArgument$Impl(Pointer<Void> handle) : super(handle);
@@ -222,14 +237,14 @@ class CtorLinks_SingleCtorWithTwoArgument$Impl extends __lib.NativeBase implemen
     __lib.cacheInstance(_result_handle, _result);
 
     _smokeCtorlinksSinglectorwithtwoargumentRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+
     return _result;
   }
 
   static Pointer<Void> _create(int arg, String arg2) {
-    final _createFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Int32, Pointer<Void>), Pointer<Void> Function(int, int, Pointer<Void>)>('library_smoke_CtorLinks_SingleCtorWithTwoArgument_create__Int_String'));
     final _argHandle = (arg);
     final _arg2Handle = stringToFfi(arg2);
-    final __resultHandle = _createFfi(__lib.LibraryContext.isolateId, _argHandle, _arg2Handle);
+    final __resultHandle = __ffi_smoke_CtorLinks_SingleCtorWithTwoArgument_library_smoke_CtorLinks_SingleCtorWithTwoArgument_create__Int_String(__lib.LibraryContext.isolateId, _argHandle, _arg2Handle);
 
     stringReleaseFfiHandle(_arg2Handle);
     return __resultHandle;
@@ -297,10 +312,18 @@ final _smokeCtorlinksOverloadedctorsReleaseHandle = __lib.catchArgumentError(() 
   >('library_smoke_CtorLinks_OverloadedCtors_release_handle'));
 
 
+final __ffi_smoke_CtorLinks_OverloadedCtors_library_smoke_CtorLinks_OverloadedCtors_create__String = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_CtorLinks_OverloadedCtors_create__String'));
+
+
+final __ffi_smoke_CtorLinks_OverloadedCtors_library_smoke_CtorLinks_OverloadedCtors_create__String_Boolean = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>, Uint8), Pointer<Void> Function(int, Pointer<Void>, int)>('library_smoke_CtorLinks_OverloadedCtors_create__String_Boolean'));
+
 
 
 /// @nodoc
 @visibleForTesting
+
 class CtorLinks_OverloadedCtors$Impl extends __lib.NativeBase implements CtorLinks_OverloadedCtors {
 
   CtorLinks_OverloadedCtors$Impl(Pointer<Void> handle) : super(handle);
@@ -313,6 +336,7 @@ class CtorLinks_OverloadedCtors$Impl extends __lib.NativeBase implements CtorLin
     __lib.cacheInstance(_result_handle, _result);
 
     _smokeCtorlinksOverloadedctorsRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+
     return _result;
   }
 
@@ -324,22 +348,21 @@ class CtorLinks_OverloadedCtors$Impl extends __lib.NativeBase implements CtorLin
     __lib.cacheInstance(_result_handle, _result);
 
     _smokeCtorlinksOverloadedctorsRegisterFinalizer(_result_handle, __lib.LibraryContext.isolateId, _result);
+
     return _result;
   }
 
   static Pointer<Void> _withString(String input) {
-    final _withStringFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_CtorLinks_OverloadedCtors_create__String'));
     final _inputHandle = stringToFfi(input);
-    final __resultHandle = _withStringFfi(__lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_CtorLinks_OverloadedCtors_library_smoke_CtorLinks_OverloadedCtors_create__String(__lib.LibraryContext.isolateId, _inputHandle);
     stringReleaseFfiHandle(_inputHandle);
     return __resultHandle;
   }
 
   static Pointer<Void> _$init(String input, bool flag) {
-    final _$initFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>, Uint8), Pointer<Void> Function(int, Pointer<Void>, int)>('library_smoke_CtorLinks_OverloadedCtors_create__String_Boolean'));
     final _inputHandle = stringToFfi(input);
     final _flagHandle = booleanToFfi(flag);
-    final __resultHandle = _$initFfi(__lib.LibraryContext.isolateId, _inputHandle, _flagHandle);
+    final __resultHandle = __ffi_smoke_CtorLinks_OverloadedCtors_library_smoke_CtorLinks_OverloadedCtors_create__String_Boolean(__lib.LibraryContext.isolateId, _inputHandle, _flagHandle);
     stringReleaseFfiHandle(_inputHandle);
     booleanReleaseFfiHandle(_flagHandle);
     return __resultHandle;
@@ -391,6 +414,8 @@ final _smokeCtorlinksReleaseHandle = __lib.catchArgumentError(() => __lib.native
     Void Function(Pointer<Void>),
     void Function(Pointer<Void>)
   >('library_smoke_CtorLinks_release_handle'));
+
+
 
 
 class CtorLinks$Impl extends __lib.NativeBase implements CtorLinks {

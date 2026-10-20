@@ -35,15 +35,25 @@ final _smokeChildwithparentclassreferencesGetTypeId = __lib.catchArgumentError((
   >('library_smoke_ChildWithParentClassReferences_get_type_id'));
 
 
+final __ffi_smoke_ChildWithParentClassReferences_library_smoke_ChildWithParentClassReferences_classFunction = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ChildWithParentClassReferences_classFunction'));
+
+final __ffi_smoke_ChildWithParentClassReferences_library_smoke_ChildWithParentClassReferences_classProperty_get = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ChildWithParentClassReferences_classProperty_get'));
+
+final __ffi_smoke_ChildWithParentClassReferences_library_smoke_ChildWithParentClassReferences_classProperty_set = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ChildWithParentClassReferences_classProperty_set'));
+
+
+
 class ChildWithParentClassReferences$Impl extends __lib.NativeBase implements ChildWithParentClassReferences {
 
   ChildWithParentClassReferences$Impl(Pointer<Void> handle) : super(handle);
 
   @override
   ChildClassFromClass classFunction() {
-    final _classFunctionFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ChildWithParentClassReferences_classFunction'));
     final _handle = this.handle;
-    final __resultHandle = _classFunctionFfi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_ChildWithParentClassReferences_library_smoke_ChildWithParentClassReferences_classFunction(_handle, __lib.LibraryContext.isolateId);
     try {
       return smokeChildclassfromclassFromFfi(__resultHandle);
     } finally {
@@ -55,9 +65,8 @@ class ChildWithParentClassReferences$Impl extends __lib.NativeBase implements Ch
 
   @override
   ParentClass get classProperty {
-    final _getFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Pointer<Void>, Int32), Pointer<Void> Function(Pointer<Void>, int)>('library_smoke_ChildWithParentClassReferences_classProperty_get'));
     final _handle = this.handle;
-    final __resultHandle = _getFfi(_handle, __lib.LibraryContext.isolateId);
+    final __resultHandle = __ffi_smoke_ChildWithParentClassReferences_library_smoke_ChildWithParentClassReferences_classProperty_get(_handle, __lib.LibraryContext.isolateId);
     try {
       return smokeParentclassFromFfi(__resultHandle);
     } finally {
@@ -69,10 +78,9 @@ class ChildWithParentClassReferences$Impl extends __lib.NativeBase implements Ch
 
   @override
   set classProperty(ParentClass value) {
-    final _setFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32, Pointer<Void>), void Function(Pointer<Void>, int, Pointer<Void>)>('library_smoke_ChildWithParentClassReferences_classProperty_set'));
     final _valueHandle = smokeParentclassToFfi(value);
     final _handle = this.handle;
-    _setFfi(_handle, __lib.LibraryContext.isolateId, _valueHandle);
+    __ffi_smoke_ChildWithParentClassReferences_library_smoke_ChildWithParentClassReferences_classProperty_set(_handle, __lib.LibraryContext.isolateId, _valueHandle);
     smokeParentclassReleaseFfiHandle(_valueHandle);
 
   }

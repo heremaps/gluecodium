@@ -1,0 +1,37 @@
+{{!!
+  !
+  ! Copyright (C) 2016-2026 HERE Europe B.V.
+  !
+  ! Licensed under the Apache License, Version 2.0 (the "License");
+  ! you may not use this file except in compliance with the License.
+  ! You may obtain a copy of the License at
+  !
+  !     http://www.apache.org/licenses/LICENSE-2.0
+  !
+  ! Unless required by applicable law or agreed to in writing, software
+  ! distributed under the License is distributed on an "AS IS" BASIS,
+  ! WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ! See the License for the specific language governing permissions and
+  ! limitations under the License.
+  !
+  ! SPDX-License-Identifier: Apache-2.0
+  ! License-Filename: LICENSE
+  !
+  !}}
+{{#unless this.attributes.async}}
+final {{>dart/DartFunctionLookupVariableName}} = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<{{>ffiApi}}, {{>ffiDart}}>('{{>dart/DartFunctionFfiName}}'));
+{{/unless}}
+{{#if this.attributes.async}}
+{{#eval "asyncHelpers.helpers" fullName}}{{>dart/DartFunctionLookup}}{{/eval}}
+{{/if}}
+
+{{+ffiApi}}{{#if this.thrownType}}Pointer<Void>{{/if}}{{#unless this.thrownType}}{{!!
+}}{{resolveName returnType.typeRef "FfiApiTypes"}}{{/unless}} Function({{!!
+}}{{#unless isStatic}}Pointer<Void>, {{/unless}}Int32{{#if parameters}}, {{/if}}{{!!
+}}{{#parameters}}{{resolveName typeRef "FfiApiTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{/ffiApi}}{{!!
+
+}}{{+ffiDart}}{{#if this.thrownType}}Pointer<Void>{{/if}}{{#unless this.thrownType}}{{!!
+}}{{resolveName returnType.typeRef "FfiDartTypes"}}{{/unless}} Function({{!!
+}}{{#unless isStatic}}Pointer<Void>, {{/unless}}int{{#if parameters}}, {{/if}}{{!!
+}}{{#parameters}}{{resolveName typeRef "FfiDartTypes"}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}){{/ffiDart}}

@@ -671,6 +671,10 @@ final _smokeDefaultvaluesReleaseHandle = __lib.catchArgumentError(() => __lib.na
   >('library_smoke_DefaultValues_release_handle'));
 
 
+final __ffi_smoke_DefaultValues_library_smoke_DefaultValues_processStructWithDefaults__StructWithDefaults = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_DefaultValues_processStructWithDefaults__StructWithDefaults'));
+
+
 
 /// @nodoc
 @visibleForTesting
@@ -680,9 +684,8 @@ class DefaultValues$Impl extends __lib.NativeBase implements DefaultValues {
   DefaultValues$Impl(Pointer<Void> handle) : super(handle);
 
   DefaultValues_StructWithDefaults processStructWithDefaults(DefaultValues_StructWithDefaults input) {
-    final _processStructWithDefaultsFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Pointer<Void> Function(Int32, Pointer<Void>), Pointer<Void> Function(int, Pointer<Void>)>('library_smoke_DefaultValues_processStructWithDefaults__StructWithDefaults'));
     final _inputHandle = smokeDefaultvaluesStructwithdefaultsToFfi(input);
-    final __resultHandle = _processStructWithDefaultsFfi(__lib.LibraryContext.isolateId, _inputHandle);
+    final __resultHandle = __ffi_smoke_DefaultValues_library_smoke_DefaultValues_processStructWithDefaults__StructWithDefaults(__lib.LibraryContext.isolateId, _inputHandle);
     smokeDefaultvaluesStructwithdefaultsReleaseFfiHandle(_inputHandle);
     try {
       return smokeDefaultvaluesStructwithdefaultsFromFfi(__resultHandle);

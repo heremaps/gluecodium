@@ -18,6 +18,7 @@
   ! License-Filename: LICENSE
   !
   !}}
+{{#set ownerType=this}}{{#ownerType}}
 {{>dart/DartDocumentation}}{{>dart/DartAttributes}}
 abstract class {{resolveName}}{{!!
 }}{{#unless disableFinalizableMarker}}{{!!
@@ -98,9 +99,22 @@ final _{{resolveName "Ffi"}}GetTypeId = __lib.catchArgumentError(() => __lib.nat
 {{>dart/DartOptimizedLists}}
 
 {{#functions}}
+{{>dart/DartFunctionLookup}}
 {{>dart/DartFunctionException}}
 
 {{/functions}}
+{{#properties}}
+{{>dart/DartPropertyLookup}}
+{{/properties}}
+{{#set parent=this container=this isInherited=true}}
+{{#container.interfaceInheritedFunctions}}
+{{>dart/DartFunctionLookup}}
+{{/container.interfaceInheritedFunctions}}
+{{#container.interfaceInheritedProperties}}
+{{>dart/DartPropertyLookup}}
+{{/container.interfaceInheritedProperties}}
+{{/set}}
+
 {{#ifPredicate "hasStaticFunctions"}}
 /// @nodoc
 @visibleForTesting
@@ -205,11 +219,8 @@ bool _{{resolveName}}IsCached = false;
 {{/unless}}
 {{resolveName typeRef}} get {{resolveName}} {
   if (!_{{resolveName}}IsCached) {
-    final _{{resolveName getter}}Ffi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<{{!!
-    }}{{resolveName typeRef "FfiApiTypes"}} Function({{#unless isStatic}}Pointer<Void>, {{/unless}}Int32), {{!!
-    }}{{resolveName typeRef "FfiDartTypes"}} Function({{#unless isStatic}}Pointer<Void>, {{/unless}}int)>{{!!
-    }}('{{libraryName}}_{{resolveName getter "FfiSnakeCase"}}'));
-    final __resultHandle = _{{resolveName getter}}Ffi({{!!
+    final __resultHandle = {{!!
+}}{{#getter}}{{>dart/DartFunctionLookupVariableName}}{{/getter}}({{!!
     }}{{#unless isStatic}}this.handle, {{/unless}}__lib.LibraryContext.isolateId);
     try {
       _{{resolveName}}Cache = {{#set call="FromFfi"}}{{>dart/DartFfiConversionCall}}{{/set}}(__resultHandle);
@@ -221,3 +232,4 @@ bool _{{resolveName}}IsCached = false;
   return _{{resolveName}}Cache;
 }
 {{/dartCachedProperty}}
+{{/ownerType}}{{/set}}

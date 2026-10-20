@@ -34,6 +34,14 @@ final _smokeSpecialattributesReleaseHandle = __lib.catchArgumentError(() => __li
   >('library_smoke_SpecialAttributes_release_handle'));
 
 
+final __ffi_smoke_SpecialAttributes_library_smoke_SpecialAttributes_withEscaping = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialAttributes_withEscaping'));
+
+
+final __ffi_smoke_SpecialAttributes_library_smoke_SpecialAttributes_withLineBreak = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialAttributes_withLineBreak'));
+
+
 
 
 class SpecialAttributes$Impl extends __lib.NativeBase implements SpecialAttributes {
@@ -42,17 +50,15 @@ class SpecialAttributes$Impl extends __lib.NativeBase implements SpecialAttribut
 
   @override
   void withEscaping() {
-    final _withEscapingFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialAttributes_withEscaping'));
     final _handle = this.handle;
-    _withEscapingFfi(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_SpecialAttributes_library_smoke_SpecialAttributes_withEscaping(_handle, __lib.LibraryContext.isolateId);
 
   }
 
   @override
   void withLineBreak() {
-    final _withLineBreakFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_SpecialAttributes_withLineBreak'));
     final _handle = this.handle;
-    _withLineBreakFfi(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_SpecialAttributes_library_smoke_SpecialAttributes_withLineBreak(_handle, __lib.LibraryContext.isolateId);
 
   }
 

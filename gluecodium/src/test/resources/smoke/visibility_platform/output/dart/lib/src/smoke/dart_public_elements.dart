@@ -1,16 +1,30 @@
+
+
 import 'dart:ffi';
 import 'package:library/src/_library_context.dart' as __lib;
 import 'package:library/src/builtin_types__conversion.dart';
 import 'package:meta/meta.dart';
+
+final __ffi_smoke_DartPublicElements_library_smoke_DartPublicElements_foo = __lib.catchArgumentError(() =>
+  __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_DartPublicElements_foo'));
+
+
+
 class DartPublicElements {
   String stringField;
+
   DartPublicElements(this.stringField);
+
   void foo() => $prototype.foo(this);
+
   /// @nodoc
   @visibleForTesting
   static dynamic $prototype = DartPublicElements$Impl();
 }
+
+
 // DartPublicElements "private" section, not exported.
+
 final _smokeDartpublicelementsCreateHandle = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -23,22 +37,28 @@ final _smokeDartpublicelementsGetFieldstringField = __lib.catchArgumentError(() 
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_DartPublicElements_get_field_stringField'));
+
+
+
 /// @nodoc
 @visibleForTesting
 class DartPublicElements$Impl {
   void foo(DartPublicElements $that) {
-    final _fooFfi = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<Void Function(Pointer<Void>, Int32), void Function(Pointer<Void>, int)>('library_smoke_DartPublicElements_foo'));
     final _handle = smokeDartpublicelementsToFfi($that);
-    _fooFfi(_handle, __lib.LibraryContext.isolateId);
+    __ffi_smoke_DartPublicElements_library_smoke_DartPublicElements_foo(_handle, __lib.LibraryContext.isolateId);
     smokeDartpublicelementsReleaseFfiHandle(_handle);
+
   }
+
 }
+
 Pointer<Void> smokeDartpublicelementsToFfi(DartPublicElements value) {
   final _stringFieldHandle = stringToFfi(value.stringField);
   final _result = _smokeDartpublicelementsCreateHandle(_stringFieldHandle);
   stringReleaseFfiHandle(_stringFieldHandle);
   return _result;
 }
+
 DartPublicElements smokeDartpublicelementsFromFfi(Pointer<Void> handle) {
   final _stringFieldHandle = _smokeDartpublicelementsGetFieldstringField(handle);
   try {
@@ -49,8 +69,11 @@ DartPublicElements smokeDartpublicelementsFromFfi(Pointer<Void> handle) {
     stringReleaseFfiHandle(_stringFieldHandle);
   }
 }
+
 void smokeDartpublicelementsReleaseFfiHandle(Pointer<Void> handle) => _smokeDartpublicelementsReleaseHandle(handle);
+
 // Nullable DartPublicElements
+
 final _smokeDartpublicelementsCreateHandleNullable = __lib.catchArgumentError(() => __lib.nativeLibrary.lookupFunction<
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
@@ -63,6 +86,7 @@ final _smokeDartpublicelementsGetValueNullable = __lib.catchArgumentError(() => 
     Pointer<Void> Function(Pointer<Void>),
     Pointer<Void> Function(Pointer<Void>)
   >('library_smoke_DartPublicElements_get_value_nullable'));
+
 Pointer<Void> smokeDartpublicelementsToFfiNullable(DartPublicElements? value) {
   if (value == null) return Pointer<Void>.fromAddress(0);
   final _handle = smokeDartpublicelementsToFfi(value);
@@ -70,6 +94,7 @@ Pointer<Void> smokeDartpublicelementsToFfiNullable(DartPublicElements? value) {
   smokeDartpublicelementsReleaseFfiHandle(_handle);
   return result;
 }
+
 DartPublicElements? smokeDartpublicelementsFromFfiNullable(Pointer<Void> handle) {
   if (handle.address == 0) return null;
   final _handle = _smokeDartpublicelementsGetValueNullable(handle);
@@ -77,6 +102,10 @@ DartPublicElements? smokeDartpublicelementsFromFfiNullable(Pointer<Void> handle)
   smokeDartpublicelementsReleaseFfiHandle(_handle);
   return result;
 }
+
 void smokeDartpublicelementsReleaseFfiHandleNullable(Pointer<Void> handle) =>
   _smokeDartpublicelementsReleaseHandleNullable(handle);
+
 // End of DartPublicElements "private" section.
+
+

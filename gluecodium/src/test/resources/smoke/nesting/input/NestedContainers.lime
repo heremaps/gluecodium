@@ -64,7 +64,10 @@ class OuterClassWithInheritance : ParentClass {
     class InnerClass {
         fun bar(input: String): String
     }
-    interface InnerInterface {
+    interface InnerInterface : OuterInterface {
+        fun baz(input: String): String
+    }
+    interface AnotherInnerInterface : OuterInterface {
         fun baz(input: String): String
     }
 
