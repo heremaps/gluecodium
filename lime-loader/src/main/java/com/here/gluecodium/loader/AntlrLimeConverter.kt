@@ -337,6 +337,7 @@ internal object AntlrLimeConverter {
             "Default" -> LimeAttributeValueType.DEFAULT
             "EnableIf" -> LimeAttributeValueType.ENABLE_IF
             "EnumValues" -> LimeAttributeValueType.ENUM_VALUES
+            "DataClass" -> LimeAttributeValueType.DATA_CLASS
             "Error" -> LimeAttributeValueType.ERROR
             "FullName" -> LimeAttributeValueType.FULL_NAME
             "FunctionName" -> LimeAttributeValueType.FUNCTION_NAME
