@@ -16,7 +16,6 @@
  * SPDX-License-Identifier: Apache-2.0
  * License-Filename: LICENSE
  */
-
 package com.here.android.test;
 
 import static junit.framework.Assert.assertEquals;
@@ -24,8 +23,6 @@ import static org.junit.Assert.assertThrows;
 
 import android.os.Build;
 import com.here.android.RobolectricApplication;
-import java.util.List;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -91,12 +88,14 @@ public class VisibilityAttributeTest {
 
   @Test
   public void internalAllArgsCtorCanBeCalled() {
-    SomeStructWithInternalAllArgsCtor someObject = new SomeStructWithInternalAllArgsCtor(11, "QWERTY");
+    SomeStructWithInternalAllArgsCtor someObject =
+        new SomeStructWithInternalAllArgsCtor(11, "QWERTY");
   }
 
   @Test
   public void internalFieldCtorCanBeCalled() {
-    SomeStructWithInternalFieldConstructor someObject = new SomeStructWithInternalFieldConstructor(77);
+    SomeStructWithInternalFieldConstructor someObject =
+        new SomeStructWithInternalFieldConstructor(77);
     assertEquals("QAZWSX", someObject.someString);
   }
 
@@ -108,15 +107,19 @@ public class VisibilityAttributeTest {
 
   @Test
   public void internaInterfaceFromJavaCanBeUsed() {
-    ImplementationOfSomeInternalInterface someInterfaceImpl = new ImplementationOfSomeInternalInterface();
+    ImplementationOfSomeInternalInterface someInterfaceImpl =
+        new ImplementationOfSomeInternalInterface();
     SomeStructWithInternalMembers someObject = new SomeStructWithInternalMembers(21);
   }
 
   @Test
   public void internalExceptionCanBeThrown() {
-    SomethingBadHappenedException exception = assertThrows(SomethingBadHappenedException.class, () -> {
-      throw new SomethingBadHappenedException(SomeInternalEnum.ONE);
-    });
+    SomethingBadHappenedException exception =
+        assertThrows(
+            SomethingBadHappenedException.class,
+            () -> {
+              throw new SomethingBadHappenedException(SomeInternalEnum.ONE);
+            });
 
     assertEquals(exception.error, SomeInternalEnum.ONE);
   }

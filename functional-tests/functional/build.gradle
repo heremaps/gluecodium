@@ -100,7 +100,8 @@ android {
 
             if (rootProject.forceJavaTestSources()) {
                 test {
-                    java.srcDirs += ["${project.projectDir}/android/src/test/java"]
+                    java.srcDirs += ["${project.projectDir}/android/src/test/java",
+                                     "${project.projectDir}/android-kotlin/src/test/java"]
                 }
             } else {
                 test {
@@ -118,7 +119,8 @@ android {
             }
 
             test {
-                java.srcDirs += ["${project.projectDir}/android/src/test/java"]
+                java.srcDirs += ["${project.projectDir}/android/src/test/java",
+                                 "${project.projectDir}/android/src/test/java-only"]
             }
         }
     }

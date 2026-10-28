@@ -27,9 +27,20 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
-class ImplementationOfSomeInternalInterface: SomeInternalInterface {
+class ImplementationOfSomeInternalInterface : SomeInternalInterface {
     override fun foo(): Int = 709
     override fun bar(): Long = 121
+}
+
+class ImplementationOfInternalAttributeInterfaceParent : InternalAttributeInterfaceParent {
+    override fun fooBar() {}
+    override var prop: String
+        get() = propHolder
+        set(value) {
+            propHolder = value
+        }
+
+    private var propHolder: String = "Hello world!"
 }
 
 @RunWith(RobolectricTestRunner::class)

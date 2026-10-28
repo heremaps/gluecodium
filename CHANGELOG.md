@@ -1,5 +1,10 @@
 # Gluecodium project Release Notes
 
+## Unreleased
+ * Kotlin: explicitly generate internal visibility and `@JvmSynthetic` for supported members nested in internal types, including interface members that cannot use the `internal` modifier.
+ * Kotlin: internal constructors are generated as private constructors with synthetic companion `invoke` factories, so Kotlin keeps the constructor call syntax and Java cannot call them.
+ * Kotlin: members of types with a Kotlin converter are treated as internal, and declarations enabled by different tags use the declaration enabled for the build to resolve internal visibility.
+
 ## 14.2.3
 Release date 2026-10-20
  * Dart: cache function pointers to avoid excessive symbols lookup. The internal implementation of lookup may lock global mutex and cause unexpected problems. Instead of getting symbol for a function on each call the new Gluecodium gets it only on the first call to that function. It means that each function is looked up just once per isolate.

@@ -10,13 +10,13 @@ package com.example.kotlinsmoke
 
 
 internal class VeryBoolean {
-    @JvmField var value: Boolean
+    @JvmField @JvmSynthetic internal var value: Boolean
 
 
 
 
 
-   constructor(value: Boolean) {
+   private constructor(value: Boolean) {
         val _other = make(value)
         this.value = _other.value
     }
@@ -28,7 +28,8 @@ internal class VeryBoolean {
 
     companion object {
 
-        @JvmStatic private external fun make(value: Boolean) : VeryBoolean
+        @JvmStatic @JvmSynthetic @JvmName("make") private external fun make(value: Boolean) : VeryBoolean
+        @JvmSynthetic internal operator fun invoke(value: Boolean): VeryBoolean = VeryBoolean(value)
     }
 }
 

@@ -32,7 +32,7 @@
 {{#set classElement=this}}{{#constructors}}
 {{prefixPartial "kotlin/KotlinMethodComment" "    "}}
     {{>kotlinConstructorThrows}}
-{{resolveName "visibility"}}constructor({{!!
+{{#ifPredicate "hidesConstructor"}}private {{/ifPredicate}}constructor({{!!
 }}{{#parameters}}{{!!
 }}{{>kotlin/KotlinAttributesInline}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
 }}{{/parameters}}){{!!
@@ -104,7 +104,7 @@
 {{/this}}{{/eval}}
 
 {{#ifPredicate "needsCompanionObject"}}
-    companion object {
+    {{#ifPredicate "hasFactoryOnlyCompanion"}}internal {{/ifPredicate}}companion object {
 {{#constants}}{{prefixPartial "kotlin/KotlinConstant" "        "}}
 {{/constants}}
 {{#ifPredicate "needsDisposer"}}
@@ -126,6 +126,14 @@
 {{/if}}
 {{/properties}}
 {{/ifPredicate}}
+{{#set classElement=this}}
+{{#constructors}}
+{{#ifPredicate "hidesConstructor"}}
+        @JvmSynthetic internal operator fun invoke({{#parameters}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}): {{resolveName classElement}} = {{!!
+}}{{resolveName classElement}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})
+{{/ifPredicate}}
+{{/constructors}}
+{{/set}}
     }
 {{/ifPredicate}}
 }

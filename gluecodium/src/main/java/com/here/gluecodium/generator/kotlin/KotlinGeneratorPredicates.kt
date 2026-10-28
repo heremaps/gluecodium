@@ -25,7 +25,9 @@ import com.here.gluecodium.model.lime.LimeAttributeValueType
 import com.here.gluecodium.model.lime.LimeClass
 import com.here.gluecodium.model.lime.LimeContainer
 import com.here.gluecodium.model.lime.LimeContainerWithInheritance
+import com.here.gluecodium.model.lime.LimeException
 import com.here.gluecodium.model.lime.LimeExternalDescriptor
+import com.here.gluecodium.model.lime.LimeFieldConstructor
 import com.here.gluecodium.model.lime.LimeFunction
 import com.here.gluecodium.model.lime.LimeInterface
 import com.here.gluecodium.model.lime.LimeLambda
@@ -33,7 +35,7 @@ import com.here.gluecodium.model.lime.LimeNamedElement
 import com.here.gluecodium.model.lime.LimeProperty
 import com.here.gluecodium.model.lime.LimeStruct
 
-internal object KotlinGeneratorPredicates {
+internal class KotlinGeneratorPredicates(private val internalVisibilityPredicate: KotlinInternalVisibilityPredicate) {
     val predicates =
         mapOf(
             "hasAnyComment" to this::hasAnyComment,
@@ -41,9 +43,15 @@ internal object KotlinGeneratorPredicates {
             "needsDisposer" to this::needsDisposer,
             "needsCompanionObject" to this::needsCompanionObject,
             "hasConstants" to this::hasConstants,
+            "hasFactoryOnlyCompanion" to this::hasFactoryOnlyCompanion,
+            "hasHiddenConstructors" to this::hasHiddenConstructors,
             "hasInternalAllArgsConstructor" to this::hasInternalAllArgsConstructor,
             "hasInternalFreeArgsConstructor" to this::hasInternalFreeArgsConstructor,
             "hasStaticProperties" to this::hasStaticProperties,
+            "hidesAllArgsConstructor" to this::hidesAllArgsConstructor,
+            "hidesConstructor" to this::hidesConstructor,
+            "hidesFreeArgsConstructor" to this::hidesFreeArgsConstructor,
+            "hidesPositionalDefaultsConstructor" to this::hidesPositionalDefaultsConstructor,
             "isExceptionSameForCtorAndHookFun" to this::isExceptionSameForCtorAndHookFun,
             "isFunctionalInterface" to this::isFunctionalInterface,
             "isInternal" to this::isInternal,
@@ -114,6 +122,52 @@ internal object KotlinGeneratorPredicates {
                     CommonGeneratorPredicates.isInternal(it.typeRef.type, LimeAttributeType.KOTLIN)
             }
 
+    // Kotlin does not allow @JvmSynthetic on constructors and compiles an internal constructor as public JVM API.
+    // Conceptually internal constructors are therefore private. Kotlin code calls them through synthetic companion
+    // 'invoke' factories, which keep the constructor call syntax for Kotlin and hide the factories from Java.
+    private fun hidesConstructor(element: Any) =
+        when (element) {
+            is LimeFunction -> element.isConstructor && internalVisibilityPredicate.isConceptuallyInternal(element)
+            is LimeFieldConstructor -> internalVisibilityPredicate.isConceptuallyInternal(element)
+            else -> false
+        }
+
+    private fun hidesFreeArgsConstructor(limeStruct: Any) =
+        limeStruct is LimeStruct && (hasInternalFreeArgsConstructor(limeStruct) || isConceptuallyInternal(limeStruct))
+
+    private fun hidesAllArgsConstructor(limeStruct: Any) =
+        limeStruct is LimeStruct && (hasInternalAllArgsConstructor(limeStruct) || isConceptuallyInternal(limeStruct))
+
+    private fun hidesPositionalDefaultsConstructor(limeStruct: Any) = limeStruct is LimeStruct && isConceptuallyInternal(limeStruct)
+
+    private fun isConceptuallyInternal(element: LimeNamedElement) = internalVisibilityPredicate.isConceptuallyInternal(element)
+
+    private fun hasHiddenConstructors(element: Any): Boolean =
+        when (element) {
+            is LimeClass -> element.constructors.any { hidesConstructor(it) }
+            is LimeStruct -> hasHiddenStructConstructors(element)
+            is LimeException -> isConceptuallyInternal(element)
+            else -> false
+        }
+
+    // Mirrors the constructor selection in KotlinStruct.mustache, so a companion object is generated for factories
+    // only when at least one generated constructor is hidden.
+    private fun hasHiddenStructConstructors(limeStruct: LimeStruct): Boolean {
+        if (limeStruct.constructors.any { hidesConstructor(it) }) return true
+        if (limeStruct.fields.isEmpty()) return false
+
+        val hasPositionalDefaults = limeStruct.attributes.have(LimeAttributeType.KOTLIN, LimeAttributeValueType.POSITIONAL_DEFAULTS)
+        val hasNoFieldConstructors = limeStruct.fieldConstructors.isEmpty()
+        if (limeStruct.constructors.isEmpty()) {
+            val hasFreeArgsConstructor = hasNoFieldConstructors && limeStruct.initializedFields.isNotEmpty() && !hasPositionalDefaults
+            if (hasFreeArgsConstructor && hidesFreeArgsConstructor(limeStruct)) return true
+            if (needsAllFieldsConstructor(limeStruct) && hidesAllArgsConstructor(limeStruct)) return true
+        }
+
+        return limeStruct.fieldConstructors.any { hidesConstructor(it) } ||
+            (hasNoFieldConstructors && hasPositionalDefaults && hidesPositionalDefaultsConstructor(limeStruct))
+    }
+
     private fun isExceptionSameForCtorAndHookFun(constructor: Any): Boolean {
         return when (constructor) {
             is LimeFunction -> CommonGeneratorPredicates.isExceptionSameForCtorAndHookFun(constructor)
@@ -141,7 +195,13 @@ internal object KotlinGeneratorPredicates {
         return nonStaticFunctionsCount == 1 && nonStaticPropertiesCount == 0
     }
 
-    private fun needsCompanionObject(element: Any) =
+    private fun needsCompanionObject(element: Any) = hasCompanionContent(element) || hasHiddenConstructors(element)
+
+    // A companion object, which only holds the synthetic factories of hidden constructors, is internal.
+    // Otherwise it would add an empty object to the public Kotlin API of a public type.
+    private fun hasFactoryOnlyCompanion(element: Any) = !hasCompanionContent(element) && hasHiddenConstructors(element)
+
+    private fun hasCompanionContent(element: Any) =
         hasStaticFunctions(element) || hasConstants(element) || needsDisposer(element) ||
             hasStaticProperties(element) || needsParcelCreator(element)
 

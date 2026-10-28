@@ -28,10 +28,10 @@ internal class InternalClassInherits : NativeBase, InternalInterfaceParent {
 
 
 
-    override external fun fooBar() : Unit
+    @JvmSynthetic override external fun fooBar() : Unit
     override var prop: String
-        external get
-        external set
+        @JvmSynthetic external get
+        @JvmSynthetic external set
 
 
 

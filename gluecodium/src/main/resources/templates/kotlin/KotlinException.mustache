@@ -20,5 +20,11 @@
   !}}
 {{>kotlin/KotlinDocComment}}{{>kotlin/KotlinAttributes}}
 {{>kotlin/KotlinTypeVisibility}}{{!!
-}}class {{resolveName}}(@JvmField val error: {{resolveName errorType}}) : Exception(error.toString())
+}}class {{resolveName}}{{#ifPredicate "hasHiddenConstructors"}} private constructor{{/ifPredicate}}{{!!
+}}({{resolveName "synthetic"}}@JvmField val error: {{resolveName errorType}}) : Exception(error.toString()){{!!
+}}{{#ifPredicate "hasHiddenConstructors"}} {
+    internal companion object {
+        @JvmSynthetic internal operator fun invoke(error: {{resolveName errorType}}): {{resolveName}} = {{resolveName}}(error)
+    }
+}{{/ifPredicate}}
 

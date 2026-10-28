@@ -32,6 +32,8 @@ class OuterPublicClazz {
 @Internal
 interface OuterInternalInterface {
     fun someFunction(): Int
+    property someProperty: Int
+    static property someStaticProperty: Int
 }
 
 @Internal

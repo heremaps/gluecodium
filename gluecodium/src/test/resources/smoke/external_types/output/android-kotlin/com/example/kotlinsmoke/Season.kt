@@ -9,7 +9,7 @@
 package com.example.kotlinsmoke
 
 
-internal enum class Season(@JvmField val value: Int) {
+internal enum class Season(@JvmField @JvmSynthetic internal val value: Int) {
     WINTER(0),
     SPRING(1),
     SUMMER(2),

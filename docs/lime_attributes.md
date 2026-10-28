@@ -27,6 +27,14 @@ access and cached in Java/Kotlin/Swift/Dart afterwards). Currently, only support
 * **@Internal**\[**(**__PlatformTag__**)**\]: marks an element to have "internal" visibility. Additionally, platform
 tag(s) ("Java", "Kotlin", "Swift", or "Dart") could be specified. This will make the internal visibility apply on the selected
 platform(s).
+> **Kotlin:** members nested in an internal type are also treated as internal. Supported methods, accessors, and fields
+> receive `@JvmSynthetic` so Java source cannot access them. Interface members omit the unsupported `internal` modifier
+> but still receive `@JvmSynthetic`. Internal constructors are private and are created through synthetic companion
+> `invoke` factories, so Kotlin code keeps calling them like constructors while Java code cannot call them. Members of a
+> type with a Kotlin converter are treated as internal as well. Handwritten Kotlin accessing these members must be
+> compiled in the same module. Type names and enumerators of internal enumerations remain visible to Java, and
+> declarations are not removed from JVM bytecode or reflection.
+>
 > **Important:** the behavior of `@Internal` tag for Dart is different from that for Java/Swift. In Dart, the types
 > annotated as `@Internal` do have "internal" visibility. However, functions, properties, constructors and field
 > constructors are not generated. These elements are skipped like in the case of `@Skip` attribute.

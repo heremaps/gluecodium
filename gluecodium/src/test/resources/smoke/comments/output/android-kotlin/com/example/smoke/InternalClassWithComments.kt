@@ -31,7 +31,7 @@ internal class InternalClassWithComments : NativeBase {
      * This is definitely internal
      */
 
-    external fun doNothing() : Unit
+    @JvmSynthetic @JvmName("doNothing") internal external fun doNothing() : Unit
 
 
 

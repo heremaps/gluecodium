@@ -21,10 +21,6 @@
 {{#if comment}}
 {{prefixPartial "kotlin/KotlinDocComment" "    "}}{{/if}}{{!!
 }}{{prefixPartial "kotlin/KotlinAttributes" "    "}}{{!!
-}}{{#if isAlias}}    @JvmField {{!!
-}}{{#resolveName "visibility"}}{{!!
-}}{{#unless this.isEmpty}}@JvmSynthetic {{/unless}}{{!!
-}}{{this}}{{!!
-}}{{/resolveName}}val {{resolveName}}{{!!
+}}{{#if isAlias}}    @JvmField {{resolveName "synthetic"}}{{resolveName "visibility"}}val {{resolveName}}{{!!
 }} = {{resolveName value}}{{/if}}{{!!
 }}{{#unless isAlias}}    {{resolveName}}({{resolveName value}}){{/unless}}

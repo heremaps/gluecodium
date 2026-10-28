@@ -10,14 +10,14 @@ package com.example.kotlinsmoke
 
 
 internal class SystemColor {
-    @JvmField var red: Float
-    @JvmField var green: Float
-    @JvmField var blue: Float
-    @JvmField var alpha: Float
+    @JvmField @JvmSynthetic internal var red: Float
+    @JvmField @JvmSynthetic internal var green: Float
+    @JvmField @JvmSynthetic internal var blue: Float
+    @JvmField @JvmSynthetic internal var alpha: Float
 
 
 
-    constructor(red: Float, green: Float, blue: Float, alpha: Float) {
+    private constructor(red: Float, green: Float, blue: Float, alpha: Float) {
         this.red = red
         this.green = green
         this.blue = blue
@@ -28,5 +28,8 @@ internal class SystemColor {
 
 
 
+    internal companion object {
+        @JvmSynthetic internal operator fun invoke(red: Float, green: Float, blue: Float, alpha: Float): SystemColor = SystemColor(red, green, blue, alpha)
+    }
 }
 

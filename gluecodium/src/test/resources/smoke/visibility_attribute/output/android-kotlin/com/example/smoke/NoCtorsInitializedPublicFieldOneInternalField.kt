@@ -27,7 +27,7 @@ class NoCtorsInitializedPublicFieldOneInternalField {
 
 
 
-    internal constructor(internalField: String, publicField: Boolean) {
+    private constructor(internalField: String, publicField: Boolean) {
         this.internalField = internalField
         this.publicField = publicField
         this.initializedField = 77
@@ -37,5 +37,8 @@ class NoCtorsInitializedPublicFieldOneInternalField {
 
 
 
+    internal companion object {
+        @JvmSynthetic internal operator fun invoke(internalField: String, publicField: Boolean): NoCtorsInitializedPublicFieldOneInternalField = NoCtorsInitializedPublicFieldOneInternalField(internalField, publicField)
+    }
 }
 
