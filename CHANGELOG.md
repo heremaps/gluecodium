@@ -1,6 +1,7 @@
 # Gluecodium project Release Notes
 
-## Unreleased
+## 14.3.0
+Release date 2026-11-24
  * Kotlin: explicitly generate internal visibility and `@JvmSynthetic` for supported members nested in internal types, including interface members that cannot use the `internal` modifier.
  * Kotlin: internal constructors are generated as private constructors with synthetic companion `invoke` factories, so Kotlin keeps the constructor call syntax and Java cannot call them.
  * Kotlin: members of types with a Kotlin converter are treated as internal, and declarations enabled by different tags use the declaration enabled for the build to resolve internal visibility.
