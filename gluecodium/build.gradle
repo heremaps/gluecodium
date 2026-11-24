@@ -40,7 +40,6 @@ dependencies {
     testImplementation files({ project(":lime-runtime").sourceSets.test.output })
     testImplementation libs.bundles.mockk
     testImplementation libs.junit
-    testImplementation libs.kotlin.compiler.embeddable
 }
 
 apply plugin: 'application'

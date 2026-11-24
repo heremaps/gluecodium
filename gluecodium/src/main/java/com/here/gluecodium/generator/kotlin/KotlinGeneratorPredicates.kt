@@ -45,8 +45,6 @@ internal class KotlinGeneratorPredicates(private val internalVisibilityPredicate
             "hasConstants" to this::hasConstants,
             "hasFactoryOnlyCompanion" to this::hasFactoryOnlyCompanion,
             "hasHiddenConstructors" to this::hasHiddenConstructors,
-            "hasInternalAllArgsConstructor" to this::hasInternalAllArgsConstructor,
-            "hasInternalFreeArgsConstructor" to this::hasInternalFreeArgsConstructor,
             "hasStaticProperties" to this::hasStaticProperties,
             "hidesAllArgsConstructor" to this::hidesAllArgsConstructor,
             "hidesConstructor" to this::hidesConstructor,
@@ -54,7 +52,6 @@ internal class KotlinGeneratorPredicates(private val internalVisibilityPredicate
             "hidesPositionalDefaultsConstructor" to this::hidesPositionalDefaultsConstructor,
             "isExceptionSameForCtorAndHookFun" to this::isExceptionSameForCtorAndHookFun,
             "isFunctionalInterface" to this::isFunctionalInterface,
-            "isInternal" to this::isInternal,
             "propertyGetterRequiresJvmName" to this::propertyGetterRequiresJvmName,
             "propertySetterRequiresJvmName" to this::propertySetterRequiresJvmName,
             "needsAllFieldsConstructor" to this::needsAllFieldsConstructor,
@@ -216,7 +213,4 @@ internal class KotlinGeneratorPredicates(private val internalVisibilityPredicate
             CommonGeneratorPredicates.isInternal(property, LimeAttributeType.KOTLIN) ||
                 (property.setter?.attributes?.have(LimeAttributeType.KOTLIN, LimeAttributeValueType.NAME)) ?: false
         )
-
-    private fun isInternal(element: Any) =
-        element is LimeNamedElement && CommonGeneratorPredicates.isInternal(element, LimeAttributeType.KOTLIN)
 }
