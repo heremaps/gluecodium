@@ -32,7 +32,7 @@
 {{#fields}}
 {{prefixPartial "kotlin/KotlinDocComment" "    "}}{{prefixPartial "kotlin/KotlinAttributes" "    "}}{{!!
 }}    @JvmField {{!!
-}}{{#resolveName "visibility"}}{{#unless this.isEmpty}}@JvmSynthetic {{this}}{{/unless}}{{/resolveName}}{{!!
+}}{{resolveName "synthetic"}}{{resolveName "visibility"}}{{!!
 }}{{#unless isImmutable}}var {{/unless}}{{!!
 }}{{#if isImmutable}}val {{/if}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{!!
@@ -50,7 +50,7 @@
 {{prefixPartial "kotlin/KotlinMethodComment" "    "}}
 {{#thrownType}}@Throws({{resolveName typeRef}}::class){{/thrownType}}{{!!
 }}
-   {{#unless self.external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
+   {{#ifPredicate "hidesConstructor"}}private {{/ifPredicate}}{{!!
 }}constructor({{!!
 }}{{#parameters}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
@@ -83,8 +83,8 @@
 {{/uninitializedFields}}
      */
 {{/unless}}
-    {{#ifPredicate "hasInternalFreeArgsConstructor"}}{{!!
-}}internal {{!!
+    {{#ifPredicate "hidesFreeArgsConstructor"}}{{!!
+}}private {{!!
 }}{{/ifPredicate}}constructor({{!!
 }}{{#uninitializedFields}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
@@ -109,8 +109,8 @@
 {{/fields}}
      */
 {{/unless}}
-    {{#ifPredicate "hasInternalAllArgsConstructor"}}{{!!
-}}internal {{!!
+    {{#ifPredicate "hidesAllArgsConstructor"}}{{!!
+}}private {{!!
 }}{{/ifPredicate}}constructor({{!!
 }}{{#fields}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
@@ -141,7 +141,7 @@
 {{prefixPartial "kotlin/KotlinAttributes" "    "}}
 {{#thrownType}}@Throws ({{resolveName typeRef}}::class){{/thrownType}}{{!!
 }}
-    {{#unless self.external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
+    {{#ifPredicate "hidesConstructor"}}private {{/ifPredicate}}{{!!
 }}constructor({{!!
 }}{{#fields}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{!!
@@ -169,9 +169,9 @@
 {{/unless}}{{#instanceOf attributes.kotlin.positionalDefaults "String"}}
     @Deprecated("{{attributes.kotlin.positionalDefaults}}")
 {{/instanceOf}}
-    {{#if initializedFields}}@JvmOverloads
-    {{/if}}{{!!
-    }}{{#unless external.kotlin.converter}}{{resolveName "visibility"}}{{/unless}}{{!!
+    {{#if initializedFields}}{{#unlessPredicate "hidesPositionalDefaultsConstructor"}}@JvmOverloads
+    {{/unlessPredicate}}{{/if}}{{!!
+    }}{{#ifPredicate "hidesPositionalDefaultsConstructor"}}private {{/ifPredicate}}{{!!
 }}constructor({{!!
 }}{{#uninitializedFields}}{{!!
 }}{{resolveName}}: {{resolveName typeRef}}, {{!!
@@ -204,7 +204,7 @@
 {{/this}}{{/eval}}
 
 {{#ifPredicate "needsCompanionObject"}}
-    companion object {
+    {{#ifPredicate "hasFactoryOnlyCompanion"}}internal {{/ifPredicate}}companion object {
 {{#constants}}{{prefixPartial "kotlin/KotlinConstant" "        "}}
 {{/constants}}
 {{#ifPredicate "hasStaticFunctions"}}
@@ -221,6 +221,51 @@
 {{#unless external.kotlin.name}}
 {{#if attributes.serializable}}{{prefixPartial "kotlin/KotlinParcelableCreator" "        "}}
 {{/if}}{{/unless}}
+{{#set struct=this}}{{#struct}}
+{{#constructors}}
+{{#ifPredicate "hidesConstructor"}}
+        @JvmSynthetic internal operator fun invoke({{#parameters}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/parameters}}): {{resolveName struct}} = {{!!
+}}{{resolveName struct}}({{#parameters}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/parameters}})
+{{/ifPredicate}}
+{{/constructors}}
+{{#if fields}}
+{{#unless constructors}}
+{{#unless fieldConstructors}}
+{{#if initializedFields}}
+{{#unless attributes.kotlin.positionalDefaults}}
+{{#ifPredicate "hidesFreeArgsConstructor"}}
+        @JvmSynthetic internal operator fun invoke({{#uninitializedFields}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}}): {{resolveName}} = {{!!
+}}{{resolveName}}({{#uninitializedFields}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/uninitializedFields}})
+{{/ifPredicate}}
+{{/unless}}
+{{/if}}
+{{/unless}}
+{{#ifPredicate "needsAllFieldsConstructor"}}
+{{#ifPredicate "hidesAllArgsConstructor"}}
+        @JvmSynthetic internal operator fun invoke({{#fields}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/fields}}): {{resolveName}} = {{!!
+}}{{resolveName}}({{#fields}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}})
+{{/ifPredicate}}
+{{/ifPredicate}}
+{{/unless}}
+{{#fieldConstructors}}
+{{#ifPredicate "hidesConstructor"}}
+        @JvmSynthetic internal operator fun invoke({{#fields}}{{resolveName}}: {{resolveName typeRef}}{{#if iter.hasNext}}, {{/if}}{{/fields}}): {{resolveName struct}} = {{!!
+}}{{resolveName struct}}({{#fields}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/fields}})
+{{/ifPredicate}}
+{{/fieldConstructors}}
+{{#unless fieldConstructors}}
+{{#if attributes.kotlin.positionalDefaults}}
+{{#ifPredicate "hidesPositionalDefaultsConstructor"}}
+        @JvmSynthetic internal operator fun invoke({{!!
+}}{{#uninitializedFields}}{{resolveName}}: {{resolveName typeRef}}, {{/uninitializedFields}}{{!!
+}}{{#initializedFields}}{{resolveName}}: {{resolveName typeRef}} = {{resolveName defaultValue}}{{#if iter.hasNext}}, {{/if}}{{/initializedFields}}): {{!!
+}}{{resolveName}} = {{resolveName}}({{#uninitializedFields}}{{resolveName}}, {{/uninitializedFields}}{{!!
+}}{{#initializedFields}}{{resolveName}}{{#if iter.hasNext}}, {{/if}}{{/initializedFields}})
+{{/ifPredicate}}
+{{/if}}
+{{/unless}}
+{{/if}}
+{{/struct}}{{/set}}
     }
 {{/ifPredicate}}
 }

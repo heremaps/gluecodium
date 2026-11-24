@@ -24,11 +24,7 @@
 {{/unless}}{{/internalApiAnnotation}}internal {{!!
 }}{{/if}}{{!!
 }}{{#unless external.kotlin.converter}}{{>kotlin/KotlinTypeVisibility}}{{/unless}}{{!!
-}}enum class {{resolveName}}(@JvmField {{!!
-}}{{#resolveName "visibility"}}{{!!
-}}{{#unless this.isEmpty}}@JvmSynthetic {{/unless}}{{!!
-}}{{this}}{{!!
-}}{{/resolveName}}val value: Int) {
+}}enum class {{resolveName}}(@JvmField {{resolveName "synthetic"}}{{resolveName "visibility"}}val value: Int) {
 {{joinPartial uniqueEnumerators "kotlin/KotlinEnumerator" ",
 "}}{{#if uniqueEnumerators}};{{/if}}{{#if aliasEnumerators}}
 

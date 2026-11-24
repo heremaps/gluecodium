@@ -15,7 +15,7 @@ import com.example.NativeBase
 internal fun interface OuterInternalLambda {
 
 
-    fun apply(p0: String) : Int
+    @JvmSynthetic fun apply(p0: String) : Int
 }
 
 /**
@@ -30,7 +30,7 @@ private class OuterInternalLambdaImpl : NativeBase, OuterInternalLambda {
 
 
 
-    override external fun apply(p0: String) : Int
+    @JvmSynthetic override external fun apply(p0: String) : Int
 
 
 

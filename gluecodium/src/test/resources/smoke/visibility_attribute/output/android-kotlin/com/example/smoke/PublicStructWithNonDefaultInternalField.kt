@@ -15,7 +15,7 @@ class PublicStructWithNonDefaultInternalField {
 
 
 
-    internal constructor(internalField: String, publicField: Boolean) {
+    private constructor(internalField: String, publicField: Boolean) {
         this.defaultedField = 42
         this.internalField = internalField
         this.publicField = publicField
@@ -25,5 +25,8 @@ class PublicStructWithNonDefaultInternalField {
 
 
 
+    internal companion object {
+        @JvmSynthetic internal operator fun invoke(internalField: String, publicField: Boolean): PublicStructWithNonDefaultInternalField = PublicStructWithNonDefaultInternalField(internalField, publicField)
+    }
 }
 

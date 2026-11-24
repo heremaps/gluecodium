@@ -12,13 +12,31 @@ import com.example.MySmokeTestsInternalApi
 import com.example.NativeBase
 
 @MySmokeTestsInternalApi
-internal fun interface OuterInternalInterface {
+internal interface OuterInternalInterface {
 
 
 
-    fun someFunction() : Int
+    @JvmSynthetic fun someFunction() : Int
+
+    var someProperty: Int
+        @JvmSynthetic get
+        @JvmSynthetic set
 
 
+    companion object {
+
+
+        @JvmStatic @JvmSynthetic fun getSomeStaticProperty() : Int {
+            return OuterInternalInterfaceImpl.getSomeStaticProperty()
+        }
+
+
+
+        @JvmStatic @JvmSynthetic fun setSomeStaticProperty(value: Int) : Unit {
+            OuterInternalInterfaceImpl.setSomeStaticProperty(value)
+        }
+
+    }
 }
 
 /**
@@ -33,11 +51,20 @@ private class OuterInternalInterfaceImpl : NativeBase, OuterInternalInterface {
 
 
 
-    override external fun someFunction() : Int
+    @JvmSynthetic override external fun someFunction() : Int
+
+    override var someProperty: Int
+        @JvmSynthetic external get
+        @JvmSynthetic external set
 
 
 
     companion object {
         @JvmStatic private external fun disposeNativeHandle(nativeHandle: Long)
+
+
+        @JvmStatic @JvmSynthetic @JvmName("getSomeStaticProperty") internal external fun getSomeStaticProperty() : Int
+
+        @JvmStatic @JvmSynthetic @JvmName("setSomeStaticProperty") internal external fun setSomeStaticProperty(value: Int) : Unit
     }
 }

@@ -18,7 +18,7 @@ class EquatableStructWithInternalFields {
 
 
 
-    internal constructor(publicField: String, internalField: String, internalListField: List<String>, internalMapField: Map<String, String>, internalSetField: Set<String>) {
+    private constructor(publicField: String, internalField: String, internalListField: List<String>, internalMapField: Map<String, String>, internalSetField: Set<String>) {
         this.publicField = publicField
         this.internalField = internalField
         this.internalListField = internalListField
@@ -56,5 +56,8 @@ class EquatableStructWithInternalFields {
 
 
 
+    internal companion object {
+        @JvmSynthetic internal operator fun invoke(publicField: String, internalField: String, internalListField: List<String>, internalMapField: Map<String, String>, internalSetField: Set<String>): EquatableStructWithInternalFields = EquatableStructWithInternalFields(publicField, internalField, internalListField, internalMapField, internalSetField)
+    }
 }
 

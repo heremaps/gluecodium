@@ -12,11 +12,11 @@ import android.os.Parcel
 import android.os.Parcelable
 
 internal class ExternalMarkedAsSerializable {
-    @JvmField var field: Int
+    @JvmField @JvmSynthetic internal var field: Int
 
 
 
-    constructor(field: Int) {
+    private constructor(field: Int) {
         this.field = field
     }
 
@@ -25,6 +25,7 @@ internal class ExternalMarkedAsSerializable {
 
 
     companion object {
+        @JvmSynthetic internal operator fun invoke(field: Int): ExternalMarkedAsSerializable = ExternalMarkedAsSerializable(field)
     }
 }
 

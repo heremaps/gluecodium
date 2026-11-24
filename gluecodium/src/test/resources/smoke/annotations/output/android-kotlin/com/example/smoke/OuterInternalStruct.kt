@@ -12,11 +12,11 @@ import com.example.MySmokeTestsInternalApi
 
 @MySmokeTestsInternalApi
 internal class OuterInternalStruct {
-    @JvmField var someField: Int
+    @JvmField @JvmSynthetic internal var someField: Int
 
 
 
-    constructor(someField: Int) {
+    private constructor(someField: Int) {
         this.someField = someField
     }
 
@@ -24,5 +24,8 @@ internal class OuterInternalStruct {
 
 
 
+    internal companion object {
+        @JvmSynthetic internal operator fun invoke(someField: Int): OuterInternalStruct = OuterInternalStruct(someField)
+    }
 }
 

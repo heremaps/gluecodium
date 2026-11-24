@@ -15,7 +15,7 @@ class PublicTypeCollection {
 
 
 
-        internal constructor(stringField: String) {
+        private constructor(stringField: String) {
             this.stringField = stringField
         }
 
@@ -23,9 +23,12 @@ class PublicTypeCollection {
 
 
 
-        external fun fooBar() : Unit
+        @JvmSynthetic @JvmName("fooBar") internal external fun fooBar() : Unit
 
 
+        internal companion object {
+            @JvmSynthetic internal operator fun invoke(stringField: String): InternalStruct = InternalStruct(stringField)
+        }
     }
 
 

@@ -129,7 +129,10 @@ internal class KotlinGenerator : Generator {
                 basePackages = basePackages,
             )
 
-        val visibilityResolver = KotlinVisibilityResolver(limeModel.referenceMap)
+        val internalVisibilityPredicate = KotlinInternalVisibilityPredicate(kotlinFilteredModel.referenceMap)
+        val visibilityResolver = KotlinVisibilityResolver(kotlinFilteredModel.referenceMap, internalVisibilityPredicate)
+        val syntheticResolver = KotlinSyntheticResolver(internalVisibilityPredicate)
+        val generatorPredicates = KotlinGeneratorPredicates(internalVisibilityPredicate).predicates
 
         val internalApiAnnotation = if (requireOptInAnnotation != null) internalApiAnnotationName!! else null
         val importResolver =
@@ -152,6 +155,8 @@ internal class KotlinGenerator : Generator {
                         it,
                         nameResolver,
                         visibilityResolver,
+                        syntheticResolver,
+                        generatorPredicates,
                         importResolver,
                         importCollector,
                         internalApiAnnotation,
@@ -246,6 +251,8 @@ internal class KotlinGenerator : Generator {
         limeElement: LimeNamedElement,
         nameResolver: KotlinNameResolver,
         visibilityResolver: KotlinVisibilityResolver,
+        syntheticResolver: KotlinSyntheticResolver,
+        generatorPredicates: Map<String, (Any) -> Boolean>,
         importResolver: KotlinImportResolver,
         importCollector: KotlinImportCollector,
         internalApiAnnotation: String?,
@@ -282,10 +289,10 @@ internal class KotlinGenerator : Generator {
                 "internalApiAnnotationClassPath" to internalApiAnnotationClassPath,
             )
 
-        val nameResolvers = mapOf("" to nameResolver, "visibility" to visibilityResolver)
+        val nameResolvers = mapOf("" to nameResolver, "visibility" to visibilityResolver, "synthetic" to syntheticResolver)
 
         val mainContent =
-            TemplateEngine.render("kotlin/KotlinFile", templateData, nameResolvers, KotlinGeneratorPredicates.predicates)
+            TemplateEngine.render("kotlin/KotlinFile", templateData, nameResolvers, generatorPredicates)
         val name = nameResolver.resolveName(limeElement)
         val mainFileName = (listOf(GENERATOR_NAME) + packages + "$name.kt").joinToString(File.separator)
         val mainFile = GeneratedFile(mainContent, mainFileName)

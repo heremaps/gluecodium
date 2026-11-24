@@ -17,11 +17,11 @@ class PublicClass : NativeBase {
         BAR(1);
     }
     internal class InternalStruct {
-        @JvmField var stringField: String
+        @JvmField @JvmSynthetic internal var stringField: String
 
 
 
-        constructor(stringField: String) {
+        private constructor(stringField: String) {
             this.stringField = stringField
         }
 
@@ -29,6 +29,9 @@ class PublicClass : NativeBase {
 
 
 
+        internal companion object {
+            @JvmSynthetic internal operator fun invoke(stringField: String): InternalStruct = InternalStruct(stringField)
+        }
     }
 
     class PublicStruct {
@@ -36,7 +39,7 @@ class PublicClass : NativeBase {
 
 
 
-        internal constructor(internalField: PublicClass.InternalStruct) {
+        private constructor(internalField: PublicClass.InternalStruct) {
             this.internalField = internalField
         }
 
@@ -44,6 +47,9 @@ class PublicClass : NativeBase {
 
 
 
+        internal companion object {
+            @JvmSynthetic internal operator fun invoke(internalField: PublicClass.InternalStruct): PublicStruct = PublicStruct(internalField)
+        }
     }
 
     class PublicStructWithInternalDefaults {

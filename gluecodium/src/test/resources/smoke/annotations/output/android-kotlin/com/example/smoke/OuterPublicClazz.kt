@@ -31,7 +31,7 @@ class OuterPublicClazz : NativeBase {
 
 
 
-        external fun someFunction() : Boolean
+        @JvmSynthetic @JvmName("someFunction") internal external fun someFunction() : Boolean
 
 
 
