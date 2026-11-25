@@ -153,6 +153,14 @@ object OptionReader {
                     "Option used to ease adjustments of LIME files needed to transition from Java to Kotlin.",
             )
             addOption(
+                "androidattributesmismatchallowlist",
+                true,
+                "List of Kotlin-only attribute values (e.g. 'DataClass') that are allowed to be present on the " +
+                    "Kotlin side without a matching Java attribute, without triggering the Java/Kotlin attributes " +
+                    "mismatch validation. Defaults to 'DataClass', since that attribute has no Java equivalent. " +
+                    "May be specified multiple times to allow more than one value.",
+            )
+            addOption(
                 "werror",
                 "warning-as-error",
                 true,
@@ -269,6 +277,9 @@ object OptionReader {
         getStringListValue("werror")?.let { generatorOptions.werror = it.toSet() }
 
         generatorOptions.enableAndroidAttributesMismatchWarning = getFlagValue("enableandroidattributesmismatchwarning")
+        getStringListValue("androidattributesmismatchallowlist")?.let {
+            generatorOptions.androidAttributesMismatchAllowlist = it.toSet()
+        }
         generatorOptions.dartDisableFinalizableMarker = getFlagValue("dartdisablefinalizablemarker")
         generatorOptions.swiftExposeInternals = getFlagValue("swiftexpose")
 
